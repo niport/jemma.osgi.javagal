@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for InterPANMessageResult complex type.
+ * <p>
+ * Java class for InterPANMessageResult complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="InterPANMessageResult">
@@ -53,65 +54,56 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "InterPANMessageResult", propOrder = {
-    "asduHandle",
-    "confirmStatus"
-})
+@XmlType(name = "InterPANMessageResult", propOrder = { "asduHandle", "confirmStatus" })
 public class InterPANMessageResult implements Serializable {
 
-    @XmlElement(name = "ASDUHandle")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short asduHandle;
-    @XmlElement(name = "ConfirmStatus")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short confirmStatus;
+	@XmlElement(name = "ASDUHandle")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short asduHandle;
+	@XmlElement(name = "ConfirmStatus")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short confirmStatus;
 
-    /**
-     * Gets the value of the asduHandle property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getASDUHandle() {
-        return asduHandle;
-    }
+	/**
+	 * Gets the value of the asduHandle property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getASDUHandle() {
+		return asduHandle;
+	}
 
-    /**
-     * Sets the value of the asduHandle property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setASDUHandle(Short value) {
-        this.asduHandle = value;
-    }
+	/**
+	 * Sets the value of the asduHandle property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setASDUHandle(Short value) {
+		this.asduHandle = value;
+	}
 
-    /**
-     * Gets the value of the confirmStatus property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getConfirmStatus() {
-        return confirmStatus;
-    }
+	/**
+	 * Gets the value of the confirmStatus property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getConfirmStatus() {
+		return confirmStatus;
+	}
 
-    /**
-     * Sets the value of the confirmStatus property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setConfirmStatus(Short value) {
-        this.confirmStatus = value;
-    }
+	/**
+	 * Sets the value of the confirmStatus property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setConfirmStatus(Short value) {
+		this.confirmStatus = value;
+	}
 
 }

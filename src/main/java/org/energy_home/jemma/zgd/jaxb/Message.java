@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Message complex type.
+ * <p>
+ * Java class for Message complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="Message">
@@ -56,171 +57,146 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Message", propOrder = {
-    "zclMessage",
-    "zdpMessage",
-    "apsMessage",
-    "nwkMessage",
-    "interPANMessage",
-    "macMessage"
-})
+@XmlType(name = "Message", propOrder = { "zclMessage", "zdpMessage", "apsMessage", "nwkMessage", "interPANMessage", "macMessage" })
 public class Message implements Serializable {
 
-    @XmlElement(name = "ZCLMessage", required = true)
-    protected ZCLMessage zclMessage;
-    @XmlElement(name = "ZDPMessage", required = true)
-    protected ZDPMessage zdpMessage;
-    @XmlElement(name = "APSMessage", required = true)
-    protected APSMessageEvent apsMessage;
-    @XmlElement(name = "NWKMessage", required = true)
-    protected NWKMessageEvent nwkMessage;
-    @XmlElement(name = "InterPANMessage", required = true)
-    protected InterPANMessageEvent interPANMessage;
-    @XmlElement(name = "MACMessage", required = true)
-    protected MACMessage macMessage;
+	@XmlElement(name = "ZCLMessage", required = true)
+	protected ZCLMessage zclMessage;
+	@XmlElement(name = "ZDPMessage", required = true)
+	protected ZDPMessage zdpMessage;
+	@XmlElement(name = "APSMessage", required = true)
+	protected APSMessageEvent apsMessage;
+	@XmlElement(name = "NWKMessage", required = true)
+	protected NWKMessageEvent nwkMessage;
+	@XmlElement(name = "InterPANMessage", required = true)
+	protected InterPANMessageEvent interPANMessage;
+	@XmlElement(name = "MACMessage", required = true)
+	protected MACMessage macMessage;
 
-    /**
-     * Gets the value of the zclMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ZCLMessage }
-     *     
-     */
-    public ZCLMessage getZCLMessage() {
-        return zclMessage;
-    }
+	/**
+	 * Gets the value of the zclMessage property.
+	 * 
+	 * @return possible object is {@link ZCLMessage }
+	 * 
+	 */
+	public ZCLMessage getZCLMessage() {
+		return zclMessage;
+	}
 
-    /**
-     * Sets the value of the zclMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ZCLMessage }
-     *     
-     */
-    public void setZCLMessage(ZCLMessage value) {
-        this.zclMessage = value;
-    }
+	/**
+	 * Sets the value of the zclMessage property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link ZCLMessage }
+	 * 
+	 */
+	public void setZCLMessage(ZCLMessage value) {
+		this.zclMessage = value;
+	}
 
-    /**
-     * Gets the value of the zdpMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ZDPMessage }
-     *     
-     */
-    public ZDPMessage getZDPMessage() {
-        return zdpMessage;
-    }
+	/**
+	 * Gets the value of the zdpMessage property.
+	 * 
+	 * @return possible object is {@link ZDPMessage }
+	 * 
+	 */
+	public ZDPMessage getZDPMessage() {
+		return zdpMessage;
+	}
 
-    /**
-     * Sets the value of the zdpMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ZDPMessage }
-     *     
-     */
-    public void setZDPMessage(ZDPMessage value) {
-        this.zdpMessage = value;
-    }
+	/**
+	 * Sets the value of the zdpMessage property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link ZDPMessage }
+	 * 
+	 */
+	public void setZDPMessage(ZDPMessage value) {
+		this.zdpMessage = value;
+	}
 
-    /**
-     * Gets the value of the apsMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link APSMessageEvent }
-     *     
-     */
-    public APSMessageEvent getAPSMessage() {
-        return apsMessage;
-    }
+	/**
+	 * Gets the value of the apsMessage property.
+	 * 
+	 * @return possible object is {@link APSMessageEvent }
+	 * 
+	 */
+	public APSMessageEvent getAPSMessage() {
+		return apsMessage;
+	}
 
-    /**
-     * Sets the value of the apsMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link APSMessageEvent }
-     *     
-     */
-    public void setAPSMessage(APSMessageEvent value) {
-        this.apsMessage = value;
-    }
+	/**
+	 * Sets the value of the apsMessage property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link APSMessageEvent }
+	 * 
+	 */
+	public void setAPSMessage(APSMessageEvent value) {
+		this.apsMessage = value;
+	}
 
-    /**
-     * Gets the value of the nwkMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link NWKMessageEvent }
-     *     
-     */
-    public NWKMessageEvent getNWKMessage() {
-        return nwkMessage;
-    }
+	/**
+	 * Gets the value of the nwkMessage property.
+	 * 
+	 * @return possible object is {@link NWKMessageEvent }
+	 * 
+	 */
+	public NWKMessageEvent getNWKMessage() {
+		return nwkMessage;
+	}
 
-    /**
-     * Sets the value of the nwkMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link NWKMessageEvent }
-     *     
-     */
-    public void setNWKMessage(NWKMessageEvent value) {
-        this.nwkMessage = value;
-    }
+	/**
+	 * Sets the value of the nwkMessage property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link NWKMessageEvent }
+	 * 
+	 */
+	public void setNWKMessage(NWKMessageEvent value) {
+		this.nwkMessage = value;
+	}
 
-    /**
-     * Gets the value of the interPANMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link InterPANMessageEvent }
-     *     
-     */
-    public InterPANMessageEvent getInterPANMessage() {
-        return interPANMessage;
-    }
+	/**
+	 * Gets the value of the interPANMessage property.
+	 * 
+	 * @return possible object is {@link InterPANMessageEvent }
+	 * 
+	 */
+	public InterPANMessageEvent getInterPANMessage() {
+		return interPANMessage;
+	}
 
-    /**
-     * Sets the value of the interPANMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link InterPANMessageEvent }
-     *     
-     */
-    public void setInterPANMessage(InterPANMessageEvent value) {
-        this.interPANMessage = value;
-    }
+	/**
+	 * Sets the value of the interPANMessage property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link InterPANMessageEvent }
+	 * 
+	 */
+	public void setInterPANMessage(InterPANMessageEvent value) {
+		this.interPANMessage = value;
+	}
 
-    /**
-     * Gets the value of the macMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link MACMessage }
-     *     
-     */
-    public MACMessage getMACMessage() {
-        return macMessage;
-    }
+	/**
+	 * Gets the value of the macMessage property.
+	 * 
+	 * @return possible object is {@link MACMessage }
+	 * 
+	 */
+	public MACMessage getMACMessage() {
+		return macMessage;
+	}
 
-    /**
-     * Sets the value of the macMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link MACMessage }
-     *     
-     */
-    public void setMACMessage(MACMessage value) {
-        this.macMessage = value;
-    }
+	/**
+	 * Sets the value of the macMessage property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link MACMessage }
+	 * 
+	 */
+	public void setMACMessage(MACMessage value) {
+		this.macMessage = value;
+	}
 
 }

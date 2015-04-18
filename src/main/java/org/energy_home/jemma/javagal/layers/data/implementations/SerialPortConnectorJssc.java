@@ -130,7 +130,7 @@ public class SerialPortConnectorJssc implements IConnector {
 				serialPort.writeBytes(buff.getArrayRealSize());
 			} catch (Exception e) {
 
-				LOG.debug("Error writing Rs232: {} -- Error: {}",buff.ToHexString() , e);
+				LOG.debug("Error writing Rs232: {} -- Error: {}", buff.ToHexString(), e);
 				throw e;
 
 			}
@@ -212,7 +212,7 @@ public class SerialPortConnectorJssc implements IConnector {
 	 * @inheritDoc
 	 */
 	public void initialize() throws Exception {
-		LOG.info("Starting inizialize procedure for: PortName={} -- Speed={}", commport , boudrate);
+		LOG.info("Starting inizialize procedure for: PortName={} -- Speed={}", commport, boudrate);
 		LOG.info("DefaultTimeout: {}", DataLayer.getPropertiesManager().getCommandTimeoutMS());
 		if (!connect(commport, boudrate)) {
 			throw new Exception("Unable to connect to serial port!");
@@ -226,7 +226,7 @@ public class SerialPortConnectorJssc implements IConnector {
 		LOG.info("Clear buffer after CPUReset...");
 		DataLayer.clearBuffer();
 		setIgnoreMessage(false);
-		LOG.debug("Starting inizialize procedure for: PortName={} -- Speed={}", commport , boudrate);
+		LOG.debug("Starting inizialize procedure for: PortName={} -- Speed={}", commport, boudrate);
 		LOG.debug("DefaultTimeout: {}", DataLayer.getPropertiesManager().getCommandTimeoutMS());
 
 		if (!connect(commport, boudrate)) {

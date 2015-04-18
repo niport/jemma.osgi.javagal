@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -32,11 +31,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for NodeServices complex type.
+ * <p>
+ * Java class for NodeServices complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NodeServices">
@@ -65,147 +66,138 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NodeServices", propOrder = {
-    "address",
-    "activeEndpoints"
-})
-public class NodeServices implements Serializable{
+@XmlType(name = "NodeServices", propOrder = { "address", "activeEndpoints" })
+public class NodeServices implements Serializable {
 
-    @XmlElement(name = "Address", required = true)
-    protected Address address;
-    @XmlElement(name = "ActiveEndpoints")
-    protected List<NodeServices.ActiveEndpoints> activeEndpoints;
+	@XmlElement(name = "Address", required = true)
+	protected Address address;
+	@XmlElement(name = "ActiveEndpoints")
+	protected List<NodeServices.ActiveEndpoints> activeEndpoints;
 
-    /**
-     * Gets the value of the address property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getAddress() {
-        return address;
-    }
+	/**
+	 * Gets the value of the address property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getAddress() {
+		return address;
+	}
 
-    /**
-     * Sets the value of the address property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setAddress(Address value) {
-        this.address = value;
-    }
+	/**
+	 * Sets the value of the address property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setAddress(Address value) {
+		this.address = value;
+	}
 
-    /**
-     * Gets the value of the activeEndpoints property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the activeEndpoints property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getActiveEndpoints().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link NodeServices.ActiveEndpoints }
-     * 
-     * 
-     */
-    public List<NodeServices.ActiveEndpoints> getActiveEndpoints() {
-        if (activeEndpoints == null) {
-            activeEndpoints = new ArrayList<NodeServices.ActiveEndpoints>();
-        }
-        return this.activeEndpoints;
-    }
+	/**
+	 * Gets the value of the activeEndpoints property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the activeEndpoints property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getActiveEndpoints().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link NodeServices.ActiveEndpoints }
+	 * 
+	 * 
+	 */
+	public List<NodeServices.ActiveEndpoints> getActiveEndpoints() {
+		if (activeEndpoints == null) {
+			activeEndpoints = new ArrayList<NodeServices.ActiveEndpoints>();
+		}
+		return this.activeEndpoints;
+	}
 
+	/**
+	 * <p>
+	 * Java class for anonymous complex type.
+	 * 
+	 * <p>
+	 * The following schema fragment specifies the expected content contained
+	 * within this class.
+	 * 
+	 * <pre>
+	 * &lt;complexType>
+	 *   &lt;complexContent>
+	 *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+	 *       &lt;sequence>
+	 *         &lt;element name="EndPoint" type="{http://www.zigbee.org/GWGSchema}Endpoint"/>
+	 *         &lt;element name="SimpleDescriptor" type="{http://www.zigbee.org/GWGSchema}SimpleDescriptor" minOccurs="0"/>
+	 *       &lt;/sequence>
+	 *     &lt;/restriction>
+	 *   &lt;/complexContent>
+	 * &lt;/complexType>
+	 * </pre>
+	 * 
+	 * 
+	 */
+	@XmlAccessorType(XmlAccessType.FIELD)
+	@XmlType(name = "", propOrder = { "endPoint", "simpleDescriptor" })
+	public static class ActiveEndpoints implements Serializable {
 
-    /**
-     * <p>Java class for anonymous complex type.
-     * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element name="EndPoint" type="{http://www.zigbee.org/GWGSchema}Endpoint"/>
-     *         &lt;element name="SimpleDescriptor" type="{http://www.zigbee.org/GWGSchema}SimpleDescriptor" minOccurs="0"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "endPoint",
-        "simpleDescriptor"
-    })
-    public static class ActiveEndpoints implements Serializable{
-
-        /**
+		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		@XmlElement(name = "EndPoint")
-        protected short endPoint;
-        @XmlElement(name = "SimpleDescriptor")
-        protected SimpleDescriptor simpleDescriptor;
+		protected short endPoint;
+		@XmlElement(name = "SimpleDescriptor")
+		protected SimpleDescriptor simpleDescriptor;
 
-        /**
-         * Gets the value of the endPoint property.
-         * 
-         */
-        public short getEndPoint() {
-            return endPoint;
-        }
+		/**
+		 * Gets the value of the endPoint property.
+		 * 
+		 */
+		public short getEndPoint() {
+			return endPoint;
+		}
 
-        /**
-         * Sets the value of the endPoint property.
-         * 
-         */
-        public void setEndPoint(short value) {
-            this.endPoint = value;
-        }
+		/**
+		 * Sets the value of the endPoint property.
+		 * 
+		 */
+		public void setEndPoint(short value) {
+			this.endPoint = value;
+		}
 
-        /**
-         * Gets the value of the simpleDescriptor property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link SimpleDescriptor }
-         *     
-         */
-        public SimpleDescriptor getSimpleDescriptor() {
-            return simpleDescriptor;
-        }
+		/**
+		 * Gets the value of the simpleDescriptor property.
+		 * 
+		 * @return possible object is {@link SimpleDescriptor }
+		 * 
+		 */
+		public SimpleDescriptor getSimpleDescriptor() {
+			return simpleDescriptor;
+		}
 
-        /**
-         * Sets the value of the simpleDescriptor property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link SimpleDescriptor }
-         *     
-         */
-        public void setSimpleDescriptor(SimpleDescriptor value) {
-            this.simpleDescriptor = value;
-        }
+		/**
+		 * Sets the value of the simpleDescriptor property.
+		 * 
+		 * @param value
+		 *            allowed object is {@link SimpleDescriptor }
+		 * 
+		 */
+		public void setSimpleDescriptor(SimpleDescriptor value) {
+			this.simpleDescriptor = value;
+		}
 
-    }
+	}
 
 }

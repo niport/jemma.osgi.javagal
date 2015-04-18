@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for TxOptions complex type.
+ * <p>
+ * Java class for TxOptions complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="TxOptions">
@@ -54,85 +55,80 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TxOptions", propOrder = {
-    "securityEnabled",
-    "useNetworkKey",
-    "acknowledged",
-    "permitFragmentation"
-})
-public class TxOptions implements Serializable{
+@XmlType(name = "TxOptions", propOrder = { "securityEnabled", "useNetworkKey", "acknowledged", "permitFragmentation" })
+public class TxOptions implements Serializable {
 
-    @XmlElement(name = "SecurityEnabled")
-    protected boolean securityEnabled;
-    @XmlElement(name = "UseNetworkKey")
-    protected boolean useNetworkKey;
-    @XmlElement(name = "Acknowledged")
-    protected boolean acknowledged;
-    @XmlElement(name = "PermitFragmentation")
-    protected boolean permitFragmentation;
+	@XmlElement(name = "SecurityEnabled")
+	protected boolean securityEnabled;
+	@XmlElement(name = "UseNetworkKey")
+	protected boolean useNetworkKey;
+	@XmlElement(name = "Acknowledged")
+	protected boolean acknowledged;
+	@XmlElement(name = "PermitFragmentation")
+	protected boolean permitFragmentation;
 
-    /**
-     * Gets the value of the securityEnabled property.
-     * 
-     */
-    public boolean isSecurityEnabled() {
-        return securityEnabled;
-    }
+	/**
+	 * Gets the value of the securityEnabled property.
+	 * 
+	 */
+	public boolean isSecurityEnabled() {
+		return securityEnabled;
+	}
 
-    /**
-     * Sets the value of the securityEnabled property.
-     * 
-     */
-    public void setSecurityEnabled(boolean value) {
-        this.securityEnabled = value;
-    }
+	/**
+	 * Sets the value of the securityEnabled property.
+	 * 
+	 */
+	public void setSecurityEnabled(boolean value) {
+		this.securityEnabled = value;
+	}
 
-    /**
-     * Gets the value of the useNetworkKey property.
-     * 
-     */
-    public boolean isUseNetworkKey() {
-        return useNetworkKey;
-    }
+	/**
+	 * Gets the value of the useNetworkKey property.
+	 * 
+	 */
+	public boolean isUseNetworkKey() {
+		return useNetworkKey;
+	}
 
-    /**
-     * Sets the value of the useNetworkKey property.
-     * 
-     */
-    public void setUseNetworkKey(boolean value) {
-        this.useNetworkKey = value;
-    }
+	/**
+	 * Sets the value of the useNetworkKey property.
+	 * 
+	 */
+	public void setUseNetworkKey(boolean value) {
+		this.useNetworkKey = value;
+	}
 
-    /**
-     * Gets the value of the acknowledged property.
-     * 
-     */
-    public boolean isAcknowledged() {
-        return acknowledged;
-    }
+	/**
+	 * Gets the value of the acknowledged property.
+	 * 
+	 */
+	public boolean isAcknowledged() {
+		return acknowledged;
+	}
 
-    /**
-     * Sets the value of the acknowledged property.
-     * 
-     */
-    public void setAcknowledged(boolean value) {
-        this.acknowledged = value;
-    }
+	/**
+	 * Sets the value of the acknowledged property.
+	 * 
+	 */
+	public void setAcknowledged(boolean value) {
+		this.acknowledged = value;
+	}
 
-    /**
-     * Gets the value of the permitFragmentation property.
-     * 
-     */
-    public boolean isPermitFragmentation() {
-        return permitFragmentation;
-    }
+	/**
+	 * Gets the value of the permitFragmentation property.
+	 * 
+	 */
+	public boolean isPermitFragmentation() {
+		return permitFragmentation;
+	}
 
-    /**
-     * Sets the value of the permitFragmentation property.
-     * 
-     */
-    public void setPermitFragmentation(boolean value) {
-        this.permitFragmentation = value;
-    }
+	/**
+	 * Sets the value of the permitFragmentation property.
+	 * 
+	 */
+	public void setPermitFragmentation(boolean value) {
+		this.permitFragmentation = value;
+	}
 
 }

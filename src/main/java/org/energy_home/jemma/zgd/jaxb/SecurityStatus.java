@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -29,12 +28,15 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for SecurityStatus.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for SecurityStatus.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="SecurityStatus">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -48,31 +50,29 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "SecurityStatus")
 @XmlEnum
-public enum SecurityStatus implements Serializable{
+public enum SecurityStatus implements Serializable {
 
-    @XmlEnumValue("Unsecured")
-    UNSECURED("Unsecured"),
-    @XmlEnumValue("SecuredNwkKey")
-    SECURED_NWK_KEY("SecuredNwkKey"),
-    @XmlEnumValue("SecuredLinkKey")
-    SECURED_LINK_KEY("SecuredLinkKey");
-    private final String value;
+	@XmlEnumValue("Unsecured")
+	UNSECURED("Unsecured"), @XmlEnumValue("SecuredNwkKey")
+	SECURED_NWK_KEY("SecuredNwkKey"), @XmlEnumValue("SecuredLinkKey")
+	SECURED_LINK_KEY("SecuredLinkKey");
+	private final String value;
 
-    SecurityStatus(String v) {
-        value = v;
-    }
+	SecurityStatus(String v) {
+		value = v;
+	}
 
-    public String value() {
-        return value;
-    }
+	public String value() {
+		return value;
+	}
 
-    public static SecurityStatus fromValue(String v) {
-        for (SecurityStatus c: SecurityStatus.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
-    }
+	public static SecurityStatus fromValue(String v) {
+		for (SecurityStatus c : SecurityStatus.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
 
 }

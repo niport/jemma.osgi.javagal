@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,21 +30,20 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
  * 
- * 				The status complex type used in the REST bindings is a
- * 				composition of a status code whose values are common to
- * 				all bindings
- * 				(see clause 5.2.1.3) and an optional
- * 				message that may be used by
- * 				implementation for
- * 				diagnostic purposes.
- * 			
+ * The status complex type used in the REST bindings is a composition of a
+ * status code whose values are common to all bindings (see clause 5.2.1.3) and
+ * an optional message that may be used by implementation for diagnostic
+ * purposes.
  * 
- * <p>Java class for Status complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * Java class for Status complex type.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="Status">
@@ -63,56 +61,50 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Status", namespace = "http://www.zigbee.org/GWGRESTSchema", propOrder = {
-    "code",
-    "message"
-})
-public class Status implements Serializable{
+@XmlType(name = "Status", namespace = "http://www.zigbee.org/GWGRESTSchema", propOrder = { "code", "message" })
+public class Status implements Serializable {
 
-    @XmlElement(name = "Code")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short code;
-    @XmlElement(name = "Message")
-    protected String message;
+	@XmlElement(name = "Code")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short code;
+	@XmlElement(name = "Message")
+	protected String message;
 
-    /**
-     * Gets the value of the code property.
-     * 
-     */
-    public short getCode() {
-        return code;
-    }
+	/**
+	 * Gets the value of the code property.
+	 * 
+	 */
+	public short getCode() {
+		return code;
+	}
 
-    /**
-     * Sets the value of the code property.
-     * 
-     */
-    public void setCode(short value) {
-        this.code = value;
-    }
+	/**
+	 * Sets the value of the code property.
+	 * 
+	 */
+	public void setCode(short value) {
+		this.code = value;
+	}
 
-    /**
-     * Gets the value of the message property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getMessage() {
-        return message;
-    }
+	/**
+	 * Gets the value of the message property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getMessage() {
+		return message;
+	}
 
-    /**
-     * Sets the value of the message property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setMessage(String value) {
-        this.message = value;
-    }
+	/**
+	 * Sets the value of the message property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setMessage(String value) {
+		this.message = value;
+	}
 
 }

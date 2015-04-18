@@ -40,9 +40,9 @@ import org.energy_home.jemma.javagal.layers.object.Mgmt_LQI_rsp;
  * Data layer interface to be implemented by every vendor (Freescale, Ember and
  * so on...).
  * 
- * @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public interface IDataLayer extends IFrameCallback {
 
@@ -136,10 +136,6 @@ public interface IDataLayer extends IFrameCallback {
 	 */
 	public String APSME_GETSync(long timeout, short _AttID) throws Exception;
 
-	
-	
-	
-	
 	/**
 	 * Gets MACGetPibAttributes synchronously.
 	 * 
@@ -152,7 +148,6 @@ public interface IDataLayer extends IFrameCallback {
 	 */
 	public String MacGetPIBAttributeSync(long timeout, short _AttID) throws Exception;
 
-	
 	/**
 	 * Gets NLME synchronously.
 	 * 
@@ -315,7 +310,7 @@ public interface IDataLayer extends IFrameCallback {
 	 * @throws GatewayException
 	 *             if a ZGD error occurs.
 	 */
-	public Status clearEndpointSync(long timeout,short endpoint) throws IOException, Exception, GatewayException;
+	public Status clearEndpointSync(long timeout, short endpoint) throws IOException, Exception, GatewayException;
 
 	/**
 	 * Starts a PermitJoin procedure synchronously. The PermitJoin procedure is

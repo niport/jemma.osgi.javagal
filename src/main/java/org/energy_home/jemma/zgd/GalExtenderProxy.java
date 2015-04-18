@@ -87,7 +87,6 @@ public class GalExtenderProxy implements IGalExtender {
 		this.proxyIdentifier = proxyIdentifier;
 	}
 
-	
 	public short getChannelSync(long timeout) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -95,17 +94,14 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void setGatewayEventListener(GatewayEventListener listener) {
 		gal.setGatewayEventListener(listener, this.getProxyIdentifier());
 	}
 
-	
 	public Version getVersion() throws IOException, Exception, GatewayException {
 		return GalController.getVersion();
 	}
 
-	
 	public String getInfoBaseAttribute(short attrId) throws Exception, Exception, GatewayException {
 		String res = null;
 		switch (attrId) {
@@ -135,14 +131,12 @@ public class GalExtenderProxy implements IGalExtender {
 		return res;
 	}
 
-	
 	@Deprecated
 	public long createCallback(Callback callback, APSMessageListener listener) throws IOException, Exception, GatewayException {
 		return gal.createCallback(this.getProxyIdentifier(), callback, listener);
 	}
 
 	@Deprecated
-	
 	public long createAPSCallback(short endpoint, APSMessageListener listener) throws IOException, Exception, GatewayException {
 		LOG.debug("Create ApsCallBack(short endpoint, APSMessageListener listener)...");
 
@@ -160,7 +154,6 @@ public class GalExtenderProxy implements IGalExtender {
 	}
 
 	@Deprecated
-	
 	public long createAPSCallback(APSMessageListener listener) throws IOException, Exception, GatewayException {
 		LOG.debug("Create ApsCallBack(APSMessageListener listener)...");
 
@@ -174,33 +167,27 @@ public class GalExtenderProxy implements IGalExtender {
 		return gal.createCallback(this.getProxyIdentifier(), _newCallBack, listener);
 	}
 
-	
 	public List<Long> listCallbacks() throws IOException, Exception, GatewayException {
 		return gal.listCallbacks(this.getProxyIdentifier()).getCallbackIdentifier();
 	}
 
-	
 	public CallbackIdentifierList getlistCallbacks() throws IOException, Exception, GatewayException {
 		return gal.listCallbacks(this.getProxyIdentifier());
 	}
 
-	
 	public void deleteCallback(long callId) throws IOException, Exception, GatewayException {
 		gal.deleteCallback(callId);
 	}
 
-	
 	public Aliases listAddresses() throws IOException, Exception, GatewayException {
 		return gal.listAddress();
 	}
 
-	
 	public void configureStartupAttributeSet(StartupAttributeInfo sai) throws IOException, Exception, GatewayException {
 		gal.getPropertiesManager().SetStartupAttributeInfo(sai);
 
 	}
 
-	
 	public StartupAttributeInfo readStartupAttributeSet(short index) throws IOException, Exception, GatewayException {
 		if (index == 0)
 			return gal.getPropertiesManager().getSturtupAttributeInfo();
@@ -208,21 +195,18 @@ public class GalExtenderProxy implements IGalExtender {
 			throw new Exception("The index is not correct. Only index 0 is a possible request!");
 	}
 
-	
 	public Status stopNetworkSync(long timeout) throws Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.stopNetwork(timeout, this.getProxyIdentifier(), false);
 	}
 
-	
 	public void stopNetwork(long timeout) throws Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.stopNetwork(timeout, this.getProxyIdentifier(), true);
 	}
 
-	
 	public void startGatewayDevice(long timeout) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -230,14 +214,12 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void startGatewayDevice(long timeout, StartupAttributeInfo sai) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.startGatewayDevice(timeout, this.getProxyIdentifier(), sai, true);
 	}
 
-	
 	public Status startGatewayDeviceSync(long timeout, StartupAttributeInfo sai) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -247,18 +229,15 @@ public class GalExtenderProxy implements IGalExtender {
 			return gal.startGatewayDevice(timeout, this.getProxyIdentifier(), sai, false);
 	}
 
-	
 	public WSNNodeList readNodeCache() throws IOException, Exception, GatewayException {
 		return gal.readNodeCache();
 	}
 
-	
 	public void startNodeDiscovery(long timeout, int discoveryMask) throws IOException, Exception, GatewayException {
 		gal.startNodeDiscovery(timeout, this.getProxyIdentifier(), discoveryMask);
 
 	}
 
-	
 	public void subscribeNodeRemoval(long timeout, int freshnessMask) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -269,17 +248,14 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public NodeServices getLocalServices() throws IOException, Exception, GatewayException {
 		return gal.getLocalServices();
 	}
 
-	
 	public NodeServicesList readServicesCache() throws IOException, Exception, GatewayException {
 		return gal.readServicesCache();
 	}
 
-	
 	public void getServiceDescriptor(long timeout, Address aoi, short endpoint) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -287,7 +263,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public ServiceDescriptor getServiceDescriptorSync(long timeout, Address aoi, short endpoint) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -295,7 +270,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public short configureEndpoint(long timeout, SimpleDescriptor desc) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -303,13 +277,11 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void clearEndpoint(short endpoint) throws IOException, Exception, GatewayException {
 		gal.clearEndpoint(endpoint);
 
 	}
 
-	
 	public void leaveAll() throws IOException, Exception, GatewayException {
 		long _timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		int mask = 0;
@@ -319,7 +291,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public Status leaveAllSync() throws IOException, Exception, GatewayException {
 		long _timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		int mask = 0;
@@ -329,7 +300,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void leave(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		int mask = 0;
 		if (timeout == 0)
@@ -338,7 +308,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void leave(long timeout, Address aoi, int mask) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -346,7 +315,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public Status leaveSync(long timeout, Address aoi, int mask) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -354,7 +322,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void addBinding(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -362,7 +329,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public Status addBindingSync(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -370,7 +336,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void removeBinding(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -378,28 +343,24 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public Status removeBindingSync(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.removeBindingSync(timeout, this.getProxyIdentifier(), binding, false);
 	}
 
-	
 	public BindingList getNodeBindingsSync(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.getNodeBindingsSync(timeout, this.getProxyIdentifier(), aoi, (short) 0, false);
 	}
 
-	
 	public void getNodeBindings(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.getNodeBindingsSync(timeout, this.getProxyIdentifier(), aoi, (short) 0, true);
 	}
 
-	
 	public void getNodeBindings(long timeout, Address aoi, short index) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -407,7 +368,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public BindingList getNodeBindingsSync(long timeout, Address aoi, short index) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -415,80 +375,68 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void permitJoinAll(long timeout, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.permitJoinAll(timeout, this.getProxyIdentifier(), duration, true);
 	}
 
-	
 	public Status permitJoinAllSync(long timeout, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.permitJoinAll(timeout, this.getProxyIdentifier(), duration, false);
 	}
 
-	
 	public void permitJoin(long timeout, Address addrOfInterest, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.permitJoin(timeout, this.getProxyIdentifier(), addrOfInterest, duration, true);
 	}
 
-	
 	public Status permitJoinSync(long timeout, Address aoi, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.permitJoin(timeout, this.getProxyIdentifier(), aoi, duration, false);
 	}
 
-	
 	public void sendAPSMessage(APSMessage message) throws IOException, Exception, GatewayException {
 		gal.sendAPSMessage(gal.getPropertiesManager().getCommandTimeoutMS(), this.getProxyIdentifier(), message);
 	}
 
-	
 	public void sendInterPANMessage(long timeout, InterPANMessage message) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.sendInterPANMessage(timeout, this.getProxyIdentifier(), message);
 	}
 
-	
 	public void sendAPSMessage(long timeout, APSMessage message) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.sendAPSMessage(timeout, this.getProxyIdentifier(), message);
 	}
 
-	
 	public void resetDongle(long timeout, short mode) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.resetDongle(timeout, this.getProxyIdentifier(), mode, true);
 	}
 
-	
 	public Status resetDongleSync(long timeout, short mode) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.resetDongle(timeout, this.getProxyIdentifier(), mode, false);
 	}
 
-	
 	public int getProxyIdentifier() {
 		return proxyIdentifier;
 	}
 
-	
 	public NodeDescriptor getNodeDescriptorSync(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.getNodeDescriptor(timeout, this.getProxyIdentifier(), aoi, false);
 	}
 
-	
 	public void getNodeDescriptor(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -496,7 +444,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void setInfoBaseAttribute(short attrId, String value) throws IOException, Exception, GatewayException {
 
 		switch (attrId) {
@@ -515,14 +462,12 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public NodeServices startServiceDiscoverySync(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.startServiceDiscovery(timeout, this.getProxyIdentifier(), aoi, false);
 	}
 
-	
 	public void startServiceDiscovery(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -530,32 +475,27 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void frequencyAgility(long timeout, short scanChannel, short scanDuration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.frequencyAgilitySync(timeout, this.getProxyIdentifier(), scanChannel, scanDuration, true);
 	}
 
-	
 	public Status frequencyAgilitySync(long timeout, short scanChannel, short scanDuration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.frequencyAgilitySync(timeout, this.getProxyIdentifier(), scanChannel, scanDuration, false);
 	}
 
-	
 	public LQIInformation getLQIInformation(Address aoi) throws IOException, Exception, GatewayException {
 
 		return gal.getLQIInformation(aoi);
 	}
 
-	
 	public LQIInformation getLQIInformation() throws IOException, Exception, GatewayException {
 		return gal.getAllLQIInformations();
 	}
 
-	
 	public void sendZCLCommand(long timeout, ZCLCommand command) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -573,7 +513,6 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public void sendZDPCommand(long timeout, ZDPCommand command) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -590,7 +529,6 @@ public class GalExtenderProxy implements IGalExtender {
 		gal.sendAPSMessage(timeout, this.getProxyIdentifier(), _message);
 	}
 
-	
 	public void deleteProxy() throws Exception {
 
 		/**
@@ -612,14 +550,12 @@ public class GalExtenderProxy implements IGalExtender {
 
 	}
 
-	
 	public long createCallback(Callback callback, MessageListener listener) throws IOException, Exception, GatewayException {
 		return gal.createCallback(this.getProxyIdentifier(), callback, listener);
 
 	}
-	
-	public void recoveryGal() throws Exception
-	{
+
+	public void recoveryGal() throws Exception {
 		gal.recoveryGAL();
 	}
 }

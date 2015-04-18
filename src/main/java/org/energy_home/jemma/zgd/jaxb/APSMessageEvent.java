@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for APSMessageEvent complex type.
+ * <p>
+ * Java class for APSMessageEvent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="APSMessageEvent">
@@ -66,334 +67,294 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "APSMessageEvent", propOrder = {
-    "destinationAddressMode",
-    "destinationAddress",
-    "destinationEndpoint",
-    "sourceAddress",
-    "sourceAddressMode",
-    "sourceEndpoint",
-    "profileID",
-    "clusterID",
-    "data",
-    "apsStatus",
-    "securityStatus",
-    "linkQuality",
-    "rxTime"
-})
+@XmlType(name = "APSMessageEvent", propOrder = { "destinationAddressMode", "destinationAddress", "destinationEndpoint", "sourceAddress", "sourceAddressMode", "sourceEndpoint",
+		"profileID", "clusterID", "data", "apsStatus", "securityStatus", "linkQuality", "rxTime" })
 public class APSMessageEvent implements Serializable {
 
-    @XmlElement(name = "DestinationAddressMode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected Long destinationAddressMode;
-    @XmlElement(name = "DestinationAddress", required = true)
-    protected Address destinationAddress;
-    @XmlElement(name = "DestinationEndpoint")
-    protected short destinationEndpoint;
-    @XmlElement(name = "SourceAddress", required = true)
-    protected Address sourceAddress;
-    @XmlElement(name = "SourceAddressMode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected Long sourceAddressMode;
-    @XmlElement(name = "SourceEndpoint")
-    protected short sourceEndpoint;
-    @XmlElement(name = "ProfileID")
-    protected Integer profileID;
-    @XmlElement(name = "ClusterID")
-    protected int clusterID;
-    @XmlElement(name = "Data", required = true, type = String.class)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    protected byte[] data;
-    @XmlElement(name = "APSStatus")
-    @XmlSchemaType(name = "unsignedShort")
-    protected int apsStatus;
-    @XmlElement(name = "SecurityStatus")
-    protected SecurityStatus securityStatus;
-    @XmlElement(name = "LinkQuality")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short linkQuality;
-    @XmlElement(name = "RxTime")
-    protected Long rxTime;
+	@XmlElement(name = "DestinationAddressMode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected Long destinationAddressMode;
+	@XmlElement(name = "DestinationAddress", required = true)
+	protected Address destinationAddress;
+	@XmlElement(name = "DestinationEndpoint")
+	protected short destinationEndpoint;
+	@XmlElement(name = "SourceAddress", required = true)
+	protected Address sourceAddress;
+	@XmlElement(name = "SourceAddressMode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected Long sourceAddressMode;
+	@XmlElement(name = "SourceEndpoint")
+	protected short sourceEndpoint;
+	@XmlElement(name = "ProfileID")
+	protected Integer profileID;
+	@XmlElement(name = "ClusterID")
+	protected int clusterID;
+	@XmlElement(name = "Data", required = true, type = String.class)
+	@XmlJavaTypeAdapter(HexBinaryAdapter.class)
+	@XmlSchemaType(name = "hexBinary")
+	protected byte[] data;
+	@XmlElement(name = "APSStatus")
+	@XmlSchemaType(name = "unsignedShort")
+	protected int apsStatus;
+	@XmlElement(name = "SecurityStatus")
+	protected SecurityStatus securityStatus;
+	@XmlElement(name = "LinkQuality")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short linkQuality;
+	@XmlElement(name = "RxTime")
+	protected Long rxTime;
 
-    /**
-     * Gets the value of the destinationAddressMode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getDestinationAddressMode() {
-        return destinationAddressMode;
-    }
+	/**
+	 * Gets the value of the destinationAddressMode property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getDestinationAddressMode() {
+		return destinationAddressMode;
+	}
 
-    /**
-     * Sets the value of the destinationAddressMode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setDestinationAddressMode(Long value) {
-        this.destinationAddressMode = value;
-    }
+	/**
+	 * Sets the value of the destinationAddressMode property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setDestinationAddressMode(Long value) {
+		this.destinationAddressMode = value;
+	}
 
-    /**
-     * Gets the value of the destinationAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getDestinationAddress() {
-        return destinationAddress;
-    }
+	/**
+	 * Gets the value of the destinationAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getDestinationAddress() {
+		return destinationAddress;
+	}
 
-    /**
-     * Sets the value of the destinationAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setDestinationAddress(Address value) {
-        this.destinationAddress = value;
-    }
+	/**
+	 * Sets the value of the destinationAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setDestinationAddress(Address value) {
+		this.destinationAddress = value;
+	}
 
-    /**
-     * Gets the value of the destinationEndpoint property.
-     * 
-     */
-    public short getDestinationEndpoint() {
-        return destinationEndpoint;
-    }
+	/**
+	 * Gets the value of the destinationEndpoint property.
+	 * 
+	 */
+	public short getDestinationEndpoint() {
+		return destinationEndpoint;
+	}
 
-    /**
-     * Sets the value of the destinationEndpoint property.
-     * 
-     */
-    public void setDestinationEndpoint(short value) {
-        this.destinationEndpoint = value;
-    }
+	/**
+	 * Sets the value of the destinationEndpoint property.
+	 * 
+	 */
+	public void setDestinationEndpoint(short value) {
+		this.destinationEndpoint = value;
+	}
 
-    /**
-     * Gets the value of the sourceAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getSourceAddress() {
-        return sourceAddress;
-    }
+	/**
+	 * Gets the value of the sourceAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getSourceAddress() {
+		return sourceAddress;
+	}
 
-    /**
-     * Sets the value of the sourceAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setSourceAddress(Address value) {
-        this.sourceAddress = value;
-    }
+	/**
+	 * Sets the value of the sourceAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setSourceAddress(Address value) {
+		this.sourceAddress = value;
+	}
 
-    /**
-     * Gets the value of the sourceAddressMode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getSourceAddressMode() {
-        return sourceAddressMode;
-    }
+	/**
+	 * Gets the value of the sourceAddressMode property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getSourceAddressMode() {
+		return sourceAddressMode;
+	}
 
-    /**
-     * Sets the value of the sourceAddressMode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setSourceAddressMode(Long value) {
-        this.sourceAddressMode = value;
-    }
+	/**
+	 * Sets the value of the sourceAddressMode property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setSourceAddressMode(Long value) {
+		this.sourceAddressMode = value;
+	}
 
-    /**
-     * Gets the value of the sourceEndpoint property.
-     * 
-     */
-    public short getSourceEndpoint() {
-        return sourceEndpoint;
-    }
+	/**
+	 * Gets the value of the sourceEndpoint property.
+	 * 
+	 */
+	public short getSourceEndpoint() {
+		return sourceEndpoint;
+	}
 
-    /**
-     * Sets the value of the sourceEndpoint property.
-     * 
-     */
-    public void setSourceEndpoint(short value) {
-        this.sourceEndpoint = value;
-    }
+	/**
+	 * Sets the value of the sourceEndpoint property.
+	 * 
+	 */
+	public void setSourceEndpoint(short value) {
+		this.sourceEndpoint = value;
+	}
 
-    /**
-     * Gets the value of the profileID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getProfileID() {
-        return profileID;
-    }
+	/**
+	 * Gets the value of the profileID property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getProfileID() {
+		return profileID;
+	}
 
-    /**
-     * Sets the value of the profileID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setProfileID(Integer value) {
-        this.profileID = value;
-    }
+	/**
+	 * Sets the value of the profileID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setProfileID(Integer value) {
+		this.profileID = value;
+	}
 
-    /**
-     * Gets the value of the clusterID property.
-     * 
-     */
-    public int getClusterID() {
-        return clusterID;
-    }
+	/**
+	 * Gets the value of the clusterID property.
+	 * 
+	 */
+	public int getClusterID() {
+		return clusterID;
+	}
 
-    /**
-     * Sets the value of the clusterID property.
-     * 
-     */
-    public void setClusterID(int value) {
-        this.clusterID = value;
-    }
+	/**
+	 * Sets the value of the clusterID property.
+	 * 
+	 */
+	public void setClusterID(int value) {
+		this.clusterID = value;
+	}
 
-    /**
-     * Gets the value of the data property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public byte[] getData() {
-        return data;
-    }
+	/**
+	 * Gets the value of the data property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public byte[] getData() {
+		return data;
+	}
 
-    /**
-     * Sets the value of the data property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setData(byte[] value) {
-        this.data = ((byte[]) value);
-    }
+	/**
+	 * Sets the value of the data property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setData(byte[] value) {
+		this.data = ((byte[]) value);
+	}
 
-    /**
-     * Gets the value of the apsStatus property.
-     * 
-     */
-    public int getAPSStatus() {
-        return apsStatus;
-    }
+	/**
+	 * Gets the value of the apsStatus property.
+	 * 
+	 */
+	public int getAPSStatus() {
+		return apsStatus;
+	}
 
-    /**
-     * Sets the value of the apsStatus property.
-     * 
-     */
-    public void setAPSStatus(int value) {
-        this.apsStatus = value;
-    }
+	/**
+	 * Sets the value of the apsStatus property.
+	 * 
+	 */
+	public void setAPSStatus(int value) {
+		this.apsStatus = value;
+	}
 
-    /**
-     * Gets the value of the securityStatus property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SecurityStatus }
-     *     
-     */
-    public SecurityStatus getSecurityStatus() {
-        return securityStatus;
-    }
+	/**
+	 * Gets the value of the securityStatus property.
+	 * 
+	 * @return possible object is {@link SecurityStatus }
+	 * 
+	 */
+	public SecurityStatus getSecurityStatus() {
+		return securityStatus;
+	}
 
-    /**
-     * Sets the value of the securityStatus property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SecurityStatus }
-     *     
-     */
-    public void setSecurityStatus(SecurityStatus value) {
-        this.securityStatus = value;
-    }
+	/**
+	 * Sets the value of the securityStatus property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link SecurityStatus }
+	 * 
+	 */
+	public void setSecurityStatus(SecurityStatus value) {
+		this.securityStatus = value;
+	}
 
-    /**
-     * Gets the value of the linkQuality property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getLinkQuality() {
-        return linkQuality;
-    }
+	/**
+	 * Gets the value of the linkQuality property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getLinkQuality() {
+		return linkQuality;
+	}
 
-    /**
-     * Sets the value of the linkQuality property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setLinkQuality(Short value) {
-        this.linkQuality = value;
-    }
+	/**
+	 * Sets the value of the linkQuality property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setLinkQuality(Short value) {
+		this.linkQuality = value;
+	}
 
-    /**
-     * Gets the value of the rxTime property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getRxTime() {
-        return rxTime;
-    }
+	/**
+	 * Gets the value of the rxTime property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getRxTime() {
+		return rxTime;
+	}
 
-    /**
-     * Sets the value of the rxTime property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setRxTime(Long value) {
-        this.rxTime = value;
-    }
+	/**
+	 * Sets the value of the rxTime property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setRxTime(Long value) {
+		this.rxTime = value;
+	}
 
 }

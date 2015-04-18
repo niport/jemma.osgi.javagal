@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for PolledMessage complex type.
+ * <p>
+ * Java class for PolledMessage complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="PolledMessage">
@@ -52,63 +53,54 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PolledMessage", propOrder = {
-    "appliedDecodeSpecification",
-    "message"
-})
-public class PolledMessage implements Serializable{
+@XmlType(name = "PolledMessage", propOrder = { "appliedDecodeSpecification", "message" })
+public class PolledMessage implements Serializable {
 
-    @XmlElement(name = "AppliedDecodeSpecification", required = true)
-    protected String appliedDecodeSpecification;
-    @XmlElement(name = "Message", required = true)
-    protected Message message;
+	@XmlElement(name = "AppliedDecodeSpecification", required = true)
+	protected String appliedDecodeSpecification;
+	@XmlElement(name = "Message", required = true)
+	protected Message message;
 
-    /**
-     * Gets the value of the appliedDecodeSpecification property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getAppliedDecodeSpecification() {
-        return appliedDecodeSpecification;
-    }
+	/**
+	 * Gets the value of the appliedDecodeSpecification property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getAppliedDecodeSpecification() {
+		return appliedDecodeSpecification;
+	}
 
-    /**
-     * Sets the value of the appliedDecodeSpecification property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setAppliedDecodeSpecification(String value) {
-        this.appliedDecodeSpecification = value;
-    }
+	/**
+	 * Sets the value of the appliedDecodeSpecification property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setAppliedDecodeSpecification(String value) {
+		this.appliedDecodeSpecification = value;
+	}
 
-    /**
-     * Gets the value of the message property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Message }
-     *     
-     */
-    public Message getMessage() {
-        return message;
-    }
+	/**
+	 * Gets the value of the message property.
+	 * 
+	 * @return possible object is {@link Message }
+	 * 
+	 */
+	public Message getMessage() {
+		return message;
+	}
 
-    /**
-     * Sets the value of the message property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Message }
-     *     
-     */
-    public void setMessage(Message value) {
-        this.message = value;
-    }
+	/**
+	 * Sets the value of the message property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Message }
+	 * 
+	 */
+	public void setMessage(Message value) {
+		this.message = value;
+	}
 
 }

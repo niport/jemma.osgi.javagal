@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Version complex type.
+ * <p>
+ * Java class for Version complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="Version">
@@ -57,108 +58,101 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Version", propOrder = {
-    "versionIdentifier",
-    "featureSetIdentifier",
-    "rpcProtocol",
-    "manufacturerVersion"
-})
-public class Version implements Serializable{
+@XmlType(name = "Version", propOrder = { "versionIdentifier", "featureSetIdentifier", "rpcProtocol", "manufacturerVersion" })
+public class Version implements Serializable {
 
-    @XmlElement(name = "VersionIdentifier")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short versionIdentifier;
-    @XmlElement(name = "FeatureSetIdentifier")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short featureSetIdentifier;
-    @XmlElement(name = "RPCProtocol", required = true)
-    protected List<RPCProtocol> rpcProtocol;
-    @XmlElement(name = "ManufacturerVersion", required = true)
-    protected String manufacturerVersion;
+	@XmlElement(name = "VersionIdentifier")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short versionIdentifier;
+	@XmlElement(name = "FeatureSetIdentifier")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short featureSetIdentifier;
+	@XmlElement(name = "RPCProtocol", required = true)
+	protected List<RPCProtocol> rpcProtocol;
+	@XmlElement(name = "ManufacturerVersion", required = true)
+	protected String manufacturerVersion;
 
-    /**
-     * Gets the value of the versionIdentifier property.
-     * 
-     */
-    public short getVersionIdentifier() {
-        return versionIdentifier;
-    }
+	/**
+	 * Gets the value of the versionIdentifier property.
+	 * 
+	 */
+	public short getVersionIdentifier() {
+		return versionIdentifier;
+	}
 
-    /**
-     * Sets the value of the versionIdentifier property.
-     * 
-     */
-    public void setVersionIdentifier(short value) {
-        this.versionIdentifier = value;
-    }
+	/**
+	 * Sets the value of the versionIdentifier property.
+	 * 
+	 */
+	public void setVersionIdentifier(short value) {
+		this.versionIdentifier = value;
+	}
 
-    /**
-     * Gets the value of the featureSetIdentifier property.
-     * 
-     */
-    public short getFeatureSetIdentifier() {
-        return featureSetIdentifier;
-    }
+	/**
+	 * Gets the value of the featureSetIdentifier property.
+	 * 
+	 */
+	public short getFeatureSetIdentifier() {
+		return featureSetIdentifier;
+	}
 
-    /**
-     * Sets the value of the featureSetIdentifier property.
-     * 
-     */
-    public void setFeatureSetIdentifier(short value) {
-        this.featureSetIdentifier = value;
-    }
+	/**
+	 * Sets the value of the featureSetIdentifier property.
+	 * 
+	 */
+	public void setFeatureSetIdentifier(short value) {
+		this.featureSetIdentifier = value;
+	}
 
-    /**
-     * Gets the value of the rpcProtocol property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the rpcProtocol property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getRPCProtocol().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link RPCProtocol }
-     * 
-     * 
-     */
-    public List<RPCProtocol> getRPCProtocol() {
-        if (rpcProtocol == null) {
-            rpcProtocol = new ArrayList<RPCProtocol>();
-        }
-        return this.rpcProtocol;
-    }
+	/**
+	 * Gets the value of the rpcProtocol property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the rpcProtocol property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getRPCProtocol().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link RPCProtocol }
+	 * 
+	 * 
+	 */
+	public List<RPCProtocol> getRPCProtocol() {
+		if (rpcProtocol == null) {
+			rpcProtocol = new ArrayList<RPCProtocol>();
+		}
+		return this.rpcProtocol;
+	}
 
-    /**
-     * Gets the value of the manufacturerVersion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getManufacturerVersion() {
-        return manufacturerVersion;
-    }
+	/**
+	 * Gets the value of the manufacturerVersion property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getManufacturerVersion() {
+		return manufacturerVersion;
+	}
 
-    /**
-     * Sets the value of the manufacturerVersion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setManufacturerVersion(String value) {
-        this.manufacturerVersion = value;
-    }
+	/**
+	 * Sets the value of the manufacturerVersion property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setManufacturerVersion(String value) {
+		this.manufacturerVersion = value;
+	}
 
 }

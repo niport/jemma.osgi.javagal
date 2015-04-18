@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for ServerMask complex type.
+ * <p>
+ * Java class for ServerMask complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ServerMask">
@@ -57,142 +58,135 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ServerMask", propOrder = {
-    "primaryTrustCenter",
-    "backupTrustCenter",
-    "primaryBindingTableCache",
-    "backupBindingTableCache",
-    "primaryDiscoveryCache",
-    "backupDiscoveryCache",
-    "networkManager"
-})
-public class ServerMask implements Serializable{
+@XmlType(name = "ServerMask", propOrder = { "primaryTrustCenter", "backupTrustCenter", "primaryBindingTableCache", "backupBindingTableCache", "primaryDiscoveryCache",
+		"backupDiscoveryCache", "networkManager" })
+public class ServerMask implements Serializable {
 
-    @XmlElement(name = "PrimaryTrustCenter")
-    protected boolean primaryTrustCenter;
-    @XmlElement(name = "BackupTrustCenter")
-    protected boolean backupTrustCenter;
-    @XmlElement(name = "PrimaryBindingTableCache")
-    protected boolean primaryBindingTableCache;
-    @XmlElement(name = "BackupBindingTableCache")
-    protected boolean backupBindingTableCache;
-    @XmlElement(name = "PrimaryDiscoveryCache")
-    protected boolean primaryDiscoveryCache;
-    @XmlElement(name = "BackupDiscoveryCache")
-    protected boolean backupDiscoveryCache;
-    @XmlElement(name = "NetworkManager")
-    protected boolean networkManager;
+	@XmlElement(name = "PrimaryTrustCenter")
+	protected boolean primaryTrustCenter;
+	@XmlElement(name = "BackupTrustCenter")
+	protected boolean backupTrustCenter;
+	@XmlElement(name = "PrimaryBindingTableCache")
+	protected boolean primaryBindingTableCache;
+	@XmlElement(name = "BackupBindingTableCache")
+	protected boolean backupBindingTableCache;
+	@XmlElement(name = "PrimaryDiscoveryCache")
+	protected boolean primaryDiscoveryCache;
+	@XmlElement(name = "BackupDiscoveryCache")
+	protected boolean backupDiscoveryCache;
+	@XmlElement(name = "NetworkManager")
+	protected boolean networkManager;
 
-    /**
-     * Gets the value of the primaryTrustCenter property.
-     * 
-     */
-    public boolean isPrimaryTrustCenter() {
-        return primaryTrustCenter;
-    }
+	/**
+	 * Gets the value of the primaryTrustCenter property.
+	 * 
+	 */
+	public boolean isPrimaryTrustCenter() {
+		return primaryTrustCenter;
+	}
 
-    /**
-     * Sets the value of the primaryTrustCenter property.
-     * 
-     */
-    public void setPrimaryTrustCenter(boolean value) {
-        this.primaryTrustCenter = value;
-    }
+	/**
+	 * Sets the value of the primaryTrustCenter property.
+	 * 
+	 */
+	public void setPrimaryTrustCenter(boolean value) {
+		this.primaryTrustCenter = value;
+	}
 
-    /**
-     * Gets the value of the backupTrustCenter property.
-     * 
-     */
-    public boolean isBackupTrustCenter() {
-        return backupTrustCenter;
-    }
+	/**
+	 * Gets the value of the backupTrustCenter property.
+	 * 
+	 */
+	public boolean isBackupTrustCenter() {
+		return backupTrustCenter;
+	}
 
-    /**
-     * Sets the value of the backupTrustCenter property.
-     * 
-     */
-    public void setBackupTrustCenter(boolean value) {
-        this.backupTrustCenter = value;
-    }
+	/**
+	 * Sets the value of the backupTrustCenter property.
+	 * 
+	 */
+	public void setBackupTrustCenter(boolean value) {
+		this.backupTrustCenter = value;
+	}
 
-    /**
-     * Gets the value of the primaryBindingTableCache property.
-     * 
-     */
-    public boolean isPrimaryBindingTableCache() {
-        return primaryBindingTableCache;
-    }
+	/**
+	 * Gets the value of the primaryBindingTableCache property.
+	 * 
+	 */
+	public boolean isPrimaryBindingTableCache() {
+		return primaryBindingTableCache;
+	}
 
-    /**
-     * Sets the value of the primaryBindingTableCache property.
-     * 
-     */
-    public void setPrimaryBindingTableCache(boolean value) {
-        this.primaryBindingTableCache = value;
-    }
+	/**
+	 * Sets the value of the primaryBindingTableCache property.
+	 * 
+	 */
+	public void setPrimaryBindingTableCache(boolean value) {
+		this.primaryBindingTableCache = value;
+	}
 
-    /**
-     * Gets the value of the backupBindingTableCache property.
-     * 
-     */
-    public boolean isBackupBindingTableCache() {
-        return backupBindingTableCache;
-    }
+	/**
+	 * Gets the value of the backupBindingTableCache property.
+	 * 
+	 */
+	public boolean isBackupBindingTableCache() {
+		return backupBindingTableCache;
+	}
 
-    /**
-     * Sets the value of the backupBindingTableCache property.
-     * 
-     */
-    public void setBackupBindingTableCache(boolean value) {
-        this.backupBindingTableCache = value;
-    }
+	/**
+	 * Sets the value of the backupBindingTableCache property.
+	 * 
+	 */
+	public void setBackupBindingTableCache(boolean value) {
+		this.backupBindingTableCache = value;
+	}
 
-    /**
-     * Gets the value of the primaryDiscoveryCache property.
-     * 
-     */
-    public boolean isPrimaryDiscoveryCache() {
-        return primaryDiscoveryCache;
-    }
+	/**
+	 * Gets the value of the primaryDiscoveryCache property.
+	 * 
+	 */
+	public boolean isPrimaryDiscoveryCache() {
+		return primaryDiscoveryCache;
+	}
 
-    /**
-     * Sets the value of the primaryDiscoveryCache property.
-     * 
-     */
-    public void setPrimaryDiscoveryCache(boolean value) {
-        this.primaryDiscoveryCache = value;
-    }
+	/**
+	 * Sets the value of the primaryDiscoveryCache property.
+	 * 
+	 */
+	public void setPrimaryDiscoveryCache(boolean value) {
+		this.primaryDiscoveryCache = value;
+	}
 
-    /**
-     * Gets the value of the backupDiscoveryCache property.
-     * 
-     */
-    public boolean isBackupDiscoveryCache() {
-        return backupDiscoveryCache;
-    }
+	/**
+	 * Gets the value of the backupDiscoveryCache property.
+	 * 
+	 */
+	public boolean isBackupDiscoveryCache() {
+		return backupDiscoveryCache;
+	}
 
-    /**
-     * Sets the value of the backupDiscoveryCache property.
-     * 
-     */
-    public void setBackupDiscoveryCache(boolean value) {
-        this.backupDiscoveryCache = value;
-    }
+	/**
+	 * Sets the value of the backupDiscoveryCache property.
+	 * 
+	 */
+	public void setBackupDiscoveryCache(boolean value) {
+		this.backupDiscoveryCache = value;
+	}
 
-    /**
-     * Gets the value of the networkManager property.
-     * 
-     */
-    public boolean isNetworkManager() {
-        return networkManager;
-    }
+	/**
+	 * Gets the value of the networkManager property.
+	 * 
+	 */
+	public boolean isNetworkManager() {
+		return networkManager;
+	}
 
-    /**
-     * Sets the value of the networkManager property.
-     * 
-     */
-    public void setNetworkManager(boolean value) {
-        this.networkManager = value;
-    }
+	/**
+	 * Sets the value of the networkManager property.
+	 * 
+	 */
+	public void setNetworkManager(boolean value) {
+		this.networkManager = value;
+	}
 
 }

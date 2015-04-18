@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for PowerDescriptor complex type.
+ * <p>
+ * Java class for PowerDescriptor complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="PowerDescriptor">
@@ -71,117 +72,100 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PowerDescriptor", propOrder = {
-    "currentPowerMode",
-    "availablePowerSources",
-    "currentPowerSources",
-    "currentPowerSourceLevel"
-})
-public class PowerDescriptor implements Serializable{
+@XmlType(name = "PowerDescriptor", propOrder = { "currentPowerMode", "availablePowerSources", "currentPowerSources", "currentPowerSourceLevel" })
+public class PowerDescriptor implements Serializable {
 
-    @XmlElement(name = "CurrentPowerMode")
-    protected String currentPowerMode;
-    @XmlElement(name = "AvailablePowerSources")
-    protected PowerSources availablePowerSources;
-    @XmlElement(name = "CurrentPowerSources")
-    protected PowerSources currentPowerSources;
-    @XmlElement(name = "CurrentPowerSourceLevel")
-    protected String currentPowerSourceLevel;
+	@XmlElement(name = "CurrentPowerMode")
+	protected String currentPowerMode;
+	@XmlElement(name = "AvailablePowerSources")
+	protected PowerSources availablePowerSources;
+	@XmlElement(name = "CurrentPowerSources")
+	protected PowerSources currentPowerSources;
+	@XmlElement(name = "CurrentPowerSourceLevel")
+	protected String currentPowerSourceLevel;
 
-    /**
-     * Gets the value of the currentPowerMode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCurrentPowerMode() {
-        return currentPowerMode;
-    }
+	/**
+	 * Gets the value of the currentPowerMode property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getCurrentPowerMode() {
+		return currentPowerMode;
+	}
 
-    /**
-     * Sets the value of the currentPowerMode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCurrentPowerMode(String value) {
-        this.currentPowerMode = value;
-    }
+	/**
+	 * Sets the value of the currentPowerMode property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setCurrentPowerMode(String value) {
+		this.currentPowerMode = value;
+	}
 
-    /**
-     * Gets the value of the availablePowerSources property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link PowerSources }
-     *     
-     */
-    public PowerSources getAvailablePowerSources() {
-        return availablePowerSources;
-    }
+	/**
+	 * Gets the value of the availablePowerSources property.
+	 * 
+	 * @return possible object is {@link PowerSources }
+	 * 
+	 */
+	public PowerSources getAvailablePowerSources() {
+		return availablePowerSources;
+	}
 
-    /**
-     * Sets the value of the availablePowerSources property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link PowerSources }
-     *     
-     */
-    public void setAvailablePowerSources(PowerSources value) {
-        this.availablePowerSources = value;
-    }
+	/**
+	 * Sets the value of the availablePowerSources property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link PowerSources }
+	 * 
+	 */
+	public void setAvailablePowerSources(PowerSources value) {
+		this.availablePowerSources = value;
+	}
 
-    /**
-     * Gets the value of the currentPowerSources property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link PowerSources }
-     *     
-     */
-    public PowerSources getCurrentPowerSources() {
-        return currentPowerSources;
-    }
+	/**
+	 * Gets the value of the currentPowerSources property.
+	 * 
+	 * @return possible object is {@link PowerSources }
+	 * 
+	 */
+	public PowerSources getCurrentPowerSources() {
+		return currentPowerSources;
+	}
 
-    /**
-     * Sets the value of the currentPowerSources property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link PowerSources }
-     *     
-     */
-    public void setCurrentPowerSources(PowerSources value) {
-        this.currentPowerSources = value;
-    }
+	/**
+	 * Sets the value of the currentPowerSources property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link PowerSources }
+	 * 
+	 */
+	public void setCurrentPowerSources(PowerSources value) {
+		this.currentPowerSources = value;
+	}
 
-    /**
-     * Gets the value of the currentPowerSourceLevel property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCurrentPowerSourceLevel() {
-        return currentPowerSourceLevel;
-    }
+	/**
+	 * Gets the value of the currentPowerSourceLevel property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getCurrentPowerSourceLevel() {
+		return currentPowerSourceLevel;
+	}
 
-    /**
-     * Sets the value of the currentPowerSourceLevel property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCurrentPowerSourceLevel(String value) {
-        this.currentPowerSourceLevel = value;
-    }
+	/**
+	 * Sets the value of the currentPowerSourceLevel property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setCurrentPowerSourceLevel(String value) {
+		this.currentPowerSourceLevel = value;
+	}
 
 }

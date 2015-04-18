@@ -17,13 +17,14 @@ package org.energy_home.jemma.javagal.layers.object;
 
 import org.energy_home.jemma.zgd.GatewayEventListener;
 
-
 /**
  * Helper class that associates a {code GatewayEventListener} to a
  * {@code proxyIdentifier}.
- * @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * 
  * @param <T>
  *            accepts any {@code GatewayEventListener}'s extending class.
  */
@@ -32,14 +33,14 @@ public class GatewayDeviceEventEntry<T extends GatewayEventListener> {
 	private T GatewayEventListener;
 	private int discoveryMask;
 	private int freshnessMask;
-	
+
 	/**
 	 * Gets the gateway event listener carried by this
 	 * {@code GatewayDeviceEventEntry}.
 	 * 
 	 * @return the gateway event listener.
 	 */
-	public T   getGatewayEventListener() {
+	public T getGatewayEventListener() {
 		return GatewayEventListener;
 	}
 
@@ -50,8 +51,7 @@ public class GatewayDeviceEventEntry<T extends GatewayEventListener> {
 	 * @param gatewayEventListener
 	 *            the gateway event listener to set.
 	 */
-	public void setGatewayEventListener(
-			T  gatewayEventListener) {
+	public void setGatewayEventListener(T gatewayEventListener) {
 		GatewayEventListener = gatewayEventListener;
 	}
 

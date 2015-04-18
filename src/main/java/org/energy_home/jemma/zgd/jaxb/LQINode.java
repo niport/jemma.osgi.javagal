@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for LQINode complex type.
+ * <p>
+ * Java class for LQINode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="LQINode">
@@ -53,63 +54,54 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LQINode", propOrder = {
-    "nodeAddress",
-    "neighborList"
-})
+@XmlType(name = "LQINode", propOrder = { "nodeAddress", "neighborList" })
 public class LQINode implements Serializable {
 
-    @XmlElement(name = "NodeAddress", required = true)
-    protected BigInteger nodeAddress;
-    @XmlElement(name = "NeighborList", required = true)
-    protected NeighborList neighborList;
+	@XmlElement(name = "NodeAddress", required = true)
+	protected BigInteger nodeAddress;
+	@XmlElement(name = "NeighborList", required = true)
+	protected NeighborList neighborList;
 
-    /**
-     * Gets the value of the nodeAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getNodeAddress() {
-        return nodeAddress;
-    }
+	/**
+	 * Gets the value of the nodeAddress property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getNodeAddress() {
+		return nodeAddress;
+	}
 
-    /**
-     * Sets the value of the nodeAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setNodeAddress(BigInteger value) {
-        this.nodeAddress = value;
-    }
+	/**
+	 * Sets the value of the nodeAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setNodeAddress(BigInteger value) {
+		this.nodeAddress = value;
+	}
 
-    /**
-     * Gets the value of the neighborList property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link NeighborList }
-     *     
-     */
-    public NeighborList getNeighborList() {
-        return neighborList;
-    }
+	/**
+	 * Gets the value of the neighborList property.
+	 * 
+	 * @return possible object is {@link NeighborList }
+	 * 
+	 */
+	public NeighborList getNeighborList() {
+		return neighborList;
+	}
 
-    /**
-     * Sets the value of the neighborList property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link NeighborList }
-     *     
-     */
-    public void setNeighborList(NeighborList value) {
-        this.neighborList = value;
-    }
+	/**
+	 * Sets the value of the neighborList property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link NeighborList }
+	 * 
+	 */
+	public void setNeighborList(NeighborList value) {
+		this.neighborList = value;
+	}
 
 }

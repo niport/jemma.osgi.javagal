@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Binding complex type.
+ * <p>
+ * Java class for Binding complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="Binding">
@@ -58,138 +59,129 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Binding", propOrder = {
-    "sourceIEEEAddress",
-    "sourceEndpoint",
-    "clusterID",
-    "groupDestination",
-    "deviceDestination"
-})
-public class Binding implements Serializable{
+@XmlType(name = "Binding", propOrder = { "sourceIEEEAddress", "sourceEndpoint", "clusterID", "groupDestination", "deviceDestination" })
+public class Binding implements Serializable {
 
-    @XmlElement(name = "SourceIEEEAddress", required = true)
-    protected BigInteger sourceIEEEAddress;
-    @XmlElement(name = "SourceEndpoint")
-    protected short sourceEndpoint;
-    @XmlElement(name = "ClusterID")
-    protected int clusterID;
-    @XmlElement(name = "GroupDestination", type = Integer.class)
-    protected List<Integer> groupDestination;
-    @XmlElement(name = "DeviceDestination")
-    protected List<Device> deviceDestination;
+	@XmlElement(name = "SourceIEEEAddress", required = true)
+	protected BigInteger sourceIEEEAddress;
+	@XmlElement(name = "SourceEndpoint")
+	protected short sourceEndpoint;
+	@XmlElement(name = "ClusterID")
+	protected int clusterID;
+	@XmlElement(name = "GroupDestination", type = Integer.class)
+	protected List<Integer> groupDestination;
+	@XmlElement(name = "DeviceDestination")
+	protected List<Device> deviceDestination;
 
-    /**
-     * Gets the value of the sourceIEEEAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getSourceIEEEAddress() {
-        return sourceIEEEAddress;
-    }
+	/**
+	 * Gets the value of the sourceIEEEAddress property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getSourceIEEEAddress() {
+		return sourceIEEEAddress;
+	}
 
-    /**
-     * Sets the value of the sourceIEEEAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setSourceIEEEAddress(BigInteger value) {
-        this.sourceIEEEAddress = value;
-    }
+	/**
+	 * Sets the value of the sourceIEEEAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setSourceIEEEAddress(BigInteger value) {
+		this.sourceIEEEAddress = value;
+	}
 
-    /**
-     * Gets the value of the sourceEndpoint property.
-     * 
-     */
-    public short getSourceEndpoint() {
-        return sourceEndpoint;
-    }
+	/**
+	 * Gets the value of the sourceEndpoint property.
+	 * 
+	 */
+	public short getSourceEndpoint() {
+		return sourceEndpoint;
+	}
 
-    /**
-     * Sets the value of the sourceEndpoint property.
-     * 
-     */
-    public void setSourceEndpoint(short value) {
-        this.sourceEndpoint = value;
-    }
+	/**
+	 * Sets the value of the sourceEndpoint property.
+	 * 
+	 */
+	public void setSourceEndpoint(short value) {
+		this.sourceEndpoint = value;
+	}
 
-    /**
-     * Gets the value of the clusterID property.
-     * 
-     */
-    public int getClusterID() {
-        return clusterID;
-    }
+	/**
+	 * Gets the value of the clusterID property.
+	 * 
+	 */
+	public int getClusterID() {
+		return clusterID;
+	}
 
-    /**
-     * Sets the value of the clusterID property.
-     * 
-     */
-    public void setClusterID(int value) {
-        this.clusterID = value;
-    }
+	/**
+	 * Sets the value of the clusterID property.
+	 * 
+	 */
+	public void setClusterID(int value) {
+		this.clusterID = value;
+	}
 
-    /**
-     * Gets the value of the groupDestination property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the groupDestination property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getGroupDestination().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Integer }
-     * 
-     * 
-     */
-    public List<Integer> getGroupDestination() {
-        if (groupDestination == null) {
-            groupDestination = new ArrayList<Integer>();
-        }
-        return this.groupDestination;
-    }
+	/**
+	 * Gets the value of the groupDestination property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the groupDestination property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getGroupDestination().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Integer }
+	 * 
+	 * 
+	 */
+	public List<Integer> getGroupDestination() {
+		if (groupDestination == null) {
+			groupDestination = new ArrayList<Integer>();
+		}
+		return this.groupDestination;
+	}
 
-    /**
-     * Gets the value of the deviceDestination property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the deviceDestination property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDeviceDestination().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Device }
-     * 
-     * 
-     */
-    public List<Device> getDeviceDestination() {
-        if (deviceDestination == null) {
-            deviceDestination = new ArrayList<Device>();
-        }
-        return this.deviceDestination;
-    }
+	/**
+	 * Gets the value of the deviceDestination property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the deviceDestination property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getDeviceDestination().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Device }
+	 * 
+	 * 
+	 */
+	public List<Device> getDeviceDestination() {
+		if (deviceDestination == null) {
+			deviceDestination = new ArrayList<Device>();
+		}
+		return this.deviceDestination;
+	}
 
 }

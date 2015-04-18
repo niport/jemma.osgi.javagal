@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -29,12 +28,15 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for LogicalType.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for LogicalType.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="LogicalType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -51,31 +53,28 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum LogicalType implements Serializable {
 
-    @XmlEnumValue("Current")
-    CURRENT("Current"),
-    @XmlEnumValue("Coordinator")
-    COORDINATOR("Coordinator"),
-    @XmlEnumValue("Router")
-    ROUTER("Router"),
-    @XmlEnumValue("EndDevice")
-    END_DEVICE("EndDevice");
-    private final String value;
+	@XmlEnumValue("Current")
+	CURRENT("Current"), @XmlEnumValue("Coordinator")
+	COORDINATOR("Coordinator"), @XmlEnumValue("Router")
+	ROUTER("Router"), @XmlEnumValue("EndDevice")
+	END_DEVICE("EndDevice");
+	private final String value;
 
-    LogicalType(String v) {
-        value = v;
-    }
+	LogicalType(String v) {
+		value = v;
+	}
 
-    public String value() {
-        return value;
-    }
+	public String value() {
+		return value;
+	}
 
-    public static LogicalType fromValue(String v) {
-        for (LogicalType c: LogicalType.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
-    }
+	public static LogicalType fromValue(String v) {
+		for (LogicalType c : LogicalType.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
 
 }

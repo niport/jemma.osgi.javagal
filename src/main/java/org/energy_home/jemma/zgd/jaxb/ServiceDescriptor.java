@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for ServiceDescriptor complex type.
+ * <p>
+ * Java class for ServiceDescriptor complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ServiceDescriptor">
@@ -53,82 +54,72 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ServiceDescriptor", propOrder = {
-    "address",
-    "endPoint",
-    "simpleDescriptor"
-})
-public class ServiceDescriptor implements Serializable{
+@XmlType(name = "ServiceDescriptor", propOrder = { "address", "endPoint", "simpleDescriptor" })
+public class ServiceDescriptor implements Serializable {
 
-    @XmlElement(name = "Address", required = true)
-    protected Address address;
-    @XmlElement(name = "EndPoint")
-    protected short endPoint;
-    @XmlElement(name = "SimpleDescriptor", required = true)
-    protected SimpleDescriptor simpleDescriptor;
+	@XmlElement(name = "Address", required = true)
+	protected Address address;
+	@XmlElement(name = "EndPoint")
+	protected short endPoint;
+	@XmlElement(name = "SimpleDescriptor", required = true)
+	protected SimpleDescriptor simpleDescriptor;
 
-    /**
-     * Gets the value of the address property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getAddress() {
-        return address;
-    }
+	/**
+	 * Gets the value of the address property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getAddress() {
+		return address;
+	}
 
-    /**
-     * Sets the value of the address property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setAddress(Address value) {
-        this.address = value;
-    }
+	/**
+	 * Sets the value of the address property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setAddress(Address value) {
+		this.address = value;
+	}
 
-    /**
-     * Gets the value of the endPoint property.
-     * 
-     */
-    public short getEndPoint() {
-        return endPoint;
-    }
+	/**
+	 * Gets the value of the endPoint property.
+	 * 
+	 */
+	public short getEndPoint() {
+		return endPoint;
+	}
 
-    /**
-     * Sets the value of the endPoint property.
-     * 
-     */
-    public void setEndPoint(short value) {
-        this.endPoint = value;
-    }
+	/**
+	 * Sets the value of the endPoint property.
+	 * 
+	 */
+	public void setEndPoint(short value) {
+		this.endPoint = value;
+	}
 
-    /**
-     * Gets the value of the simpleDescriptor property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SimpleDescriptor }
-     *     
-     */
-    public SimpleDescriptor getSimpleDescriptor() {
-        return simpleDescriptor;
-    }
+	/**
+	 * Gets the value of the simpleDescriptor property.
+	 * 
+	 * @return possible object is {@link SimpleDescriptor }
+	 * 
+	 */
+	public SimpleDescriptor getSimpleDescriptor() {
+		return simpleDescriptor;
+	}
 
-    /**
-     * Sets the value of the simpleDescriptor property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SimpleDescriptor }
-     *     
-     */
-    public void setSimpleDescriptor(SimpleDescriptor value) {
-        this.simpleDescriptor = value;
-    }
+	/**
+	 * Sets the value of the simpleDescriptor property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link SimpleDescriptor }
+	 * 
+	 */
+	public void setSimpleDescriptor(SimpleDescriptor value) {
+		this.simpleDescriptor = value;
+	}
 
 }

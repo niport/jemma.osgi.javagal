@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for NetworkConfiguration complex type.
+ * <p>
+ * Java class for NetworkConfiguration complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NetworkConfiguration">
@@ -56,121 +57,109 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NetworkConfiguration", propOrder = {
-    "scanChannels",
-    "scanDuration",
-    "beaconOrder",
-    "superFrameOrder",
-    "batteryLifeExtension"
-})
-public class NetworkConfiguration implements Serializable{
+@XmlType(name = "NetworkConfiguration", propOrder = { "scanChannels", "scanDuration", "beaconOrder", "superFrameOrder", "batteryLifeExtension" })
+public class NetworkConfiguration implements Serializable {
 
-    @XmlElement(name = "ScanChannels")
-    protected Long scanChannels;
-    @XmlElement(name = "ScanDuration")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short scanDuration;
-    @XmlElement(name = "BeaconOrder")
-    protected short beaconOrder;
-    @XmlElement(name = "SuperFrameOrder")
-    protected short superFrameOrder;
-    @XmlElement(name = "BatteryLifeExtension")
-    protected boolean batteryLifeExtension;
+	@XmlElement(name = "ScanChannels")
+	protected Long scanChannels;
+	@XmlElement(name = "ScanDuration")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short scanDuration;
+	@XmlElement(name = "BeaconOrder")
+	protected short beaconOrder;
+	@XmlElement(name = "SuperFrameOrder")
+	protected short superFrameOrder;
+	@XmlElement(name = "BatteryLifeExtension")
+	protected boolean batteryLifeExtension;
 
-    /**
-     * Gets the value of the scanChannels property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getScanChannels() {
-        return scanChannels;
-    }
+	/**
+	 * Gets the value of the scanChannels property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getScanChannels() {
+		return scanChannels;
+	}
 
-    /**
-     * Sets the value of the scanChannels property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setScanChannels(Long value) {
-        this.scanChannels = value;
-    }
+	/**
+	 * Sets the value of the scanChannels property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setScanChannels(Long value) {
+		this.scanChannels = value;
+	}
 
-    /**
-     * Gets the value of the scanDuration property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getScanDuration() {
-        return scanDuration;
-    }
+	/**
+	 * Gets the value of the scanDuration property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getScanDuration() {
+		return scanDuration;
+	}
 
-    /**
-     * Sets the value of the scanDuration property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setScanDuration(Short value) {
-        this.scanDuration = value;
-    }
+	/**
+	 * Sets the value of the scanDuration property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setScanDuration(Short value) {
+		this.scanDuration = value;
+	}
 
-    /**
-     * Gets the value of the beaconOrder property.
-     * 
-     */
-    public short getBeaconOrder() {
-        return beaconOrder;
-    }
+	/**
+	 * Gets the value of the beaconOrder property.
+	 * 
+	 */
+	public short getBeaconOrder() {
+		return beaconOrder;
+	}
 
-    /**
-     * Sets the value of the beaconOrder property.
-     * 
-     */
-    public void setBeaconOrder(short value) {
-        this.beaconOrder = value;
-    }
+	/**
+	 * Sets the value of the beaconOrder property.
+	 * 
+	 */
+	public void setBeaconOrder(short value) {
+		this.beaconOrder = value;
+	}
 
-    /**
-     * Gets the value of the superFrameOrder property.
-     * 
-     */
-    public short getSuperFrameOrder() {
-        return superFrameOrder;
-    }
+	/**
+	 * Gets the value of the superFrameOrder property.
+	 * 
+	 */
+	public short getSuperFrameOrder() {
+		return superFrameOrder;
+	}
 
-    /**
-     * Sets the value of the superFrameOrder property.
-     * 
-     */
-    public void setSuperFrameOrder(short value) {
-        this.superFrameOrder = value;
-    }
+	/**
+	 * Sets the value of the superFrameOrder property.
+	 * 
+	 */
+	public void setSuperFrameOrder(short value) {
+		this.superFrameOrder = value;
+	}
 
-    /**
-     * Gets the value of the batteryLifeExtension property.
-     * 
-     */
-    public boolean isBatteryLifeExtension() {
-        return batteryLifeExtension;
-    }
+	/**
+	 * Gets the value of the batteryLifeExtension property.
+	 * 
+	 */
+	public boolean isBatteryLifeExtension() {
+		return batteryLifeExtension;
+	}
 
-    /**
-     * Sets the value of the batteryLifeExtension property.
-     * 
-     */
-    public void setBatteryLifeExtension(boolean value) {
-        this.batteryLifeExtension = value;
-    }
+	/**
+	 * Sets the value of the batteryLifeExtension property.
+	 * 
+	 */
+	public void setBatteryLifeExtension(boolean value) {
+		this.batteryLifeExtension = value;
+	}
 
 }

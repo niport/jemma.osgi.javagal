@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -34,11 +33,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for AssociatedDevices complex type.
+ * <p>
+ * Java class for AssociatedDevices complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="AssociatedDevices">
@@ -56,68 +57,63 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AssociatedDevices", propOrder = {
-    "sonNode"
-})
+@XmlType(name = "AssociatedDevices", propOrder = { "sonNode" })
 public class AssociatedDevices implements Serializable {
 
-    @XmlElement(name = "SonNode")
-    protected List<SonNode> sonNode;
-    @XmlAttribute(name = "TotalNumber")
-    @XmlSchemaType(name = "unsignedShort")
-    protected Integer totalNumber;
+	@XmlElement(name = "SonNode")
+	protected List<SonNode> sonNode;
+	@XmlAttribute(name = "TotalNumber")
+	@XmlSchemaType(name = "unsignedShort")
+	protected Integer totalNumber;
 
-    /**
-     * Gets the value of the sonNode property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the sonNode property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getSonNode().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link SonNode }
-     * 
-     * 
-     */
-    public List<SonNode> getSonNode() {
-        if (sonNode == null) {
-            sonNode = new ArrayList<SonNode>();
-        }
-        return this.sonNode;
-    }
+	/**
+	 * Gets the value of the sonNode property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the sonNode property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getSonNode().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link SonNode }
+	 * 
+	 * 
+	 */
+	public List<SonNode> getSonNode() {
+		if (sonNode == null) {
+			sonNode = new ArrayList<SonNode>();
+		}
+		return this.sonNode;
+	}
 
-    /**
-     * Gets the value of the totalNumber property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getTotalNumber() {
-        return totalNumber;
-    }
+	/**
+	 * Gets the value of the totalNumber property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getTotalNumber() {
+		return totalNumber;
+	}
 
-    /**
-     * Sets the value of the totalNumber property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setTotalNumber(Integer value) {
-        this.totalNumber = value;
-    }
+	/**
+	 * Sets the value of the totalNumber property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setTotalNumber(Integer value) {
+		this.totalNumber = value;
+	}
 
 }

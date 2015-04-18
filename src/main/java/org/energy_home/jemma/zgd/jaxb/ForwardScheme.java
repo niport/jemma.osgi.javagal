@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -28,12 +27,15 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for ForwardScheme.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for ForwardScheme.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="ForwardScheme">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -50,17 +52,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum ForwardScheme implements Serializable {
 
-    POLLED,
-    GRIP,
-    SOAP,
-    REST;
+	POLLED, GRIP, SOAP, REST;
 
-    public String value() {
-        return name();
-    }
+	public String value() {
+		return name();
+	}
 
-    public static ForwardScheme fromValue(String v) {
-        return valueOf(v);
-    }
+	public static ForwardScheme fromValue(String v) {
+		return valueOf(v);
+	}
 
 }

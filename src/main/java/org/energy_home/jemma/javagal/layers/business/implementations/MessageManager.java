@@ -276,8 +276,10 @@ public class MessageManager {
 							synchronized (message) {
 								cmessage = SerializationUtils.clone(message);
 							}
-							LOG.debug("READY to CallBack NotifyApsMessage: {}", ((cmessage.getDestinationAddress().getNetworkAddress() != null) ? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress()) : ""));
-							
+							LOG.debug("READY to CallBack NotifyApsMessage: {}",
+									((cmessage.getDestinationAddress().getNetworkAddress() != null) ? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress())
+											: ""));
+
 							napml.notifyAPSMessage(cmessage);
 						}
 						// Add it to the list of already notified
@@ -304,9 +306,8 @@ public class MessageManager {
 	public void InterPANMessageIndication(final InterPANMessageEvent message) {
 		executor.execute(new Runnable() {
 			public void run() {
-				
+
 				LOG.debug("Aps Message Indication in process...");
-		
 
 				for (CallbackEntry ce : getGal().getCallbacks()) {
 

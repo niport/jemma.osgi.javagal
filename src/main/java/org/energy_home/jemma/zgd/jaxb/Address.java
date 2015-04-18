@@ -56,7 +56,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Address", propOrder = { "networkAddress", "ieeeAddress", "aliasAddress" })
-public class Address implements Serializable{
+public class Address implements Serializable {
 
 	@XmlElement(name = "NetworkAddress")
 	protected Integer networkAddress;

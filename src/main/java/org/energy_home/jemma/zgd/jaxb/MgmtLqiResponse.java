@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for MgmtLqiResponse complex type.
+ * <p>
+ * Java class for MgmtLqiResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="MgmtLqiResponse">
@@ -58,121 +59,115 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MgmtLqiResponse", propOrder = {
-    "status",
-    "neighborTableEntries",
-    "startIndex",
-    "neighborTableListCount",
-    "neighborTableList"
-})
-public class MgmtLqiResponse implements Serializable{
+@XmlType(name = "MgmtLqiResponse", propOrder = { "status", "neighborTableEntries", "startIndex", "neighborTableListCount", "neighborTableList" })
+public class MgmtLqiResponse implements Serializable {
 
-    @XmlElement(name = "Status")
-    @XmlSchemaType(name = "unsignedShort")
-    protected int status;
-    @XmlElement(name = "NeighborTableEntries")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short neighborTableEntries;
-    @XmlElement(name = "StartIndex")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short startIndex;
-    @XmlElement(name = "NeighborTableListCount")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short neighborTableListCount;
-    @XmlElement(name = "NeighborTableList")
-    protected List<Neighbor> neighborTableList;
+	@XmlElement(name = "Status")
+	@XmlSchemaType(name = "unsignedShort")
+	protected int status;
+	@XmlElement(name = "NeighborTableEntries")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short neighborTableEntries;
+	@XmlElement(name = "StartIndex")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short startIndex;
+	@XmlElement(name = "NeighborTableListCount")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short neighborTableListCount;
+	@XmlElement(name = "NeighborTableList")
+	protected List<Neighbor> neighborTableList;
 
-    /**
-     * Gets the value of the status property.
-     * 
-     */
-    public int getStatus() {
-        return status;
-    }
+	/**
+	 * Gets the value of the status property.
+	 * 
+	 */
+	public int getStatus() {
+		return status;
+	}
 
-    /**
-     * Sets the value of the status property.
-     * 
-     */
-    public void setStatus(int value) {
-        this.status = value;
-    }
+	/**
+	 * Sets the value of the status property.
+	 * 
+	 */
+	public void setStatus(int value) {
+		this.status = value;
+	}
 
-    /**
-     * Gets the value of the neighborTableEntries property.
-     * 
-     */
-    public short getNeighborTableEntries() {
-        return neighborTableEntries;
-    }
+	/**
+	 * Gets the value of the neighborTableEntries property.
+	 * 
+	 */
+	public short getNeighborTableEntries() {
+		return neighborTableEntries;
+	}
 
-    /**
-     * Sets the value of the neighborTableEntries property.
-     * 
-     */
-    public void setNeighborTableEntries(short value) {
-        this.neighborTableEntries = value;
-    }
+	/**
+	 * Sets the value of the neighborTableEntries property.
+	 * 
+	 */
+	public void setNeighborTableEntries(short value) {
+		this.neighborTableEntries = value;
+	}
 
-    /**
-     * Gets the value of the startIndex property.
-     * 
-     */
-    public short getStartIndex() {
-        return startIndex;
-    }
+	/**
+	 * Gets the value of the startIndex property.
+	 * 
+	 */
+	public short getStartIndex() {
+		return startIndex;
+	}
 
-    /**
-     * Sets the value of the startIndex property.
-     * 
-     */
-    public void setStartIndex(short value) {
-        this.startIndex = value;
-    }
+	/**
+	 * Sets the value of the startIndex property.
+	 * 
+	 */
+	public void setStartIndex(short value) {
+		this.startIndex = value;
+	}
 
-    /**
-     * Gets the value of the neighborTableListCount property.
-     * 
-     */
-    public short getNeighborTableListCount() {
-        return neighborTableListCount;
-    }
+	/**
+	 * Gets the value of the neighborTableListCount property.
+	 * 
+	 */
+	public short getNeighborTableListCount() {
+		return neighborTableListCount;
+	}
 
-    /**
-     * Sets the value of the neighborTableListCount property.
-     * 
-     */
-    public void setNeighborTableListCount(short value) {
-        this.neighborTableListCount = value;
-    }
+	/**
+	 * Sets the value of the neighborTableListCount property.
+	 * 
+	 */
+	public void setNeighborTableListCount(short value) {
+		this.neighborTableListCount = value;
+	}
 
-    /**
-     * Gets the value of the neighborTableList property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the neighborTableList property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getNeighborTableList().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Neighbor }
-     * 
-     * 
-     */
-    public List<Neighbor> getNeighborTableList() {
-        if (neighborTableList == null) {
-            neighborTableList = new ArrayList<Neighbor>();
-        }
-        return this.neighborTableList;
-    }
+	/**
+	 * Gets the value of the neighborTableList property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the neighborTableList property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getNeighborTableList().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Neighbor }
+	 * 
+	 * 
+	 */
+	public List<Neighbor> getNeighborTableList() {
+		if (neighborTableList == null) {
+			neighborTableList = new ArrayList<Neighbor>();
+		}
+		return this.neighborTableList;
+	}
 
 }

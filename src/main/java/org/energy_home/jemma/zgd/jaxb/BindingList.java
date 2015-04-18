@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -32,11 +31,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for BindingList complex type.
+ * <p>
+ * Java class for BindingList complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="BindingList">
@@ -53,41 +54,39 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BindingList", propOrder = {
-    "binding"
-})
+@XmlType(name = "BindingList", propOrder = { "binding" })
 public class BindingList implements Serializable {
 
-    @XmlElement(name = "Binding")
-    protected List<Binding> binding;
+	@XmlElement(name = "Binding")
+	protected List<Binding> binding;
 
-    /**
-     * Gets the value of the binding property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the binding property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getBinding().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Binding }
-     * 
-     * 
-     */
-    public List<Binding> getBinding() {
-        if (binding == null) {
-            binding = new ArrayList<Binding>();
-        }
-        return this.binding;
-    }
+	/**
+	 * Gets the value of the binding property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the binding property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getBinding().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Binding }
+	 * 
+	 * 
+	 */
+	public List<Binding> getBinding() {
+		if (binding == null) {
+			binding = new ArrayList<Binding>();
+		}
+		return this.binding;
+	}
 
 }

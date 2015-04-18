@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for ZDPCommand complex type.
+ * <p>
+ * Java class for ZDPCommand complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ZDPCommand">
@@ -59,159 +60,140 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ZDPCommand", propOrder = {
-    "destination",
-    "txOptions",
-    "radius",
-    "clusterID",
-    "command",
-    "destinationAddrMode"
-})
-public class ZDPCommand implements Serializable{
+@XmlType(name = "ZDPCommand", propOrder = { "destination", "txOptions", "radius", "clusterID", "command", "destinationAddrMode" })
+public class ZDPCommand implements Serializable {
 
-    @XmlElement(name = "Destination", required = true)
-    protected Address destination;
-    @XmlElement(name = "TxOptions")
-    protected TxOptions txOptions;
-    @XmlElement(name = "Radius")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short radius;
-    @XmlElement(name = "ClusterID")
-    protected int clusterID;
-    @XmlElement(name = "Command", required = true, type = String.class)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    protected byte[] command;
-    @XmlElement(name = "DestinationAddrMode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long destinationAddrMode;
+	@XmlElement(name = "Destination", required = true)
+	protected Address destination;
+	@XmlElement(name = "TxOptions")
+	protected TxOptions txOptions;
+	@XmlElement(name = "Radius")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short radius;
+	@XmlElement(name = "ClusterID")
+	protected int clusterID;
+	@XmlElement(name = "Command", required = true, type = String.class)
+	@XmlJavaTypeAdapter(HexBinaryAdapter.class)
+	@XmlSchemaType(name = "hexBinary")
+	protected byte[] command;
+	@XmlElement(name = "DestinationAddrMode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long destinationAddrMode;
 
-    /**
-     * Gets the value of the destination property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getDestination() {
-        return destination;
-    }
+	/**
+	 * Gets the value of the destination property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getDestination() {
+		return destination;
+	}
 
-    /**
-     * Sets the value of the destination property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setDestination(Address value) {
-        this.destination = value;
-    }
+	/**
+	 * Sets the value of the destination property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setDestination(Address value) {
+		this.destination = value;
+	}
 
-    /**
-     * Gets the value of the txOptions property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TxOptions }
-     *     
-     */
-    public TxOptions getTxOptions() {
-        return txOptions;
-    }
+	/**
+	 * Gets the value of the txOptions property.
+	 * 
+	 * @return possible object is {@link TxOptions }
+	 * 
+	 */
+	public TxOptions getTxOptions() {
+		return txOptions;
+	}
 
-    /**
-     * Sets the value of the txOptions property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TxOptions }
-     *     
-     */
-    public void setTxOptions(TxOptions value) {
-        this.txOptions = value;
-    }
+	/**
+	 * Sets the value of the txOptions property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link TxOptions }
+	 * 
+	 */
+	public void setTxOptions(TxOptions value) {
+		this.txOptions = value;
+	}
 
-    /**
-     * Gets the value of the radius property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getRadius() {
-        return radius;
-    }
+	/**
+	 * Gets the value of the radius property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getRadius() {
+		return radius;
+	}
 
-    /**
-     * Sets the value of the radius property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setRadius(Short value) {
-        this.radius = value;
-    }
+	/**
+	 * Sets the value of the radius property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setRadius(Short value) {
+		this.radius = value;
+	}
 
-    /**
-     * Gets the value of the clusterID property.
-     * 
-     */
-    public int getClusterID() {
-        return clusterID;
-    }
+	/**
+	 * Gets the value of the clusterID property.
+	 * 
+	 */
+	public int getClusterID() {
+		return clusterID;
+	}
 
-    /**
-     * Sets the value of the clusterID property.
-     * 
-     */
-    public void setClusterID(int value) {
-        this.clusterID = value;
-    }
+	/**
+	 * Sets the value of the clusterID property.
+	 * 
+	 */
+	public void setClusterID(int value) {
+		this.clusterID = value;
+	}
 
-    /**
-     * Gets the value of the command property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public byte[] getCommand() {
-        return command;
-    }
+	/**
+	 * Gets the value of the command property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public byte[] getCommand() {
+		return command;
+	}
 
-    /**
-     * Sets the value of the command property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCommand(byte[] value) {
-        this.command = ((byte[]) value);
-    }
+	/**
+	 * Sets the value of the command property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setCommand(byte[] value) {
+		this.command = ((byte[]) value);
+	}
 
-    /**
-     * Gets the value of the destinationAddrMode property.
-     * 
-     */
-    public long getDestinationAddrMode() {
-        return destinationAddrMode;
-    }
+	/**
+	 * Gets the value of the destinationAddrMode property.
+	 * 
+	 */
+	public long getDestinationAddrMode() {
+		return destinationAddrMode;
+	}
 
-    /**
-     * Sets the value of the destinationAddrMode property.
-     * 
-     */
-    public void setDestinationAddrMode(long value) {
-        this.destinationAddrMode = value;
-    }
+	/**
+	 * Sets the value of the destinationAddrMode property.
+	 * 
+	 */
+	public void setDestinationAddrMode(long value) {
+		this.destinationAddrMode = value;
+	}
 
 }

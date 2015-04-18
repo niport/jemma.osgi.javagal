@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -32,11 +31,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Group complex type.
+ * <p>
+ * Java class for Group complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="Group">
@@ -54,60 +55,57 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Group", propOrder = {
-    "groupAddress",
-    "endpoint"
-})
+@XmlType(name = "Group", propOrder = { "groupAddress", "endpoint" })
 public class Group implements Serializable {
 
-    @XmlElement(name = "GroupAddress")
-    protected int groupAddress;
-    @XmlElement(name = "Endpoint", type = Short.class)
-    protected List<Short> endpoint;
+	@XmlElement(name = "GroupAddress")
+	protected int groupAddress;
+	@XmlElement(name = "Endpoint", type = Short.class)
+	protected List<Short> endpoint;
 
-    /**
-     * Gets the value of the groupAddress property.
-     * 
-     */
-    public int getGroupAddress() {
-        return groupAddress;
-    }
+	/**
+	 * Gets the value of the groupAddress property.
+	 * 
+	 */
+	public int getGroupAddress() {
+		return groupAddress;
+	}
 
-    /**
-     * Sets the value of the groupAddress property.
-     * 
-     */
-    public void setGroupAddress(int value) {
-        this.groupAddress = value;
-    }
+	/**
+	 * Sets the value of the groupAddress property.
+	 * 
+	 */
+	public void setGroupAddress(int value) {
+		this.groupAddress = value;
+	}
 
-    /**
-     * Gets the value of the endpoint property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the endpoint property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEndpoint().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Short }
-     * 
-     * 
-     */
-    public List<Short> getEndpoint() {
-        if (endpoint == null) {
-            endpoint = new ArrayList<Short>();
-        }
-        return this.endpoint;
-    }
+	/**
+	 * Gets the value of the endpoint property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the endpoint property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getEndpoint().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Short }
+	 * 
+	 * 
+	 */
+	public List<Short> getEndpoint() {
+		if (endpoint == null) {
+			endpoint = new ArrayList<Short>();
+		}
+		return this.endpoint;
+	}
 
 }

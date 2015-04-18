@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Device complex type.
+ * <p>
+ * Java class for Device complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="Device">
@@ -53,55 +54,49 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Device", propOrder = {
-    "address",
-    "endpoint"
-})
+@XmlType(name = "Device", propOrder = { "address", "endpoint" })
 public class Device implements Serializable {
 
-    @XmlElement(name = "Address", required = true)
-    protected BigInteger address;
-    @XmlElement(name = "Endpoint")
-    protected short endpoint;
+	@XmlElement(name = "Address", required = true)
+	protected BigInteger address;
+	@XmlElement(name = "Endpoint")
+	protected short endpoint;
 
-    /**
-     * Gets the value of the address property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getAddress() {
-        return address;
-    }
+	/**
+	 * Gets the value of the address property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getAddress() {
+		return address;
+	}
 
-    /**
-     * Sets the value of the address property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setAddress(BigInteger value) {
-        this.address = value;
-    }
+	/**
+	 * Sets the value of the address property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setAddress(BigInteger value) {
+		this.address = value;
+	}
 
-    /**
-     * Gets the value of the endpoint property.
-     * 
-     */
-    public short getEndpoint() {
-        return endpoint;
-    }
+	/**
+	 * Gets the value of the endpoint property.
+	 * 
+	 */
+	public short getEndpoint() {
+		return endpoint;
+	}
 
-    /**
-     * Sets the value of the endpoint property.
-     * 
-     */
-    public void setEndpoint(short value) {
-        this.endpoint = value;
-    }
+	/**
+	 * Sets the value of the endpoint property.
+	 * 
+	 */
+	public void setEndpoint(short value) {
+		this.endpoint = value;
+	}
 
 }

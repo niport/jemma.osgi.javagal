@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for PowerSources complex type.
+ * <p>
+ * Java class for PowerSources complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="PowerSources">
@@ -53,66 +54,62 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PowerSources", propOrder = {
-    "constantMains",
-    "rechargeableBattery",
-    "disposableBattery"
-})
-public class PowerSources implements Serializable{
+@XmlType(name = "PowerSources", propOrder = { "constantMains", "rechargeableBattery", "disposableBattery" })
+public class PowerSources implements Serializable {
 
-    @XmlElement(name = "ConstantMains")
-    protected boolean constantMains;
-    @XmlElement(name = "RechargeableBattery")
-    protected boolean rechargeableBattery;
-    @XmlElement(name = "DisposableBattery")
-    protected boolean disposableBattery;
+	@XmlElement(name = "ConstantMains")
+	protected boolean constantMains;
+	@XmlElement(name = "RechargeableBattery")
+	protected boolean rechargeableBattery;
+	@XmlElement(name = "DisposableBattery")
+	protected boolean disposableBattery;
 
-    /**
-     * Gets the value of the constantMains property.
-     * 
-     */
-    public boolean isConstantMains() {
-        return constantMains;
-    }
+	/**
+	 * Gets the value of the constantMains property.
+	 * 
+	 */
+	public boolean isConstantMains() {
+		return constantMains;
+	}
 
-    /**
-     * Sets the value of the constantMains property.
-     * 
-     */
-    public void setConstantMains(boolean value) {
-        this.constantMains = value;
-    }
+	/**
+	 * Sets the value of the constantMains property.
+	 * 
+	 */
+	public void setConstantMains(boolean value) {
+		this.constantMains = value;
+	}
 
-    /**
-     * Gets the value of the rechargeableBattery property.
-     * 
-     */
-    public boolean isRechargeableBattery() {
-        return rechargeableBattery;
-    }
+	/**
+	 * Gets the value of the rechargeableBattery property.
+	 * 
+	 */
+	public boolean isRechargeableBattery() {
+		return rechargeableBattery;
+	}
 
-    /**
-     * Sets the value of the rechargeableBattery property.
-     * 
-     */
-    public void setRechargeableBattery(boolean value) {
-        this.rechargeableBattery = value;
-    }
+	/**
+	 * Sets the value of the rechargeableBattery property.
+	 * 
+	 */
+	public void setRechargeableBattery(boolean value) {
+		this.rechargeableBattery = value;
+	}
 
-    /**
-     * Gets the value of the disposableBattery property.
-     * 
-     */
-    public boolean isDisposableBattery() {
-        return disposableBattery;
-    }
+	/**
+	 * Gets the value of the disposableBattery property.
+	 * 
+	 */
+	public boolean isDisposableBattery() {
+		return disposableBattery;
+	}
 
-    /**
-     * Sets the value of the disposableBattery property.
-     * 
-     */
-    public void setDisposableBattery(boolean value) {
-        this.disposableBattery = value;
-    }
+	/**
+	 * Sets the value of the disposableBattery property.
+	 * 
+	 */
+	public void setDisposableBattery(boolean value) {
+		this.disposableBattery = value;
+	}
 
 }

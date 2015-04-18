@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for NWKMessage complex type.
+ * <p>
+ * Java class for NWKMessage complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NWKMessage">
@@ -62,204 +63,188 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NWKMessage", propOrder = {
-    "dstAddressMode",
-    "destination",
-    "nsdu",
-    "nsduHandle",
-    "radius",
-    "nonmemberRadius",
-    "discoverRoute",
-    "securityEnable",
-    "nsduLength"
-})
-public class NWKMessage implements Serializable{
+@XmlType(name = "NWKMessage", propOrder = { "dstAddressMode", "destination", "nsdu", "nsduHandle", "radius", "nonmemberRadius", "discoverRoute", "securityEnable", "nsduLength" })
+public class NWKMessage implements Serializable {
 
-    @XmlElement(name = "DstAddressMode")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short dstAddressMode;
-    @XmlElement(name = "Destination", required = true)
-    protected Address destination;
-    @XmlElement(name = "Nsdu", required = true, type = String.class)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    protected byte[] nsdu;
-    @XmlElement(name = "NsduHandle")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short nsduHandle;
-    @XmlElement(name = "Radius")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short radius;
-    @XmlElement(name = "NonmemberRadius")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short nonmemberRadius;
-    @XmlElement(name = "DiscoverRoute")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short discoverRoute;
-    @XmlElement(name = "SecurityEnable")
-    protected boolean securityEnable;
-    @XmlElement(name = "NsduLength")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long nsduLength;
+	@XmlElement(name = "DstAddressMode")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short dstAddressMode;
+	@XmlElement(name = "Destination", required = true)
+	protected Address destination;
+	@XmlElement(name = "Nsdu", required = true, type = String.class)
+	@XmlJavaTypeAdapter(HexBinaryAdapter.class)
+	@XmlSchemaType(name = "hexBinary")
+	protected byte[] nsdu;
+	@XmlElement(name = "NsduHandle")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short nsduHandle;
+	@XmlElement(name = "Radius")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short radius;
+	@XmlElement(name = "NonmemberRadius")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short nonmemberRadius;
+	@XmlElement(name = "DiscoverRoute")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short discoverRoute;
+	@XmlElement(name = "SecurityEnable")
+	protected boolean securityEnable;
+	@XmlElement(name = "NsduLength")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long nsduLength;
 
-    /**
-     * Gets the value of the dstAddressMode property.
-     * 
-     */
-    public short getDstAddressMode() {
-        return dstAddressMode;
-    }
+	/**
+	 * Gets the value of the dstAddressMode property.
+	 * 
+	 */
+	public short getDstAddressMode() {
+		return dstAddressMode;
+	}
 
-    /**
-     * Sets the value of the dstAddressMode property.
-     * 
-     */
-    public void setDstAddressMode(short value) {
-        this.dstAddressMode = value;
-    }
+	/**
+	 * Sets the value of the dstAddressMode property.
+	 * 
+	 */
+	public void setDstAddressMode(short value) {
+		this.dstAddressMode = value;
+	}
 
-    /**
-     * Gets the value of the destination property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getDestination() {
-        return destination;
-    }
+	/**
+	 * Gets the value of the destination property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getDestination() {
+		return destination;
+	}
 
-    /**
-     * Sets the value of the destination property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setDestination(Address value) {
-        this.destination = value;
-    }
+	/**
+	 * Sets the value of the destination property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setDestination(Address value) {
+		this.destination = value;
+	}
 
-    /**
-     * Gets the value of the nsdu property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public byte[] getNsdu() {
-        return nsdu;
-    }
+	/**
+	 * Gets the value of the nsdu property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public byte[] getNsdu() {
+		return nsdu;
+	}
 
-    /**
-     * Sets the value of the nsdu property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNsdu(byte[] value) {
-        this.nsdu = ((byte[]) value);
-    }
+	/**
+	 * Sets the value of the nsdu property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setNsdu(byte[] value) {
+		this.nsdu = ((byte[]) value);
+	}
 
-    /**
-     * Gets the value of the nsduHandle property.
-     * 
-     */
-    public short getNsduHandle() {
-        return nsduHandle;
-    }
+	/**
+	 * Gets the value of the nsduHandle property.
+	 * 
+	 */
+	public short getNsduHandle() {
+		return nsduHandle;
+	}
 
-    /**
-     * Sets the value of the nsduHandle property.
-     * 
-     */
-    public void setNsduHandle(short value) {
-        this.nsduHandle = value;
-    }
+	/**
+	 * Sets the value of the nsduHandle property.
+	 * 
+	 */
+	public void setNsduHandle(short value) {
+		this.nsduHandle = value;
+	}
 
-    /**
-     * Gets the value of the radius property.
-     * 
-     */
-    public short getRadius() {
-        return radius;
-    }
+	/**
+	 * Gets the value of the radius property.
+	 * 
+	 */
+	public short getRadius() {
+		return radius;
+	}
 
-    /**
-     * Sets the value of the radius property.
-     * 
-     */
-    public void setRadius(short value) {
-        this.radius = value;
-    }
+	/**
+	 * Sets the value of the radius property.
+	 * 
+	 */
+	public void setRadius(short value) {
+		this.radius = value;
+	}
 
-    /**
-     * Gets the value of the nonmemberRadius property.
-     * 
-     */
-    public short getNonmemberRadius() {
-        return nonmemberRadius;
-    }
+	/**
+	 * Gets the value of the nonmemberRadius property.
+	 * 
+	 */
+	public short getNonmemberRadius() {
+		return nonmemberRadius;
+	}
 
-    /**
-     * Sets the value of the nonmemberRadius property.
-     * 
-     */
-    public void setNonmemberRadius(short value) {
-        this.nonmemberRadius = value;
-    }
+	/**
+	 * Sets the value of the nonmemberRadius property.
+	 * 
+	 */
+	public void setNonmemberRadius(short value) {
+		this.nonmemberRadius = value;
+	}
 
-    /**
-     * Gets the value of the discoverRoute property.
-     * 
-     */
-    public short getDiscoverRoute() {
-        return discoverRoute;
-    }
+	/**
+	 * Gets the value of the discoverRoute property.
+	 * 
+	 */
+	public short getDiscoverRoute() {
+		return discoverRoute;
+	}
 
-    /**
-     * Sets the value of the discoverRoute property.
-     * 
-     */
-    public void setDiscoverRoute(short value) {
-        this.discoverRoute = value;
-    }
+	/**
+	 * Sets the value of the discoverRoute property.
+	 * 
+	 */
+	public void setDiscoverRoute(short value) {
+		this.discoverRoute = value;
+	}
 
-    /**
-     * Gets the value of the securityEnable property.
-     * 
-     */
-    public boolean isSecurityEnable() {
-        return securityEnable;
-    }
+	/**
+	 * Gets the value of the securityEnable property.
+	 * 
+	 */
+	public boolean isSecurityEnable() {
+		return securityEnable;
+	}
 
-    /**
-     * Sets the value of the securityEnable property.
-     * 
-     */
-    public void setSecurityEnable(boolean value) {
-        this.securityEnable = value;
-    }
+	/**
+	 * Sets the value of the securityEnable property.
+	 * 
+	 */
+	public void setSecurityEnable(boolean value) {
+		this.securityEnable = value;
+	}
 
-    /**
-     * Gets the value of the nsduLength property.
-     * 
-     */
-    public long getNsduLength() {
-        return nsduLength;
-    }
+	/**
+	 * Gets the value of the nsduLength property.
+	 * 
+	 */
+	public long getNsduLength() {
+		return nsduLength;
+	}
 
-    /**
-     * Sets the value of the nsduLength property.
-     * 
-     */
-    public void setNsduLength(long value) {
-        this.nsduLength = value;
-    }
+	/**
+	 * Sets the value of the nsduLength property.
+	 * 
+	 */
+	public void setNsduLength(long value) {
+		this.nsduLength = value;
+	}
 
 }

@@ -15,7 +15,6 @@
  */
 package org.energy_home.jemma.javagal.layers.data.interfaces;
 
-
 import java.io.IOException;
 
 import jssc.SerialPortException;
@@ -24,9 +23,10 @@ import org.energy_home.jemma.javagal.layers.object.ByteArrayObject;
 
 /**
  * Interface for all serial implementation of the FlexGrid key (jssc and RxTx).
- * @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public interface IConnector {
 	/**
@@ -66,7 +66,7 @@ public interface IConnector {
 	 * 
 	 * @throws IOException
 	 *             if an error occurs in disconnection phase.
-	 * @throws SerialPortException 
+	 * @throws SerialPortException
 	 */
 	public void disconnect() throws IOException, SerialPortException;
 }
