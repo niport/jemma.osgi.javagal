@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -32,11 +31,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for JoinConfiguration complex type.
+ * <p>
+ * Java class for JoinConfiguration complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="JoinConfiguration">
@@ -58,141 +59,128 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "JoinConfiguration", propOrder = {
-    "extendedPanId",
-    "rejoinNetwork",
-    "scanChannel",
-    "scanDuration",
-    "capabilityInformation",
-    "securityEnable"
-})
+@XmlType(name = "JoinConfiguration", propOrder = { "extendedPanId", "rejoinNetwork", "scanChannel", "scanDuration", "capabilityInformation", "securityEnable" })
 public class JoinConfiguration implements Serializable {
 
-    @XmlElement(name = "ExtendedPanId", required = true)
-    protected BigInteger extendedPanId;
-    @XmlElement(name = "RejoinNetwork")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short rejoinNetwork;
-    @XmlElement(name = "ScanChannel")
-    protected long scanChannel;
-    @XmlElement(name = "ScanDuration")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short scanDuration;
-    @XmlElement(name = "CapabilityInformation", required = true)
-    protected MACCapability capabilityInformation;
-    @XmlElement(name = "SecurityEnable")
-    protected boolean securityEnable;
+	@XmlElement(name = "ExtendedPanId", required = true)
+	protected BigInteger extendedPanId;
+	@XmlElement(name = "RejoinNetwork")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short rejoinNetwork;
+	@XmlElement(name = "ScanChannel")
+	protected long scanChannel;
+	@XmlElement(name = "ScanDuration")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short scanDuration;
+	@XmlElement(name = "CapabilityInformation", required = true)
+	protected MACCapability capabilityInformation;
+	@XmlElement(name = "SecurityEnable")
+	protected boolean securityEnable;
 
-    /**
-     * Gets the value of the extendedPanId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getExtendedPanId() {
-        return extendedPanId;
-    }
+	/**
+	 * Gets the value of the extendedPanId property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getExtendedPanId() {
+		return extendedPanId;
+	}
 
-    /**
-     * Sets the value of the extendedPanId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setExtendedPanId(BigInteger value) {
-        this.extendedPanId = value;
-    }
+	/**
+	 * Sets the value of the extendedPanId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setExtendedPanId(BigInteger value) {
+		this.extendedPanId = value;
+	}
 
-    /**
-     * Gets the value of the rejoinNetwork property.
-     * 
-     */
-    public short getRejoinNetwork() {
-        return rejoinNetwork;
-    }
+	/**
+	 * Gets the value of the rejoinNetwork property.
+	 * 
+	 */
+	public short getRejoinNetwork() {
+		return rejoinNetwork;
+	}
 
-    /**
-     * Sets the value of the rejoinNetwork property.
-     * 
-     */
-    public void setRejoinNetwork(short value) {
-        this.rejoinNetwork = value;
-    }
+	/**
+	 * Sets the value of the rejoinNetwork property.
+	 * 
+	 */
+	public void setRejoinNetwork(short value) {
+		this.rejoinNetwork = value;
+	}
 
-    /**
-     * Gets the value of the scanChannel property.
-     * 
-     */
-    public long getScanChannel() {
-        return scanChannel;
-    }
+	/**
+	 * Gets the value of the scanChannel property.
+	 * 
+	 */
+	public long getScanChannel() {
+		return scanChannel;
+	}
 
-    /**
-     * Sets the value of the scanChannel property.
-     * 
-     */
-    public void setScanChannel(long value) {
-        this.scanChannel = value;
-    }
+	/**
+	 * Sets the value of the scanChannel property.
+	 * 
+	 */
+	public void setScanChannel(long value) {
+		this.scanChannel = value;
+	}
 
-    /**
-     * Gets the value of the scanDuration property.
-     * 
-     */
-    public short getScanDuration() {
-        return scanDuration;
-    }
+	/**
+	 * Gets the value of the scanDuration property.
+	 * 
+	 */
+	public short getScanDuration() {
+		return scanDuration;
+	}
 
-    /**
-     * Sets the value of the scanDuration property.
-     * 
-     */
-    public void setScanDuration(short value) {
-        this.scanDuration = value;
-    }
+	/**
+	 * Sets the value of the scanDuration property.
+	 * 
+	 */
+	public void setScanDuration(short value) {
+		this.scanDuration = value;
+	}
 
-    /**
-     * Gets the value of the capabilityInformation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link MACCapability }
-     *     
-     */
-    public MACCapability getCapabilityInformation() {
-        return capabilityInformation;
-    }
+	/**
+	 * Gets the value of the capabilityInformation property.
+	 * 
+	 * @return possible object is {@link MACCapability }
+	 * 
+	 */
+	public MACCapability getCapabilityInformation() {
+		return capabilityInformation;
+	}
 
-    /**
-     * Sets the value of the capabilityInformation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link MACCapability }
-     *     
-     */
-    public void setCapabilityInformation(MACCapability value) {
-        this.capabilityInformation = value;
-    }
+	/**
+	 * Sets the value of the capabilityInformation property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link MACCapability }
+	 * 
+	 */
+	public void setCapabilityInformation(MACCapability value) {
+		this.capabilityInformation = value;
+	}
 
-    /**
-     * Gets the value of the securityEnable property.
-     * 
-     */
-    public boolean isSecurityEnable() {
-        return securityEnable;
-    }
+	/**
+	 * Gets the value of the securityEnable property.
+	 * 
+	 */
+	public boolean isSecurityEnable() {
+		return securityEnable;
+	}
 
-    /**
-     * Sets the value of the securityEnable property.
-     * 
-     */
-    public void setSecurityEnable(boolean value) {
-        this.securityEnable = value;
-    }
+	/**
+	 * Sets the value of the securityEnable property.
+	 * 
+	 */
+	public void setSecurityEnable(boolean value) {
+		this.securityEnable = value;
+	}
 
 }

@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -32,11 +31,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for NeighborList complex type.
+ * <p>
+ * Java class for NeighborList complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NeighborList">
@@ -53,41 +54,39 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NeighborList", propOrder = {
-    "neighbor"
-})
-public class NeighborList implements Serializable{
+@XmlType(name = "NeighborList", propOrder = { "neighbor" })
+public class NeighborList implements Serializable {
 
-    @XmlElement(name = "Neighbor")
-    protected List<Neighbor> neighbor;
+	@XmlElement(name = "Neighbor")
+	protected List<Neighbor> neighbor;
 
-    /**
-     * Gets the value of the neighbor property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the neighbor property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getNeighbor().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Neighbor }
-     * 
-     * 
-     */
-    public List<Neighbor> getNeighbor() {
-        if (neighbor == null) {
-            neighbor = new ArrayList<Neighbor>();
-        }
-        return this.neighbor;
-    }
+	/**
+	 * Gets the value of the neighbor property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the neighbor property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getNeighbor().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Neighbor }
+	 * 
+	 * 
+	 */
+	public List<Neighbor> getNeighbor() {
+		if (neighbor == null) {
+			neighbor = new ArrayList<Neighbor>();
+		}
+		return this.neighbor;
+	}
 
 }

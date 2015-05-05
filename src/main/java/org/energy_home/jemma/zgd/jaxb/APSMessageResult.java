@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for APSMessageResult complex type.
+ * <p>
+ * Java class for APSMessageResult complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="APSMessageResult">
@@ -53,48 +54,45 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "APSMessageResult", propOrder = {
-    "confirmStatus",
-    "txTime"
-})
+@XmlType(name = "APSMessageResult", propOrder = { "confirmStatus", "txTime" })
 public class APSMessageResult implements Serializable {
 
-    @XmlElement(name = "ConfirmStatus")
-    @XmlSchemaType(name = "unsignedShort")
-    protected int confirmStatus;
-    @XmlElement(name = "TxTime")
-    protected long txTime;
+	@XmlElement(name = "ConfirmStatus")
+	@XmlSchemaType(name = "unsignedShort")
+	protected int confirmStatus;
+	@XmlElement(name = "TxTime")
+	protected long txTime;
 
-    /**
-     * Gets the value of the confirmStatus property.
-     * 
-     */
-    public int getConfirmStatus() {
-        return confirmStatus;
-    }
+	/**
+	 * Gets the value of the confirmStatus property.
+	 * 
+	 */
+	public int getConfirmStatus() {
+		return confirmStatus;
+	}
 
-    /**
-     * Sets the value of the confirmStatus property.
-     * 
-     */
-    public void setConfirmStatus(int value) {
-        this.confirmStatus = value;
-    }
+	/**
+	 * Sets the value of the confirmStatus property.
+	 * 
+	 */
+	public void setConfirmStatus(int value) {
+		this.confirmStatus = value;
+	}
 
-    /**
-     * Gets the value of the txTime property.
-     * 
-     */
-    public long getTxTime() {
-        return txTime;
-    }
+	/**
+	 * Gets the value of the txTime property.
+	 * 
+	 */
+	public long getTxTime() {
+		return txTime;
+	}
 
-    /**
-     * Sets the value of the txTime property.
-     * 
-     */
-    public void setTxTime(long value) {
-        this.txTime = value;
-    }
+	/**
+	 * Sets the value of the txTime property.
+	 * 
+	 */
+	public void setTxTime(long value) {
+		this.txTime = value;
+	}
 
 }

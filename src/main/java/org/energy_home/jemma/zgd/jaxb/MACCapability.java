@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for MACCapability complex type.
+ * <p>
+ * Java class for MACCapability complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="MACCapability">
@@ -56,123 +57,116 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MACCapability", propOrder = {
-    "alternatePanCoordinator",
-    "deviceIsFFD",
-    "mainsPowered",
-    "receiverOnWhenIdle",
-    "securitySupported",
-    "allocateAddress"
-})
-public class MACCapability implements Serializable{
+@XmlType(name = "MACCapability", propOrder = { "alternatePanCoordinator", "deviceIsFFD", "mainsPowered", "receiverOnWhenIdle", "securitySupported", "allocateAddress" })
+public class MACCapability implements Serializable {
 
-    @XmlElement(name = "AlternatePanCoordinator")
-    protected boolean alternatePanCoordinator;
-    @XmlElement(name = "DeviceIsFFD")
-    protected boolean deviceIsFFD;
-    @XmlElement(name = "MainsPowered")
-    protected boolean mainsPowered;
-    @XmlElement(name = "ReceiverOnWhenIdle")
-    protected boolean receiverOnWhenIdle;
-    @XmlElement(name = "SecuritySupported")
-    protected boolean securitySupported;
-    @XmlElement(name = "AllocateAddress")
-    protected boolean allocateAddress;
+	@XmlElement(name = "AlternatePanCoordinator")
+	protected boolean alternatePanCoordinator;
+	@XmlElement(name = "DeviceIsFFD")
+	protected boolean deviceIsFFD;
+	@XmlElement(name = "MainsPowered")
+	protected boolean mainsPowered;
+	@XmlElement(name = "ReceiverOnWhenIdle")
+	protected boolean receiverOnWhenIdle;
+	@XmlElement(name = "SecuritySupported")
+	protected boolean securitySupported;
+	@XmlElement(name = "AllocateAddress")
+	protected boolean allocateAddress;
 
-    /**
-     * Gets the value of the alternatePanCoordinator property.
-     * 
-     */
-    public boolean isAlternatePanCoordinator() {
-        return alternatePanCoordinator;
-    }
+	/**
+	 * Gets the value of the alternatePanCoordinator property.
+	 * 
+	 */
+	public boolean isAlternatePanCoordinator() {
+		return alternatePanCoordinator;
+	}
 
-    /**
-     * Sets the value of the alternatePanCoordinator property.
-     * 
-     */
-    public void setAlternatePanCoordinator(boolean value) {
-        this.alternatePanCoordinator = value;
-    }
+	/**
+	 * Sets the value of the alternatePanCoordinator property.
+	 * 
+	 */
+	public void setAlternatePanCoordinator(boolean value) {
+		this.alternatePanCoordinator = value;
+	}
 
-    /**
-     * Gets the value of the deviceIsFFD property.
-     * 
-     */
-    public boolean isDeviceIsFFD() {
-        return deviceIsFFD;
-    }
+	/**
+	 * Gets the value of the deviceIsFFD property.
+	 * 
+	 */
+	public boolean isDeviceIsFFD() {
+		return deviceIsFFD;
+	}
 
-    /**
-     * Sets the value of the deviceIsFFD property.
-     * 
-     */
-    public void setDeviceIsFFD(boolean value) {
-        this.deviceIsFFD = value;
-    }
+	/**
+	 * Sets the value of the deviceIsFFD property.
+	 * 
+	 */
+	public void setDeviceIsFFD(boolean value) {
+		this.deviceIsFFD = value;
+	}
 
-    /**
-     * Gets the value of the mainsPowered property.
-     * 
-     */
-    public boolean isMainsPowered() {
-        return mainsPowered;
-    }
+	/**
+	 * Gets the value of the mainsPowered property.
+	 * 
+	 */
+	public boolean isMainsPowered() {
+		return mainsPowered;
+	}
 
-    /**
-     * Sets the value of the mainsPowered property.
-     * 
-     */
-    public void setMainsPowered(boolean value) {
-        this.mainsPowered = value;
-    }
+	/**
+	 * Sets the value of the mainsPowered property.
+	 * 
+	 */
+	public void setMainsPowered(boolean value) {
+		this.mainsPowered = value;
+	}
 
-    /**
-     * Gets the value of the receiverOnWhenIdle property.
-     * 
-     */
-    public boolean isReceiverOnWhenIdle() {
-        return receiverOnWhenIdle;
-    }
+	/**
+	 * Gets the value of the receiverOnWhenIdle property.
+	 * 
+	 */
+	public boolean isReceiverOnWhenIdle() {
+		return receiverOnWhenIdle;
+	}
 
-    /**
-     * Sets the value of the receiverOnWhenIdle property.
-     * 
-     */
-    public void setReceiverOnWhenIdle(boolean value) {
-        this.receiverOnWhenIdle = value;
-    }
+	/**
+	 * Sets the value of the receiverOnWhenIdle property.
+	 * 
+	 */
+	public void setReceiverOnWhenIdle(boolean value) {
+		this.receiverOnWhenIdle = value;
+	}
 
-    /**
-     * Gets the value of the securitySupported property.
-     * 
-     */
-    public boolean isSecuritySupported() {
-        return securitySupported;
-    }
+	/**
+	 * Gets the value of the securitySupported property.
+	 * 
+	 */
+	public boolean isSecuritySupported() {
+		return securitySupported;
+	}
 
-    /**
-     * Sets the value of the securitySupported property.
-     * 
-     */
-    public void setSecuritySupported(boolean value) {
-        this.securitySupported = value;
-    }
+	/**
+	 * Sets the value of the securitySupported property.
+	 * 
+	 */
+	public void setSecuritySupported(boolean value) {
+		this.securitySupported = value;
+	}
 
-    /**
-     * Gets the value of the allocateAddress property.
-     * 
-     */
-    public boolean isAllocateAddress() {
-        return allocateAddress;
-    }
+	/**
+	 * Gets the value of the allocateAddress property.
+	 * 
+	 */
+	public boolean isAllocateAddress() {
+		return allocateAddress;
+	}
 
-    /**
-     * Sets the value of the allocateAddress property.
-     * 
-     */
-    public void setAllocateAddress(boolean value) {
-        this.allocateAddress = value;
-    }
+	/**
+	 * Sets the value of the allocateAddress property.
+	 * 
+	 */
+	public void setAllocateAddress(boolean value) {
+		this.allocateAddress = value;
+	}
 
 }

@@ -406,13 +406,12 @@ public class GatewayEventManager implements IGatewayEventManager {
 	 * {@inheritDoc}
 	 */
 	public void nodeDiscovered(final Status status, final WSNNode node) throws Exception {
-		
-		
+
 		executor.execute(new Runnable() {
 			public void run() {
 				for (GatewayDeviceEventEntry<?> gl : getGal().getListGatewayEventListener()) {
 					{
-						
+
 						boolean _ReportOnExistingNodes = ((gl.getDiscoveryMask() & DISCOVERY_FRESHNESS) != 0);
 						boolean _ReportAnnouncements = ((gl.getDiscoveryMask() & DISCOVERY_ANNOUNCEMENTS) != 0);
 						if (_ReportOnExistingNodes || _ReportAnnouncements) {
@@ -432,7 +431,6 @@ public class GatewayEventManager implements IGatewayEventManager {
 			}
 
 		});
-		
 
 	}
 
@@ -440,7 +438,7 @@ public class GatewayEventManager implements IGatewayEventManager {
 	 * {@inheritDoc}
 	 */
 	public void nodeRemoved(final Status status, final WSNNode node) throws Exception {
-		LOG.debug("\n\rNodeRemoved :" + String.format("%04X", node.getAddress().getNetworkAddress())  + "\n\r");
+		LOG.debug("\n\rNodeRemoved :" + String.format("%04X", node.getAddress().getNetworkAddress()) + "\n\r");
 
 		executor.execute(new Runnable() {
 			public void run() {

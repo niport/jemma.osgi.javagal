@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for WSNNode complex type.
+ * <p>
+ * Java class for WSNNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="WSNNode">
@@ -58,142 +59,128 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WSNNode", propOrder = {
-    "address",
-    "parentAddress",
-    "startIndex",
-    "associatedDevices",
-    "capabilityInformation"
-})
+@XmlType(name = "WSNNode", propOrder = { "address", "parentAddress", "startIndex", "associatedDevices", "capabilityInformation" })
 public class WSNNode implements Serializable {
 
-    @XmlElement(name = "Address", required = true)
-    protected Address address;
-    @XmlElement(name = "ParentAddress")
-    protected Address parentAddress;
-    @XmlElement(name = "StartIndex")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long startIndex;
-    @XmlElement(name = "AssociatedDevices")
-    protected List<AssociatedDevices> associatedDevices;
-    @XmlElement(name = "CapabilityInformation")
-    protected MACCapability capabilityInformation;
+	@XmlElement(name = "Address", required = true)
+	protected Address address;
+	@XmlElement(name = "ParentAddress")
+	protected Address parentAddress;
+	@XmlElement(name = "StartIndex")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long startIndex;
+	@XmlElement(name = "AssociatedDevices")
+	protected List<AssociatedDevices> associatedDevices;
+	@XmlElement(name = "CapabilityInformation")
+	protected MACCapability capabilityInformation;
 
-    /**
-     * Gets the value of the address property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getAddress() {
-        return address;
-    }
+	/**
+	 * Gets the value of the address property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getAddress() {
+		return address;
+	}
 
-    /**
-     * Sets the value of the address property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setAddress(Address value) {
-        this.address = value;
-    }
+	/**
+	 * Sets the value of the address property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setAddress(Address value) {
+		this.address = value;
+	}
 
-    /**
-     * Gets the value of the parentAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getParentAddress() {
-        return parentAddress;
-    }
+	/**
+	 * Gets the value of the parentAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getParentAddress() {
+		return parentAddress;
+	}
 
-    /**
-     * Sets the value of the parentAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setParentAddress(Address value) {
-        this.parentAddress = value;
-    }
+	/**
+	 * Sets the value of the parentAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setParentAddress(Address value) {
+		this.parentAddress = value;
+	}
 
-    /**
-     * Gets the value of the startIndex property.
-     * 
-     */
-    public long getStartIndex() {
-        return startIndex;
-    }
+	/**
+	 * Gets the value of the startIndex property.
+	 * 
+	 */
+	public long getStartIndex() {
+		return startIndex;
+	}
 
-    /**
-     * Sets the value of the startIndex property.
-     * 
-     */
-    public void setStartIndex(long value) {
-        this.startIndex = value;
-    }
+	/**
+	 * Sets the value of the startIndex property.
+	 * 
+	 */
+	public void setStartIndex(long value) {
+		this.startIndex = value;
+	}
 
-    /**
-     * Gets the value of the associatedDevices property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the associatedDevices property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAssociatedDevices().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AssociatedDevices }
-     * 
-     * 
-     */
-    public List<AssociatedDevices> getAssociatedDevices() {
-        if (associatedDevices == null) {
-            associatedDevices = new ArrayList<AssociatedDevices>();
-        }
-        return this.associatedDevices;
-    }
+	/**
+	 * Gets the value of the associatedDevices property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the associatedDevices property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getAssociatedDevices().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link AssociatedDevices }
+	 * 
+	 * 
+	 */
+	public List<AssociatedDevices> getAssociatedDevices() {
+		if (associatedDevices == null) {
+			associatedDevices = new ArrayList<AssociatedDevices>();
+		}
+		return this.associatedDevices;
+	}
 
-    /**
-     * Gets the value of the capabilityInformation property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link MACCapability }
-     *     
-     */
-    public MACCapability getCapabilityInformation() {
-        return capabilityInformation;
-    }
+	/**
+	 * Gets the value of the capabilityInformation property.
+	 * 
+	 * @return possible object is {@link MACCapability }
+	 * 
+	 */
+	public MACCapability getCapabilityInformation() {
+		return capabilityInformation;
+	}
 
-    /**
-     * Sets the value of the capabilityInformation property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link MACCapability }
-     *     
-     */
-    public void setCapabilityInformation(MACCapability value) {
-        this.capabilityInformation = value;
-    }
+	/**
+	 * Sets the value of the capabilityInformation property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link MACCapability }
+	 * 
+	 */
+	public void setCapabilityInformation(MACCapability value) {
+		this.capabilityInformation = value;
+	}
 
 }

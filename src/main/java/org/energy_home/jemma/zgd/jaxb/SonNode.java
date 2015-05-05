@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for SonNode complex type.
+ * <p>
+ * Java class for SonNode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="SonNode">
@@ -50,33 +51,30 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SonNode")
-public class SonNode implements Serializable{
+public class SonNode implements Serializable {
 
-    @XmlAttribute(name = "ShortAddr")
-    protected Integer shortAddr;
+	@XmlAttribute(name = "ShortAddr")
+	protected Integer shortAddr;
 
-    /**
-     * Gets the value of the shortAddr property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getShortAddr() {
-        return shortAddr;
-    }
+	/**
+	 * Gets the value of the shortAddr property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getShortAddr() {
+		return shortAddr;
+	}
 
-    /**
-     * Sets the value of the shortAddr property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setShortAddr(Integer value) {
-        this.shortAddr = value;
-    }
+	/**
+	 * Sets the value of the shortAddr property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setShortAddr(Integer value) {
+		this.shortAddr = value;
+	}
 
 }

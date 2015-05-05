@@ -19,9 +19,10 @@ import java.util.Properties;
 
 /**
  * Gateway Properties class.
- * @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 @SuppressWarnings("serial")
 public class GatewayProperties extends Properties {
@@ -38,24 +39,23 @@ public class GatewayProperties extends Properties {
 	public static final String FACTORY_IMPLEMENTATION_CLASS = "it.telecomitalia.zgd.factory-implementation-class";
 	public static final String ENABLE_RESTLET_CONSOLE = "it.telecomitalia.zgd.enable-restlet-console";
 	public static final String CONNECTION_TIMEOUT = "it.telecomitalia.zgd.connection-timeout";
-	
-	/*Added by Marco*/
+
+	/* Added by Marco */
 	public static final String ZGD_DONGLE_URI_PROP_NAME = "zgd.dongle.uri";
 	public static final String ZGD_DONGLE_TYPE_PROP_NAME = "zgd.dongle.type";
 	public static final String ZGD_DONGLE_SPEED_PROP_NAME = "zgd.dongle.speed";
 	public static final String ZGD_GAL_ENABLE_LOG = "org.energy_home.jemma.javagal.debugEnabled";
 	public static final String ZGD_GAL_ENABLE_SERIAL_LOG = "org.energy_home.jemma.javagal.serialDataDebugEnabled";
-	
-	
+
 	/**
 	 * Creates a new instance setting up a set of initial properties for the
 	 * gateway.
-	 */	
+	 */
 	public GatewayProperties() {
 		// set default values
 		setProperty(FACTORY_IMPLEMENTATION_CLASS, "it.telecomitalia.zgd.impl.GatewayFactoryImpl");
 		setProperty(GATEWAY_NAMESPACE, "http://www.zigbee.org/GWGSchema");
-		setProperty(REST_NAMESPACE, "http://www.zigbee.org/GWGRESTSchema");		
+		setProperty(REST_NAMESPACE, "http://www.zigbee.org/GWGRESTSchema");
 		setProperty(GATEWAY_NAMESPACE_PREFIX, "cs");
 		setProperty(REST_NAMESPACE_PREFIX, "rs");
 		setProperty(GATEWAY_ROOT_URI, "http://localhost:9000");

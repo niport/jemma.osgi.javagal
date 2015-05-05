@@ -16,45 +16,44 @@
 package org.energy_home.jemma.zgd;
 
 /**
-* @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public interface GatewayConstants {
 	public static String GATEWAY_NAMESPACE = "http://www.zigbee.org/GWGSchema";
 	public static String REST_NAMESPACE = "http://www.zigbee.org/GWGRESTSchema";
 	public static String GATEWAY_NAMESPACE_PREFIX = "crt";
 	public static String REST_NAMESPACE_PREFIX = "tns";
-	
-	
+
 	public static final int DISCOVERY_STOP = 0;
 	public static final int DISCOVERY_INQUIRY = 1;
 	public static final int DISCOVERY_ANNOUNCEMENTS = 2;
 	public static final int DISCOVERY_LEAVE = 4;
 	public static final int DISCOVERY_LQI = 8;
 	public static final int DISCOVERY_FRESHNESS = 16;
-	
+
 	public static final int LEAVE_REMOVE_CHILDERN = 1;
-    public static final int LEAVE_REJOIN = 2;
-	
+	public static final int LEAVE_REJOIN = 2;
+
 	public static final short RESET_COMMISSIONING_ASSOCIATION = 0;
 	public static final short RESET_USE_NVMEMORY = 1;
 	public static final short RESET_COMMISSIONING_SILENTSTART = 2;
-	
-	
-	public final  int BROADCAST_ADDRESS = 0xffff;
+
+	public final int BROADCAST_ADDRESS = 0xffff;
 	public final int ROUTER_BROADCAST_ADDRESS = 0xfffc;
 	public final long INFINITE_TIMEOUT = 0xffffffffL;
-	
+
 	public static short PERMITJOIN_FOREVER = 0xff;
 	public static short PERMITJOIN_NEVER = 0;
-	
-	
-/*	PS Information Base
-	The APS information base comprises the attributes required to manage the APS
-	layer of a device. The attributes of the AIB are listed in Table 2.24. The security-
-	related AIB attributes are described in sub-clause 4.4.10.*/
-	
+
+	/*
+	 * PS Information Base The APS information base comprises the attributes
+	 * required to manage the APS layer of a device. The attributes of the AIB
+	 * are listed in Table 2.24. The security- related AIB attributes are
+	 * described in sub-clause 4.4.10.
+	 */
+
 	public static final short APS_BINDING_TABLE = 0xc1;
 	public static final int APS_DESIGNATED_COORDINATOR = 0xc2;
 	public static final int APS_CHANNEL_MASK = 0xc3; // 195
@@ -76,16 +75,11 @@ public interface GatewayConstants {
 	 * If this parameter is omitted then it is assumed that a binding table
 	 * entry exists in the GW that determines the destination.
 	 */
-	
+
 	public final static short ADDRESS_MODE_SHORT = 2;
 	public final static short EXTENDED_ADDRESS_MODE = 3;
 	public final static short ADDRESS_MODE_ALIAS = 16;
 
-	
-
-	
-	
-	
 	public static final int SUCCESS = 0;
 	public static final int TIMEOUT = 1;
 	public static final int GENERAL_ERROR = 2;

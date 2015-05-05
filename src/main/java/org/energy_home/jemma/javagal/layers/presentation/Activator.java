@@ -31,14 +31,14 @@ import org.slf4j.LoggerFactory;
 /**
  * Osgi Activator implementation.
  * 
- * @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class Activator implements BundleActivator {
 	private BundleContext bc;
 	private GalExtenderProxyFactory _fac = null;
-	private static final Logger LOG = LoggerFactory.getLogger( Activator.class );
+	private static final Logger LOG = LoggerFactory.getLogger(Activator.class);
 	private ServiceRegistration gatewayInterfaceRegistration;
 	private ServiceRegistration gatewayFactoryRegistration;
 
@@ -67,8 +67,6 @@ public class Activator implements BundleActivator {
 			if (context.getProperty(GatewayProperties.ZGD_GAL_ENABLE_SERIAL_LOG) != null)
 				PropertiesManager.props.setProperty("serialDataDebugEnabled", context.getProperty(GatewayProperties.ZGD_GAL_ENABLE_SERIAL_LOG));
 
-			
-			
 			if (_fac == null)
 				_fac = new GalExtenderProxyFactory(PropertiesManager);
 
@@ -80,15 +78,15 @@ public class Activator implements BundleActivator {
 
 			LOG.info("Gal:Osgi Started!");
 		} catch (Exception e) {
-			if (_fac!= null)
+			if (_fac != null)
 				_fac.destroyGal();
-			LOG.error("Error Creating Gal Osgi",e);
-			
+			LOG.error("Error Creating Gal Osgi", e);
+
 		}
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
-		if (_fac != null){
+		if (_fac != null) {
 
 			_fac.destroyGal();
 		}
@@ -116,25 +114,23 @@ public class Activator implements BundleActivator {
 	public class GatewayInterfaceServiceFactory implements ServiceFactory {
 		GatewayInterface gatewayInterface = null;
 
-
 		public Object getService(Bundle bundle, ServiceRegistration reg) {
 			try {
 				gatewayInterface = _fac.createGatewayInterfaceObject();
 				LOG.info("Called getService!");
 				return gatewayInterface;
 			} catch (Exception e) {
-				LOG.error("Exception",e);
+				LOG.error("Exception", e);
 				return null;
 			}
 		}
 
-		
 		public void ungetService(Bundle bundle, ServiceRegistration reg, Object service) {
 			try {
 				((GalExtenderProxy) gatewayInterface).deleteProxy();
-				
+
 			} catch (Exception e) {
-				LOG.error("Error deleting proxy from GAL",e);
+				LOG.error("Error deleting proxy from GAL", e);
 			}
 
 			LOG.info("Called UngetService!");
@@ -148,17 +144,15 @@ public class Activator implements BundleActivator {
 	 */
 	public class GatewayFactoryServiceFactory implements ServiceFactory {
 
-		
 		public Object getService(Bundle bundle, ServiceRegistration reg) {
 			try {
 				return _fac;
 			} catch (Exception e) {
-				LOG.error("Exception",e);
+				LOG.error("Exception", e);
 				return null;
 			}
 		}
 
-		
 		public void ungetService(Bundle bundle, ServiceRegistration reg, Object service) {
 
 		}

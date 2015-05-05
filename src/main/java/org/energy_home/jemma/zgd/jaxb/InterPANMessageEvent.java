@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for InterPANMessageEvent complex type.
+ * <p>
+ * Java class for InterPANMessageEvent complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="InterPANMessageEvent">
@@ -65,291 +66,261 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "InterPANMessageEvent", propOrder = {
-    "callbackIdentifier",
-    "srcAddressMode",
-    "srcAddress",
-    "dstAddressMode",
-    "dstAddress",
-    "srcPANID",
-    "dstPANID",
-    "profileID",
-    "clusterID",
-    "asduLength",
-    "asdu",
-    "linkQuality"
-})
+@XmlType(name = "InterPANMessageEvent", propOrder = { "callbackIdentifier", "srcAddressMode", "srcAddress", "dstAddressMode", "dstAddress", "srcPANID", "dstPANID", "profileID",
+		"clusterID", "asduLength", "asdu", "linkQuality" })
 public class InterPANMessageEvent implements Serializable {
 
-    @XmlElement(name = "CallbackIdentifier")
-    protected Long callbackIdentifier;
-    @XmlElement(name = "SrcAddressMode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long srcAddressMode;
-    @XmlElement(name = "SrcAddress", required = true)
-    protected Address srcAddress;
-    @XmlElement(name = "DstAddressMode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long dstAddressMode;
-    @XmlElement(name = "DstAddress", required = true)
-    protected Address dstAddress;
-    @XmlElement(name = "SrcPANID")
-    protected int srcPANID;
-    @XmlElement(name = "DstPANID")
-    protected int dstPANID;
-    @XmlElement(name = "ProfileID")
-    protected Integer profileID;
-    @XmlElement(name = "ClusterID")
-    protected int clusterID;
-    @XmlElement(name = "ASDULength")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long asduLength;
-    @XmlElement(name = "ASDU", required = true, type = String.class)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    protected byte[] asdu;
-    @XmlElement(name = "LinkQuality")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short linkQuality;
+	@XmlElement(name = "CallbackIdentifier")
+	protected Long callbackIdentifier;
+	@XmlElement(name = "SrcAddressMode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long srcAddressMode;
+	@XmlElement(name = "SrcAddress", required = true)
+	protected Address srcAddress;
+	@XmlElement(name = "DstAddressMode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long dstAddressMode;
+	@XmlElement(name = "DstAddress", required = true)
+	protected Address dstAddress;
+	@XmlElement(name = "SrcPANID")
+	protected int srcPANID;
+	@XmlElement(name = "DstPANID")
+	protected int dstPANID;
+	@XmlElement(name = "ProfileID")
+	protected Integer profileID;
+	@XmlElement(name = "ClusterID")
+	protected int clusterID;
+	@XmlElement(name = "ASDULength")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long asduLength;
+	@XmlElement(name = "ASDU", required = true, type = String.class)
+	@XmlJavaTypeAdapter(HexBinaryAdapter.class)
+	@XmlSchemaType(name = "hexBinary")
+	protected byte[] asdu;
+	@XmlElement(name = "LinkQuality")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short linkQuality;
 
-    /**
-     * Gets the value of the callbackIdentifier property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getCallbackIdentifier() {
-        return callbackIdentifier;
-    }
+	/**
+	 * Gets the value of the callbackIdentifier property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getCallbackIdentifier() {
+		return callbackIdentifier;
+	}
 
-    /**
-     * Sets the value of the callbackIdentifier property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setCallbackIdentifier(Long value) {
-        this.callbackIdentifier = value;
-    }
+	/**
+	 * Sets the value of the callbackIdentifier property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setCallbackIdentifier(Long value) {
+		this.callbackIdentifier = value;
+	}
 
-    /**
-     * Gets the value of the srcAddressMode property.
-     * 
-     */
-    public long getSrcAddressMode() {
-        return srcAddressMode;
-    }
+	/**
+	 * Gets the value of the srcAddressMode property.
+	 * 
+	 */
+	public long getSrcAddressMode() {
+		return srcAddressMode;
+	}
 
-    /**
-     * Sets the value of the srcAddressMode property.
-     * 
-     */
-    public void setSrcAddressMode(long value) {
-        this.srcAddressMode = value;
-    }
+	/**
+	 * Sets the value of the srcAddressMode property.
+	 * 
+	 */
+	public void setSrcAddressMode(long value) {
+		this.srcAddressMode = value;
+	}
 
-    /**
-     * Gets the value of the srcAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getSrcAddress() {
-        return srcAddress;
-    }
+	/**
+	 * Gets the value of the srcAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getSrcAddress() {
+		return srcAddress;
+	}
 
-    /**
-     * Sets the value of the srcAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setSrcAddress(Address value) {
-        this.srcAddress = value;
-    }
+	/**
+	 * Sets the value of the srcAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setSrcAddress(Address value) {
+		this.srcAddress = value;
+	}
 
-    /**
-     * Gets the value of the dstAddressMode property.
-     * 
-     */
-    public long getDstAddressMode() {
-        return dstAddressMode;
-    }
+	/**
+	 * Gets the value of the dstAddressMode property.
+	 * 
+	 */
+	public long getDstAddressMode() {
+		return dstAddressMode;
+	}
 
-    /**
-     * Sets the value of the dstAddressMode property.
-     * 
-     */
-    public void setDstAddressMode(long value) {
-        this.dstAddressMode = value;
-    }
+	/**
+	 * Sets the value of the dstAddressMode property.
+	 * 
+	 */
+	public void setDstAddressMode(long value) {
+		this.dstAddressMode = value;
+	}
 
-    /**
-     * Gets the value of the dstAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getDstAddress() {
-        return dstAddress;
-    }
+	/**
+	 * Gets the value of the dstAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getDstAddress() {
+		return dstAddress;
+	}
 
-    /**
-     * Sets the value of the dstAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setDstAddress(Address value) {
-        this.dstAddress = value;
-    }
+	/**
+	 * Sets the value of the dstAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setDstAddress(Address value) {
+		this.dstAddress = value;
+	}
 
-    /**
-     * Gets the value of the srcPANID property.
-     * 
-     */
-    public int getSrcPANID() {
-        return srcPANID;
-    }
+	/**
+	 * Gets the value of the srcPANID property.
+	 * 
+	 */
+	public int getSrcPANID() {
+		return srcPANID;
+	}
 
-    /**
-     * Sets the value of the srcPANID property.
-     * 
-     */
-    public void setSrcPANID(int value) {
-        this.srcPANID = value;
-    }
+	/**
+	 * Sets the value of the srcPANID property.
+	 * 
+	 */
+	public void setSrcPANID(int value) {
+		this.srcPANID = value;
+	}
 
-    /**
-     * Gets the value of the dstPANID property.
-     * 
-     */
-    public int getDstPANID() {
-        return dstPANID;
-    }
+	/**
+	 * Gets the value of the dstPANID property.
+	 * 
+	 */
+	public int getDstPANID() {
+		return dstPANID;
+	}
 
-    /**
-     * Sets the value of the dstPANID property.
-     * 
-     */
-    public void setDstPANID(int value) {
-        this.dstPANID = value;
-    }
+	/**
+	 * Sets the value of the dstPANID property.
+	 * 
+	 */
+	public void setDstPANID(int value) {
+		this.dstPANID = value;
+	}
 
-    /**
-     * Gets the value of the profileID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getProfileID() {
-        return profileID;
-    }
+	/**
+	 * Gets the value of the profileID property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getProfileID() {
+		return profileID;
+	}
 
-    /**
-     * Sets the value of the profileID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setProfileID(Integer value) {
-        this.profileID = value;
-    }
+	/**
+	 * Sets the value of the profileID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setProfileID(Integer value) {
+		this.profileID = value;
+	}
 
-    /**
-     * Gets the value of the clusterID property.
-     * 
-     */
-    public int getClusterID() {
-        return clusterID;
-    }
+	/**
+	 * Gets the value of the clusterID property.
+	 * 
+	 */
+	public int getClusterID() {
+		return clusterID;
+	}
 
-    /**
-     * Sets the value of the clusterID property.
-     * 
-     */
-    public void setClusterID(int value) {
-        this.clusterID = value;
-    }
+	/**
+	 * Sets the value of the clusterID property.
+	 * 
+	 */
+	public void setClusterID(int value) {
+		this.clusterID = value;
+	}
 
-    /**
-     * Gets the value of the asduLength property.
-     * 
-     */
-    public long getASDULength() {
-        return asduLength;
-    }
+	/**
+	 * Gets the value of the asduLength property.
+	 * 
+	 */
+	public long getASDULength() {
+		return asduLength;
+	}
 
-    /**
-     * Sets the value of the asduLength property.
-     * 
-     */
-    public void setASDULength(long value) {
-        this.asduLength = value;
-    }
+	/**
+	 * Sets the value of the asduLength property.
+	 * 
+	 */
+	public void setASDULength(long value) {
+		this.asduLength = value;
+	}
 
-    /**
-     * Gets the value of the asdu property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public byte[] getASDU() {
-        return asdu;
-    }
+	/**
+	 * Gets the value of the asdu property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public byte[] getASDU() {
+		return asdu;
+	}
 
-    /**
-     * Sets the value of the asdu property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setASDU(byte[] value) {
-        this.asdu = ((byte[]) value);
-    }
+	/**
+	 * Sets the value of the asdu property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setASDU(byte[] value) {
+		this.asdu = ((byte[]) value);
+	}
 
-    /**
-     * Gets the value of the linkQuality property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getLinkQuality() {
-        return linkQuality;
-    }
+	/**
+	 * Gets the value of the linkQuality property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getLinkQuality() {
+		return linkQuality;
+	}
 
-    /**
-     * Sets the value of the linkQuality property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setLinkQuality(Short value) {
-        this.linkQuality = value;
-    }
+	/**
+	 * Sets the value of the linkQuality property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setLinkQuality(Short value) {
+		this.linkQuality = value;
+	}
 
 }

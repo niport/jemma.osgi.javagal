@@ -101,7 +101,6 @@ public class ApsMessageManager {
 			public void run() {
 				LOG.debug("GAL-Aps Message Indication in process...");
 
-
 				for (CallbackEntry ce : getGal().getCallbacks()) {
 
 					Callback callback = ce.getCallback();
@@ -280,9 +279,11 @@ public class ApsMessageManager {
 							synchronized (message) {
 								cmessage = SerializationUtils.clone(message);
 							}
-							
-							LOG.debug("READY to CallBack NotifyApsMessage: {}",((cmessage.getDestinationAddress().getNetworkAddress() != null) ? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress()) : ""));
-							
+
+							LOG.debug("READY to CallBack NotifyApsMessage: {}",
+									((cmessage.getDestinationAddress().getNetworkAddress() != null) ? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress())
+											: ""));
+
 							napml.notifyAPSMessage(cmessage);
 						}
 						// Add it to the list of already notified

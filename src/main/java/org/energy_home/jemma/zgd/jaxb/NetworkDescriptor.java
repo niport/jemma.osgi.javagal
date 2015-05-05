@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -32,11 +31,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for NetworkDescriptor complex type.
+ * <p>
+ * Java class for NetworkDescriptor complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NetworkDescriptor">
@@ -62,280 +63,240 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NetworkDescriptor", propOrder = {
-    "extendedPanId",
-    "logicalChannel",
-    "stackProfile",
-    "zigBeeVersion",
-    "beaconOrder",
-    "superFrameOrder",
-    "permitJoining",
-    "routerCapacity",
-    "endDeviceCapacity",
-    "nwkRootURI"
-})
-public class NetworkDescriptor implements Serializable{
+@XmlType(name = "NetworkDescriptor", propOrder = { "extendedPanId", "logicalChannel", "stackProfile", "zigBeeVersion", "beaconOrder", "superFrameOrder", "permitJoining",
+		"routerCapacity", "endDeviceCapacity", "nwkRootURI" })
+public class NetworkDescriptor implements Serializable {
 
-    @XmlElement(name = "ExtendedPanId")
-    protected BigInteger extendedPanId;
-    @XmlElement(name = "LogicalChannel")
-    protected Integer logicalChannel;
-    @XmlElement(name = "StackProfile")
-    protected Short stackProfile;
-    @XmlElement(name = "ZigBeeVersion")
-    protected Short zigBeeVersion;
-    @XmlElement(name = "BeaconOrder")
-    protected Short beaconOrder;
-    @XmlElement(name = "SuperFrameOrder")
-    protected Short superFrameOrder;
-    @XmlElement(name = "PermitJoining")
-    protected Boolean permitJoining;
-    @XmlElement(name = "RouterCapacity")
-    protected Boolean routerCapacity;
-    @XmlElement(name = "EndDeviceCapacity")
-    protected Boolean endDeviceCapacity;
-    @XmlElement(name = "NWKRootURI")
-    @XmlSchemaType(name = "anyURI")
-    protected String nwkRootURI;
+	@XmlElement(name = "ExtendedPanId")
+	protected BigInteger extendedPanId;
+	@XmlElement(name = "LogicalChannel")
+	protected Integer logicalChannel;
+	@XmlElement(name = "StackProfile")
+	protected Short stackProfile;
+	@XmlElement(name = "ZigBeeVersion")
+	protected Short zigBeeVersion;
+	@XmlElement(name = "BeaconOrder")
+	protected Short beaconOrder;
+	@XmlElement(name = "SuperFrameOrder")
+	protected Short superFrameOrder;
+	@XmlElement(name = "PermitJoining")
+	protected Boolean permitJoining;
+	@XmlElement(name = "RouterCapacity")
+	protected Boolean routerCapacity;
+	@XmlElement(name = "EndDeviceCapacity")
+	protected Boolean endDeviceCapacity;
+	@XmlElement(name = "NWKRootURI")
+	@XmlSchemaType(name = "anyURI")
+	protected String nwkRootURI;
 
-    /**
-     * Gets the value of the extendedPanId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link BigInteger }
-     *     
-     */
-    public BigInteger getExtendedPanId() {
-        return extendedPanId;
-    }
+	/**
+	 * Gets the value of the extendedPanId property.
+	 * 
+	 * @return possible object is {@link BigInteger }
+	 * 
+	 */
+	public BigInteger getExtendedPanId() {
+		return extendedPanId;
+	}
 
-    /**
-     * Sets the value of the extendedPanId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link BigInteger }
-     *     
-     */
-    public void setExtendedPanId(BigInteger value) {
-        this.extendedPanId = value;
-    }
+	/**
+	 * Sets the value of the extendedPanId property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link BigInteger }
+	 * 
+	 */
+	public void setExtendedPanId(BigInteger value) {
+		this.extendedPanId = value;
+	}
 
-    /**
-     * Gets the value of the logicalChannel property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getLogicalChannel() {
-        return logicalChannel;
-    }
+	/**
+	 * Gets the value of the logicalChannel property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getLogicalChannel() {
+		return logicalChannel;
+	}
 
-    /**
-     * Sets the value of the logicalChannel property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setLogicalChannel(Integer value) {
-        this.logicalChannel = value;
-    }
+	/**
+	 * Sets the value of the logicalChannel property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setLogicalChannel(Integer value) {
+		this.logicalChannel = value;
+	}
 
-    /**
-     * Gets the value of the stackProfile property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getStackProfile() {
-        return stackProfile;
-    }
+	/**
+	 * Gets the value of the stackProfile property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getStackProfile() {
+		return stackProfile;
+	}
 
-    /**
-     * Sets the value of the stackProfile property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setStackProfile(Short value) {
-        this.stackProfile = value;
-    }
+	/**
+	 * Sets the value of the stackProfile property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setStackProfile(Short value) {
+		this.stackProfile = value;
+	}
 
-    /**
-     * Gets the value of the zigBeeVersion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getZigBeeVersion() {
-        return zigBeeVersion;
-    }
+	/**
+	 * Gets the value of the zigBeeVersion property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getZigBeeVersion() {
+		return zigBeeVersion;
+	}
 
-    /**
-     * Sets the value of the zigBeeVersion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setZigBeeVersion(Short value) {
-        this.zigBeeVersion = value;
-    }
+	/**
+	 * Sets the value of the zigBeeVersion property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setZigBeeVersion(Short value) {
+		this.zigBeeVersion = value;
+	}
 
-    /**
-     * Gets the value of the beaconOrder property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getBeaconOrder() {
-        return beaconOrder;
-    }
+	/**
+	 * Gets the value of the beaconOrder property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getBeaconOrder() {
+		return beaconOrder;
+	}
 
-    /**
-     * Sets the value of the beaconOrder property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setBeaconOrder(Short value) {
-        this.beaconOrder = value;
-    }
+	/**
+	 * Sets the value of the beaconOrder property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setBeaconOrder(Short value) {
+		this.beaconOrder = value;
+	}
 
-    /**
-     * Gets the value of the superFrameOrder property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getSuperFrameOrder() {
-        return superFrameOrder;
-    }
+	/**
+	 * Gets the value of the superFrameOrder property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getSuperFrameOrder() {
+		return superFrameOrder;
+	}
 
-    /**
-     * Sets the value of the superFrameOrder property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setSuperFrameOrder(Short value) {
-        this.superFrameOrder = value;
-    }
+	/**
+	 * Sets the value of the superFrameOrder property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setSuperFrameOrder(Short value) {
+		this.superFrameOrder = value;
+	}
 
-    /**
-     * Gets the value of the permitJoining property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public Boolean isPermitJoining() {
-        return permitJoining;
-    }
+	/**
+	 * Gets the value of the permitJoining property.
+	 * 
+	 * @return possible object is {@link Boolean }
+	 * 
+	 */
+	public Boolean isPermitJoining() {
+		return permitJoining;
+	}
 
-    /**
-     * Sets the value of the permitJoining property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setPermitJoining(Boolean value) {
-        this.permitJoining = value;
-    }
+	/**
+	 * Sets the value of the permitJoining property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Boolean }
+	 * 
+	 */
+	public void setPermitJoining(Boolean value) {
+		this.permitJoining = value;
+	}
 
-    /**
-     * Gets the value of the routerCapacity property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public Boolean isRouterCapacity() {
-        return routerCapacity;
-    }
+	/**
+	 * Gets the value of the routerCapacity property.
+	 * 
+	 * @return possible object is {@link Boolean }
+	 * 
+	 */
+	public Boolean isRouterCapacity() {
+		return routerCapacity;
+	}
 
-    /**
-     * Sets the value of the routerCapacity property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setRouterCapacity(Boolean value) {
-        this.routerCapacity = value;
-    }
+	/**
+	 * Sets the value of the routerCapacity property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Boolean }
+	 * 
+	 */
+	public void setRouterCapacity(Boolean value) {
+		this.routerCapacity = value;
+	}
 
-    /**
-     * Gets the value of the endDeviceCapacity property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public Boolean isEndDeviceCapacity() {
-        return endDeviceCapacity;
-    }
+	/**
+	 * Gets the value of the endDeviceCapacity property.
+	 * 
+	 * @return possible object is {@link Boolean }
+	 * 
+	 */
+	public Boolean isEndDeviceCapacity() {
+		return endDeviceCapacity;
+	}
 
-    /**
-     * Sets the value of the endDeviceCapacity property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setEndDeviceCapacity(Boolean value) {
-        this.endDeviceCapacity = value;
-    }
+	/**
+	 * Sets the value of the endDeviceCapacity property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Boolean }
+	 * 
+	 */
+	public void setEndDeviceCapacity(Boolean value) {
+		this.endDeviceCapacity = value;
+	}
 
-    /**
-     * Gets the value of the nwkRootURI property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNWKRootURI() {
-        return nwkRootURI;
-    }
+	/**
+	 * Gets the value of the nwkRootURI property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getNWKRootURI() {
+		return nwkRootURI;
+	}
 
-    /**
-     * Sets the value of the nwkRootURI property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNWKRootURI(String value) {
-        this.nwkRootURI = value;
-    }
+	/**
+	 * Sets the value of the nwkRootURI property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setNWKRootURI(String value) {
+		this.nwkRootURI = value;
+	}
 
 }

@@ -25,7 +25,7 @@
 	<groupId>org.energy-home</groupId>
 	<artifactId>jemma.osgi.javagal</artifactId>
 	<packaging>bundle</packaging>
-	<version>2.0.6</version>
+	<version>2.0.7</version>
 	<name>Java Gal</name>
 
 	<properties>
@@ -94,6 +94,15 @@
 						</Export-Package>
 						<_removeheaders>Bnd-LastModified, Built-By, Build-Jdk</_removeheaders>
 					</instructions>
+				</configuration>
+			</plugin>
+			<!-- to launch: mvn java-formatter:format -->
+			<plugin>
+				<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+				<artifactId>maven-java-formatter-plugin</artifactId>
+				<version>0.4</version>
+				<configuration>
+					<configFile>${project.basedir}/src/main/resources/formatter.xml</configFile>
 				</configuration>
 			</plugin>
 		</plugins>

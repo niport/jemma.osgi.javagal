@@ -20,9 +20,11 @@ import org.energy_home.jemma.zgd.jaxb.Address;
 /**
  * Utilities class. Provides convenient methods to manipulate data (conversion,
  * reversing, truncating and so on).
-* @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
-  *
+ * 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * 
  */
 public class Utils {
 
@@ -82,13 +84,10 @@ public class Utils {
 
 		default:
 
-			throw new IllegalArgumentException(
-					"long is reppresented as 8 bytes,"
-							+
-							// ASK: you probably intended to put 7 instead of 3
-							// on the message below.
-							" hence value of n must be between 0 and 3: you have tryed to use "
-							+ n);
+			throw new IllegalArgumentException("long is reppresented as 8 bytes," +
+			// ASK: you probably intended to put 7 instead of 3
+			// on the message below.
+					" hence value of n must be between 0 and 3: you have tryed to use " + n);
 		}
 	}
 
@@ -103,55 +102,55 @@ public class Utils {
 		byte[] tores = null;
 		switch (channel) {
 		case 0:
-			tores= new byte[]{0x00,0x00,0x08,0x00};
+			tores = new byte[] { 0x00, 0x00, 0x08, 0x00 };
 			break;
 		case 11:
-			tores= new byte[]{0x00,0x00,0x08,0x00};
+			tores = new byte[] { 0x00, 0x00, 0x08, 0x00 };
 			break;
 		case 12:
-			tores= new byte[]{0x00,0x00,0x10,0x00};
+			tores = new byte[] { 0x00, 0x00, 0x10, 0x00 };
 			break;
 		case 13:
-			tores= new byte[]{0x00,0x00,0x20,0x00};
+			tores = new byte[] { 0x00, 0x00, 0x20, 0x00 };
 			break;
 		case 14:
-			tores= new byte[]{0x00,0x00,0x40,0x00};
+			tores = new byte[] { 0x00, 0x00, 0x40, 0x00 };
 			break;
 		case 15:
-			tores= new byte[]{0x00,0x00,(byte) 0x80,0x00};
+			tores = new byte[] { 0x00, 0x00, (byte) 0x80, 0x00 };
 			break;
 		case 16:
-			tores= new byte[]{0x00,0x01,0x00,0x00};
+			tores = new byte[] { 0x00, 0x01, 0x00, 0x00 };
 			break;
 		case 17:
-			tores= new byte[]{0x00,0x02,0x00,0x00};
+			tores = new byte[] { 0x00, 0x02, 0x00, 0x00 };
 			break;
 		case 18:
-			tores= new byte[]{0x00,0x04,0x00,0x00};
+			tores = new byte[] { 0x00, 0x04, 0x00, 0x00 };
 			break;
 		case 19:
-			tores= new byte[]{0x00,0x08,0x00,0x00};
+			tores = new byte[] { 0x00, 0x08, 0x00, 0x00 };
 			break;
 		case 20:
-			tores= new byte[]{0x00,0x10,0x00,0x00};
+			tores = new byte[] { 0x00, 0x10, 0x00, 0x00 };
 			break;
 		case 21:
-			tores= new byte[]{0x00,0x20,0x00,0x00};
+			tores = new byte[] { 0x00, 0x20, 0x00, 0x00 };
 			break;
 		case 22:
-			tores= new byte[]{0x00,0x40,0x00,0x00};
+			tores = new byte[] { 0x00, 0x40, 0x00, 0x00 };
 			break;
 		case 23:
-			tores= new byte[]{0x00,(byte) 0x80,0x00,0x00};
+			tores = new byte[] { 0x00, (byte) 0x80, 0x00, 0x00 };
 			break;
 		case 24:
-			tores= new byte[]{0x01,0x00,0x00,0x00};
+			tores = new byte[] { 0x01, 0x00, 0x00, 0x00 };
 			break;
 		case 25:
-			tores= new byte[]{0x02,0x00,0x00,0x00};
+			tores = new byte[] { 0x02, 0x00, 0x00, 0x00 };
 			break;
 		case 26:
-			tores= new byte[]{0x04,0x00,0x00,0x00};
+			tores = new byte[] { 0x04, 0x00, 0x00, 0x00 };
 			break;
 		}
 		return tores;
@@ -173,18 +172,16 @@ public class Utils {
 		if (newLength < 0)
 			throw new IllegalArgumentException(from + " > " + to);
 		byte[] copy = new byte[newLength];
-		System.arraycopy(original, from, copy, 0,
-				Math.min(original.length - from, newLength));
+		System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
 		return copy;
 	}
-	
+
 	public static byte[] copyOfRange(short[] original, int from, int to) {
 		int newLength = to - from;
 		if (newLength < 0)
 			throw new IllegalArgumentException(from + " > " + to);
 		byte[] copy = new byte[newLength];
-		System.arraycopy(original, from, copy, 0,
-				Math.min(original.length - from, newLength));
+		System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
 		return copy;
 	}
 
@@ -208,10 +205,9 @@ public class Utils {
 		return copy;
 	}
 
-	public static String getAddressString(Address address)
-	{
-		String networkAddress=address.getNetworkAddress()==null?"NULL":String.format("%04X", address.getNetworkAddress());
-		String ieeeAddress=address.getIeeeAddress()==null?"NULL":String.format("%16X", address.getIeeeAddress());
-		return "{ NWK: "+networkAddress+" , IEEE: "+ieeeAddress+" }";
+	public static String getAddressString(Address address) {
+		String networkAddress = address.getNetworkAddress() == null ? "NULL" : String.format("%04X", address.getNetworkAddress());
+		String ieeeAddress = address.getIeeeAddress() == null ? "NULL" : String.format("%16X", address.getIeeeAddress());
+		return "{ NWK: " + networkAddress + " , IEEE: " + ieeeAddress + " }";
 	}
 }

@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -32,11 +31,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for SimpleDescriptor complex type.
+ * <p>
+ * Java class for SimpleDescriptor complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="SimpleDescriptor">
@@ -65,181 +66,163 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SimpleDescriptor", propOrder = {
-    "endPoint",
-    "applicationProfileIdentifier",
-    "applicationDeviceIdentifier",
-    "applicationDeviceVersion",
-    "applicationInputCluster",
-    "applicationOutputCluster"
-})
-public class SimpleDescriptor implements Serializable{
+@XmlType(name = "SimpleDescriptor", propOrder = { "endPoint", "applicationProfileIdentifier", "applicationDeviceIdentifier", "applicationDeviceVersion", "applicationInputCluster",
+		"applicationOutputCluster" })
+public class SimpleDescriptor implements Serializable {
 
-    @XmlElement(name = "EndPoint")
-    protected Short endPoint;
-    @XmlElement(name = "ApplicationProfileIdentifier")
-    protected Integer applicationProfileIdentifier;
-    @XmlElement(name = "ApplicationDeviceIdentifier")
-    protected Integer applicationDeviceIdentifier;
-    @XmlElement(name = "ApplicationDeviceVersion")
-    protected Short applicationDeviceVersion;
-    @XmlElement(name = "ApplicationInputCluster", type = Integer.class)
-    protected List<Integer> applicationInputCluster;
-    @XmlElement(name = "ApplicationOutputCluster", type = Integer.class)
-    protected List<Integer> applicationOutputCluster;
+	@XmlElement(name = "EndPoint")
+	protected Short endPoint;
+	@XmlElement(name = "ApplicationProfileIdentifier")
+	protected Integer applicationProfileIdentifier;
+	@XmlElement(name = "ApplicationDeviceIdentifier")
+	protected Integer applicationDeviceIdentifier;
+	@XmlElement(name = "ApplicationDeviceVersion")
+	protected Short applicationDeviceVersion;
+	@XmlElement(name = "ApplicationInputCluster", type = Integer.class)
+	protected List<Integer> applicationInputCluster;
+	@XmlElement(name = "ApplicationOutputCluster", type = Integer.class)
+	protected List<Integer> applicationOutputCluster;
 
-    /**
-     * Gets the value of the endPoint property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getEndPoint() {
-        return endPoint;
-    }
+	/**
+	 * Gets the value of the endPoint property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getEndPoint() {
+		return endPoint;
+	}
 
-    /**
-     * Sets the value of the endPoint property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setEndPoint(Short value) {
-        this.endPoint = value;
-    }
+	/**
+	 * Sets the value of the endPoint property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setEndPoint(Short value) {
+		this.endPoint = value;
+	}
 
-    /**
-     * Gets the value of the applicationProfileIdentifier property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getApplicationProfileIdentifier() {
-        return applicationProfileIdentifier;
-    }
+	/**
+	 * Gets the value of the applicationProfileIdentifier property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getApplicationProfileIdentifier() {
+		return applicationProfileIdentifier;
+	}
 
-    /**
-     * Sets the value of the applicationProfileIdentifier property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setApplicationProfileIdentifier(Integer value) {
-        this.applicationProfileIdentifier = value;
-    }
+	/**
+	 * Sets the value of the applicationProfileIdentifier property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setApplicationProfileIdentifier(Integer value) {
+		this.applicationProfileIdentifier = value;
+	}
 
-    /**
-     * Gets the value of the applicationDeviceIdentifier property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getApplicationDeviceIdentifier() {
-        return applicationDeviceIdentifier;
-    }
+	/**
+	 * Gets the value of the applicationDeviceIdentifier property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getApplicationDeviceIdentifier() {
+		return applicationDeviceIdentifier;
+	}
 
-    /**
-     * Sets the value of the applicationDeviceIdentifier property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setApplicationDeviceIdentifier(Integer value) {
-        this.applicationDeviceIdentifier = value;
-    }
+	/**
+	 * Sets the value of the applicationDeviceIdentifier property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setApplicationDeviceIdentifier(Integer value) {
+		this.applicationDeviceIdentifier = value;
+	}
 
-    /**
-     * Gets the value of the applicationDeviceVersion property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getApplicationDeviceVersion() {
-        return applicationDeviceVersion;
-    }
+	/**
+	 * Gets the value of the applicationDeviceVersion property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getApplicationDeviceVersion() {
+		return applicationDeviceVersion;
+	}
 
-    /**
-     * Sets the value of the applicationDeviceVersion property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setApplicationDeviceVersion(Short value) {
-        this.applicationDeviceVersion = value;
-    }
+	/**
+	 * Sets the value of the applicationDeviceVersion property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setApplicationDeviceVersion(Short value) {
+		this.applicationDeviceVersion = value;
+	}
 
-    /**
-     * Gets the value of the applicationInputCluster property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the applicationInputCluster property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getApplicationInputCluster().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Integer }
-     * 
-     * 
-     */
-    public List<Integer> getApplicationInputCluster() {
-        if (applicationInputCluster == null) {
-            applicationInputCluster = new ArrayList<Integer>();
-        }
-        return this.applicationInputCluster;
-    }
+	/**
+	 * Gets the value of the applicationInputCluster property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the applicationInputCluster property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getApplicationInputCluster().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Integer }
+	 * 
+	 * 
+	 */
+	public List<Integer> getApplicationInputCluster() {
+		if (applicationInputCluster == null) {
+			applicationInputCluster = new ArrayList<Integer>();
+		}
+		return this.applicationInputCluster;
+	}
 
-    /**
-     * Gets the value of the applicationOutputCluster property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the applicationOutputCluster property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getApplicationOutputCluster().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link Integer }
-     * 
-     * 
-     */
-    public List<Integer> getApplicationOutputCluster() {
-        if (applicationOutputCluster == null) {
-            applicationOutputCluster = new ArrayList<Integer>();
-        }
-        return this.applicationOutputCluster;
-    }
+	/**
+	 * Gets the value of the applicationOutputCluster property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the applicationOutputCluster property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getApplicationOutputCluster().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list {@link Integer }
+	 * 
+	 * 
+	 */
+	public List<Integer> getApplicationOutputCluster() {
+		if (applicationOutputCluster == null) {
+			applicationOutputCluster = new ArrayList<Integer>();
+		}
+		return this.applicationOutputCluster;
+	}
 
 }

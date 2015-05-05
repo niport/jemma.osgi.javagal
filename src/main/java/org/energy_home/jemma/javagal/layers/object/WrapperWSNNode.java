@@ -56,7 +56,7 @@ public class WrapperWSNNode {
 	private boolean _executingForcePing;
 
 	private static final Logger LOG = LoggerFactory.getLogger(WrapperWSNNode.class);
-	
+
 	public synchronized boolean is_executingForcePing() {
 		return _executingForcePing;
 	}
@@ -96,21 +96,21 @@ public class WrapperWSNNode {
 
 		this.dead = false;
 		freshnessTPool = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
-			
+
 			public Thread newThread(Runnable r) {
 
 				return new Thread(r, "THPool-Freshness[" + networkAdd + "]");
 			}
 		});
 		discoveryTPool = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
-			
+
 			public Thread newThread(Runnable r) {
 
 				return new Thread(r, "THPool-Discovery[" + networkAdd + "]");
 			}
 		});
 		forcePingTPool = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
-			
+
 			public Thread newThread(Runnable r) {
 
 				return new Thread(r, "THPool-ForcePing[" + networkAdd + "]");
@@ -123,12 +123,14 @@ public class WrapperWSNNode {
 	public boolean equals(Object o) {
 		if (o instanceof WrapperWSNNode) {
 			WrapperWSNNode node = (WrapperWSNNode) o;
-			if (node.get_node() != null && node.get_node().getAddress() != null && node.get_node().getAddress().getIeeeAddress() != null && this.get_node() != null && this.get_node().getAddress() != null && this.get_node().getAddress().getIeeeAddress() != null) {
+			if (node.get_node() != null && node.get_node().getAddress() != null && node.get_node().getAddress().getIeeeAddress() != null && this.get_node() != null
+					&& this.get_node().getAddress() != null && this.get_node().getAddress().getIeeeAddress() != null) {
 				if (node.get_node().getAddress().getIeeeAddress().longValue() == this.get_node().getAddress().getIeeeAddress().longValue())
 					return true;
 				else
 					return false;
-			} else if (node.get_node() != null && node.get_node().getAddress() != null && node.get_node().getAddress().getNetworkAddress() != null && this.get_node() != null && this.get_node().getAddress() != null && this.get_node().getAddress().getNetworkAddress() != null) {
+			} else if (node.get_node() != null && node.get_node().getAddress() != null && node.get_node().getAddress().getNetworkAddress() != null && this.get_node() != null
+					&& this.get_node().getAddress() != null && this.get_node().getAddress().getNetworkAddress() != null) {
 				if (node.get_node().getAddress().getNetworkAddress().intValue() == this.get_node().getAddress().getNetworkAddress().intValue())
 					return true;
 				else
@@ -299,7 +301,7 @@ public class WrapperWSNNode {
 					try {
 						discoveryJob = discoveryTPool.schedule(new DiscoveryJob(), seconds, TimeUnit.SECONDS);
 					} catch (Exception e) {
-						LOG.error("Error scheduling thread: {}",e.getMessage());
+						LOG.error("Error scheduling thread: {}", e.getMessage());
 
 					}
 				}
@@ -325,7 +327,7 @@ public class WrapperWSNNode {
 					try {
 						freshnessJob = freshnessTPool.schedule(new FreshnessJob(), seconds, TimeUnit.SECONDS);
 					} catch (Exception e) {
-						LOG.error("Error scheduling thread: {}",e.getMessage());
+						LOG.error("Error scheduling thread: {}", e.getMessage());
 					}
 				}
 			}
@@ -351,7 +353,7 @@ public class WrapperWSNNode {
 					try {
 						forcePingJob = forcePingTPool.schedule(new ForcePingJob(), seconds, TimeUnit.SECONDS);
 					} catch (Exception e) {
-						LOG.error("Error scheduling thread: {}",e.getMessage());
+						LOG.error("Error scheduling thread: {}", e.getMessage());
 					}
 				}
 			}

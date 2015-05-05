@@ -41,7 +41,11 @@ public class main {
 	// public final static Log logger = LogFactory.getLog(main.class);
 	private static final Logger LOG = LoggerFactory.getLogger(main.class);
 
-	static String _help = "Usage:  Gal  [options...] -d <device url>\n" + "Options:\n" + "  -h               Show this information\n" + "  -c <filename>    Main configuration filename (default: \"config.properties\"\n" + "  -a               If present, create the network on startup (ignore config.ini setting)\n" + "  -m               If present, use the NVM setting (ignore config.ini setting)\n" + "  -d               Specify the device url\n" + "  -v               Be verbose.\n" + "  -V               Show the program version and quit.\n" + "\n";
+	static String _help = "Usage:  Gal  [options...] -d <device url>\n" + "Options:\n" + "  -h               Show this information\n"
+			+ "  -c <filename>    Main configuration filename (default: \"config.properties\"\n"
+			+ "  -a               If present, create the network on startup (ignore config.ini setting)\n"
+			+ "  -m               If present, use the NVM setting (ignore config.ini setting)\n" + "  -d               Specify the device url\n"
+			+ "  -v               Be verbose.\n" + "  -V               Show the program version and quit.\n" + "\n";
 
 	/**
 	 * Static main class.

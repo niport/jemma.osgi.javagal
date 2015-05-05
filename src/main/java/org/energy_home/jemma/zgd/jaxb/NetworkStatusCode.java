@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for NetworkStatusCode complex type.
+ * <p>
+ * Java class for NetworkStatusCode complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NetworkStatusCode">
@@ -53,57 +54,51 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NetworkStatusCode", propOrder = {
-    "status",
-    "networkStatusCode"
-})
-public class NetworkStatusCode implements Serializable{
+@XmlType(name = "NetworkStatusCode", propOrder = { "status", "networkStatusCode" })
+public class NetworkStatusCode implements Serializable {
 
-    @XmlElement(name = "Status")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long status;
-    @XmlElement(name = "NetworkStatusCode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected Long networkStatusCode;
+	@XmlElement(name = "Status")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long status;
+	@XmlElement(name = "NetworkStatusCode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected Long networkStatusCode;
 
-    /**
-     * Gets the value of the status property.
-     * 
-     */
-    public long getStatus() {
-        return status;
-    }
+	/**
+	 * Gets the value of the status property.
+	 * 
+	 */
+	public long getStatus() {
+		return status;
+	}
 
-    /**
-     * Sets the value of the status property.
-     * 
-     */
-    public void setStatus(long value) {
-        this.status = value;
-    }
+	/**
+	 * Sets the value of the status property.
+	 * 
+	 */
+	public void setStatus(long value) {
+		this.status = value;
+	}
 
-    /**
-     * Gets the value of the networkStatusCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getNetworkStatusCode() {
-        return networkStatusCode;
-    }
+	/**
+	 * Gets the value of the networkStatusCode property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getNetworkStatusCode() {
+		return networkStatusCode;
+	}
 
-    /**
-     * Sets the value of the networkStatusCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setNetworkStatusCode(Long value) {
-        this.networkStatusCode = value;
-    }
+	/**
+	 * Sets the value of the networkStatusCode property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setNetworkStatusCode(Long value) {
+		this.networkStatusCode = value;
+	}
 
 }

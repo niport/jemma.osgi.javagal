@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for ZDPMessage complex type.
+ * <p>
+ * Java class for ZDPMessage complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ZDPMessage">
@@ -60,194 +61,168 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ZDPMessage", propOrder = {
-    "sourceAddress",
-    "sourceAddressMode",
-    "securityStatus",
-    "linkQuality",
-    "rxTime",
-    "clusterID",
-    "command"
-})
+@XmlType(name = "ZDPMessage", propOrder = { "sourceAddress", "sourceAddressMode", "securityStatus", "linkQuality", "rxTime", "clusterID", "command" })
 public class ZDPMessage implements Serializable {
 
-    @XmlElement(name = "SourceAddress")
-    protected Address sourceAddress;
-    @XmlElement(name = "SourceAddressMode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long sourceAddressMode;
-    @XmlElement(name = "SecurityStatus")
-    protected SecurityStatus securityStatus;
-    @XmlElement(name = "LinkQuality")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short linkQuality;
-    @XmlElement(name = "RxTime")
-    protected Long rxTime;
-    @XmlElement(name = "ClusterID")
-    protected Integer clusterID;
-    @XmlElement(name = "Command", required = true, type = String.class)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    protected byte[] command;
+	@XmlElement(name = "SourceAddress")
+	protected Address sourceAddress;
+	@XmlElement(name = "SourceAddressMode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long sourceAddressMode;
+	@XmlElement(name = "SecurityStatus")
+	protected SecurityStatus securityStatus;
+	@XmlElement(name = "LinkQuality")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short linkQuality;
+	@XmlElement(name = "RxTime")
+	protected Long rxTime;
+	@XmlElement(name = "ClusterID")
+	protected Integer clusterID;
+	@XmlElement(name = "Command", required = true, type = String.class)
+	@XmlJavaTypeAdapter(HexBinaryAdapter.class)
+	@XmlSchemaType(name = "hexBinary")
+	protected byte[] command;
 
-    /**
-     * Gets the value of the sourceAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getSourceAddress() {
-        return sourceAddress;
-    }
+	/**
+	 * Gets the value of the sourceAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getSourceAddress() {
+		return sourceAddress;
+	}
 
-    /**
-     * Sets the value of the sourceAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setSourceAddress(Address value) {
-        this.sourceAddress = value;
-    }
+	/**
+	 * Sets the value of the sourceAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setSourceAddress(Address value) {
+		this.sourceAddress = value;
+	}
 
-    /**
-     * Gets the value of the sourceAddressMode property.
-     * 
-     */
-    public long getSourceAddressMode() {
-        return sourceAddressMode;
-    }
+	/**
+	 * Gets the value of the sourceAddressMode property.
+	 * 
+	 */
+	public long getSourceAddressMode() {
+		return sourceAddressMode;
+	}
 
-    /**
-     * Sets the value of the sourceAddressMode property.
-     * 
-     */
-    public void setSourceAddressMode(long value) {
-        this.sourceAddressMode = value;
-    }
+	/**
+	 * Sets the value of the sourceAddressMode property.
+	 * 
+	 */
+	public void setSourceAddressMode(long value) {
+		this.sourceAddressMode = value;
+	}
 
-    /**
-     * Gets the value of the securityStatus property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SecurityStatus }
-     *     
-     */
-    public SecurityStatus getSecurityStatus() {
-        return securityStatus;
-    }
+	/**
+	 * Gets the value of the securityStatus property.
+	 * 
+	 * @return possible object is {@link SecurityStatus }
+	 * 
+	 */
+	public SecurityStatus getSecurityStatus() {
+		return securityStatus;
+	}
 
-    /**
-     * Sets the value of the securityStatus property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SecurityStatus }
-     *     
-     */
-    public void setSecurityStatus(SecurityStatus value) {
-        this.securityStatus = value;
-    }
+	/**
+	 * Sets the value of the securityStatus property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link SecurityStatus }
+	 * 
+	 */
+	public void setSecurityStatus(SecurityStatus value) {
+		this.securityStatus = value;
+	}
 
-    /**
-     * Gets the value of the linkQuality property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getLinkQuality() {
-        return linkQuality;
-    }
+	/**
+	 * Gets the value of the linkQuality property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getLinkQuality() {
+		return linkQuality;
+	}
 
-    /**
-     * Sets the value of the linkQuality property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setLinkQuality(Short value) {
-        this.linkQuality = value;
-    }
+	/**
+	 * Sets the value of the linkQuality property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setLinkQuality(Short value) {
+		this.linkQuality = value;
+	}
 
-    /**
-     * Gets the value of the rxTime property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Long }
-     *     
-     */
-    public Long getRxTime() {
-        return rxTime;
-    }
+	/**
+	 * Gets the value of the rxTime property.
+	 * 
+	 * @return possible object is {@link Long }
+	 * 
+	 */
+	public Long getRxTime() {
+		return rxTime;
+	}
 
-    /**
-     * Sets the value of the rxTime property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Long }
-     *     
-     */
-    public void setRxTime(Long value) {
-        this.rxTime = value;
-    }
+	/**
+	 * Sets the value of the rxTime property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Long }
+	 * 
+	 */
+	public void setRxTime(Long value) {
+		this.rxTime = value;
+	}
 
-    /**
-     * Gets the value of the clusterID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getClusterID() {
-        return clusterID;
-    }
+	/**
+	 * Gets the value of the clusterID property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getClusterID() {
+		return clusterID;
+	}
 
-    /**
-     * Sets the value of the clusterID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setClusterID(Integer value) {
-        this.clusterID = value;
-    }
+	/**
+	 * Sets the value of the clusterID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setClusterID(Integer value) {
+		this.clusterID = value;
+	}
 
-    /**
-     * Gets the value of the command property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public byte[] getCommand() {
-        return command;
-    }
+	/**
+	 * Gets the value of the command property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public byte[] getCommand() {
+		return command;
+	}
 
-    /**
-     * Sets the value of the command property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCommand(byte[] value) {
-        this.command = ((byte[]) value);
-    }
+	/**
+	 * Sets the value of the command property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setCommand(byte[] value) {
+		this.command = ((byte[]) value);
+	}
 
 }

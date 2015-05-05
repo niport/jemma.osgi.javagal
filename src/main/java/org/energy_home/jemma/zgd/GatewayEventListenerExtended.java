@@ -23,9 +23,10 @@ import org.energy_home.jemma.zgd.jaxb.ZDPMessage;
 
 /**
  * Extension for {@link GatewayEventListener}.
-* @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public interface GatewayEventListenerExtended extends GatewayEventListener {
 	/**
@@ -38,8 +39,7 @@ public interface GatewayEventListenerExtended extends GatewayEventListener {
 	 * @param addressOfInterest
 	 *            the address of interest.
 	 */
-	void nodeDescriptorRetrievedExtended(Status status, NodeDescriptor node,
-			Address addressOfInterest);
+	void nodeDescriptorRetrievedExtended(Status status, NodeDescriptor node, Address addressOfInterest);
 
 	/**
 	 * Called to notify result from "Gateway Stop" operation.

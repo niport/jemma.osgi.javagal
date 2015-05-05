@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for LanguageAndCharacterSet complex type.
+ * <p>
+ * Java class for LanguageAndCharacterSet complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="LanguageAndCharacterSet">
@@ -52,63 +53,54 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LanguageAndCharacterSet", propOrder = {
-    "languageCode",
-    "characterSet"
-})
+@XmlType(name = "LanguageAndCharacterSet", propOrder = { "languageCode", "characterSet" })
 public class LanguageAndCharacterSet implements Serializable {
 
-    @XmlElement(name = "LanguageCode", required = true)
-    protected String languageCode;
-    @XmlElement(name = "CharacterSet", required = true)
-    protected String characterSet;
+	@XmlElement(name = "LanguageCode", required = true)
+	protected String languageCode;
+	@XmlElement(name = "CharacterSet", required = true)
+	protected String characterSet;
 
-    /**
-     * Gets the value of the languageCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getLanguageCode() {
-        return languageCode;
-    }
+	/**
+	 * Gets the value of the languageCode property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getLanguageCode() {
+		return languageCode;
+	}
 
-    /**
-     * Sets the value of the languageCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setLanguageCode(String value) {
-        this.languageCode = value;
-    }
+	/**
+	 * Sets the value of the languageCode property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setLanguageCode(String value) {
+		this.languageCode = value;
+	}
 
-    /**
-     * Gets the value of the characterSet property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getCharacterSet() {
-        return characterSet;
-    }
+	/**
+	 * Gets the value of the characterSet property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public String getCharacterSet() {
+		return characterSet;
+	}
 
-    /**
-     * Sets the value of the characterSet property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setCharacterSet(String value) {
-        this.characterSet = value;
-    }
+	/**
+	 * Sets the value of the characterSet property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setCharacterSet(String value) {
+		this.characterSet = value;
+	}
 
 }

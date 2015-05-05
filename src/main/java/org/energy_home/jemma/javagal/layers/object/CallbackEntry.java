@@ -20,15 +20,14 @@ import org.energy_home.jemma.zgd.APSMessageListener;
 import org.energy_home.jemma.zgd.MessageListener;
 import org.energy_home.jemma.zgd.jaxb.Callback;
 
-
 /**
  * Callback entry class carrying the actual callback, the destination and the
  * {@code apsCallbackIdentifier}. The entry will be then inserted in
- * {@link GalController#listCallback}. 
- *
-* @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * {@link GalController#listCallback}.
+ * 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class CallbackEntry {
 	private int proxyIdentifier;
@@ -53,7 +52,7 @@ public class CallbackEntry {
 	public APSMessageListener getDestination() {
 		return destination;
 	}
-	
+
 	/**
 	 * Gets the destination's message listener.
 	 * 
@@ -73,10 +72,9 @@ public class CallbackEntry {
 	public void setDestination(APSMessageListener destination) {
 		this.destination = destination;
 	}
-	
-	
+
 	/**
-	 * Sets the destination's  message listener.
+	 * Sets the destination's message listener.
 	 * 
 	 * @param destination
 	 *            the APS message listener to set as destination.

@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for ResetInfo complex type.
+ * <p>
+ * Java class for ResetInfo complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ResetInfo">
@@ -51,28 +52,26 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ResetInfo", propOrder = {
-    "warmStart"
-})
-public class ResetInfo implements Serializable{
+@XmlType(name = "ResetInfo", propOrder = { "warmStart" })
+public class ResetInfo implements Serializable {
 
-    @XmlElement(name = "WarmStart")
-    protected boolean warmStart;
+	@XmlElement(name = "WarmStart")
+	protected boolean warmStart;
 
-    /**
-     * Gets the value of the warmStart property.
-     * 
-     */
-    public boolean isWarmStart() {
-        return warmStart;
-    }
+	/**
+	 * Gets the value of the warmStart property.
+	 * 
+	 */
+	public boolean isWarmStart() {
+		return warmStart;
+	}
 
-    /**
-     * Sets the value of the warmStart property.
-     * 
-     */
-    public void setWarmStart(boolean value) {
-        this.warmStart = value;
-    }
+	/**
+	 * Sets the value of the warmStart property.
+	 * 
+	 */
+	public void setWarmStart(boolean value) {
+		this.warmStart = value;
+	}
 
 }

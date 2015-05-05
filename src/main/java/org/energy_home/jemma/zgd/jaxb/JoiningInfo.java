@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for JoiningInfo complex type.
+ * <p>
+ * Java class for JoiningInfo complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="JoiningInfo">
@@ -53,48 +54,45 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "JoiningInfo", propOrder = {
-    "permitDuration",
-    "tcSignificance"
-})
+@XmlType(name = "JoiningInfo", propOrder = { "permitDuration", "tcSignificance" })
 public class JoiningInfo implements Serializable {
 
-    @XmlElement(name = "PermitDuration")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short permitDuration;
-    @XmlElement(name = "TCSignificance")
-    protected boolean tcSignificance;
+	@XmlElement(name = "PermitDuration")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short permitDuration;
+	@XmlElement(name = "TCSignificance")
+	protected boolean tcSignificance;
 
-    /**
-     * Gets the value of the permitDuration property.
-     * 
-     */
-    public short getPermitDuration() {
-        return permitDuration;
-    }
+	/**
+	 * Gets the value of the permitDuration property.
+	 * 
+	 */
+	public short getPermitDuration() {
+		return permitDuration;
+	}
 
-    /**
-     * Sets the value of the permitDuration property.
-     * 
-     */
-    public void setPermitDuration(short value) {
-        this.permitDuration = value;
-    }
+	/**
+	 * Sets the value of the permitDuration property.
+	 * 
+	 */
+	public void setPermitDuration(short value) {
+		this.permitDuration = value;
+	}
 
-    /**
-     * Gets the value of the tcSignificance property.
-     * 
-     */
-    public boolean isTCSignificance() {
-        return tcSignificance;
-    }
+	/**
+	 * Gets the value of the tcSignificance property.
+	 * 
+	 */
+	public boolean isTCSignificance() {
+		return tcSignificance;
+	}
 
-    /**
-     * Sets the value of the tcSignificance property.
-     * 
-     */
-    public void setTCSignificance(boolean value) {
-        this.tcSignificance = value;
-    }
+	/**
+	 * Sets the value of the tcSignificance property.
+	 * 
+	 */
+	public void setTCSignificance(boolean value) {
+		this.tcSignificance = value;
+	}
 
 }

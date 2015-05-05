@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -29,12 +28,15 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for DecodeLevel.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
  * <p>
+ * Java class for DecodeLevel.
+ * 
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
+ * <p>
+ * 
  * <pre>
  * &lt;simpleType name="DecodeLevel">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -51,37 +53,32 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlType(name = "DecodeLevel")
 @XmlEnum
-public enum DecodeLevel implements Serializable{
+public enum DecodeLevel implements Serializable {
 
-    @XmlEnumValue("DecodeMAC")
-    DECODE_MAC("DecodeMAC"),
-    @XmlEnumValue("DecodeNWK")
-    DECODE_NWK("DecodeNWK"),
-    @XmlEnumValue("DecodeInterPAN")
-    DECODE_INTER_PAN("DecodeInterPAN"),
-    @XmlEnumValue("DecodeAPS")
-    DECODE_APS("DecodeAPS"),
-    @XmlEnumValue("DecodeZCL")
-    DECODE_ZCL("DecodeZCL"),
-    @XmlEnumValue("DecodeZDP")
-    DECODE_ZDP("DecodeZDP");
-    private final String value;
+	@XmlEnumValue("DecodeMAC")
+	DECODE_MAC("DecodeMAC"), @XmlEnumValue("DecodeNWK")
+	DECODE_NWK("DecodeNWK"), @XmlEnumValue("DecodeInterPAN")
+	DECODE_INTER_PAN("DecodeInterPAN"), @XmlEnumValue("DecodeAPS")
+	DECODE_APS("DecodeAPS"), @XmlEnumValue("DecodeZCL")
+	DECODE_ZCL("DecodeZCL"), @XmlEnumValue("DecodeZDP")
+	DECODE_ZDP("DecodeZDP");
+	private final String value;
 
-    DecodeLevel(String v) {
-        value = v;
-    }
+	DecodeLevel(String v) {
+		value = v;
+	}
 
-    public String value() {
-        return value;
-    }
+	public String value() {
+		return value;
+	}
 
-    public static DecodeLevel fromValue(String v) {
-        for (DecodeLevel c: DecodeLevel.values()) {
-            if (c.value.equals(v)) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException(v);
-    }
+	public static DecodeLevel fromValue(String v) {
+		for (DecodeLevel c : DecodeLevel.values()) {
+			if (c.value.equals(v)) {
+				return c;
+			}
+		}
+		throw new IllegalArgumentException(v);
+	}
 
 }

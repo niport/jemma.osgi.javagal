@@ -37,9 +37,10 @@ import org.energy_home.jemma.zgd.jaxb.ZDPMessage;
  * <p>
  * When an event happens, the Gal controller sends it to the relevant notifier
  * method, one of those present in this class.
-* @author 
- *         "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
- 
+ * 
+ * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
+ *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
+ *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public interface IGatewayEventManager {
 
@@ -74,8 +75,7 @@ public interface IGatewayEventManager {
 	 * @param nodeServices
 	 *            the discovered services
 	 */
-	public void notifyServicesDiscovered(int _requestIdentifier, Status status,
-			NodeServices nodeServices);
+	public void notifyServicesDiscovered(int _requestIdentifier, Status status, NodeServices nodeServices);
 
 	/**
 	 * Called to notify Gateway Stop Result's Event to all relevant registered
@@ -158,8 +158,7 @@ public interface IGatewayEventManager {
 	 * @param _node
 	 *            the Node Descriptor to notify.
 	 */
-	public void notifyNodeDescriptor(int _requestIdentifier, Status _status,
-			NodeDescriptor _node);
+	public void notifyNodeDescriptor(int _requestIdentifier, Status _status, NodeDescriptor _node);
 
 	/**
 	 * Called to notify Node Descriptor Extended's Event to all relevant
@@ -172,8 +171,7 @@ public interface IGatewayEventManager {
 	 * @param _addressOfInterest
 	 *            the Address of Interest to notify.
 	 */
-	public void notifyNodeDescriptorExtended(Status _status,
-			NodeDescriptor _node, Address _addressOfInterest);
+	public void notifyNodeDescriptorExtended(Status _status, NodeDescriptor _node, Address _addressOfInterest);
 
 	/**
 	 * Called to notify Node Descriptor Extended's Event to the correct
@@ -188,8 +186,7 @@ public interface IGatewayEventManager {
 	 * @param _addressOfInterest
 	 *            the Address of Interest to notify.
 	 */
-	public void notifyNodeDescriptorExtended(int _requestIdentifier,
-			Status _status, NodeDescriptor _node, Address _addressOfInterest);
+	public void notifyNodeDescriptorExtended(int _requestIdentifier, Status _status, NodeDescriptor _node, Address _addressOfInterest);
 
 	/**
 	 * Called to notify WSNNode Discovered's Event to all relevant registered
@@ -243,8 +240,7 @@ public interface IGatewayEventManager {
 	 * @param address
 	 *            the leaving address to notify to the listener.
 	 */
-	public void notifyleaveResultExtended(int _requestIdentifier,
-			Status _status, Address _address);
+	public void notifyleaveResultExtended(int _requestIdentifier, Status _status, Address _address);
 
 	/**
 	 * Called to notify Leave Result Extended's Event to all relevant registered
@@ -268,8 +264,7 @@ public interface IGatewayEventManager {
 	 * @param service
 	 *            the service descriptor to notify to the listener.
 	 */
-	public void notifyserviceDescriptorRetrieved(int _requestIdentifier,
-			Status status, ServiceDescriptor service);
+	public void notifyserviceDescriptorRetrieved(int _requestIdentifier, Status status, ServiceDescriptor service);
 
 	/**
 	 * Called to notify Node Bindings Retrieved's Event to the correct
@@ -282,8 +277,7 @@ public interface IGatewayEventManager {
 	 * @param bindings
 	 *            the node binding retrieved to notify to the listener.
 	 */
-	public void notifynodeBindingsRetrieved(int _requestIdentifier,
-			Status status, BindingList bindings);
+	public void notifynodeBindingsRetrieved(int _requestIdentifier, Status status, BindingList bindings);
 
 	/**
 	 * Called to notify Node Binding Result's Event to the correct registered
@@ -316,7 +310,6 @@ public interface IGatewayEventManager {
 	 */
 	public void notifyZDPEvent(ZDPMessage message);
 
-	
 	/**
 	 * Called to notify the received ZDPCommand to all relevant registered
 	 * listeners.
@@ -325,8 +318,7 @@ public interface IGatewayEventManager {
 	 *            the ZDP message command to notify to the listeners.
 	 */
 	public void notifyInterPANMessageEvent(InterPANMessageEvent message);
-	
-	
+
 	/**
 	 * Called to notify the received ZCLEvent to all relevant registered
 	 * listeners.

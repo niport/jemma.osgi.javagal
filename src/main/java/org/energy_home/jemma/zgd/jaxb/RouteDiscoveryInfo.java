@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for RouteDiscoveryInfo complex type.
+ * <p>
+ * Java class for RouteDiscoveryInfo complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="RouteDiscoveryInfo">
@@ -55,111 +56,97 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RouteDiscoveryInfo", propOrder = {
-    "dstAddrMode",
-    "dstAddr",
-    "radius",
-    "noRouteCache"
-})
-public class RouteDiscoveryInfo implements Serializable{
+@XmlType(name = "RouteDiscoveryInfo", propOrder = { "dstAddrMode", "dstAddr", "radius", "noRouteCache" })
+public class RouteDiscoveryInfo implements Serializable {
 
-    @XmlElement(name = "DstAddrMode")
-    @XmlSchemaType(name = "unsignedByte")
-    protected Short dstAddrMode;
-    @XmlElement(name = "DstAddr")
-    protected Address dstAddr;
-    @XmlElement(name = "Radius")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short radius;
-    @XmlElement(name = "NoRouteCache")
-    protected Boolean noRouteCache;
+	@XmlElement(name = "DstAddrMode")
+	@XmlSchemaType(name = "unsignedByte")
+	protected Short dstAddrMode;
+	@XmlElement(name = "DstAddr")
+	protected Address dstAddr;
+	@XmlElement(name = "Radius")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short radius;
+	@XmlElement(name = "NoRouteCache")
+	protected Boolean noRouteCache;
 
-    /**
-     * Gets the value of the dstAddrMode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getDstAddrMode() {
-        return dstAddrMode;
-    }
+	/**
+	 * Gets the value of the dstAddrMode property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getDstAddrMode() {
+		return dstAddrMode;
+	}
 
-    /**
-     * Sets the value of the dstAddrMode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setDstAddrMode(Short value) {
-        this.dstAddrMode = value;
-    }
+	/**
+	 * Sets the value of the dstAddrMode property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setDstAddrMode(Short value) {
+		this.dstAddrMode = value;
+	}
 
-    /**
-     * Gets the value of the dstAddr property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getDstAddr() {
-        return dstAddr;
-    }
+	/**
+	 * Gets the value of the dstAddr property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getDstAddr() {
+		return dstAddr;
+	}
 
-    /**
-     * Sets the value of the dstAddr property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setDstAddr(Address value) {
-        this.dstAddr = value;
-    }
+	/**
+	 * Sets the value of the dstAddr property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setDstAddr(Address value) {
+		this.dstAddr = value;
+	}
 
-    /**
-     * Gets the value of the radius property.
-     * 
-     */
-    public short getRadius() {
-        return radius;
-    }
+	/**
+	 * Gets the value of the radius property.
+	 * 
+	 */
+	public short getRadius() {
+		return radius;
+	}
 
-    /**
-     * Sets the value of the radius property.
-     * 
-     */
-    public void setRadius(short value) {
-        this.radius = value;
-    }
+	/**
+	 * Sets the value of the radius property.
+	 * 
+	 */
+	public void setRadius(short value) {
+		this.radius = value;
+	}
 
-    /**
-     * Gets the value of the noRouteCache property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
-     */
-    public Boolean isNoRouteCache() {
-        return noRouteCache;
-    }
+	/**
+	 * Gets the value of the noRouteCache property.
+	 * 
+	 * @return possible object is {@link Boolean }
+	 * 
+	 */
+	public Boolean isNoRouteCache() {
+		return noRouteCache;
+	}
 
-    /**
-     * Sets the value of the noRouteCache property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
-     */
-    public void setNoRouteCache(Boolean value) {
-        this.noRouteCache = value;
-    }
+	/**
+	 * Sets the value of the noRouteCache property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Boolean }
+	 * 
+	 */
+	public void setNoRouteCache(Boolean value) {
+		this.noRouteCache = value;
+	}
 
 }

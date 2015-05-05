@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-
 /**
- * <p>Java class for ZCLCommand complex type.
+ * <p>
+ * Java class for ZCLCommand complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="ZCLCommand">
@@ -63,261 +64,230 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ZCLCommand", propOrder = {
-    "destinationAddressMode",
-    "destinationAddress",
-    "destinationEndpoint",
-    "profileID",
-    "clusterID",
-    "sourceEndpoint",
-    "txOptions",
-    "radius",
-    "zclPayload",
-    "zclHeader"
-})
-public class ZCLCommand implements Serializable{
+@XmlType(name = "ZCLCommand", propOrder = { "destinationAddressMode", "destinationAddress", "destinationEndpoint", "profileID", "clusterID", "sourceEndpoint", "txOptions",
+		"radius", "zclPayload", "zclHeader" })
+public class ZCLCommand implements Serializable {
 
-    @XmlElement(name = "DestinationAddressMode")
-    @XmlSchemaType(name = "unsignedInt")
-    protected long destinationAddressMode;
-    @XmlElement(name = "DestinationAddress")
-    protected Address destinationAddress;
-    @XmlElement(name = "DestinationEndpoint")
-    protected Short destinationEndpoint;
-    @XmlElement(name = "ProfileID")
-    protected Integer profileID;
-    @XmlElement(name = "ClusterID")
-    protected int clusterID;
-    @XmlElement(name = "SourceEndpoint")
-    protected Short sourceEndpoint;
-    @XmlElement(name = "TxOptions", required = true)
-    protected TxOptions txOptions;
-    @XmlElement(name = "Radius")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short radius;
-    @XmlElement(name = "ZCLPayload", required = true, type = String.class)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    protected byte[] zclPayload;
-    @XmlElement(name = "ZCLHeader", required = true, type = String.class)
-    @XmlJavaTypeAdapter(HexBinaryAdapter.class)
-    @XmlSchemaType(name = "hexBinary")
-    protected byte[] zclHeader;
+	@XmlElement(name = "DestinationAddressMode")
+	@XmlSchemaType(name = "unsignedInt")
+	protected long destinationAddressMode;
+	@XmlElement(name = "DestinationAddress")
+	protected Address destinationAddress;
+	@XmlElement(name = "DestinationEndpoint")
+	protected Short destinationEndpoint;
+	@XmlElement(name = "ProfileID")
+	protected Integer profileID;
+	@XmlElement(name = "ClusterID")
+	protected int clusterID;
+	@XmlElement(name = "SourceEndpoint")
+	protected Short sourceEndpoint;
+	@XmlElement(name = "TxOptions", required = true)
+	protected TxOptions txOptions;
+	@XmlElement(name = "Radius")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short radius;
+	@XmlElement(name = "ZCLPayload", required = true, type = String.class)
+	@XmlJavaTypeAdapter(HexBinaryAdapter.class)
+	@XmlSchemaType(name = "hexBinary")
+	protected byte[] zclPayload;
+	@XmlElement(name = "ZCLHeader", required = true, type = String.class)
+	@XmlJavaTypeAdapter(HexBinaryAdapter.class)
+	@XmlSchemaType(name = "hexBinary")
+	protected byte[] zclHeader;
 
-    /**
-     * Gets the value of the destinationAddressMode property.
-     * 
-     */
-    public long getDestinationAddressMode() {
-        return destinationAddressMode;
-    }
+	/**
+	 * Gets the value of the destinationAddressMode property.
+	 * 
+	 */
+	public long getDestinationAddressMode() {
+		return destinationAddressMode;
+	}
 
-    /**
-     * Sets the value of the destinationAddressMode property.
-     * 
-     */
-    public void setDestinationAddressMode(long value) {
-        this.destinationAddressMode = value;
-    }
+	/**
+	 * Sets the value of the destinationAddressMode property.
+	 * 
+	 */
+	public void setDestinationAddressMode(long value) {
+		this.destinationAddressMode = value;
+	}
 
-    /**
-     * Gets the value of the destinationAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getDestinationAddress() {
-        return destinationAddress;
-    }
+	/**
+	 * Gets the value of the destinationAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getDestinationAddress() {
+		return destinationAddress;
+	}
 
-    /**
-     * Sets the value of the destinationAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setDestinationAddress(Address value) {
-        this.destinationAddress = value;
-    }
+	/**
+	 * Sets the value of the destinationAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setDestinationAddress(Address value) {
+		this.destinationAddress = value;
+	}
 
-    /**
-     * Gets the value of the destinationEndpoint property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getDestinationEndpoint() {
-        return destinationEndpoint;
-    }
+	/**
+	 * Gets the value of the destinationEndpoint property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getDestinationEndpoint() {
+		return destinationEndpoint;
+	}
 
-    /**
-     * Sets the value of the destinationEndpoint property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setDestinationEndpoint(Short value) {
-        this.destinationEndpoint = value;
-    }
+	/**
+	 * Sets the value of the destinationEndpoint property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setDestinationEndpoint(Short value) {
+		this.destinationEndpoint = value;
+	}
 
-    /**
-     * Gets the value of the profileID property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Integer }
-     *     
-     */
-    public Integer getProfileID() {
-        return profileID;
-    }
+	/**
+	 * Gets the value of the profileID property.
+	 * 
+	 * @return possible object is {@link Integer }
+	 * 
+	 */
+	public Integer getProfileID() {
+		return profileID;
+	}
 
-    /**
-     * Sets the value of the profileID property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Integer }
-     *     
-     */
-    public void setProfileID(Integer value) {
-        this.profileID = value;
-    }
+	/**
+	 * Sets the value of the profileID property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Integer }
+	 * 
+	 */
+	public void setProfileID(Integer value) {
+		this.profileID = value;
+	}
 
-    /**
-     * Gets the value of the clusterID property.
-     * 
-     */
-    public int getClusterID() {
-        return clusterID;
-    }
+	/**
+	 * Gets the value of the clusterID property.
+	 * 
+	 */
+	public int getClusterID() {
+		return clusterID;
+	}
 
-    /**
-     * Sets the value of the clusterID property.
-     * 
-     */
-    public void setClusterID(int value) {
-        this.clusterID = value;
-    }
+	/**
+	 * Sets the value of the clusterID property.
+	 * 
+	 */
+	public void setClusterID(int value) {
+		this.clusterID = value;
+	}
 
-    /**
-     * Gets the value of the sourceEndpoint property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Short }
-     *     
-     */
-    public Short getSourceEndpoint() {
-        return sourceEndpoint;
-    }
+	/**
+	 * Gets the value of the sourceEndpoint property.
+	 * 
+	 * @return possible object is {@link Short }
+	 * 
+	 */
+	public Short getSourceEndpoint() {
+		return sourceEndpoint;
+	}
 
-    /**
-     * Sets the value of the sourceEndpoint property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Short }
-     *     
-     */
-    public void setSourceEndpoint(Short value) {
-        this.sourceEndpoint = value;
-    }
+	/**
+	 * Sets the value of the sourceEndpoint property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Short }
+	 * 
+	 */
+	public void setSourceEndpoint(Short value) {
+		this.sourceEndpoint = value;
+	}
 
-    /**
-     * Gets the value of the txOptions property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TxOptions }
-     *     
-     */
-    public TxOptions getTxOptions() {
-        return txOptions;
-    }
+	/**
+	 * Gets the value of the txOptions property.
+	 * 
+	 * @return possible object is {@link TxOptions }
+	 * 
+	 */
+	public TxOptions getTxOptions() {
+		return txOptions;
+	}
 
-    /**
-     * Sets the value of the txOptions property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TxOptions }
-     *     
-     */
-    public void setTxOptions(TxOptions value) {
-        this.txOptions = value;
-    }
+	/**
+	 * Sets the value of the txOptions property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link TxOptions }
+	 * 
+	 */
+	public void setTxOptions(TxOptions value) {
+		this.txOptions = value;
+	}
 
-    /**
-     * Gets the value of the radius property.
-     * 
-     */
-    public short getRadius() {
-        return radius;
-    }
+	/**
+	 * Gets the value of the radius property.
+	 * 
+	 */
+	public short getRadius() {
+		return radius;
+	}
 
-    /**
-     * Sets the value of the radius property.
-     * 
-     */
-    public void setRadius(short value) {
-        this.radius = value;
-    }
+	/**
+	 * Sets the value of the radius property.
+	 * 
+	 */
+	public void setRadius(short value) {
+		this.radius = value;
+	}
 
-    /**
-     * Gets the value of the zclPayload property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public byte[] getZCLPayload() {
-        return zclPayload;
-    }
+	/**
+	 * Gets the value of the zclPayload property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public byte[] getZCLPayload() {
+		return zclPayload;
+	}
 
-    /**
-     * Sets the value of the zclPayload property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setZCLPayload(byte[] value) {
-        this.zclPayload = ((byte[]) value);
-    }
+	/**
+	 * Sets the value of the zclPayload property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setZCLPayload(byte[] value) {
+		this.zclPayload = ((byte[]) value);
+	}
 
-    /**
-     * Gets the value of the zclHeader property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public byte[] getZCLHeader() {
-        return zclHeader;
-    }
+	/**
+	 * Gets the value of the zclHeader property.
+	 * 
+	 * @return possible object is {@link String }
+	 * 
+	 */
+	public byte[] getZCLHeader() {
+		return zclHeader;
+	}
 
-    /**
-     * Sets the value of the zclHeader property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setZCLHeader(byte[] value) {
-        this.zclHeader = ((byte[]) value);
-    }
+	/**
+	 * Sets the value of the zclHeader property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link String }
+	 * 
+	 */
+	public void setZCLHeader(byte[] value) {
+		this.zclHeader = ((byte[]) value);
+	}
 
 }

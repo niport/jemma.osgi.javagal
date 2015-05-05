@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for MgmtLqiRequest complex type.
+ * <p>
+ * Java class for MgmtLqiRequest complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="MgmtLqiRequest">
@@ -53,56 +54,50 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MgmtLqiRequest", propOrder = {
-    "destinationAddress",
-    "startIndex"
-})
-public class MgmtLqiRequest implements Serializable{
+@XmlType(name = "MgmtLqiRequest", propOrder = { "destinationAddress", "startIndex" })
+public class MgmtLqiRequest implements Serializable {
 
-    @XmlElement(name = "DestinationAddress", required = true)
-    protected Address destinationAddress;
-    @XmlElement(name = "StartIndex")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short startIndex;
+	@XmlElement(name = "DestinationAddress", required = true)
+	protected Address destinationAddress;
+	@XmlElement(name = "StartIndex")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short startIndex;
 
-    /**
-     * Gets the value of the destinationAddress property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Address }
-     *     
-     */
-    public Address getDestinationAddress() {
-        return destinationAddress;
-    }
+	/**
+	 * Gets the value of the destinationAddress property.
+	 * 
+	 * @return possible object is {@link Address }
+	 * 
+	 */
+	public Address getDestinationAddress() {
+		return destinationAddress;
+	}
 
-    /**
-     * Sets the value of the destinationAddress property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Address }
-     *     
-     */
-    public void setDestinationAddress(Address value) {
-        this.destinationAddress = value;
-    }
+	/**
+	 * Sets the value of the destinationAddress property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Address }
+	 * 
+	 */
+	public void setDestinationAddress(Address value) {
+		this.destinationAddress = value;
+	}
 
-    /**
-     * Gets the value of the startIndex property.
-     * 
-     */
-    public short getStartIndex() {
-        return startIndex;
-    }
+	/**
+	 * Gets the value of the startIndex property.
+	 * 
+	 */
+	public short getStartIndex() {
+		return startIndex;
+	}
 
-    /**
-     * Sets the value of the startIndex property.
-     * 
-     */
-    public void setStartIndex(short value) {
-        this.startIndex = value;
-    }
+	/**
+	 * Sets the value of the startIndex property.
+	 * 
+	 */
+	public void setStartIndex(short value) {
+		this.startIndex = value;
+	}
 
 }

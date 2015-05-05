@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -33,11 +32,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for EnergyScanResult complex type.
+ * <p>
+ * Java class for EnergyScanResult complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="EnergyScanResult">
@@ -65,110 +66,108 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EnergyScanResult", propOrder = {
-    "scannedChannel"
-})
+@XmlType(name = "EnergyScanResult", propOrder = { "scannedChannel" })
 public class EnergyScanResult implements Serializable {
 
-    @XmlElement(name = "ScannedChannel")
-    protected List<EnergyScanResult.ScannedChannel> scannedChannel;
+	@XmlElement(name = "ScannedChannel")
+	protected List<EnergyScanResult.ScannedChannel> scannedChannel;
 
-    /**
-     * Gets the value of the scannedChannel property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the scannedChannel property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getScannedChannel().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EnergyScanResult.ScannedChannel }
-     * 
-     * 
-     */
-    public List<EnergyScanResult.ScannedChannel> getScannedChannel() {
-        if (scannedChannel == null) {
-            scannedChannel = new ArrayList<EnergyScanResult.ScannedChannel>();
-        }
-        return this.scannedChannel;
-    }
+	/**
+	 * Gets the value of the scannedChannel property.
+	 * 
+	 * <p>
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the scannedChannel property.
+	 * 
+	 * <p>
+	 * For example, to add a new item, do as follows:
+	 * 
+	 * <pre>
+	 * getScannedChannel().add(newItem);
+	 * </pre>
+	 * 
+	 * 
+	 * <p>
+	 * Objects of the following type(s) are allowed in the list
+	 * {@link EnergyScanResult.ScannedChannel }
+	 * 
+	 * 
+	 */
+	public List<EnergyScanResult.ScannedChannel> getScannedChannel() {
+		if (scannedChannel == null) {
+			scannedChannel = new ArrayList<EnergyScanResult.ScannedChannel>();
+		}
+		return this.scannedChannel;
+	}
 
+	/**
+	 * <p>
+	 * Java class for anonymous complex type.
+	 * 
+	 * <p>
+	 * The following schema fragment specifies the expected content contained
+	 * within this class.
+	 * 
+	 * <pre>
+	 * &lt;complexType>
+	 *   &lt;complexContent>
+	 *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+	 *       &lt;sequence>
+	 *         &lt;element name="Channel" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
+	 *         &lt;element name="Energy" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
+	 *       &lt;/sequence>
+	 *     &lt;/restriction>
+	 *   &lt;/complexContent>
+	 * &lt;/complexType>
+	 * </pre>
+	 * 
+	 * 
+	 */
+	@XmlAccessorType(XmlAccessType.FIELD)
+	@XmlType(name = "", propOrder = { "channel", "energy" })
+	public static class ScannedChannel {
 
-    /**
-     * <p>Java class for anonymous complex type.
-     * 
-     * <p>The following schema fragment specifies the expected content contained within this class.
-     * 
-     * <pre>
-     * &lt;complexType>
-     *   &lt;complexContent>
-     *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
-     *       &lt;sequence>
-     *         &lt;element name="Channel" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
-     *         &lt;element name="Energy" type="{http://www.w3.org/2001/XMLSchema}unsignedByte"/>
-     *       &lt;/sequence>
-     *     &lt;/restriction>
-     *   &lt;/complexContent>
-     * &lt;/complexType>
-     * </pre>
-     * 
-     * 
-     */
-    @XmlAccessorType(XmlAccessType.FIELD)
-    @XmlType(name = "", propOrder = {
-        "channel",
-        "energy"
-    })
-    public static class ScannedChannel {
+		@XmlElement(name = "Channel")
+		@XmlSchemaType(name = "unsignedByte")
+		protected short channel;
+		@XmlElement(name = "Energy")
+		@XmlSchemaType(name = "unsignedByte")
+		protected short energy;
 
-        @XmlElement(name = "Channel")
-        @XmlSchemaType(name = "unsignedByte")
-        protected short channel;
-        @XmlElement(name = "Energy")
-        @XmlSchemaType(name = "unsignedByte")
-        protected short energy;
+		/**
+		 * Gets the value of the channel property.
+		 * 
+		 */
+		public short getChannel() {
+			return channel;
+		}
 
-        /**
-         * Gets the value of the channel property.
-         * 
-         */
-        public short getChannel() {
-            return channel;
-        }
+		/**
+		 * Sets the value of the channel property.
+		 * 
+		 */
+		public void setChannel(short value) {
+			this.channel = value;
+		}
 
-        /**
-         * Sets the value of the channel property.
-         * 
-         */
-        public void setChannel(short value) {
-            this.channel = value;
-        }
+		/**
+		 * Gets the value of the energy property.
+		 * 
+		 */
+		public short getEnergy() {
+			return energy;
+		}
 
-        /**
-         * Gets the value of the energy property.
-         * 
-         */
-        public short getEnergy() {
-            return energy;
-        }
+		/**
+		 * Sets the value of the energy property.
+		 * 
+		 */
+		public void setEnergy(short value) {
+			this.energy = value;
+		}
 
-        /**
-         * Sets the value of the energy property.
-         * 
-         */
-        public void setEnergy(short value) {
-            this.energy = value;
-        }
-
-    }
+	}
 
 }

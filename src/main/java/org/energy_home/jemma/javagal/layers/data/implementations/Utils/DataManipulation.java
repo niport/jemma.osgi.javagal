@@ -127,8 +127,8 @@ public class DataManipulation {
 	 * @return the converted sub array
 	 */
 	public static byte[] subByteArray(byte[] array, int start, int stop) {
-		byte[] toReturn = new byte[(stop-start)+1];
-		System.arraycopy(array, start, toReturn, 0, ((stop-start)+1));
+		byte[] toReturn = new byte[(stop - start) + 1];
+		System.arraycopy(array, start, toReturn, 0, ((stop - start) + 1));
 		return toReturn;
 	}
 
@@ -247,10 +247,6 @@ public class DataManipulation {
 			toReturn[i] = byteArray[x++];
 		return toReturn;
 	}
-
-	
-
-	
 
 	public static String convertArrayBytesToString(byte[] arr) {
 		StringBuilder sb = new StringBuilder();

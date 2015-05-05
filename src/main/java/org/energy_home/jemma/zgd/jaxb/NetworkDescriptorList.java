@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for NetworkDescriptorList complex type.
+ * <p>
+ * Java class for NetworkDescriptorList complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NetworkDescriptorList">
@@ -51,36 +52,31 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NetworkDescriptorList", propOrder = {
-    "networkDescriptor"
-})
-public class NetworkDescriptorList implements Serializable{
+@XmlType(name = "NetworkDescriptorList", propOrder = { "networkDescriptor" })
+public class NetworkDescriptorList implements Serializable {
 
-    @XmlElement(name = "NetworkDescriptor", required = true)
-    protected NetworkDescriptor networkDescriptor;
+	@XmlElement(name = "NetworkDescriptor", required = true)
+	protected NetworkDescriptor networkDescriptor;
 
-    /**
-     * Gets the value of the networkDescriptor property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link NetworkDescriptor }
-     *     
-     */
-    public NetworkDescriptor getNetworkDescriptor() {
-        return networkDescriptor;
-    }
+	/**
+	 * Gets the value of the networkDescriptor property.
+	 * 
+	 * @return possible object is {@link NetworkDescriptor }
+	 * 
+	 */
+	public NetworkDescriptor getNetworkDescriptor() {
+		return networkDescriptor;
+	}
 
-    /**
-     * Sets the value of the networkDescriptor property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link NetworkDescriptor }
-     *     
-     */
-    public void setNetworkDescriptor(NetworkDescriptor value) {
-        this.networkDescriptor = value;
-    }
+	/**
+	 * Sets the value of the networkDescriptor property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link NetworkDescriptor }
+	 * 
+	 */
+	public void setNetworkDescriptor(NetworkDescriptor value) {
+		this.networkDescriptor = value;
+	}
 
 }

@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -31,11 +30,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for NWKMessageResult complex type.
+ * <p>
+ * Java class for NWKMessageResult complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="NWKMessageResult">
@@ -54,68 +55,64 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "NWKMessageResult", propOrder = {
-    "nwkStatus",
-    "nsduHandle",
-    "txTime"
-})
-public class NWKMessageResult implements Serializable{
+@XmlType(name = "NWKMessageResult", propOrder = { "nwkStatus", "nsduHandle", "txTime" })
+public class NWKMessageResult implements Serializable {
 
-    @XmlElement(name = "NWKStatus")
-    @XmlSchemaType(name = "unsignedShort")
-    protected int nwkStatus;
-    @XmlElement(name = "NsduHandle")
-    @XmlSchemaType(name = "unsignedByte")
-    protected short nsduHandle;
-    @XmlElement(name = "TxTime")
-    protected long txTime;
+	@XmlElement(name = "NWKStatus")
+	@XmlSchemaType(name = "unsignedShort")
+	protected int nwkStatus;
+	@XmlElement(name = "NsduHandle")
+	@XmlSchemaType(name = "unsignedByte")
+	protected short nsduHandle;
+	@XmlElement(name = "TxTime")
+	protected long txTime;
 
-    /**
-     * Gets the value of the nwkStatus property.
-     * 
-     */
-    public int getNWKStatus() {
-        return nwkStatus;
-    }
+	/**
+	 * Gets the value of the nwkStatus property.
+	 * 
+	 */
+	public int getNWKStatus() {
+		return nwkStatus;
+	}
 
-    /**
-     * Sets the value of the nwkStatus property.
-     * 
-     */
-    public void setNWKStatus(int value) {
-        this.nwkStatus = value;
-    }
+	/**
+	 * Sets the value of the nwkStatus property.
+	 * 
+	 */
+	public void setNWKStatus(int value) {
+		this.nwkStatus = value;
+	}
 
-    /**
-     * Gets the value of the nsduHandle property.
-     * 
-     */
-    public short getNsduHandle() {
-        return nsduHandle;
-    }
+	/**
+	 * Gets the value of the nsduHandle property.
+	 * 
+	 */
+	public short getNsduHandle() {
+		return nsduHandle;
+	}
 
-    /**
-     * Sets the value of the nsduHandle property.
-     * 
-     */
-    public void setNsduHandle(short value) {
-        this.nsduHandle = value;
-    }
+	/**
+	 * Sets the value of the nsduHandle property.
+	 * 
+	 */
+	public void setNsduHandle(short value) {
+		this.nsduHandle = value;
+	}
 
-    /**
-     * Gets the value of the txTime property.
-     * 
-     */
-    public long getTxTime() {
-        return txTime;
-    }
+	/**
+	 * Gets the value of the txTime property.
+	 * 
+	 */
+	public long getTxTime() {
+		return txTime;
+	}
 
-    /**
-     * Sets the value of the txTime property.
-     * 
-     */
-    public void setTxTime(long value) {
-        this.txTime = value;
-    }
+	/**
+	 * Sets the value of the txTime property.
+	 * 
+	 */
+	public void setTxTime(long value) {
+		this.txTime = value;
+	}
 
 }

@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for DescriptorCapability complex type.
+ * <p>
+ * Java class for DescriptorCapability complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="DescriptorCapability">
@@ -52,47 +53,44 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DescriptorCapability", propOrder = {
-    "extendedActiveEndpointListAvailable",
-    "extendedSimpleDescriptorListAvailable"
-})
+@XmlType(name = "DescriptorCapability", propOrder = { "extendedActiveEndpointListAvailable", "extendedSimpleDescriptorListAvailable" })
 public class DescriptorCapability implements Serializable {
 
-    @XmlElement(name = "ExtendedActiveEndpointListAvailable")
-    protected boolean extendedActiveEndpointListAvailable;
-    @XmlElement(name = "ExtendedSimpleDescriptorListAvailable")
-    protected boolean extendedSimpleDescriptorListAvailable;
+	@XmlElement(name = "ExtendedActiveEndpointListAvailable")
+	protected boolean extendedActiveEndpointListAvailable;
+	@XmlElement(name = "ExtendedSimpleDescriptorListAvailable")
+	protected boolean extendedSimpleDescriptorListAvailable;
 
-    /**
-     * Gets the value of the extendedActiveEndpointListAvailable property.
-     * 
-     */
-    public boolean isExtendedActiveEndpointListAvailable() {
-        return extendedActiveEndpointListAvailable;
-    }
+	/**
+	 * Gets the value of the extendedActiveEndpointListAvailable property.
+	 * 
+	 */
+	public boolean isExtendedActiveEndpointListAvailable() {
+		return extendedActiveEndpointListAvailable;
+	}
 
-    /**
-     * Sets the value of the extendedActiveEndpointListAvailable property.
-     * 
-     */
-    public void setExtendedActiveEndpointListAvailable(boolean value) {
-        this.extendedActiveEndpointListAvailable = value;
-    }
+	/**
+	 * Sets the value of the extendedActiveEndpointListAvailable property.
+	 * 
+	 */
+	public void setExtendedActiveEndpointListAvailable(boolean value) {
+		this.extendedActiveEndpointListAvailable = value;
+	}
 
-    /**
-     * Gets the value of the extendedSimpleDescriptorListAvailable property.
-     * 
-     */
-    public boolean isExtendedSimpleDescriptorListAvailable() {
-        return extendedSimpleDescriptorListAvailable;
-    }
+	/**
+	 * Gets the value of the extendedSimpleDescriptorListAvailable property.
+	 * 
+	 */
+	public boolean isExtendedSimpleDescriptorListAvailable() {
+		return extendedSimpleDescriptorListAvailable;
+	}
 
-    /**
-     * Sets the value of the extendedSimpleDescriptorListAvailable property.
-     * 
-     */
-    public void setExtendedSimpleDescriptorListAvailable(boolean value) {
-        this.extendedSimpleDescriptorListAvailable = value;
-    }
+	/**
+	 * Sets the value of the extendedSimpleDescriptorListAvailable property.
+	 * 
+	 */
+	public void setExtendedSimpleDescriptorListAvailable(boolean value) {
+		this.extendedSimpleDescriptorListAvailable = value;
+	}
 
 }

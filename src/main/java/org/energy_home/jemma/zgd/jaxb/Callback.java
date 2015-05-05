@@ -20,7 +20,6 @@
 // Generated on: 2014.04.03 at 05:23:14 PM CEST 
 //
 
-
 package org.energy_home.jemma.zgd.jaxb;
 
 import java.io.Serializable;
@@ -30,11 +29,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-
 /**
- * <p>Java class for Callback complex type.
+ * <p>
+ * Java class for Callback complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name="Callback">
@@ -53,90 +54,77 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Callback", propOrder = {
-    "filter",
-    "buffer",
-    "action"
-})
+@XmlType(name = "Callback", propOrder = { "filter", "buffer", "action" })
 public class Callback implements Serializable {
 
-    @XmlElement(name = "Filter")
-    protected Filter filter;
-    @XmlElement(name = "Buffer")
-    protected Buffer buffer;
-    @XmlElement(name = "Action")
-    protected Action action;
+	@XmlElement(name = "Filter")
+	protected Filter filter;
+	@XmlElement(name = "Buffer")
+	protected Buffer buffer;
+	@XmlElement(name = "Action")
+	protected Action action;
 
-    /**
-     * Gets the value of the filter property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Filter }
-     *     
-     */
-    public Filter getFilter() {
-        return filter;
-    }
+	/**
+	 * Gets the value of the filter property.
+	 * 
+	 * @return possible object is {@link Filter }
+	 * 
+	 */
+	public Filter getFilter() {
+		return filter;
+	}
 
-    /**
-     * Sets the value of the filter property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Filter }
-     *     
-     */
-    public void setFilter(Filter value) {
-        this.filter = value;
-    }
+	/**
+	 * Sets the value of the filter property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Filter }
+	 * 
+	 */
+	public void setFilter(Filter value) {
+		this.filter = value;
+	}
 
-    /**
-     * Gets the value of the buffer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Buffer }
-     *     
-     */
-    public Buffer getBuffer() {
-        return buffer;
-    }
+	/**
+	 * Gets the value of the buffer property.
+	 * 
+	 * @return possible object is {@link Buffer }
+	 * 
+	 */
+	public Buffer getBuffer() {
+		return buffer;
+	}
 
-    /**
-     * Sets the value of the buffer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Buffer }
-     *     
-     */
-    public void setBuffer(Buffer value) {
-        this.buffer = value;
-    }
+	/**
+	 * Sets the value of the buffer property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Buffer }
+	 * 
+	 */
+	public void setBuffer(Buffer value) {
+		this.buffer = value;
+	}
 
-    /**
-     * Gets the value of the action property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Action }
-     *     
-     */
-    public Action getAction() {
-        return action;
-    }
+	/**
+	 * Gets the value of the action property.
+	 * 
+	 * @return possible object is {@link Action }
+	 * 
+	 */
+	public Action getAction() {
+		return action;
+	}
 
-    /**
-     * Sets the value of the action property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Action }
-     *     
-     */
-    public void setAction(Action value) {
-        this.action = value;
-    }
+	/**
+	 * Sets the value of the action property.
+	 * 
+	 * @param value
+	 *            allowed object is {@link Action }
+	 * 
+	 */
+	public void setAction(Action value) {
+		this.action = value;
+	}
 
 }
