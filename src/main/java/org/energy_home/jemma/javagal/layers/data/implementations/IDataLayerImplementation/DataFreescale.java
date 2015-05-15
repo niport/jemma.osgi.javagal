@@ -146,6 +146,9 @@ public class DataFreescale implements IDataLayer {
 		if (!foundSerialLib) {
 			throw new Exception("Error not found Rxtx or Jssc serial connector library");
 		}
+		
+		RS232Filter.create(dongleRs232);
+		
 		INTERNAL_TIMEOUT = getGal().getPropertiesManager().getCommandTimeoutMS();
 		executor = Executors.newFixedThreadPool(getGal().getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
 
@@ -2383,9 +2386,10 @@ public class DataFreescale implements IDataLayer {
 		return toReturn;
 	}
 
-	public void SendRs232Data(final ByteArrayObject toAdd) throws Exception {
-		getIKeyInstance().write(toAdd);
-
+	public void SendRs232Data(final ByteArrayObject toAdd) throws Exception 
+	{
+		// getIKeyInstance().write(toAdd);
+		RS232Filter.getInstance(getIKeyInstance()).write(toAdd);
 	}
 
 	public ByteArrayObject Set_SequenceStart_And_FSC(ByteArrayObject x, short commandCode) {

@@ -151,21 +151,24 @@ public class SerialPortConnectorJssc implements IConnector {
 	 * @inheritDoc
 	 */
 	public void disconnect() throws SerialPortException {
-		setConnected(false);
-		serialReader = null;
-
-		if (serialPort != null) {
-			serialPort.removeEventListener();
-			serialPort.closePort();
-			serialPort = null;
-
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-
+		synchronized(this)
+		{
+			setConnected(false);
+			serialReader = null;
+	
+			if (serialPort != null) {
+				serialPort.removeEventListener();
+				serialPort.closePort();
+				serialPort = null;
+	
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+	
+				}
 			}
+			LOG.info("RS232 - Disconnected");
 		}
-		LOG.info("RS232 - Disconnected");
 	}
 
 	class SerialReader implements SerialPortEventListener {

@@ -192,32 +192,36 @@ public class SerialPortConnectorRxTx implements IConnector {
 	/**
 	 * @inheritDoc
 	 */
-	public void disconnect() throws IOException {
-		System.setProperty("gnu.io.rxtx.SerialPorts", "");
-		setConnected(false);
-		serialReader = null;
-
-		if (serialPort != null) {
-			if (in != null) {
-				in.close();
-				in = null;
+	public void disconnect() throws IOException 
+	{
+		synchronized(this)
+		{
+			System.setProperty("gnu.io.rxtx.SerialPorts", "");
+			setConnected(false);
+			serialReader = null;
+	
+			if (serialPort != null) {
+				if (in != null) {
+					in.close();
+					in = null;
+				}
+				if (ou != null) {
+					ou.close();
+					ou = null;
+				}
+				serialPort.removeEventListener();
+				serialPort.close();
+				serialPort = null;
+	
+				portIdentifier = null;
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+	
+				}
 			}
-			if (ou != null) {
-				ou.close();
-				ou = null;
-			}
-			serialPort.removeEventListener();
-			serialPort.close();
-			serialPort = null;
-
-			portIdentifier = null;
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-
-			}
+			LOG.info("RS232 - Disconnected");
 		}
-		LOG.info("RS232 - Disconnected");
 	}
 
 	class SerialReader implements SerialPortEventListener {
