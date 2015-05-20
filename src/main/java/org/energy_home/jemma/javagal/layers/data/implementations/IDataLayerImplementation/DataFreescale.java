@@ -2407,6 +2407,7 @@ public class DataFreescale implements IDataLayer {
 		return x;
 	}
 
+	// Set an APS information base (AIB) attribute. 
 	public Status APSME_SETSync(long timeout, short _AttID, String _value) throws GatewayException, Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) _AttID);/* _AttId */
@@ -2446,6 +2447,7 @@ public class DataFreescale implements IDataLayer {
 
 	}
 
+	// Get APS information base (AIB) attributes.
 	public String APSME_GETSync(long timeout, short _AttID) throws Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) _AttID);/* iId */
@@ -2489,7 +2491,8 @@ public class DataFreescale implements IDataLayer {
 		}
 
 	}
-
+	
+	// Get network information base Attributes.
 	public String NMLE_GetSync(long timeout, short _AttID, short iEntry) throws Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) _AttID);/* iId */
@@ -2535,6 +2538,7 @@ public class DataFreescale implements IDataLayer {
 
 	}
 
+	// Stop the network.
 	public Status stopNetworkSync(long timeout) throws Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) 0x01);/*
@@ -2587,6 +2591,7 @@ public class DataFreescale implements IDataLayer {
 
 	}
 
+	// Send a message to Freescale.
 	public Status sendApsSync(long timeout, APSMessage message) throws Exception {
 
 		LOG.debug("Data_FreeScale.send_aps");
@@ -3944,7 +3949,7 @@ public class DataFreescale implements IDataLayer {
 		getListLocker().add(lock);
 		SendRs232Data(_res);
 		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
+			lock.getObjectLocker().poll(10*timeout, TimeUnit.MILLISECONDS);
 		status = lock.getStatus();
 		if (getListLocker().contains(lock))
 			getListLocker().remove(lock);

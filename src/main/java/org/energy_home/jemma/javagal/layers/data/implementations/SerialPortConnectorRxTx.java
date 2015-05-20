@@ -17,6 +17,7 @@ package org.energy_home.jemma.javagal.layers.data.implementations;
 
 import gnu.io.*;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -104,7 +105,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 					serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 					serialPort.enableReceiveTimeout(2000);
 					serialPort.notifyOnDataAvailable(true);
-
+					
 					try {
 						serialReader = new SerialReader(this);
 						serialPort.addEventListener(serialReader);
@@ -160,6 +161,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 					LOG.debug(">>> Sending: " + buff.ToHexString());
 					synchronized (ou) {
 						ou.write(buff.getArray(), 0, buff.getCount(true));
+						ou.flush();
 						if (DataLayer.getPropertiesManager().getzgdDump()) {
 							String directory = DataLayer.getPropertiesManager().getDirDump();
 							String fileName = System.currentTimeMillis() + "-w.bin";
