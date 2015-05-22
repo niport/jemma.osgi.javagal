@@ -28,7 +28,7 @@ public class RS232Filter implements Runnable {
 			instance = new RS232Filter(dongleRs232);
 		}
 		else
-			LOG.warn("Trying to create a second instance, operation canceled ...");
+			LOG.warn("Trying to create a second instance!");
 		
 		return instance;
 	}

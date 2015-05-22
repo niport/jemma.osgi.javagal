@@ -232,7 +232,7 @@ public class GalController {
 
 					/* End of reset section */
 					if (PropertiesManager.getzgdDongleType().equalsIgnoreCase("freescale")) {
-						LOG.error("Destroying the RS232Filter instance ...");
+						LOG.error("Destroying the RS232Filter instance");
 						RS232Filter.destroy();
 						LOG.error("Re-creating DataLayer Object for FreeScale chip");
 						DataLayer = new DataFreescale((GalController) this.getParameter());
@@ -2728,7 +2728,7 @@ public class GalController {
 				LOG.error("DataLayer instance was connected, disconnecting");
 				DataLayer.getIKeyInstance().disconnect();
 			}
-			LOG.error("Destroying RS232Filter ...");
+			LOG.error("Destroying the RS232Filter instance");
 			RS232Filter.destroy();
 			LOG.error("Destroying DataLayer");
 			DataLayer.destroy();
