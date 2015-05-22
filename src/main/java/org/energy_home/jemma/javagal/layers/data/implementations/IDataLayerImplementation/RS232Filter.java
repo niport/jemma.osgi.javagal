@@ -10,25 +10,63 @@ import org.slf4j.LoggerFactory;
 
 public class RS232Filter implements Runnable {
 	
-	private static int SIZE = 1024;
-	private static int DELAY = 200;
+	private static int SIZE = 1024;		// Queue maximum size ...
+	private static int DELAY = 200;		// Delay between commands ...
 	private static RS232Filter instance = null;
 	private LinkedBlockingDeque<ByteArrayObject> queue;
 	private IConnector dongleRs232;
+	private boolean running = true;
+	private Thread innerThread = null;
 		
 	private static final Logger LOG = LoggerFactory.getLogger(SerialPortConnectorJssc.class);
 	
-	public static RS232Filter create(IConnector dongleRs232)
+	public synchronized static RS232Filter create(IConnector dongleRs232)
 	{
 		if(instance==null)
+		{
+			LOG.debug("Creating instance ...");
 			instance = new RS232Filter(dongleRs232);
+		}
+		else
+			LOG.warn("Trying to create a second instance, operation canceled ...");
+		
 		return instance;
 	}
 	
-	public static RS232Filter getInstance(IConnector dongleRs232)
+	public static void destroy()
 	{
-		// This is because the dongleRs232 may change due to a dongle reset ...
-		instance.dongleRs232 = dongleRs232;
+		LOG.debug("Destroying instance ...");
+		
+		if(instance != null)
+		{
+			instance.running = false;
+			
+			try {
+				// Unblocks the queue for the last time, in case
+				// it was blocked on a take request ...
+				instance.queue.put(new ByteArrayObject(true));
+			} catch (InterruptedException e) {
+				LOG.error("Error unblocking the queue");
+				e.printStackTrace();
+			}
+			
+			try {
+				// Wait for the main thread to be over ...
+				if(instance.innerThread != null)
+					instance.innerThread.join();
+			} catch (InterruptedException e) {
+				LOG.error("Error waiting for the main thread to be over");
+				e.printStackTrace();
+			}
+			
+			instance = null;
+			
+			LOG.debug("*** Correctly destroyed!");
+		}
+	}
+	
+	public static RS232Filter getInstance()
+	{
 		return instance;
 	}
 	
@@ -38,7 +76,7 @@ public class RS232Filter implements Runnable {
 		queue = new LinkedBlockingDeque<ByteArrayObject>(SIZE);
 		
 		// Main thread ...
-		new Thread(this).start();
+		(innerThread = new Thread(this)).start();
 	}
 	
 	public void write(ByteArrayObject command)
@@ -46,16 +84,16 @@ public class RS232Filter implements Runnable {
 		try {
 			// Put a command in the tail ...
 			queue.put(command);
-			LOG.debug("RS232Filter - Got a command: " + command.ToHexString());
+			LOG.debug("Got a command: " + command.ToHexString());
 		} catch (InterruptedException e) {
-			System.out.println("RS232Filter - Error queueing command: " + command.ToHexString());
+			System.out.println("Error queueing command: " + command.ToHexString());
 			e.printStackTrace();
 		}
 	}
 
 	public void run() 
 	{		
-		while(true)
+		while(running)
 		{
 			try {
 				Thread.sleep(DELAY);
@@ -65,27 +103,32 @@ public class RS232Filter implements Runnable {
 				
 				synchronized(dongleRs232)
 				{
-					if(dongleRs232.isConnected())
+					if(running)
 					{
-						// Write down the command on the serial port ...
-						LOG.debug("RS232Filter - Sending command: " + command.ToHexString());
-						dongleRs232.write(command);
-					}
-					else
-					{
-						// Write down the command on the serial port ...
-						LOG.warn("RS232Filter - Dongle disconnected, outgoing command: " + command.ToHexString());
-						
-						// Re-insert the command in the head of the queue ..
-						queue.addFirst(command);
+						if(dongleRs232.isConnected())
+						{
+							// Write down the command on the serial port ...
+							LOG.debug("Sending command: " + command.ToHexString());
+							dongleRs232.write(command);
+						}
+						else
+						{
+							// Write down the command on the serial port ...
+							LOG.warn("Dongle disconnected, outgoing command: " + command.ToHexString());
+							
+							// Re-insert the command in the head of the queue ..
+							queue.addFirst(command);
+						}
 					}
 				}
 
 			} catch (Exception e) {
-				LOG.error("RS232Filter - Error in the main loop");
+				LOG.error("Error in the main loop");
 				e.printStackTrace();
 			}
 		}
+		
+		LOG.warn("*** Main thread terminated ...");
 	}
 
 	public IConnector getDongleRs232() 

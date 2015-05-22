@@ -2389,7 +2389,7 @@ public class DataFreescale implements IDataLayer {
 	public void SendRs232Data(final ByteArrayObject toAdd) throws Exception 
 	{
 		// getIKeyInstance().write(toAdd);
-		RS232Filter.getInstance(getIKeyInstance()).write(toAdd);
+		RS232Filter.getInstance().write(toAdd);
 	}
 
 	public ByteArrayObject Set_SequenceStart_And_FSC(ByteArrayObject x, short commandCode) {
@@ -3940,6 +3940,10 @@ public class DataFreescale implements IDataLayer {
 		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPMgmtLqiRequest);
 		LOG.debug("Mgmt_Lqi_Request command: {}", _res.ToHexString());
 
+		// In case of a device different from the coordinator, we increase the timeout ...
+		if(addrOfInterest.getNetworkAddress().shortValue() != 0)
+			timeout *= 10;
+		
 		String __Key = String.format("%04X%02X", addrOfInterest.getNetworkAddress(), startIndex);
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.LQI_REQ);
@@ -3949,7 +3953,7 @@ public class DataFreescale implements IDataLayer {
 		getListLocker().add(lock);
 		SendRs232Data(_res);
 		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(10*timeout, TimeUnit.MILLISECONDS);
+			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
 		status = lock.getStatus();
 		if (getListLocker().contains(lock))
 			getListLocker().remove(lock);
