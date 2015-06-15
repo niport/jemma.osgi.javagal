@@ -88,7 +88,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 	/**
 	 * @inheritDoc
 	 */
-	private boolean connect(String portName, int speed) throws Exception {
+	private synchronized boolean connect(String portName, int speed) throws Exception {
 
 		try {
 			System.setProperty("gnu.io.rxtx.SerialPorts", portName);

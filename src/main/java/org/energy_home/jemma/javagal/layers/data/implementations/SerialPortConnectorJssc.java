@@ -77,7 +77,7 @@ public class SerialPortConnectorJssc implements IConnector {
 	/**
 	 * @inheritDoc
 	 */
-	private boolean connect(String portName, int speed) throws Exception {
+	private synchronized boolean connect(String portName, int speed) throws Exception {
 
 		try {
 			serialPort = new SerialPort(portName);

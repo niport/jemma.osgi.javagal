@@ -121,6 +121,8 @@ public class GalController {
 	PropertiesManager PropertiesManager = null;
 	private ManageMapPanId manageMapPanId;
 	private String networkPanID = null;
+	
+	private static boolean first = true;
 
 	public String getNetworkPanID() {
 		return networkPanID;
@@ -172,7 +174,11 @@ public class GalController {
 		/* End of reset section */
 
 		// schedule a daily GAL recovery
-		scheduleResetTimerTask();
+		if(first)
+		{
+			scheduleResetTimerTask();
+			first = false;
+		}
 
 		if (PropertiesManager.getzgdDongleType().equalsIgnoreCase("freescale")) {
 			DataLayer = new DataFreescale(this);
