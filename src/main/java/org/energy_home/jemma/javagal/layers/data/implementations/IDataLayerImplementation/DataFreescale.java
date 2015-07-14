@@ -146,6 +146,9 @@ public class DataFreescale implements IDataLayer {
 		if (!foundSerialLib) {
 			throw new Exception("Error not found Rxtx or Jssc serial connector library");
 		}
+		
+		RS232Filter.create(dongleRs232);
+		
 		INTERNAL_TIMEOUT = getGal().getPropertiesManager().getCommandTimeoutMS();
 		executor = Executors.newFixedThreadPool(getGal().getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
 
@@ -2383,9 +2386,10 @@ public class DataFreescale implements IDataLayer {
 		return toReturn;
 	}
 
-	public void SendRs232Data(final ByteArrayObject toAdd) throws Exception {
-		getIKeyInstance().write(toAdd);
-
+	public void SendRs232Data(final ByteArrayObject toAdd) throws Exception 
+	{
+		// getIKeyInstance().write(toAdd);
+		RS232Filter.getInstance().write(toAdd);
 	}
 
 	public ByteArrayObject Set_SequenceStart_And_FSC(ByteArrayObject x, short commandCode) {
@@ -2403,6 +2407,7 @@ public class DataFreescale implements IDataLayer {
 		return x;
 	}
 
+	// Set an APS information base (AIB) attribute. 
 	public Status APSME_SETSync(long timeout, short _AttID, String _value) throws GatewayException, Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) _AttID);/* _AttId */
@@ -2442,6 +2447,7 @@ public class DataFreescale implements IDataLayer {
 
 	}
 
+	// Get APS information base (AIB) attributes.
 	public String APSME_GETSync(long timeout, short _AttID) throws Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) _AttID);/* iId */
@@ -2485,7 +2491,8 @@ public class DataFreescale implements IDataLayer {
 		}
 
 	}
-
+	
+	// Get network information base Attributes.
 	public String NMLE_GetSync(long timeout, short _AttID, short iEntry) throws Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) _AttID);/* iId */
@@ -2531,6 +2538,7 @@ public class DataFreescale implements IDataLayer {
 
 	}
 
+	// Stop the network.
 	public Status stopNetworkSync(long timeout) throws Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) 0x01);/*
@@ -2583,6 +2591,7 @@ public class DataFreescale implements IDataLayer {
 
 	}
 
+	// Send a message to Freescale.
 	public Status sendApsSync(long timeout, APSMessage message) throws Exception {
 
 		LOG.debug("Data_FreeScale.send_aps");
@@ -3931,6 +3940,10 @@ public class DataFreescale implements IDataLayer {
 		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPMgmtLqiRequest);
 		LOG.debug("Mgmt_Lqi_Request command: {}", _res.ToHexString());
 
+		// In case of a device different from the coordinator, we increase the timeout ...
+		if(addrOfInterest.getNetworkAddress().shortValue() != 0)
+			timeout *= 10;
+		
 		String __Key = String.format("%04X%02X", addrOfInterest.getNetworkAddress(), startIndex);
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.LQI_REQ);

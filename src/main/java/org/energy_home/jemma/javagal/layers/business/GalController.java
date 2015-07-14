@@ -42,6 +42,7 @@ import org.energy_home.jemma.javagal.layers.business.implementations.GatewayEven
 import org.energy_home.jemma.javagal.layers.business.implementations.MessageManager;
 import org.energy_home.jemma.javagal.layers.business.implementations.ZdoManager;
 import org.energy_home.jemma.javagal.layers.data.implementations.IDataLayerImplementation.DataFreescale;
+import org.energy_home.jemma.javagal.layers.data.implementations.IDataLayerImplementation.RS232Filter;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IDataLayer;
 import org.energy_home.jemma.javagal.layers.object.CallbackEntry;
 import org.energy_home.jemma.javagal.layers.object.GatewayDeviceEventEntry;
@@ -120,6 +121,8 @@ public class GalController {
 	PropertiesManager PropertiesManager = null;
 	private ManageMapPanId manageMapPanId;
 	private String networkPanID = null;
+	
+	private static boolean first = true;
 
 	public String getNetworkPanID() {
 		return networkPanID;
@@ -171,7 +174,11 @@ public class GalController {
 		/* End of reset section */
 
 		// schedule a daily GAL recovery
-		scheduleResetTimerTask();
+		if(first)
+		{
+			scheduleResetTimerTask();
+			first = false;
+		}
 
 		if (PropertiesManager.getzgdDongleType().equalsIgnoreCase("freescale")) {
 			DataLayer = new DataFreescale(this);
@@ -231,6 +238,8 @@ public class GalController {
 
 					/* End of reset section */
 					if (PropertiesManager.getzgdDongleType().equalsIgnoreCase("freescale")) {
+						LOG.error("Destroying the RS232Filter instance");
+						RS232Filter.destroy();
 						LOG.error("Re-creating DataLayer Object for FreeScale chip");
 						DataLayer = new DataFreescale((GalController) this.getParameter());
 						LOG.error("Initializing data Layer");
@@ -2725,10 +2734,11 @@ public class GalController {
 				LOG.error("DataLayer instance was connected, disconnecting");
 				DataLayer.getIKeyInstance().disconnect();
 			}
+			LOG.error("Destroying the RS232Filter instance");
+			RS232Filter.destroy();
 			LOG.error("Destroying DataLayer");
 			DataLayer.destroy();
 			LOG.debug("Reset done!");
 		}
 	}
-
 }

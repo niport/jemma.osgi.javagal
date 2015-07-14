@@ -17,6 +17,7 @@ package org.energy_home.jemma.javagal.layers.data.implementations;
 
 import gnu.io.*;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -87,7 +88,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 	/**
 	 * @inheritDoc
 	 */
-	private boolean connect(String portName, int speed) throws Exception {
+	private synchronized boolean connect(String portName, int speed) throws Exception {
 
 		try {
 			System.setProperty("gnu.io.rxtx.SerialPorts", portName);
@@ -104,7 +105,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 					serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 					serialPort.enableReceiveTimeout(2000);
 					serialPort.notifyOnDataAvailable(true);
-
+					
 					try {
 						serialReader = new SerialReader(this);
 						serialPort.addEventListener(serialReader);
@@ -160,6 +161,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 					LOG.debug(">>> Sending: " + buff.ToHexString());
 					synchronized (ou) {
 						ou.write(buff.getArray(), 0, buff.getCount(true));
+						ou.flush();
 						if (DataLayer.getPropertiesManager().getzgdDump()) {
 							String directory = DataLayer.getPropertiesManager().getDirDump();
 							String fileName = System.currentTimeMillis() + "-w.bin";
@@ -192,32 +194,36 @@ public class SerialPortConnectorRxTx implements IConnector {
 	/**
 	 * @inheritDoc
 	 */
-	public void disconnect() throws IOException {
-		System.setProperty("gnu.io.rxtx.SerialPorts", "");
-		setConnected(false);
-		serialReader = null;
-
-		if (serialPort != null) {
-			if (in != null) {
-				in.close();
-				in = null;
+	public void disconnect() throws IOException 
+	{
+		synchronized(this)
+		{
+			System.setProperty("gnu.io.rxtx.SerialPorts", "");
+			setConnected(false);
+			serialReader = null;
+	
+			if (serialPort != null) {
+				if (in != null) {
+					in.close();
+					in = null;
+				}
+				if (ou != null) {
+					ou.close();
+					ou = null;
+				}
+				serialPort.removeEventListener();
+				serialPort.close();
+				serialPort = null;
+	
+				portIdentifier = null;
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e) {
+	
+				}
 			}
-			if (ou != null) {
-				ou.close();
-				ou = null;
-			}
-			serialPort.removeEventListener();
-			serialPort.close();
-			serialPort = null;
-
-			portIdentifier = null;
-			try {
-				Thread.sleep(50);
-			} catch (InterruptedException e) {
-
-			}
+			LOG.info("RS232 - Disconnected");
 		}
-		LOG.info("RS232 - Disconnected");
 	}
 
 	class SerialReader implements SerialPortEventListener {
