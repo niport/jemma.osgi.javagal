@@ -234,7 +234,13 @@ public class GalController {
 					LOG.error("********STARTING RECOVERY...");
 
 					/* Used for reset GAL */
-					resetGateway();
+					try{
+						resetGateway();
+					}
+					catch(Throwable t){
+						LOG.error("Exception thrown resetting gateway",t);
+					}
+					
 
 					/* End of reset section */
 					if (PropertiesManager.getzgdDongleType().equalsIgnoreCase("freescale")) {
