@@ -115,7 +115,7 @@ public class Discovery_Freshness_ForcePing {
 					}
 				}
 
-				LOG.debug("Sending LQI_REQ ( {} ) for node: {}", functionName, Utils.getAddressString(aoi) + " -- StartIndex:" + startIndex);
+				LOG.debug("Sending LQI_REQ ( {} ) for node: {}",functionName, Utils.getAddressString(aoi) + " -- StartIndex:" + startIndex);
 				/* Executing Lqi Request */
 				_Lqi = getGal().getDataLayer().Mgmt_Lqi_Request(getGal().getPropertiesManager().getCommandTimeoutMS(), aoi, startIndex);
 				/* Check no Response received */
@@ -128,7 +128,7 @@ public class Discovery_Freshness_ForcePing {
 					short _indexLqi = _Lqi._StartIndex;
 					short _LqiListCount = _Lqi._NeighborTableListCount;
 
-					LOG.info("Received LQI_RSP ( {} ) for node: {}", functionName, Utils.getAddressString(aoi) + " -- StartIndex:" + _indexLqi);
+					LOG.info("Received LQI_RSP ( {} ) for node: {}" ,functionName,  Utils.getAddressString(aoi) + " -- StartIndex:" + _indexLqi);
 
 					AssociatedDevices _AssociatedDevices = new AssociatedDevices();
 					if (_Lqi.NeighborTableList != null && _Lqi.NeighborTableList.size() > 0) {
@@ -292,7 +292,8 @@ public class Discovery_Freshness_ForcePing {
 
 		Address _addressChild = new Address();
 		_addressChild.setNetworkAddress(x._Network_Address);
-		BigInteger bi = BigInteger.valueOf(x._Extended_Address);
+		//BigInteger bi = BigInteger.valueOf(x._Extended_Address);
+		BigInteger bi = new BigInteger(1,Utils.longToByteArray(x._Extended_Address));
 		_addressChild.setIeeeAddress(bi);
 		WrapperWSNNode newNodeWrapperChild = new WrapperWSNNode(gal, String.format("%04X", x._Network_Address));
 		WSNNode newNodeChild = new WSNNode();

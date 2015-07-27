@@ -84,10 +84,13 @@ public class Utils {
 
 		default:
 
-			throw new IllegalArgumentException("long is reppresented as 8 bytes," +
-			// ASK: you probably intended to put 7 instead of 3
-			// on the message below.
-					" hence value of n must be between 0 and 3: you have tryed to use " + n);
+			throw new IllegalArgumentException(
+					"long is reppresented as 8 bytes,"
+							+
+							// ASK: you probably intended to put 7 instead of 3
+							// on the message below.
+							" hence value of n must be between 0 and 3: you have tryed to use "
+							+ n);
 		}
 	}
 
@@ -205,9 +208,23 @@ public class Utils {
 		return copy;
 	}
 
-	public static String getAddressString(Address address) {
-		String networkAddress = address.getNetworkAddress() == null ? "NULL" : String.format("%04X", address.getNetworkAddress());
-		String ieeeAddress = address.getIeeeAddress() == null ? "NULL" : String.format("%16X", address.getIeeeAddress());
-		return "{ NWK: " + networkAddress + " , IEEE: " + ieeeAddress + " }";
+	public static String getAddressString(Address address)
+	{
+		String networkAddress=address.getNetworkAddress()==null?"NULL":String.format("%04X", address.getNetworkAddress());
+		String ieeeAddress=address.getIeeeAddress()==null?"NULL":String.format("%16X", address.getIeeeAddress());
+		return "{ NWK: "+networkAddress+" , IEEE: "+ieeeAddress+" }";
+	}
+	
+	public static byte[] longToByteArray(long value) {
+	    return new byte[] {
+	        (byte) (value >> 56),
+	        (byte) (value >> 48),
+	        (byte) (value >> 40),
+	        (byte) (value >> 32),
+	        (byte) (value >> 24),
+	        (byte) (value >> 16),
+	        (byte) (value >> 8),
+	        (byte) value
+	    };
 	}
 }
