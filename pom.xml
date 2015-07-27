@@ -134,17 +134,20 @@
 			<groupId>javax.xml</groupId>
 			<artifactId>javax.xml</artifactId>
 			<version>${javax.xml.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>jssc</groupId>
 			<artifactId>jssc</artifactId>
 			<version>${jssc.version}</version>
 			<optional>true</optional>
+			<scope>compile</scope>
 		</dependency>		
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${org.apache.commons.commons-lang3.version}</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
@@ -163,12 +166,13 @@
 			<artifactId>org.rxtx</artifactId>
 			<version>${org.rxtx.version}</version>
 			<optional>true</optional>
+			<scope>compile</scope>
 		</dependency>		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${org.slf4j.version}</version>
+			<scope>compile</scope>
 		</dependency>
-		
 	</dependencies>
 </project>
