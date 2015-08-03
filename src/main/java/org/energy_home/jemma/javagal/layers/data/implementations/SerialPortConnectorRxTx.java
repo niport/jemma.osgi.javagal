@@ -105,7 +105,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 					serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 					serialPort.enableReceiveTimeout(2000);
 					serialPort.notifyOnDataAvailable(true);
-					
+
 					try {
 						serialReader = new SerialReader(this);
 						serialPort.addEventListener(serialReader);
@@ -194,14 +194,12 @@ public class SerialPortConnectorRxTx implements IConnector {
 	/**
 	 * @inheritDoc
 	 */
-	public void disconnect() throws IOException 
-	{
-		synchronized(this)
-		{
+	public void disconnect() throws IOException {
+		synchronized (this) {
 			System.setProperty("gnu.io.rxtx.SerialPorts", "");
 			setConnected(false);
 			serialReader = null;
-	
+
 			if (serialPort != null) {
 				if (in != null) {
 					in.close();
@@ -214,12 +212,12 @@ public class SerialPortConnectorRxTx implements IConnector {
 				serialPort.removeEventListener();
 				serialPort.close();
 				serialPort = null;
-	
+
 				portIdentifier = null;
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e) {
-	
+
 				}
 			}
 			LOG.info("RS232 - Disconnected");

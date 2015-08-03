@@ -186,10 +186,10 @@ public class DataManipulation {
 	public static byte[] toByteVect(BigInteger toConvert, int pad) {
 		byte[] toReturn = new byte[pad];
 		byte[] byteArray = toConvert.toByteArray();
-		
-		if(byteArray[0]==0)
+
+		if (byteArray[0] == 0)
 			byteArray = byteShift(byteArray);
-				
+
 		int i;
 		for (i = 0; i <= (pad - byteArray.length - 1); i++)
 			toReturn[i] = 0;
@@ -198,16 +198,15 @@ public class DataManipulation {
 			toReturn[i] = byteArray[x++];
 		return toReturn;
 	}
-	
+
 	/**
 	 * Shifts a byte on the left
 	 */
-	
-	public static byte [] byteShift(byte [] value)
-	{
-		byte [] res = new byte[value.length-1];
-		for(int i=1; i<value.length; i++)
-			res[i-1]=value[i];
+
+	public static byte[] byteShift(byte[] value) {
+		byte[] res = new byte[value.length - 1];
+		for (int i = 1; i < value.length; i++)
+			res[i - 1] = value[i];
 		return res;
 	}
 

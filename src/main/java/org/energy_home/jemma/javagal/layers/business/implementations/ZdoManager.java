@@ -86,12 +86,12 @@ public class ZdoManager /* implements APSMessageListener */{
 		}
 		/* Node_Desc_rsp */
 		else if (message.getClusterID() == 0x8002) {
-				LOG.debug("Extracted APS With a Node_Desc_rsp");
+			LOG.debug("Extracted APS With a Node_Desc_rsp");
 		}
 		/* Leave_rsp */
 		else if (message.getClusterID() == 0x8034) {
 			LOG.debug("Extracted APS With a Leave_rsp");
-			
+
 			WSNNode _nodeRemoved = new WSNNode();
 			Address _add = message.getSourceAddress();
 			_nodeRemoved.setAddress(_add);
@@ -121,7 +121,7 @@ public class ZdoManager /* implements APSMessageListener */{
 			_add.setNetworkAddress(DataManipulation.toIntFromShort(message.getData()[2], message.getData()[1]));
 			WrapperWSNNode _Node = new WrapperWSNNode(gal, String.format("%04X", _add.getNetworkAddress()));
 			WSNNode n = new WSNNode();
-			
+
 			byte[] _IEEE = new byte[8];
 			_IEEE[0] = message.getData()[10];
 			_IEEE[1] = message.getData()[9];
@@ -131,7 +131,7 @@ public class ZdoManager /* implements APSMessageListener */{
 			_IEEE[5] = message.getData()[5];
 			_IEEE[6] = message.getData()[4];
 			_IEEE[7] = message.getData()[3];
-			_add.setIeeeAddress(new BigInteger(1,_IEEE));
+			_add.setIeeeAddress(new BigInteger(1, _IEEE));
 			n.setAddress(_add);
 			byte _Capability = message.getData()[11];
 			byte _AlternatePANCoordinator = (byte) (_Capability & 0x01);/* bit0 */
@@ -151,7 +151,7 @@ public class ZdoManager /* implements APSMessageListener */{
 			_Node.set_node(n);
 			_Node.set_discoveryCompleted(true);
 			_Node.reset_numberOfAttempt();
-			
+
 			synchronized (getGal().getNetworkcache()) {
 				if ((getGal().getFromNetworkCache(_Node)) == null) {
 					/* id not exist */
@@ -178,7 +178,7 @@ public class ZdoManager /* implements APSMessageListener */{
 					Status _s = new Status();
 					_s.setCode((short) 0x00);
 					LOG.debug("\n\rNodeDiscovered From ZDP Device_announcement: {} ", String.format("%04X", _Node.get_node().getAddress().getNetworkAddress()) + "\n\r");
-					
+
 					try {
 						getGal().get_gatewayEventManager().nodeDiscovered(_s, _Node.get_node());
 					} catch (Exception e) {

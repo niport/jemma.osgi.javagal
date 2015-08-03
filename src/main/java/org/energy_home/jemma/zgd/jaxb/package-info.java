@@ -22,3 +22,4 @@
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.zigbee.org/GWGSchema", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package org.energy_home.jemma.zgd.jaxb;
+
