@@ -33,11 +33,13 @@ import org.slf4j.LoggerFactory;
  * Manages received ZDO messages. When an ZDO indication is received it is
  * passed to this class' {@code ZDOMessageIndication} method.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
-public class ZdoManager /* implements APSMessageListener */{
+public class ZdoManager /* implements APSMessageListener */ {
 	private static final Logger LOG = LoggerFactory.getLogger(ZdoManager.class);
 
 	/**
@@ -53,7 +55,7 @@ public class ZdoManager /* implements APSMessageListener */{
 	 * Creates a new instance with a Gal controller reference.
 	 * 
 	 * @param _gal
-	 *            a Gal controller reference.
+	 *          a Gal controller reference.
 	 */
 	public ZdoManager(GalController _gal) {
 		gal = _gal;
@@ -67,7 +69,7 @@ public class ZdoManager /* implements APSMessageListener */{
 	 * listeners.
 	 * 
 	 * @param message
-	 *            the ZDO message to process.
+	 *          the ZDO message to process.
 	 */
 	public void ZDOMessageIndication(APSMessageEvent message) {
 
@@ -156,9 +158,12 @@ public class ZdoManager /* implements APSMessageListener */{
 				if ((getGal().getFromNetworkCache(_Node)) == null) {
 					/* id not exist */
 					if (LOG.isDebugEnabled()) {
-						String shortAdd = (_Node.get_node().getAddress().getNetworkAddress() != null) ? String.format("%04X", _Node.get_node().getAddress().getNetworkAddress())
+						String shortAdd = (_Node.get_node().getAddress().getNetworkAddress() != null)
+								? String.format("%04X", _Node.get_node().getAddress().getNetworkAddress())
 								: "NULL";
-						String IeeeAdd = (_Node.get_node().getAddress().getIeeeAddress() != null) ? String.format("%08X", _Node.get_node().getAddress().getIeeeAddress()) : "NULL";
+						String IeeeAdd = (_Node.get_node().getAddress().getIeeeAddress() != null)
+								? String.format("%08X", _Node.get_node().getAddress().getIeeeAddress())
+								: "NULL";
 
 						LOG.debug("Adding node from [ZDP Announcement] into the NetworkCache IeeeAddress: {} --- Short: {}", IeeeAdd, shortAdd);
 					}
@@ -177,13 +182,15 @@ public class ZdoManager /* implements APSMessageListener */{
 
 					Status _s = new Status();
 					_s.setCode((short) 0x00);
-					LOG.debug("\n\rNodeDiscovered From ZDP Device_announcement: {} ", String.format("%04X", _Node.get_node().getAddress().getNetworkAddress()) + "\n\r");
+					LOG.debug("\n\rNodeDiscovered From ZDP Device_announcement: {} ",
+							String.format("%04X", _Node.get_node().getAddress().getNetworkAddress()) + "\n\r");
 
 					try {
 						getGal().get_gatewayEventManager().nodeDiscovered(_s, _Node.get_node());
 					} catch (Exception e) {
 
-						LOG.error("Error on Received ZDP Device_announcement: {}", _Node.get_node().getAddress().getNetworkAddress() + "--" + e.getMessage());
+						LOG.error("Error on Received ZDP Device_announcement: {}",
+								_Node.get_node().getAddress().getNetworkAddress() + "--" + e.getMessage());
 
 					}
 				}

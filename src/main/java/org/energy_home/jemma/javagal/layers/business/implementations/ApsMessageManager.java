@@ -40,9 +40,11 @@ import org.slf4j.LoggerFactory;
  * Manages received APS messages. When an APS indication is received it is
  * passed to this class' {@code APSMessageIndication} method.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 public class ApsMessageManager {
@@ -63,7 +65,7 @@ public class ApsMessageManager {
 	 * Creates a new instance with a Gal controller reference.
 	 * 
 	 * @param _gal
-	 *            a Gal controller reference.
+	 *          a Gal controller reference.
 	 */
 	public ApsMessageManager(GalController _gal) {
 		gal = _gal;
@@ -86,14 +88,14 @@ public class ApsMessageManager {
 
 	/**
 	 * Processes the APS indication message trying to dispatch it to the right
-	 * destination. The {@link GalController} maintains a collection of
-	 * registered callbacks' listeners. This method verifies if a match exists
-	 * on that collection for the callback's filter, i.e. looks if one or more
-	 * destination(s) for that APS message is present. If it exists, sends the
-	 * APS message to all found destinations.
+	 * destination. The {@link GalController} maintains a collection of registered
+	 * callbacks' listeners. This method verifies if a match exists on that
+	 * collection for the callback's filter, i.e. looks if one or more
+	 * destination(s) for that APS message is present. If it exists, sends the APS
+	 * message to all found destinations.
 	 * 
 	 * @param message
-	 *            the indication APSMessageEvent to process.
+	 *          the indication APSMessageEvent to process.
 	 */
 	@Deprecated
 	public void APSMessageIndication(final APSMessageEvent message) {
@@ -281,7 +283,8 @@ public class ApsMessageManager {
 							}
 
 							LOG.debug("READY to CallBack NotifyApsMessage: {}",
-									((cmessage.getDestinationAddress().getNetworkAddress() != null) ? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress())
+									((cmessage.getDestinationAddress().getNetworkAddress() != null)
+											? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress())
 											: ""));
 
 							napml.notifyAPSMessage(cmessage);

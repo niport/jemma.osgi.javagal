@@ -15,25 +15,25 @@
  */
 package org.energy_home.jemma.javagal.launcher;
 
-import org.energy_home.jemma.zgd.GalExtenderProxyFactory;
-import org.energy_home.jemma.zgd.GatewayException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.energy_home.jemma.javagal.layers.PropertiesManager;
 import org.energy_home.jemma.javagal.layers.business.GalController;
-import org.energy_home.jemma.javagal.layers.presentation.Activator;
+import org.energy_home.jemma.zgd.GalExtenderProxyFactory;
+import org.energy_home.jemma.zgd.GatewayException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Starter class for the Javagal project.
  * 
- * @author 
- *         "Ing. Marco Nieddu <marco.nieddu@consoft.it> or <marco.niedducv@gmail.com> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu <marco.nieddu@consoft.it> or
+ *         <marco.niedducv@gmail.com> from Consoft Sistemi
+ *         S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity
+ *         SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 public class main {
@@ -44,14 +44,15 @@ public class main {
 	static String _help = "Usage:  Gal  [options...] -d <device url>\n" + "Options:\n" + "  -h               Show this information\n"
 			+ "  -c <filename>    Main configuration filename (default: \"config.properties\"\n"
 			+ "  -a               If present, create the network on startup (ignore config.ini setting)\n"
-			+ "  -m               If present, use the NVM setting (ignore config.ini setting)\n" + "  -d               Specify the device url\n"
-			+ "  -v               Be verbose.\n" + "  -V               Show the program version and quit.\n" + "\n";
+			+ "  -m               If present, use the NVM setting (ignore config.ini setting)\n"
+			+ "  -d               Specify the device url\n" + "  -v               Be verbose.\n"
+			+ "  -V               Show the program version and quit.\n" + "\n";
 
 	/**
 	 * Static main class.
 	 * 
 	 * @param args
-	 *            startup arguments.
+	 *          startup arguments.
 	 */
 	public static void main(String[] args) {
 		LOG.debug("Starting Gal:Java!");

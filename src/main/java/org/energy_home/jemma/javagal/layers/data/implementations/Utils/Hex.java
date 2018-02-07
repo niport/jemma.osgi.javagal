@@ -18,9 +18,11 @@ package org.energy_home.jemma.javagal.layers.data.implementations.Utils;
 /**
  * Utility class providing help methods on hexadecimal conversions.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class Hex {
 
@@ -30,9 +32,9 @@ public class Hex {
 	 * from index i to the end of the array.
 	 * 
 	 * @param data
-	 *            the {@code byte[]} to convert.
+	 *          the {@code byte[]} to convert.
 	 * @param i
-	 *            the starting index.
+	 *          the starting index.
 	 * @return the resulting String representation.
 	 */
 	public static String byteToHex(byte[] data, int i) {
@@ -58,11 +60,11 @@ public class Hex {
 	 * this rule.
 	 * 
 	 * @param data
-	 *            the {@code byte[]} to convert.
+	 *          the {@code byte[]} to convert.
 	 * @param i
-	 *            the starting index.
+	 *          the starting index.
 	 * @param len
-	 *            the number of bytes to convert.
+	 *          the number of bytes to convert.
 	 * @return the resulting String representation.
 	 */
 	public static String byteToHex(byte[] data, int i, int len) {
@@ -80,11 +82,10 @@ public class Hex {
 
 	/**
 	 * Converts a {@code byte[]} to its String representation. The resulting
-	 * String will contain the hexadecimal representation of all bytes
-	 * contained.
+	 * String will contain the hexadecimal representation of all bytes contained.
 	 * 
 	 * @param data
-	 *            the {@code byte[]} to convert.
+	 *          the {@code byte[]} to convert.
 	 * @return the resulting String representation.
 	 */
 	public static String byteToHex(byte[] data) {
@@ -92,12 +93,12 @@ public class Hex {
 	}
 
 	/**
-	 * Converts an hexadecimal digit to a char. In particular, admitted values
-	 * for the long parameter goes from 0 to 15, while returned chars varies
-	 * from '0' to 'F'.
+	 * Converts an hexadecimal digit to a char. In particular, admitted values for
+	 * the long parameter goes from 0 to 15, while returned chars varies from '0'
+	 * to 'F'.
 	 * 
 	 * @param i
-	 *            the long number to convert
+	 *          the long number to convert
 	 * @return the corresponding char.
 	 */
 	public static char toHexChar(long i) {
@@ -113,9 +114,9 @@ public class Hex {
 	 * representation.
 	 * 
 	 * @param value
-	 *            the long number to convert.
+	 *          the long number to convert.
 	 * @param size
-	 *            the number of digits to convert from the long number provided.
+	 *          the number of digits to convert from the long number provided.
 	 * @return the desired String representation.
 	 */
 	public static String toHexString(long value, int size) {

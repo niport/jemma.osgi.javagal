@@ -28,9 +28,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Utility class with a number of data's manipulation methods.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 public class DataManipulation {
@@ -52,7 +54,7 @@ public class DataManipulation {
 	 * Converts a string to an array of bytes.
 	 * 
 	 * @param s
-	 *            the string to convert.
+	 *          the string to convert.
 	 * @return the converted array of bytes.
 	 */
 	public static byte[] hexStringToByteArray(String s) {
@@ -66,18 +68,17 @@ public class DataManipulation {
 
 	/**
 	 * Creates an int starting from two given shorts. An int is composed of four
-	 * bytes. Numbering the four bytes from 1 (the most important) to 4 (the
-	 * least important), the converted int will be formed placing the two given
-	 * bytes in the two less important places of the created int.
+	 * bytes. Numbering the four bytes from 1 (the most important) to 4 (the least
+	 * important), the converted int will be formed placing the two given bytes in
+	 * the two less important places of the created int.
 	 * <p>
-	 * More formally the low byte will be placed in position 4, the high byte
-	 * will be placed in position 3, while positions 1 and 2 will be set at
-	 * zero.
+	 * More formally the low byte will be placed in position 4, the high byte will
+	 * be placed in position 3, while positions 1 and 2 will be set at zero.
 	 * 
 	 * @param hb
-	 *            the high byte.
+	 *          the high byte.
 	 * @param lb
-	 *            the low byte.
+	 *          the low byte.
 	 * @return the result int.
 	 */
 	public static int toIntFromShort(byte hb, byte lb) {
@@ -86,27 +87,27 @@ public class DataManipulation {
 	}
 
 	/**
-	 * Creates a long starting from eight given bytes. A long is composed of
-	 * eight bytes. Numbering them from 1 (the most important) to 8 (the least
-	 * important), the given bytes will be placed in the place indicated by
-	 * their respective names.
+	 * Creates a long starting from eight given bytes. A long is composed of eight
+	 * bytes. Numbering them from 1 (the most important) to 8 (the least
+	 * important), the given bytes will be placed in the place indicated by their
+	 * respective names.
 	 * 
 	 * @param _1
-	 *            byte placed in position 1
+	 *          byte placed in position 1
 	 * @param _2
-	 *            byte placed in position 2
+	 *          byte placed in position 2
 	 * @param _3
-	 *            byte placed in position 3
+	 *          byte placed in position 3
 	 * @param _4
-	 *            byte placed in position 4
+	 *          byte placed in position 4
 	 * @param _5
-	 *            byte placed in position 5
+	 *          byte placed in position 5
 	 * @param _6
-	 *            byte placed in position 6
+	 *          byte placed in position 6
 	 * @param _7
-	 *            byte placed in position 7
+	 *          byte placed in position 7
 	 * @param _8
-	 *            byte placed in position 8
+	 *          byte placed in position 8
 	 * @return the resulting long
 	 */
 	public static long toLong(byte _1, byte _2, byte _3, byte _4, byte _5, byte _6, byte _7, byte _8) {
@@ -119,11 +120,11 @@ public class DataManipulation {
 	 * {@code byte[]}.
 	 * 
 	 * @param array
-	 *            the original array
+	 *          the original array
 	 * @param start
-	 *            the start index, included
+	 *          the start index, included
 	 * @param stop
-	 *            the stop index, included
+	 *          the stop index, included
 	 * @return the converted sub array
 	 */
 	public static byte[] subByteArray(byte[] array, int start, int stop) {
@@ -141,7 +142,7 @@ public class DataManipulation {
 	 * 
 	 * @return the converted list.
 	 * @param x
-	 *            the long to convert
+	 *          the long to convert
 	 * @return the resulting array.
 	 */
 	private static byte[] longToBytes(long x) {
@@ -159,7 +160,7 @@ public class DataManipulation {
 	 * position.
 	 * 
 	 * @param x
-	 *            the int to convert.
+	 *          the int to convert.
 	 * @return the resulting array.
 	 */
 	private static byte[] intToBytes(int x) {
@@ -170,17 +171,16 @@ public class DataManipulation {
 	}
 
 	/**
-	 * Converts a {@code BigInteger} to a {@code byte[]}. The resulting array
-	 * will have all bytes contained in the BigInteger placed in the same
-	 * position (from byte 0 to byte n). The pad parameter indicate the minimum
-	 * size of the resulting array. In case its size would be less then the one
-	 * indicated in the pad parameter, a number of leading zeros will be
-	 * inserted.
+	 * Converts a {@code BigInteger} to a {@code byte[]}. The resulting array will
+	 * have all bytes contained in the BigInteger placed in the same position
+	 * (from byte 0 to byte n). The pad parameter indicate the minimum size of the
+	 * resulting array. In case its size would be less then the one indicated in
+	 * the pad parameter, a number of leading zeros will be inserted.
 	 * 
 	 * @param toConvert
-	 *            the BigInteger to convert.
+	 *          the BigInteger to convert.
 	 * @param pad
-	 *            the minimum size of the returned array.
+	 *          the minimum size of the returned array.
 	 * @return the resulting array.
 	 */
 	public static byte[] toByteVect(BigInteger toConvert, int pad) {
@@ -219,9 +219,9 @@ public class DataManipulation {
 	 * inserted.
 	 * 
 	 * @param toConvert
-	 *            the Long to convert.
+	 *          the Long to convert.
 	 * @param pad
-	 *            the minimum size of the returned array.
+	 *          the minimum size of the returned array.
 	 * @return the resulting array.
 	 */
 	public static byte[] toByteVect(Long toConvert, int pad) {
@@ -239,16 +239,15 @@ public class DataManipulation {
 
 	/**
 	 * Converts an {@code int} to a {@code byte[]}. An int is composed of four
-	 * bytes. In case pad is set to 4, writes eight bytes containing the given
-	 * int value, in the current byte order. The pad parameter indicate the
-	 * minimum size of the resulting array. In case its size would be less then
-	 * the one indicated in the pad parameter, a number of leading zeros will be
-	 * inserted.
+	 * bytes. In case pad is set to 4, writes eight bytes containing the given int
+	 * value, in the current byte order. The pad parameter indicate the minimum
+	 * size of the resulting array. In case its size would be less then the one
+	 * indicated in the pad parameter, a number of leading zeros will be inserted.
 	 * 
 	 * @param toConvert
-	 *            the int to convert.
+	 *          the int to convert.
 	 * @param pad
-	 *            the minimum size of the returned array.
+	 *          the minimum size of the returned array.
 	 * @return the resulting array.
 	 */
 	public static byte[] toByteVect(int toConvert, int pad) {
@@ -275,7 +274,7 @@ public class DataManipulation {
 	 * Produces an hexadecimal string representation of a given {@code byte[]}.
 	 * 
 	 * @param arr
-	 *            the array to convert.
+	 *          the array to convert.
 	 * @return the produced hexadecimal string representation.
 	 */
 	public static String convertBytesToString(byte[] arr) {
@@ -290,7 +289,7 @@ public class DataManipulation {
 	 * Reverses the order of elements in a given {@code byte[]}.
 	 * 
 	 * @param _vect
-	 *            the array to reverse.
+	 *          the array to reverse.
 	 * @return the reversed array.
 	 */
 	public static byte[] reverseBytes(byte[] _vect) {
@@ -312,7 +311,5 @@ public class DataManipulation {
 			i++;
 		}
 		return _toReverse;
-
 	}
-
 }

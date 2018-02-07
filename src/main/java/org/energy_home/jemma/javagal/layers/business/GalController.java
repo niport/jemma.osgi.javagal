@@ -91,9 +91,11 @@ import org.slf4j.LoggerFactory;
  * All clients can access this instance via their dedicated proxies (see
  * {@link org.energy_home.jemma.zgd.GalExtenderProxy}).
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 
@@ -103,7 +105,8 @@ public class GalController {
 	private Long CallbackIdentifier = (long) 1;
 	private List<WrapperWSNNode> NetworkCache = Collections.synchronizedList(new LinkedList<WrapperWSNNode>());
 	private List<CallbackEntry> listCallback = Collections.synchronizedList(new LinkedList<CallbackEntry>());
-	private List<GatewayDeviceEventEntry> listGatewayEventListener = Collections.synchronizedList(new LinkedList<GatewayDeviceEventEntry>());
+	private List<GatewayDeviceEventEntry> listGatewayEventListener = Collections
+			.synchronizedList(new LinkedList<GatewayDeviceEventEntry>());
 	// FIXME mass-rename logger to LOG when ready
 	private static final Logger LOG = LoggerFactory.getLogger(GalController.class);
 	private ApsMessageManager apsManager = null;
@@ -194,8 +197,7 @@ public class GalController {
 			throw new Exception("No platform found for ZigBee dongle");
 		}
 		/*
-		 * Check if is auto-start mode is set to true into the configuration
-		 * file
+		 * Check if is auto-start mode is set to true into the configuration file
 		 */
 
 		if (DataLayer.getIKeyInstance().isConnected()) {
@@ -208,7 +210,8 @@ public class GalController {
 				}
 			} else {
 				short _EndPoint = 0;
-				_EndPoint = DataLayer.configureEndPointSync(PropertiesManager.getCommandTimeoutMS(), PropertiesManager.getSimpleDescriptorReadFromFile());
+				_EndPoint = DataLayer.configureEndPointSync(PropertiesManager.getCommandTimeoutMS(),
+						PropertiesManager.getSimpleDescriptorReadFromFile());
 				if (_EndPoint == 0)
 					throw new Exception("Error on configure endpoint");
 
@@ -262,7 +265,8 @@ public class GalController {
 					if (DataLayer.getIKeyInstance().isConnected()) {
 						short _EndPoint = 0;
 						if (lastEndPoint == null) {
-							_EndPoint = configureEndpoint(PropertiesManager.getCommandTimeoutMS(), PropertiesManager.getSimpleDescriptorReadFromFile());
+							_EndPoint = configureEndpoint(PropertiesManager.getCommandTimeoutMS(),
+									PropertiesManager.getSimpleDescriptorReadFromFile());
 							if (_EndPoint == 0)
 								throw new Exception("Error on configure endpoint");
 						} else {
@@ -276,7 +280,8 @@ public class GalController {
 							st = startGatewayDevice(PropertiesManager.getCommandTimeoutMS(), -1, lastSai, false);
 
 						} else {
-							st = startGatewayDevice(PropertiesManager.getCommandTimeoutMS(), -1, PropertiesManager.getSturtupAttributeInfo(), false);
+							st = startGatewayDevice(PropertiesManager.getCommandTimeoutMS(), -1, PropertiesManager.getSturtupAttributeInfo(),
+									false);
 						}
 						if (st.getCode() != GatewayConstants.SUCCESS)
 							throw new Exception("Error on starting gal" + st.getMessage());
@@ -305,10 +310,10 @@ public class GalController {
 	 * configuration.
 	 * 
 	 * @param _properties
-	 *            the PropertiesManager containing the desired configuration for
-	 *            the Gal controller.
+	 *          the PropertiesManager containing the desired configuration for the
+	 *          Gal controller.
 	 * @throws Exception
-	 *             if an error occurs.
+	 *           if an error occurs.
 	 */
 	public GalController(PropertiesManager _properties) throws Exception {
 		PropertiesManager = _properties;
@@ -346,8 +351,8 @@ public class GalController {
 
 	/**
 	 * Gets the list of gateway event listeners. The Gal mantains a list of
-	 * registered {@code GatewayEventListener}. When an gateway event happens
-	 * all the relative listeners will be notified.
+	 * registered {@code GatewayEventListener}. When an gateway event happens all
+	 * the relative listeners will be notified.
 	 * 
 	 * @return the list of gateway event listeners.
 	 * @see GatewayEventListener
@@ -446,8 +451,8 @@ public class GalController {
 	 * Sets the discovery state for the Gal.
 	 * 
 	 * @param GalonDyscovery
-	 *            whether the Gal is in discovery state {@code true} or not
-	 *            {@code false}.
+	 *          whether the Gal is in discovery state {@code true} or not
+	 *          {@code false}.
 	 */
 	public synchronized void set_Gal_in_Dyscovery_state(Boolean GalonDyscovery) {
 		_Gal_in_Dyscovery_state = GalonDyscovery;
@@ -470,23 +475,23 @@ public class GalController {
 	 * maximum timeout time.
 	 * 
 	 * @param timeout
-	 *            the desired timeout.
+	 *          the desired timeout.
 	 * @param desc
-	 *            the {@code SimpleDescriptor}.
+	 *          the {@code SimpleDescriptor}.
 	 * @return a short representing the endpoint.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public short configureEndpoint(long timeout, SimpleDescriptor desc) throws IOException, Exception, GatewayException {
 
-		if ((desc.getApplicationInputCluster().size() + desc.getApplicationOutputCluster().size()) > 30/*
-																										 * 60
-																										 * Bytes
-																										 */) {
+		if ((desc.getApplicationInputCluster().size()
+				+ desc.getApplicationOutputCluster().size()) > 30/*
+																													 * 60 Bytes
+																													 */) {
 			throw new Exception("Simple Descriptor Out Of Memory");
 		} else {
 			short result = DataLayer.configureEndPointSync(timeout, desc);
@@ -501,11 +506,11 @@ public class GalController {
 	 * 
 	 * @return the local services.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public NodeServices getLocalServices() throws IOException, Exception, GatewayException {
 		NodeServices result = DataLayer.getLocalServices(getPropertiesManager().getCommandTimeoutMS());
@@ -531,11 +536,11 @@ public class GalController {
 	 * 
 	 * @return the list of NodeServices for every node.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public NodeServicesList readServicesCache() throws IOException, Exception, GatewayException {
 		NodeServicesList list = new NodeServicesList();
@@ -552,14 +557,16 @@ public class GalController {
 	 * Autostart's execution.
 	 * 
 	 * @throws Exception
-	 *             if an error occurs.
+	 *           if an error occurs.
 	 */
 	public void executeAutoStart() throws Exception {
 		LOG.info("Executing AutoStart procedure...");
-		short _EndPoint = DataLayer.configureEndPointSync(PropertiesManager.getCommandTimeoutMS(), PropertiesManager.getSimpleDescriptorReadFromFile());
+		short _EndPoint = DataLayer.configureEndPointSync(PropertiesManager.getCommandTimeoutMS(),
+				PropertiesManager.getSimpleDescriptorReadFromFile());
 		if (_EndPoint > 0x00) {
 			LOG.info("Configure EndPoint completed...");
-			Status _statusStartGatewayDevice = DataLayer.startGatewayDeviceSync(PropertiesManager.getCommandTimeoutMS(), PropertiesManager.getSturtupAttributeInfo());
+			Status _statusStartGatewayDevice = DataLayer.startGatewayDeviceSync(PropertiesManager.getCommandTimeoutMS(),
+					PropertiesManager.getSturtupAttributeInfo());
 			if (_statusStartGatewayDevice.getCode() == 0x00) {
 				LOG.info("StartGateway Device completed...");
 				return;
@@ -612,14 +619,14 @@ public class GalController {
 	 * address
 	 * 
 	 * @param aoi
-	 *            the address of interest
+	 *          the address of interest
 	 * @return the list of neighbor of the nodes
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public LQIInformation getLQIInformation(Address aoi) throws IOException, Exception, GatewayException {
 
@@ -671,11 +678,11 @@ public class GalController {
 	 * 
 	 * @return the list of neighbor of all nodes
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public LQIInformation getAllLQIInformations() throws IOException, Exception, GatewayException {
 		LQIInformation _lqi = new LQIInformation();
@@ -721,23 +728,23 @@ public class GalController {
 	 * Retrieves the informations about the NodeDescriptor of a ZigBee node
 	 * 
 	 * @param timeout
-	 *            the timeout
+	 *          the timeout
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param addrOfInterest
-	 *            the address of interest.
+	 *          the address of interest.
 	 * @param Async
-	 *            whether the operation will be synchronously or not.
+	 *          whether the operation will be synchronously or not.
 	 * @return the resulting {@code NodeDescriptor}
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public NodeDescriptor getNodeDescriptor(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final boolean Async) throws IOException, Exception,
-			GatewayException {
+	public NodeDescriptor getNodeDescriptor(final long timeout, final int _requestIdentifier, final Address addrOfInterest,
+			final boolean Async) throws IOException, Exception, GatewayException {
 		if (addrOfInterest.getNetworkAddress() == null && addrOfInterest.getIeeeAddress() != null)
 			addrOfInterest.setNetworkAddress(getShortAddress_FromIeeeAddress(addrOfInterest.getIeeeAddress()));
 		if (addrOfInterest.getIeeeAddress() == null && addrOfInterest.getNetworkAddress() != null)
@@ -752,7 +759,8 @@ public class GalController {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 						try {
 							nodeDescriptor = DataLayer.getNodeDescriptorSync(timeout, addrOfInterest);
-							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(), String.format("%04X", addrOfInterest.getNetworkAddress()));
+							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
+									String.format("%04X", addrOfInterest.getNetworkAddress()));
 							WSNNode node = new WSNNode();
 							node.setAddress(addrOfInterest);
 							x.set_node(node);
@@ -820,14 +828,14 @@ public class GalController {
 	 * Gets the current channel.
 	 * 
 	 * @param timeout
-	 *            the desired timeout
+	 *          the desired timeout
 	 * @return the current channel.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public short getChannelSync(long timeout) throws IOException, Exception, GatewayException {
 		if (getGatewayStatus() == GatewayStatus.GW_RUNNING)
@@ -842,25 +850,25 @@ public class GalController {
 	 * {@code StartupAttributeInfo} class as a previously configured parameter.
 	 * 
 	 * @param timeout
-	 *            the desired timeout
+	 *          the desired timeout
 	 * @param _requestIdentifier
-	 *            the request identifier
+	 *          the request identifier
 	 * @param sai
-	 *            the {@code StartupAttributeInfo}
+	 *          the {@code StartupAttributeInfo}
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 
-	public Status startGatewayDevice(final long timeout, final int _requestIdentifier, final StartupAttributeInfo sai, final boolean Async) throws IOException, Exception,
-			GatewayException {
+	public Status startGatewayDevice(final long timeout, final int _requestIdentifier, final StartupAttributeInfo sai,
+			final boolean Async) throws IOException, Exception, GatewayException {
 		// The network can start only from those two gateway status...
 		if (Async) {
 			executor.execute(new Runnable() {
@@ -967,21 +975,22 @@ public class GalController {
 	 * {@code PropertiesManager}.
 	 * 
 	 * @param timeout
-	 *            the desired timeout.
+	 *          the desired timeout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public Status startGatewayDevice(long timeout, int _requestIdentifier, boolean Async) throws IOException, Exception, GatewayException {
+	public Status startGatewayDevice(long timeout, int _requestIdentifier, boolean Async)
+			throws IOException, Exception, GatewayException {
 		StartupAttributeInfo sai = PropertiesManager.getSturtupAttributeInfo();
 		return startGatewayDevice(timeout, _requestIdentifier, sai, Async);
 
@@ -992,23 +1001,24 @@ public class GalController {
 	 * NonVolatileMemory to the next reboot
 	 * 
 	 * @param timeout
-	 *            the desired timeout
+	 *          the desired timeout
 	 * @param _requestIdentifier
-	 *            the request identifier
+	 *          the request identifier
 	 * @param mode
-	 *            the desired mode
+	 *          the desired mode
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public Status resetDongle(final long timeout, final int _requestIdentifier, final short mode, final boolean Async) throws IOException, Exception, GatewayException {
+	public Status resetDongle(final long timeout, final int _requestIdentifier, final short mode, final boolean Async)
+			throws IOException, Exception, GatewayException {
 		if (mode == GatewayConstants.RESET_COMMISSIONING_ASSOCIATION) {
 			PropertiesManager.setStartupSet((short) 0x18);
 			PropertiesManager.getSturtupAttributeInfo().setStartupControl((short) 0x00);
@@ -1058,19 +1068,19 @@ public class GalController {
 	 * Stops the network.
 	 * 
 	 * @param timeout
-	 *            the desired timeout value.
+	 *          the desired timeout value.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public Status stopNetwork(final long timeout, final int _requestIdentifier, boolean Async) throws Exception, GatewayException {
 		if (Async) {
@@ -1159,21 +1169,22 @@ public class GalController {
 	 * filters.
 	 * 
 	 * @param proxyIdentifier
-	 *            the proxy identifier for the callback
+	 *          the proxy identifier for the callback
 	 * @param callback
-	 *            the callback
+	 *          the callback
 	 * @param listener
-	 *            the listener where messages for the callback will be notified.
+	 *          the listener where messages for the callback will be notified.
 	 * @return the callback's identifier.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	@Deprecated
-	public long createCallback(int proxyIdentifier, Callback callback, APSMessageListener listener) throws IOException, Exception, GatewayException {
+	public long createCallback(int proxyIdentifier, Callback callback, APSMessageListener listener)
+			throws IOException, Exception, GatewayException {
 		CallbackEntry callbackEntry = new CallbackEntry();
 		callbackEntry.setCallback(callback);
 		callbackEntry.setDestination(listener);
@@ -1191,20 +1202,21 @@ public class GalController {
 	 * of filters.
 	 * 
 	 * @param proxyIdentifier
-	 *            the proxy identifier for the callback
+	 *          the proxy identifier for the callback
 	 * @param callback
-	 *            the callback
+	 *          the callback
 	 * @param listener
-	 *            the listener where messages for the callback will be notified.
+	 *          the listener where messages for the callback will be notified.
 	 * @return the callback's identifier.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public long createCallback(int proxyIdentifier, Callback callback, MessageListener listener) throws IOException, Exception, GatewayException {
+	public long createCallback(int proxyIdentifier, Callback callback, MessageListener listener)
+			throws IOException, Exception, GatewayException {
 		CallbackEntry callbackEntry = new CallbackEntry();
 		callbackEntry.setCallback(callback);
 		callbackEntry.setGenericDestination(listener);
@@ -1221,13 +1233,13 @@ public class GalController {
 	 * Deletes a callback.
 	 * 
 	 * @param id
-	 *            the callback's id.
+	 *          the callback's id.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public void deleteCallback(long id) throws IOException, Exception, GatewayException {
 		short _index = -1;
@@ -1256,23 +1268,24 @@ public class GalController {
 	 * node connected to the ZigBee network.
 	 * 
 	 * @param timeout
-	 *            the desired timout.
+	 *          the desired timout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param aoi
-	 *            the address of interest.
+	 *          the address of interest.
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the discovered node services.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public NodeServices startServiceDiscovery(final long timeout, final int _requestIdentifier, final Address aoi, boolean Async) throws IOException, Exception, GatewayException {
+	public NodeServices startServiceDiscovery(final long timeout, final int _requestIdentifier, final Address aoi, boolean Async)
+			throws IOException, Exception, GatewayException {
 		if (aoi.getNetworkAddress() == null && aoi.getIeeeAddress() != null)
 			aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
 		if (aoi.getIeeeAddress() == null && aoi.getNetworkAddress() != null)
@@ -1297,7 +1310,8 @@ public class GalController {
 								_newNodeService.getActiveEndpoints().add(_n);
 							}
 
-							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(), String.format("%04X", aoi.getNetworkAddress()));
+							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
+									String.format("%04X", aoi.getNetworkAddress()));
 							WSNNode node = new WSNNode();
 							node.setAddress(aoi);
 							x.set_node(node);
@@ -1367,18 +1381,17 @@ public class GalController {
 	}
 
 	/**
-	 * Returns the list of all callbacks to which you have previously
-	 * registered.
+	 * Returns the list of all callbacks to which you have previously registered.
 	 * 
 	 * @param requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @return the callback's list.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public CallbackIdentifierList listCallbacks(int requestIdentifier) throws IOException, Exception, GatewayException {
 		CallbackIdentifierList toReturn = new CallbackIdentifierList();
@@ -1394,11 +1407,11 @@ public class GalController {
 	 * registering client is identified by the proxy identifier parameter.
 	 * 
 	 * @param listener
-	 *            the listener to registers.
+	 *          the listener to registers.
 	 * @param proxyIdentifier
-	 *            the proxy identifier.
+	 *          the proxy identifier.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public void setGatewayEventListener(GatewayEventListener listener, int proxyIdentifier) {
 		boolean _listenerFound = false;
@@ -1447,23 +1460,24 @@ public class GalController {
 	 * Sends an Aps message.
 	 * 
 	 * @param timeout
-	 *            the desired timeout.
+	 *          the desired timeout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param message
-	 *            the message to send.
+	 *          the message to send.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public void sendAPSMessage(long timeout, long _requestIdentifier, APSMessage message) throws IOException, Exception, GatewayException {
+	public void sendAPSMessage(long timeout, long _requestIdentifier, APSMessage message)
+			throws IOException, Exception, GatewayException {
 		if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 			/*
-			 * if (message.getDestinationAddress().getNetworkAddress() == null
-			 * && message.getDestinationAddress().getIeeeAddress() != null)
+			 * if (message.getDestinationAddress().getNetworkAddress() == null &&
+			 * message.getDestinationAddress().getIeeeAddress() != null)
 			 * message.getDestinationAddress().setNetworkAddress(
 			 * getShortAddress_FromIeeeAddress
 			 * (message.getDestinationAddress().getIeeeAddress())); if
@@ -1482,19 +1496,20 @@ public class GalController {
 	 * Sends an InterPAN message.
 	 * 
 	 * @param timeout
-	 *            the desired timeout.
+	 *          the desired timeout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param message
-	 *            the message to send.
+	 *          the message to send.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public void sendInterPANMessage(long timeout, long _requestIdentifier, InterPANMessage message) throws IOException, Exception, GatewayException {
+	public void sendInterPANMessage(long timeout, long _requestIdentifier, InterPANMessage message)
+			throws IOException, Exception, GatewayException {
 		if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 			DataLayer.sendInterPANMessaSync(timeout, message);
 		} else
@@ -1505,26 +1520,26 @@ public class GalController {
 	 * Disassociates a node from the network.
 	 * 
 	 * @param timeout
-	 *            the desired timeout.
+	 *          the desired timeout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param addrOfInterest
-	 *            the address of interest.
+	 *          the address of interest.
 	 * @param mask
-	 *            the mask.
+	 *          the mask.
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public Status leave(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final int mask, final boolean Async) throws IOException, Exception,
-			GatewayException {
+	public Status leave(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final int mask,
+			final boolean Async) throws IOException, Exception, GatewayException {
 		if (addrOfInterest.getNetworkAddress() == null && addrOfInterest.getIeeeAddress() != null)
 			addrOfInterest.setNetworkAddress(getShortAddress_FromIeeeAddress(addrOfInterest.getIeeeAddress()));
 		if (addrOfInterest.getIeeeAddress() == null && addrOfInterest.getNetworkAddress() != null)
@@ -1544,7 +1559,8 @@ public class GalController {
 								_s = DataLayer.leaveSync(timeout, addrOfInterest, mask);
 								if (_s.getCode() == GatewayConstants.SUCCESS) {
 									/* get the node from cache */
-									WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(), String.format("%04X", addrOfInterest.getNetworkAddress()));
+									WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
+											String.format("%04X", addrOfInterest.getNetworkAddress()));
 									WSNNode node = new WSNNode();
 									node.setAddress(addrOfInterest);
 									x.set_node(node);
@@ -1633,7 +1649,8 @@ public class GalController {
 
 	}
 
-	private void leavePhilips(final long timeout, final int _requestIdentifier, final Address addrOfInterest) throws IOException, Exception, GatewayException {
+	private void leavePhilips(final long timeout, final int _requestIdentifier, final Address addrOfInterest)
+			throws IOException, Exception, GatewayException {
 		/* Check if the device is the Philips light */
 		WrapperWSNNode wrapNode = new WrapperWSNNode(this, String.format("%04X", addrOfInterest.getNetworkAddress()));
 		WSNNode node = new WSNNode();
@@ -1700,26 +1717,26 @@ public class GalController {
 	 * be able to associate new nodes.
 	 * 
 	 * @param timeout
-	 *            the desired timout.
+	 *          the desired timout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param addrOfInterest
-	 *            the address of interest.
+	 *          the address of interest.
 	 * @param duration
-	 *            the duration.
+	 *          the duration.
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public Status permitJoin(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final short duration, final boolean Async) throws IOException,
-			GatewayException, Exception {
+	public Status permitJoin(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final short duration,
+			final boolean Async) throws IOException, GatewayException, Exception {
 		if (Async) {
 			executor.execute(new Runnable() {
 				public void run() {
@@ -1791,25 +1808,26 @@ public class GalController {
 	}
 
 	/**
-	 * Allows the opening of the ZigBee network to all nodes, and for a
-	 * specified duration, to be able to associate new nodes
+	 * Allows the opening of the ZigBee network to all nodes, and for a specified
+	 * duration, to be able to associate new nodes
 	 * 
 	 * @param timeout
-	 *            the desired timout.
+	 *          the desired timout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param duration
-	 *            the duration.
+	 *          the duration.
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 */
-	public Status permitJoinAll(final long timeout, final int _requestIdentifier, final short duration, final boolean Async) throws IOException, Exception {
+	public Status permitJoinAll(final long timeout, final int _requestIdentifier, final short duration, final boolean Async)
+			throws IOException, Exception {
 		final Address _add = new Address();
 		_add.setNetworkAddress(0xFFFC);
 		if (Async) {
@@ -1859,13 +1877,13 @@ public class GalController {
 	 * Each node will produce a notification by the announcement
 	 * 
 	 * @param timeout
-	 *            the desired timeout.
+	 *          the desired timeout.
 	 * @param requestIdentifier
-	 *            the request identifier
+	 *          the request identifier
 	 * @param discoveryMask
-	 *            the discovery mask
+	 *          the discovery mask
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public void startNodeDiscovery(long timeout, int requestIdentifier, int discoveryMask) throws GatewayException {
 		int _index = -1;
@@ -1919,7 +1937,8 @@ public class GalController {
 			}
 		} else {
 
-			LOG.error("Error on startNodeDiscovery: No GatewayEventListener found for the User. Set the GatewayEventListener before call this API!");
+			LOG.error(
+					"Error on startNodeDiscovery: No GatewayEventListener found for the User. Set the GatewayEventListener before call this API!");
 			throw new GatewayException("No GatewayEventListener found for the User. Set the GatewayEventListener before call this API!");
 		}
 
@@ -1929,25 +1948,27 @@ public class GalController {
 	 * Removal of a node from the network.
 	 * 
 	 * @param timeout
-	 *            the desired timeout
+	 *          the desired timeout
 	 * @param requestIdentifier
-	 *            the request identifier
+	 *          the request identifier
 	 * @param discoveryFreshness_mask
-	 *            the freshness mask
+	 *          the freshness mask
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public void subscribeNodeRemoval(long timeout, int requestIdentifier, int discoveryFreshness_mask) throws GatewayException {
 		int _index = -1;
 		if ((_index = existIntolistGatewayEventListener(requestIdentifier)) != -1) {
 
-			if (((discoveryFreshness_mask & GatewayConstants.DISCOVERY_LEAVE) > 0) || (discoveryFreshness_mask == GatewayConstants.DISCOVERY_STOP)) {
+			if (((discoveryFreshness_mask & GatewayConstants.DISCOVERY_LEAVE) > 0)
+					|| (discoveryFreshness_mask == GatewayConstants.DISCOVERY_STOP)) {
 				listGatewayEventListener.get(_index).setFreshnessMask(discoveryFreshness_mask);
 			}
 
 		} else {
 
-			LOG.error("Error on subscribeNodeRemoval: No GatewayEventListener found for the User. Set the GatewayEventListener before call this API!");
+			LOG.error(
+					"Error on subscribeNodeRemoval: No GatewayEventListener found for the User. Set the GatewayEventListener before call this API!");
 
 			throw new GatewayException("No GatewayEventListener found for the User. Set the GatewayEventListener before call this API!");
 		}
@@ -1972,11 +1993,11 @@ public class GalController {
 	 * @return the version
 	 * @see Version
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public static Version getVersion() throws IOException, Exception, GatewayException {
 		Version v = new Version();
@@ -1990,7 +2011,7 @@ public class GalController {
 	 * Sets Gateway's status.
 	 * 
 	 * @param gatewayStatus
-	 *            the gateway's status to set
+	 *          the gateway's status to set
 	 * @see GatewayStatus
 	 */
 	public synchronized void setGatewayStatus(final GatewayStatus gatewayStatus) {
@@ -2044,7 +2065,8 @@ public class GalController {
 					_add.setIeeeAddress(_IeeeAdd);
 					galNode.setAddress(_add);
 
-					WrapperWSNNode galNodeWrapper = new WrapperWSNNode(((GalController) this.getParameter()), String.format("%04X", _add.getNetworkAddress()));
+					WrapperWSNNode galNodeWrapper = new WrapperWSNNode(((GalController) this.getParameter()),
+							String.format("%04X", _add.getNetworkAddress()));
 
 					/* Read the NodeDescriptor of the GAL */
 					NodeDescriptor _NodeDescriptor = null;
@@ -2054,12 +2076,15 @@ public class GalController {
 							if (_NodeDescriptor != null) {
 								if (galNode.getCapabilityInformation() == null)
 									galNode.setCapabilityInformation(new MACCapability());
-								galNode.getCapabilityInformation().setReceiverOnWhenIdle(_NodeDescriptor.getMACCapabilityFlag().isReceiverOnWhenIdle());
+								galNode.getCapabilityInformation()
+										.setReceiverOnWhenIdle(_NodeDescriptor.getMACCapabilityFlag().isReceiverOnWhenIdle());
 								galNode.getCapabilityInformation().setAllocateAddress(_NodeDescriptor.getMACCapabilityFlag().isAllocateAddress());
-								galNode.getCapabilityInformation().setAlternatePanCoordinator(_NodeDescriptor.getMACCapabilityFlag().isAlternatePanCoordinator());
+								galNode.getCapabilityInformation()
+										.setAlternatePanCoordinator(_NodeDescriptor.getMACCapabilityFlag().isAlternatePanCoordinator());
 								galNode.getCapabilityInformation().setDeviceIsFFD(_NodeDescriptor.getMACCapabilityFlag().isDeviceIsFFD());
 								galNode.getCapabilityInformation().setMainsPowered(_NodeDescriptor.getMACCapabilityFlag().isMainsPowered());
-								galNode.getCapabilityInformation().setSecuritySupported(_NodeDescriptor.getMACCapabilityFlag().isSecuritySupported());
+								galNode.getCapabilityInformation()
+										.setSecuritySupported(_NodeDescriptor.getMACCapabilityFlag().isSecuritySupported());
 								galNodeWrapper.set_node(galNode);
 								galNodeWrapper.reset_numberOfAttempt();
 								galNodeWrapper.set_discoveryCompleted(true);
@@ -2067,12 +2092,16 @@ public class GalController {
 								/* If the Node Not Exists */
 								if (getFromNetworkCache(galNodeWrapper) == null) {
 									if (LOG.isDebugEnabled()) {
-										String shortAdd = (galNodeWrapper.get_node().getAddress().getNetworkAddress() != null) ? String.format("%04X", galNodeWrapper.get_node()
-												.getAddress().getNetworkAddress()) : "NULL";
-										String IeeeAdd = (galNodeWrapper.get_node().getAddress().getIeeeAddress() != null) ? String.format("%08X", galNodeWrapper.get_node()
-												.getAddress().getIeeeAddress()) : "NULL";
+										String shortAdd = (galNodeWrapper.get_node().getAddress().getNetworkAddress() != null)
+												? String.format("%04X", galNodeWrapper.get_node().getAddress().getNetworkAddress())
+												: "NULL";
+										String IeeeAdd = (galNodeWrapper.get_node().getAddress().getIeeeAddress() != null)
+												? String.format("%08X", galNodeWrapper.get_node().getAddress().getIeeeAddress())
+												: "NULL";
 
-										LOG.debug("Adding node from [SetNetworkStatus Announcement] into the NetworkCache IeeeAddress: {} --- Short: {}", IeeeAdd, shortAdd);
+										LOG.debug(
+												"Adding node from [SetNetworkStatus Announcement] into the NetworkCache IeeeAddress: {} --- Short: {}",
+												IeeeAdd, shortAdd);
 									}
 									getNetworkcache().add(galNodeWrapper);
 								}
@@ -2149,7 +2178,8 @@ public class GalController {
 
 					Status _s = new Status();
 					_s.setCode((short) 0x00);
-					LOG.debug("\n\rNodeDiscovered From SetGatewayStatus: {}", String.format("%04X", galNodeWrapper.get_node().getAddress().getNetworkAddress()) + "\n\r");
+					LOG.debug("\n\rNodeDiscovered From SetGatewayStatus: {}",
+							String.format("%04X", galNodeWrapper.get_node().getAddress().getNetworkAddress()) + "\n\r");
 
 					try {
 						get_gatewayEventManager().nodeDiscovered(_s, galNodeWrapper.get_node());
@@ -2208,14 +2238,14 @@ public class GalController {
 	 * Removes a SimpleDescriptor or an endpoint.
 	 * 
 	 * @param endpoint
-	 *            the endpoint to remove
+	 *          the endpoint to remove
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
 	public Status clearEndpoint(short endpoint) throws IOException, Exception, GatewayException {
 		Status _s = DataLayer.clearEndpointSync(getPropertiesManager().getCommandTimeoutMS(), endpoint);
@@ -2226,7 +2256,7 @@ public class GalController {
 	 * Sets a node.
 	 * 
 	 * @param _GalNode
-	 *            the node to set.
+	 *          the node to set.
 	 * @see WSNNode
 	 */
 	public synchronized void set_GalNode(WrapperWSNNode _GalNode) {
@@ -2247,26 +2277,26 @@ public class GalController {
 	 * Gets the service descriptor for an endpoint.
 	 * 
 	 * @param timeout
-	 *            the desired timeout.
+	 *          the desired timeout.
 	 * @param _requestIdentifier
-	 *            the request identifier.
+	 *          the request identifier.
 	 * @param addrOfInterest
-	 *            the address of interest.
+	 *          the address of interest.
 	 * @param endpoint
-	 *            the endpoint
+	 *          the endpoint
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the simple descriptor.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public ServiceDescriptor getServiceDescriptor(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final short endpoint, boolean Async)
-			throws IOException, Exception, GatewayException {
+	public ServiceDescriptor getServiceDescriptor(final long timeout, final int _requestIdentifier, final Address addrOfInterest,
+			final short endpoint, boolean Async) throws IOException, Exception, GatewayException {
 		if (addrOfInterest.getNetworkAddress() == null && addrOfInterest.getIeeeAddress() != null)
 			addrOfInterest.setNetworkAddress(getShortAddress_FromIeeeAddress(addrOfInterest.getIeeeAddress()));
 		if (addrOfInterest.getIeeeAddress() == null && addrOfInterest.getNetworkAddress() != null)
@@ -2320,30 +2350,30 @@ public class GalController {
 	}
 
 	/**
-	 * Gets a list of all bindings stored in a remote node, starting from a
-	 * given index.
+	 * Gets a list of all bindings stored in a remote node, starting from a given
+	 * index.
 	 * 
 	 * @param timeout
-	 *            the desired timeout
+	 *          the desired timeout
 	 * @param _requestIdentifier
-	 *            the request identifier
+	 *          the request identifier
 	 * @param aoi
-	 *            the address of interest
+	 *          the address of interest
 	 * @param index
-	 *            the index from where to start
+	 *          the index from where to start
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the binding list
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public BindingList getNodeBindingsSync(final long timeout, final int _requestIdentifier, final Address aoi, final short index, boolean Async) throws IOException, Exception,
-			GatewayException {
+	public BindingList getNodeBindingsSync(final long timeout, final int _requestIdentifier, final Address aoi, final short index,
+			boolean Async) throws IOException, Exception, GatewayException {
 		if (aoi.getNetworkAddress() == null && aoi.getIeeeAddress() != null)
 			aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
 		if (aoi.getIeeeAddress() == null && aoi.getNetworkAddress() != null)
@@ -2398,20 +2428,21 @@ public class GalController {
 	 * @param timeout
 	 * @param _requestIdentifier
 	 * @param binding
-	 *            the binding
+	 *          the binding
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @see Binding
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public Status addBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean Async) throws IOException, Exception, GatewayException {
+	public Status addBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean Async)
+			throws IOException, Exception, GatewayException {
 		final Address aoi = new Address();
 		aoi.setIeeeAddress(binding.getSourceIEEEAddress());
 		aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
@@ -2459,24 +2490,25 @@ public class GalController {
 	 * Removes a binding.
 	 * 
 	 * @param timeout
-	 *            the desired binding
+	 *          the desired binding
 	 * @param _requestIdentifier
-	 *            the request identifier
+	 *          the request identifier
 	 * @param binding
-	 *            the binding
+	 *          the binding
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @see Binding
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public Status removeBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean Async) throws IOException, Exception, GatewayException {
+	public Status removeBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean Async)
+			throws IOException, Exception, GatewayException {
 		final Address aoi = new Address();
 		aoi.setIeeeAddress(binding.getSourceIEEEAddress());
 		aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
@@ -2520,26 +2552,26 @@ public class GalController {
 	 * Frequency agility method.
 	 * 
 	 * @param timeout
-	 *            the desired timeout
+	 *          the desired timeout
 	 * @param _requestIdentifier
-	 *            the request identifier
+	 *          the request identifier
 	 * @param scanChannel
-	 *            the channel to scan
+	 *          the channel to scan
 	 * @param scanDuration
-	 *            the desired duration of the scan
+	 *          the desired duration of the scan
 	 * @param Async
-	 *            whether the operation will be asynchronous ({@code true}) or
-	 *            not ({@code false}).
+	 *          whether the operation will be asynchronous ({@code true}) or not
+	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
 	 * @throws IOException
-	 *             if an Input Output error occurs.
+	 *           if an Input Output error occurs.
 	 * @throws Exception
-	 *             if a general error occurs.
+	 *           if a general error occurs.
 	 * @throws GatewayException
-	 *             if a ZGD error occurs.
+	 *           if a ZGD error occurs.
 	 */
-	public Status frequencyAgilitySync(final long timeout, final int _requestIdentifier, final short scanChannel, final short scanDuration, final boolean Async)
-			throws IOException, Exception, GatewayException {
+	public Status frequencyAgilitySync(final long timeout, final int _requestIdentifier, final short scanChannel,
+			final short scanDuration, final boolean Async) throws IOException, Exception, GatewayException {
 		if (Async) {
 			executor.execute(new Runnable() {
 				public void run() {
@@ -2581,7 +2613,7 @@ public class GalController {
 	 * Tells is the address exists in the network cache.
 	 * 
 	 * @param shortAddress
-	 *            the address to look for.
+	 *          the address to look for.
 	 * @return -1 if the address does not exist in network cache or a positive
 	 *         number indicating the index of the object on network cache
 	 *         otherwise
@@ -2601,7 +2633,7 @@ public class GalController {
 	 * Gets the Ieee Address from network cache.
 	 * 
 	 * @param shortAddress
-	 *            the address of interest.
+	 *          the address of interest.
 	 * @return null if the address does not exist in network cache or a positive
 	 *         number indicating the index of the desired object
 	 * @throws GatewayException
@@ -2611,13 +2643,18 @@ public class GalController {
 		synchronized (getNetworkcache()) {
 			for (WrapperWSNNode y : getNetworkcache()) {
 				LOG.debug("[getIeeeAddress_FromShortAddress] Short Address: {}",
-						((y.get_node().getAddress().getNetworkAddress() != null) ? String.format("%04X", y.get_node().getAddress().getNetworkAddress()) : "NULL")
+						((y.get_node().getAddress().getNetworkAddress() != null)
+								? String.format("%04X", y.get_node().getAddress().getNetworkAddress())
+								: "NULL")
 								+ " - IEEE Address:"
-								+ ((y.get_node().getAddress().getIeeeAddress() != null) ? String.format("%016X", y.get_node().getAddress().getIeeeAddress()) : "NULL")
+								+ ((y.get_node().getAddress().getIeeeAddress() != null)
+										? String.format("%016X", y.get_node().getAddress().getIeeeAddress())
+										: "NULL")
 								+ " - - Discovery Completed:" + y.is_discoveryCompleted());
 
-				if (y.is_discoveryCompleted() && y.get_node() != null && y.get_node().getAddress() != null && y.get_node().getAddress().getNetworkAddress() != null
-						&& y.get_node().getAddress().getIeeeAddress() != null && y.get_node().getAddress().getNetworkAddress().intValue() == shortAddress.intValue()) {
+				if (y.is_discoveryCompleted() && y.get_node() != null && y.get_node().getAddress() != null
+						&& y.get_node().getAddress().getNetworkAddress() != null && y.get_node().getAddress().getIeeeAddress() != null
+						&& y.get_node().getAddress().getNetworkAddress().intValue() == shortAddress.intValue()) {
 					LOG.debug("[getIeeeAddress_FromShortAddress] FOUND Node: {}", String.format("%04X", shortAddress));
 
 					if (y.get_node().getAddress().getIeeeAddress() == null)
@@ -2639,7 +2676,7 @@ public class GalController {
 	 * Gets the Short Address from network cache.
 	 * 
 	 * @param IeeeAddress
-	 *            the address of interest.
+	 *          the address of interest.
 	 * @return null if the address does not exist in network cache or a positive
 	 *         number indicating the index of the desired object
 	 * @throws GatewayException
@@ -2649,12 +2686,17 @@ public class GalController {
 		synchronized (getNetworkcache()) {
 			for (WrapperWSNNode y : getNetworkcache()) {
 				LOG.debug("[getShortAddress_FromIeeeAddress] Short Address: {}",
-						((y.get_node().getAddress().getNetworkAddress() != null) ? String.format("%04X", y.get_node().getAddress().getNetworkAddress()) : "NULL")
+						((y.get_node().getAddress().getNetworkAddress() != null)
+								? String.format("%04X", y.get_node().getAddress().getNetworkAddress())
+								: "NULL")
 								+ " - IEEE Address:"
-								+ ((y.get_node().getAddress().getIeeeAddress() != null) ? String.format("%016X", y.get_node().getAddress().getIeeeAddress()) : "NULL")
+								+ ((y.get_node().getAddress().getIeeeAddress() != null)
+										? String.format("%016X", y.get_node().getAddress().getIeeeAddress())
+										: "NULL")
 								+ " - - Discovery Completed:" + y.is_discoveryCompleted());
-				if (y.is_discoveryCompleted() && (y.get_node() != null) && (y.get_node().getAddress() != null) && (y.get_node().getAddress().getIeeeAddress() != null)
-						&& (y.get_node().getAddress().getNetworkAddress() != null) && y.get_node().getAddress().getIeeeAddress().longValue() == IeeeAddress.longValue()) {
+				if (y.is_discoveryCompleted() && (y.get_node() != null) && (y.get_node().getAddress() != null)
+						&& (y.get_node().getAddress().getIeeeAddress() != null) && (y.get_node().getAddress().getNetworkAddress() != null)
+						&& y.get_node().getAddress().getIeeeAddress().longValue() == IeeeAddress.longValue()) {
 					LOG.debug("[getShortAddress_FromIeeeAddress] FOUND Node: {} ", String.format("%016X", IeeeAddress));
 
 					if (y.get_node().getAddress().getNetworkAddress() == null)
@@ -2671,10 +2713,10 @@ public class GalController {
 	 * Tells is the address exists into Gateway Event Listener's list.
 	 * 
 	 * @param requestIdentifier
-	 *            the request identifier to look for.
+	 *          the request identifier to look for.
 	 * @return -1 if the request identifier does not exist into Gateway Event
-	 *         Listener's list or a positive number indicating its index onto
-	 *         the list otherwise
+	 *         Listener's list or a positive number indicating its index onto the
+	 *         list otherwise
 	 */
 	public short existIntolistGatewayEventListener(long requestIdentifier) {
 		synchronized (getListGatewayEventListener()) {
@@ -2708,16 +2750,20 @@ public class GalController {
 				WrapperWSNNode nodeWrapper = wsnWrappersIterator.next();
 				// Clear device keypair
 				try {
-					Status _st1 = getDataLayer().ClearDeviceKeyPairSet(getPropertiesManager().getCommandTimeoutMS(), nodeWrapper.get_node().getAddress());
+					Status _st1 = getDataLayer().ClearDeviceKeyPairSet(getPropertiesManager().getCommandTimeoutMS(),
+							nodeWrapper.get_node().getAddress());
 				} catch (Exception e) {
-					LOG.error("Error ong Clearing device Keyset for device {} - Exception: {}", Utils.getAddressString(nodeWrapper.get_node().getAddress()), e);
+					LOG.error("Error ong Clearing device Keyset for device {} - Exception: {}",
+							Utils.getAddressString(nodeWrapper.get_node().getAddress()), e);
 				}
 
 				// Clear neighbor table entries
 				try {
-					Status _st0 = getDataLayer().ClearNeighborTableEntry(getPropertiesManager().getCommandTimeoutMS(), nodeWrapper.get_node().getAddress());
+					Status _st0 = getDataLayer().ClearNeighborTableEntry(getPropertiesManager().getCommandTimeoutMS(),
+							nodeWrapper.get_node().getAddress());
 				} catch (Exception e1) {
-					LOG.error("Error on ClearNeighborTableEntry for node: {} - Exception: {}", Utils.getAddressString(nodeWrapper.get_node().getAddress()), e1);
+					LOG.error("Error on ClearNeighborTableEntry for node: {} - Exception: {}",
+							Utils.getAddressString(nodeWrapper.get_node().getAddress()), e1);
 				}
 
 				// notify the networkmanager of node removal
@@ -2726,7 +2772,8 @@ public class GalController {
 				try {
 					this.get_gatewayEventManager().nodeRemoved(s, nodeWrapper.get_node());
 				} catch (Exception e) {
-					LOG.error("Error notifying node {} removal, Exception: {}", Utils.getAddressString(nodeWrapper.get_node().getAddress()), e);
+					LOG.error("Error notifying node {} removal, Exception: {}", Utils.getAddressString(nodeWrapper.get_node().getAddress()),
+							e);
 				}
 
 			}

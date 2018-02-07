@@ -31,9 +31,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Osgi Activator implementation.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class Activator implements BundleActivator {
 	private BundleContext bc;
@@ -57,15 +59,19 @@ public class Activator implements BundleActivator {
 			PropertiesManager PropertiesManager = new PropertiesManager(bc.getBundle().getResource(_path));
 
 			if (context.getProperty(GatewayProperties.ZGD_DONGLE_URI_PROP_NAME) != null)
-				PropertiesManager.props.setProperty(GatewayProperties.ZGD_DONGLE_URI_PROP_NAME, context.getProperty(GatewayProperties.ZGD_DONGLE_URI_PROP_NAME));
+				PropertiesManager.props.setProperty(GatewayProperties.ZGD_DONGLE_URI_PROP_NAME,
+						context.getProperty(GatewayProperties.ZGD_DONGLE_URI_PROP_NAME));
 			if (context.getProperty(GatewayProperties.ZGD_DONGLE_SPEED_PROP_NAME) != null)
-				PropertiesManager.props.setProperty(GatewayProperties.ZGD_DONGLE_SPEED_PROP_NAME, context.getProperty(GatewayProperties.ZGD_DONGLE_SPEED_PROP_NAME));
+				PropertiesManager.props.setProperty(GatewayProperties.ZGD_DONGLE_SPEED_PROP_NAME,
+						context.getProperty(GatewayProperties.ZGD_DONGLE_SPEED_PROP_NAME));
 			if (context.getProperty(GatewayProperties.ZGD_DONGLE_TYPE_PROP_NAME) != null)
-				PropertiesManager.props.setProperty(GatewayProperties.ZGD_DONGLE_TYPE_PROP_NAME, context.getProperty(GatewayProperties.ZGD_DONGLE_TYPE_PROP_NAME));
+				PropertiesManager.props.setProperty(GatewayProperties.ZGD_DONGLE_TYPE_PROP_NAME,
+						context.getProperty(GatewayProperties.ZGD_DONGLE_TYPE_PROP_NAME));
 			if (context.getProperty(GatewayProperties.ZGD_GAL_ENABLE_LOG) != null)
 				PropertiesManager.props.setProperty("debugEnabled", context.getProperty(GatewayProperties.ZGD_GAL_ENABLE_LOG));
 			if (context.getProperty(GatewayProperties.ZGD_GAL_ENABLE_SERIAL_LOG) != null)
-				PropertiesManager.props.setProperty("serialDataDebugEnabled", context.getProperty(GatewayProperties.ZGD_GAL_ENABLE_SERIAL_LOG));
+				PropertiesManager.props.setProperty("serialDataDebugEnabled",
+						context.getProperty(GatewayProperties.ZGD_GAL_ENABLE_SERIAL_LOG));
 
 			if (_fac == null)
 				_fac = new GalExtenderProxyFactory(PropertiesManager);

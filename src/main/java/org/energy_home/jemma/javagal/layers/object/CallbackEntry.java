@@ -25,9 +25,11 @@ import org.energy_home.jemma.zgd.jaxb.Callback;
  * {@code apsCallbackIdentifier}. The entry will be then inserted in
  * {@link GalController#listCallback}.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class CallbackEntry {
 	private int proxyIdentifier;
@@ -66,7 +68,7 @@ public class CallbackEntry {
 	 * Sets the destination's APS message listener.
 	 * 
 	 * @param destination
-	 *            the APS message listener to set as destination.
+	 *          the APS message listener to set as destination.
 	 */
 	@Deprecated
 	public void setDestination(APSMessageListener destination) {
@@ -77,7 +79,7 @@ public class CallbackEntry {
 	 * Sets the destination's message listener.
 	 * 
 	 * @param destination
-	 *            the APS message listener to set as destination.
+	 *          the APS message listener to set as destination.
 	 */
 	public void setGenericDestination(MessageListener destination) {
 		this.genericDestination = destination;
@@ -96,7 +98,7 @@ public class CallbackEntry {
 	 * Sets the {@code Callback} this object refers to.
 	 * 
 	 * @param callback
-	 *            the {@code Callback} to carry in this object.
+	 *          the {@code Callback} to carry in this object.
 	 */
 	public void setCallback(Callback callback) {
 		this.callback = callback;
@@ -115,7 +117,7 @@ public class CallbackEntry {
 	 * Sets the callback's identifier.
 	 * 
 	 * @param CallbackIdentifier
-	 *            the callback's identifier.
+	 *          the callback's identifier.
 	 */
 	public void setCallbackIdentifier(Long CallbackIdentifier) {
 		this.CallbackIdentifier = CallbackIdentifier;
@@ -134,7 +136,7 @@ public class CallbackEntry {
 	 * Sets the proxy's identifier for this callback entry.
 	 * 
 	 * @param proxyIdentifier
-	 *            the proxy identifier to set.
+	 *          the proxy identifier to set.
 	 */
 	public void setProxyIdentifier(int proxyIdentifier) {
 		this.proxyIdentifier = proxyIdentifier;

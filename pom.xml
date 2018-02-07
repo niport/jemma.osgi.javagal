@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- This file is part of JEMMA - http://jemma.energy-home.org (C) Copyright 
-	2013 Telecom Italia (http://www.telecomitalia.it) JEMMA is free software: 
-	you can redistribute it and/or modify it under the terms of the GNU Lesser 
-	General Public License (LGPL) version 3 or later as published by the Free 
-	Software Foundation, which accompanies this distribution and is available 
-	at http://www.gnu.org/licenses/lgpl.html JEMMA is distributed in the hope 
-	that it will be useful, but WITHOUT ANY WARRANTY; without even the implied 
-	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
-	GNU Lesser General Public License (LGPL) for more details. -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -16,26 +7,27 @@
 	<groupId>org.energy-home</groupId>
 	<artifactId>jemma.osgi.javagal</artifactId>
 	<packaging>bundle</packaging>
-	<version>2.0.10</version>
+	<version>2.0.9</version>
 	<name>Java Gal</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	
+
 		<!-- Internal dependencies version properties -->
-		
+		<org.energy-home.jemma.zgd.version>1.0.0-SNAPSHOT</org.energy-home.jemma.zgd.version>
+
 		<!-- External dependencies version properties -->
 		<javax.xml.version>1.3.4</javax.xml.version>
 		<jssc.version>2.8.0</jssc.version>
 		<org.apache.commons.commons-lang3.version>3.3.2</org.apache.commons.commons-lang3.version>
 		<org.osgi.compendium.version>4.2.0</org.osgi.compendium.version>
-		<org.osgi.core.version>4.2.0</org.osgi.core.version>		
+		<org.osgi.core.version>4.2.0</org.osgi.core.version>
 		<org.rxtx.version>1.0.0</org.rxtx.version>
 		<org.slf4j.version>1.6.2</org.slf4j.version>
-		
+
 		<!-- Maven plugin version properties -->
 		<felix.bundle.plugin.version>2.5.3</felix.bundle.plugin.version>
-		
+
 	</properties>
 	<repositories>
 		<repository>
@@ -65,15 +57,13 @@
 				<artifactId>maven-bundle-plugin</artifactId>
 				<version>${felix.bundle.plugin.version}</version>
 				<extensions>true</extensions>
-			    <!--
-				    <Bundle-ClassPath>{maven-dependencies}</Bundle-ClassPath>
-				-->
+
 				<configuration>
 					<supportedProjectTypes>
-				      <supportedProjectType>jar</supportedProjectType>
-				      <supportedProjectType>bundle</supportedProjectType>
-				      <supportedProjectType>war</supportedProjectType>
-			        </supportedProjectTypes>
+						<supportedProjectType>jar</supportedProjectType>
+						<supportedProjectType>bundle</supportedProjectType>
+						<supportedProjectType>war</supportedProjectType>
+					</supportedProjectTypes>
 					<manifestLocation>META-INF</manifestLocation>
 					<instructions>
 						<Bundle-ManifestVersion>2</Bundle-ManifestVersion>
@@ -88,14 +78,12 @@
 							org.apache.commons.lang3;version="3.3.2",
 							jssc;resolution:=optional,
 							org.slf4j;version="[1.6,2)",
-							org.osgi.framework,
-							org.osgi.util.tracker;version="1.4.2",*
+							org.osgi.framework,*
 						</Import-Package>
 						<Export-Package>org.energy_home.jemma.zgd;version="1.4.1",
 							org.energy_home.jemma.zgd.jaxb;version="1.0.4"
 						</Export-Package>
 						<_removeheaders>Bnd-LastModified, Built-By, Build-Jdk</_removeheaders>
-						<Bundle-Category>JEMMA JavaGAL</Bundle-Category>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -113,10 +101,15 @@
 
 
 	<dependencies>
-	
-		<!-- Internal dependencies  -->
-	
-	
+
+		<!-- Internal dependencies -->
+		<dependency>
+			<groupId>org.energy-home</groupId>
+			<artifactId>jemma.osgi.zgd.api</artifactId>
+			<version>${org.energy-home.jemma.zgd.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
 		<!-- External dependencies -->
 
 		<dependency>
@@ -131,7 +124,7 @@
 			<version>${jssc.version}</version>
 			<optional>true</optional>
 			<scope>compile</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -143,7 +136,7 @@
 			<artifactId>org.osgi.compendium</artifactId>
 			<version>${org.osgi.compendium.version}</version>
 			<scope>compile</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
@@ -156,7 +149,7 @@
 			<version>${org.rxtx.version}</version>
 			<optional>true</optional>
 			<scope>compile</scope>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>

@@ -21,9 +21,11 @@ import org.energy_home.jemma.zgd.jaxb.Address;
  * Utilities class. Provides convenient methods to manipulate data (conversion,
  * reversing, truncating and so on).
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 public class Utils {
@@ -32,7 +34,7 @@ public class Utils {
 	 * Converts an array of bytes to a String.
 	 * 
 	 * @param array
-	 *            the array of bytes to convert.
+	 *          the array of bytes to convert.
 	 * @return the converted String representation of the given array of bytes.
 	 */
 	public static String convertByteArrayToString(byte[] array) {
@@ -44,14 +46,14 @@ public class Utils {
 	}
 
 	/**
-	 * Extracts the short representation of the byte at position n in the
-	 * provided long number.
+	 * Extracts the short representation of the byte at position n in the provided
+	 * long number.
 	 * 
 	 * @param x
-	 *            the provided long number from where the short representation
-	 *            is extracted.
+	 *          the provided long number from where the short representation is
+	 *          extracted.
 	 * @param n
-	 *            the position from where the short is to be extracted.
+	 *          the position from where the short is to be extracted.
 	 * @return the desired short representation
 	 */
 	private static final short getByteAsInteger(final long x, final int n) {
@@ -95,7 +97,7 @@ public class Utils {
 	 * Build a channel mask as {@code byte[]} starting from the provided short.
 	 * 
 	 * @param channel
-	 *            the channel mask contained in a short number
+	 *          the channel mask contained in a short number
 	 * @return the built channel mask.
 	 */
 	public static final byte[] buildChannelMask(short channel) {
@@ -160,11 +162,11 @@ public class Utils {
 	 * Makes a new {@code byte[]} as a subset of an original given one.
 	 * 
 	 * @param original
-	 *            the original array.
+	 *          the original array.
 	 * @param from
-	 *            initial index position from where to copy.
+	 *          initial index position from where to copy.
 	 * @param to
-	 *            final index position until where to copy.
+	 *          final index position until where to copy.
 	 * @return the produced subset.
 	 */
 	public static byte[] copyOfRange(byte[] original, int from, int to) {
@@ -186,15 +188,15 @@ public class Utils {
 	}
 
 	/**
-	 * Merges two {@code byte[]}. The length of the resulting array is the sum
-	 * of the lengths of the two arrays constituents. The resulting array just
+	 * Merges two {@code byte[]}. The length of the resulting array is the sum of
+	 * the lengths of the two arrays constituents. The resulting array just
 	 * contains a copy of the first provided array and then a copy of the second
 	 * provided array.
 	 * 
 	 * @param _top
-	 *            the first array to merge.
+	 *          the first array to merge.
 	 * @param _bottom
-	 *            the second array to merge.
+	 *          the second array to merge.
 	 * @return the resulting merged array.
 	 */
 	public static byte[] mergeBytesVect(byte[] _top, byte[] _bottom) {
@@ -212,7 +214,7 @@ public class Utils {
 	}
 
 	public static byte[] longToByteArray(long value) {
-		return new byte[] { (byte) (value >> 56), (byte) (value >> 48), (byte) (value >> 40), (byte) (value >> 32), (byte) (value >> 24), (byte) (value >> 16),
-				(byte) (value >> 8), (byte) value };
+		return new byte[] { (byte) (value >> 56), (byte) (value >> 48), (byte) (value >> 40), (byte) (value >> 32),
+				(byte) (value >> 24), (byte) (value >> 16), (byte) (value >> 8), (byte) value };
 	}
 }

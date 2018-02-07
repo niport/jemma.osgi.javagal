@@ -38,9 +38,11 @@ import org.slf4j.LoggerFactory;
 /**
  * RxTx implementation of the {@link IConnector}.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 public class SerialPortConnectorRxTx implements IConnector {
@@ -63,14 +65,14 @@ public class SerialPortConnectorRxTx implements IConnector {
 	 * Creates a new instance.
 	 * 
 	 * @param _portName
-	 *            the port name.
+	 *          the port name.
 	 * @param _boudRate
-	 *            the baud rate.
+	 *          the baud rate.
 	 * @param _DataLayer
-	 *            an actual implementation of the {@code IDataLayer} to use in
-	 *            this connection.
+	 *          an actual implementation of the {@code IDataLayer} to use in this
+	 *          connection.
 	 * @throws Exception
-	 *             if an error occurs.
+	 *           if an error occurs.
 	 */
 	public SerialPortConnectorRxTx(String _portName, int _boudRate, IDataLayer _DataLayer) throws Exception {
 		DataLayer = _DataLayer;
@@ -288,8 +290,8 @@ public class SerialPortConnectorRxTx implements IConnector {
 		LOG.info("Clear buffer after CPUReset...");
 		DataLayer.clearBuffer();
 		setIgnoreMessage(false);
-		LOG.debug("Re-Starting inizialize procedure after CPUReset for: PortName=" + commport + " -- Speed=" + boudrate + " -- DefaultTimeout:"
-				+ DataLayer.getPropertiesManager().getCommandTimeoutMS());
+		LOG.debug("Re-Starting inizialize procedure after CPUReset for: PortName=" + commport + " -- Speed=" + boudrate
+				+ " -- DefaultTimeout:" + DataLayer.getPropertiesManager().getCommandTimeoutMS());
 		if (!connect(commport, boudrate)) {
 			throw new Exception("Unable to connect to serial port!");
 		}
@@ -306,11 +308,11 @@ public class SerialPortConnectorRxTx implements IConnector {
 	 * Dump byte array on file
 	 * 
 	 * @param filepath
-	 *            name of file
+	 *          name of file
 	 * @param buffer
-	 *            the buffer to dump
+	 *          the buffer to dump
 	 * @throws IOException
-	 *             if file doesn't exist or some problem occurs during opening
+	 *           if file doesn't exist or some problem occurs during opening
 	 */
 	public void dumpToFile(String filepath, byte[] buffer) throws IOException {
 		FileOutputStream fos = new FileOutputStream(filepath);

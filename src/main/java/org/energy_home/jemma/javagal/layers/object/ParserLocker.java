@@ -23,9 +23,11 @@ import java.util.concurrent.ArrayBlockingQueue;
 /**
  * Helper class to manage synchronization's locks.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class ParserLocker {
 
@@ -56,7 +58,7 @@ public class ParserLocker {
 	 * Sets the status.
 	 * 
 	 * @param status
-	 *            the status to set.
+	 *          the status to set.
 	 */
 	public void setStatus(Status status) {
 		this.status = status;
@@ -75,7 +77,7 @@ public class ParserLocker {
 	 * Sets the id.
 	 * 
 	 * @param _id
-	 *            the id to set.
+	 *          the id to set.
 	 */
 	public void setId(long _id) {
 		id = _id;
@@ -104,7 +106,7 @@ public class ParserLocker {
 	 * Sets the message's type.
 	 * 
 	 * @param type
-	 *            the message's type to set.
+	 *          the message's type to set.
 	 */
 	public void setType(TypeMessage type) {
 		this.type = type;
@@ -123,7 +125,7 @@ public class ParserLocker {
 	 * Sets the response's object.
 	 * 
 	 * @param _objectOfResponse
-	 *            the response's object to set.
+	 *          the response's object to set.
 	 */
 	public void set_objectOfResponse(Object _objectOfResponse) {
 		this._objectOfResponse = _objectOfResponse;
@@ -142,7 +144,7 @@ public class ParserLocker {
 	 * Sets the key.
 	 * 
 	 * @param _Key
-	 *            the key to set.
+	 *          the key to set.
 	 */
 	public void set_Key(String _Key) {
 		this._Key = _Key;

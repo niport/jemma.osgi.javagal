@@ -21,12 +21,14 @@ import org.energy_home.jemma.zgd.GatewayEventListener;
  * Helper class that associates a {code GatewayEventListener} to a
  * {@code proxyIdentifier}.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  * @param <T>
- *            accepts any {@code GatewayEventListener}'s extending class.
+ *          accepts any {@code GatewayEventListener}'s extending class.
  */
 public class GatewayDeviceEventEntry<T extends GatewayEventListener> {
 	long proxyIdentifier;
@@ -49,7 +51,7 @@ public class GatewayDeviceEventEntry<T extends GatewayEventListener> {
 	 * {@code GatewayDeviceEventEntry}.
 	 * 
 	 * @param gatewayEventListener
-	 *            the gateway event listener to set.
+	 *          the gateway event listener to set.
 	 */
 	public void setGatewayEventListener(T gatewayEventListener) {
 		GatewayEventListener = gatewayEventListener;
@@ -68,7 +70,7 @@ public class GatewayDeviceEventEntry<T extends GatewayEventListener> {
 	 * Sets the proxy identifer.
 	 * 
 	 * @param proxyIdentifier
-	 *            the proxy identifier to set.
+	 *          the proxy identifier to set.
 	 */
 	public void setProxyIdentifier(long proxyIdentifier) {
 		this.proxyIdentifier = proxyIdentifier;
@@ -87,7 +89,7 @@ public class GatewayDeviceEventEntry<T extends GatewayEventListener> {
 	 * Sets the discovery mask.
 	 * 
 	 * @param discoveryMask
-	 *            the discovery mask to set.
+	 *          the discovery mask to set.
 	 */
 	public void setDiscoveryMask(int discoveryMask) {
 		this.discoveryMask = discoveryMask;
@@ -106,7 +108,7 @@ public class GatewayDeviceEventEntry<T extends GatewayEventListener> {
 	 * Sets the freshness mask.
 	 * 
 	 * @param freshnessMask
-	 *            the freshness mask to set.
+	 *          the freshness mask to set.
 	 */
 	public void setFreshnessMask(int freshnessMask) {
 		this.freshnessMask = freshnessMask;

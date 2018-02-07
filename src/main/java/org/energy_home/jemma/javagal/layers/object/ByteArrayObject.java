@@ -27,9 +27,11 @@ import java.util.Iterator;
  * contains a byte array where only the first {@link #count} bytes are to be
  * considered valid.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class ByteArrayObject {
 	/**
@@ -65,10 +67,9 @@ public class ByteArrayObject {
 	 * created byte array instance are to be considered valid.
 	 * 
 	 * @param buffer
-	 *            the buffer of initial elements to put in the byte array
-	 *            object.
+	 *          the buffer of initial elements to put in the byte array object.
 	 * @param size
-	 *            the size of the valid values on the byte array.
+	 *          the size of the valid values on the byte array.
 	 */
 	public ByteArrayObject(byte[] buffer, int size) {
 		_startedFromZero = true;
@@ -85,7 +86,7 @@ public class ByteArrayObject {
 	 * {@link #count} increments by one.
 	 * 
 	 * @param byteToAdd
-	 *            the byte to add at the end.
+	 *          the byte to add at the end.
 	 */
 	public void addByte(byte byteToAdd) {
 		array[count++] = byteToAdd;
@@ -96,7 +97,7 @@ public class ByteArrayObject {
 	 * (the first byte in sequence).
 	 * 
 	 * @param byteToAdd
-	 *            the start sequence's byte to add.
+	 *          the start sequence's byte to add.
 	 */
 	public void addStartSequance(byte byteToAdd) {
 		array[0] = byteToAdd;
@@ -107,7 +108,7 @@ public class ByteArrayObject {
 	 * second byte in sequence).
 	 * 
 	 * @param byteToAdd
-	 *            the OP Group's byte to add.
+	 *          the OP Group's byte to add.
 	 */
 	public void addOPGroup(byte byteToAdd) {
 		array[1] = byteToAdd;
@@ -118,7 +119,7 @@ public class ByteArrayObject {
 	 * third byte in sequence).
 	 * 
 	 * @param byteToAdd
-	 *            the OP Code's byte to add.
+	 *          the OP Code's byte to add.
 	 */
 	public void addOPCode(byte byteToAdd) {
 		array[2] = byteToAdd;
@@ -129,7 +130,7 @@ public class ByteArrayObject {
 	 * byte in sequence).
 	 * 
 	 * @param byteToAdd
-	 *            the lenght's byte to add.
+	 *          the lenght's byte to add.
 	 */
 	public void addLength(byte byteToAdd) {
 		array[3] = byteToAdd;
@@ -137,13 +138,13 @@ public class ByteArrayObject {
 
 	/**
 	 * Adds a short converted as byte(s). Writes one or two bytes containing the
-	 * given short value, in Big Endian byte order (from most significant to
-	 * least significant). One or two bytes is indicated by the lenght argument.
+	 * given short value, in Big Endian byte order (from most significant to least
+	 * significant). One or two bytes is indicated by the lenght argument.
 	 * 
 	 * @param valueToAdd
-	 *            the short to add as its byte(s) representation.
+	 *          the short to add as its byte(s) representation.
 	 * @param length
-	 *            the desired lenght.
+	 *          the desired lenght.
 	 */
 	public void addBytesShort(short valueToAdd, int length) {
 		ByteBuffer buf = ByteBuffer.allocate(length).putShort(valueToAdd);
@@ -178,8 +179,8 @@ public class ByteArrayObject {
 	 * Gets the number of valid byte(s) carried by this byte array.
 	 * 
 	 * @param real
-	 *            true if carried byte array is to be considered "real", false
-	 *            otherwise.
+	 *          true if carried byte array is to be considered "real", false
+	 *          otherwise.
 	 * 
 	 * @return the byte count.
 	 */

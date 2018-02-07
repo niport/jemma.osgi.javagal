@@ -1,5 +1,5 @@
 JavaGal Service
-============
+===============
 
 This bundles is a GAL bundle. It manage the zigbee Stack.
 ```

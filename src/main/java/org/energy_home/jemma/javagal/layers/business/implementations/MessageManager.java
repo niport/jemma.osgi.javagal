@@ -41,9 +41,11 @@ import org.energy_home.jemma.zgd.jaxb.Level;
  * Manages received APS messages. When an APS indication is received it is
  * passed to this class' {@code APSMessageIndication} method.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 public class MessageManager {
@@ -59,7 +61,7 @@ public class MessageManager {
 	 * Creates a new instance with a Gal controller reference.
 	 * 
 	 * @param _gal
-	 *            a Gal controller reference.
+	 *          a Gal controller reference.
 	 */
 	public MessageManager(GalController _gal) {
 		gal = _gal;
@@ -83,14 +85,14 @@ public class MessageManager {
 
 	/**
 	 * Processes the APS indication message trying to dispatch it to the right
-	 * destination. The {@link GalController} maintains a collection of
-	 * registered callbacks' listeners. This method verifies if a match exists
-	 * on that collection for the callback's filter, i.e. looks if one or more
-	 * destination(s) for that APS message is present. If it exists, sends the
-	 * APS message to all found destinations.
+	 * destination. The {@link GalController} maintains a collection of registered
+	 * callbacks' listeners. This method verifies if a match exists on that
+	 * collection for the callback's filter, i.e. looks if one or more
+	 * destination(s) for that APS message is present. If it exists, sends the APS
+	 * message to all found destinations.
 	 * 
 	 * @param message
-	 *            the indication APSMessageEvent to process.
+	 *          the indication APSMessageEvent to process.
 	 */
 	public void APSMessageIndication(final APSMessageEvent message) {
 		executor.execute(new Runnable() {
@@ -196,11 +198,11 @@ public class MessageManager {
 										}
 									} else if (msam == 0x03) {
 										LOG.warn("AIA"); // FIXME is this
-															// something
-															// expected or not ?
-															// maybe a better
-															// log message would
-															// also help ...
+										// something
+										// expected or not ?
+										// maybe a better
+										// log message would
+										// also help ...
 
 										// ASK No ieee address defined in
 										// the AddressSpecification
@@ -277,7 +279,8 @@ public class MessageManager {
 								cmessage = SerializationUtils.clone(message);
 							}
 							LOG.debug("READY to CallBack NotifyApsMessage: {}",
-									((cmessage.getDestinationAddress().getNetworkAddress() != null) ? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress())
+									((cmessage.getDestinationAddress().getNetworkAddress() != null)
+											? String.format("%04X", cmessage.getDestinationAddress().getNetworkAddress())
 											: ""));
 
 							napml.notifyAPSMessage(cmessage);
@@ -295,13 +298,13 @@ public class MessageManager {
 	/**
 	 * Processes the InterPAN indication message trying to dispatch it to the
 	 * right destination. The {@link GalController} maintains a collection of
-	 * registered callbacks' listeners. This method verifies if a match exists
-	 * on that collection for the callback's filter, i.e. looks if one or more
-	 * destination(s) for that APS message is present. If it exists, sends the
-	 * APS message to all found destinations.
+	 * registered callbacks' listeners. This method verifies if a match exists on
+	 * that collection for the callback's filter, i.e. looks if one or more
+	 * destination(s) for that APS message is present. If it exists, sends the APS
+	 * message to all found destinations.
 	 * 
 	 * @param message
-	 *            the indication APSMessageEvent to process.
+	 *          the indication APSMessageEvent to process.
 	 */
 	public void InterPANMessageIndication(final InterPANMessageEvent message) {
 		executor.execute(new Runnable() {

@@ -77,9 +77,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Freescale implementation of {@link IDataLayer}.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class DataFreescale implements IDataLayer {
 	Boolean destroy = new Boolean(false);
@@ -115,9 +117,9 @@ public class DataFreescale implements IDataLayer {
 	 * Creates a new instance with a reference to the Gal Controller.
 	 * 
 	 * @param _gal
-	 *            a reference to the Gal Controller.
+	 *          a reference to the Gal Controller.
 	 * @throws Exception
-	 *             if an error occurs.
+	 *           if an error occurs.
 	 */
 	public DataFreescale(GalController _gal) throws Exception {
 		gal = _gal;
@@ -127,7 +129,8 @@ public class DataFreescale implements IDataLayer {
 		// system.
 		boolean foundSerialLib = false;
 		try {
-			dongleRs232 = new SerialPortConnectorJssc(getGal().getPropertiesManager().getzgdDongleUri(), getGal().getPropertiesManager().getzgdDongleSpeed(), this);
+			dongleRs232 = new SerialPortConnectorJssc(getGal().getPropertiesManager().getzgdDongleUri(),
+					getGal().getPropertiesManager().getzgdDongleSpeed(), this);
 			foundSerialLib = true;
 		} catch (NoClassDefFoundError e) {
 			LOG.warn("jSSC not found");
@@ -136,7 +139,8 @@ public class DataFreescale implements IDataLayer {
 		if (!foundSerialLib) {
 
 			try { // then with jSSC
-				dongleRs232 = new SerialPortConnectorRxTx(getGal().getPropertiesManager().getzgdDongleUri(), getGal().getPropertiesManager().getzgdDongleSpeed(), this);
+				dongleRs232 = new SerialPortConnectorRxTx(getGal().getPropertiesManager().getzgdDongleUri(),
+						getGal().getPropertiesManager().getzgdDongleSpeed(), this);
 				foundSerialLib = true;
 			} catch (NoClassDefFoundError e) {
 				LOG.warn("RxTx not found");
@@ -343,7 +347,8 @@ public class DataFreescale implements IDataLayer {
 		else if (_command == FreescaleConstants.ZDPMgmtLqiResponse) {
 			short status = ((short) (message.getArray()[3] & 0xFF));
 			if (status == GatewayConstants.SUCCESS) {
-				LOG.debug("Extracted ZDP-Mgmt_Lqi.Response with status[ {} ] ...waiting the related Indication ZDO:{} ", status, message.ToHexString());
+				LOG.debug("Extracted ZDP-Mgmt_Lqi.Response with status[ {} ] ...waiting the related Indication ZDO:{} ", status,
+						message.ToHexString());
 			} else {
 				LOG.error("Extracted ZDP-Mgmt_Lqi.Response with wrong status[" + status + "] " + message.ToHexString());
 
@@ -892,10 +897,10 @@ public class DataFreescale implements IDataLayer {
 		/* Second Byte */
 		byte _second = message.getArray()[7];
 		/* Aps flags bits 0,1,2 */
-		byte _FrequencyBand = (byte) ((_second & 0xF8) >> 0x03);/*
-																 * bits 3 , 4 ,
-																 * 5 , 6 , 7
-																 */
+		byte _FrequencyBand = (byte) ((_second
+				& 0xF8) >> 0x03);/*
+													 * bits 3 , 4 , 5 , 6 , 7
+													 */
 		switch (_FrequencyBand) {
 		case 0x01:
 			_node.setFrequencyBand("868MHz");
@@ -914,13 +919,19 @@ public class DataFreescale implements IDataLayer {
 		/* MACcapabilityFlags_BYTE Byte */
 		byte _MACcapabilityFlags_BYTE = message.getArray()[8];
 		MACCapability _maccapability = new MACCapability();
-		byte _AlternatePanCoordinator = (byte) (_MACcapabilityFlags_BYTE & 0x01);/* Bit0 */
-		byte _DeviceIsFFD = (byte) ((_MACcapabilityFlags_BYTE & 0x02) >> 1);/* Bit1 */
-		byte _MainsPowered = (byte) ((_MACcapabilityFlags_BYTE & 0x04) >> 2);/* Bit2 */
-		byte _ReceiverOnWhenIdle = (byte) ((_MACcapabilityFlags_BYTE & 0x08) >> 3);/* Bit3 */
+		byte _AlternatePanCoordinator = (byte) (_MACcapabilityFlags_BYTE
+				& 0x01);/* Bit0 */
+		byte _DeviceIsFFD = (byte) ((_MACcapabilityFlags_BYTE
+				& 0x02) >> 1);/* Bit1 */
+		byte _MainsPowered = (byte) ((_MACcapabilityFlags_BYTE
+				& 0x04) >> 2);/* Bit2 */
+		byte _ReceiverOnWhenIdle = (byte) ((_MACcapabilityFlags_BYTE
+				& 0x08) >> 3);/* Bit3 */
 		// bit 4-5 reserved
-		byte _SecuritySupported = (byte) ((_MACcapabilityFlags_BYTE & 0x40) >> 6);/* Bit6 */
-		byte _AllocateAddress = (byte) ((_MACcapabilityFlags_BYTE & 0x80) >> 7);/* Bit7 */
+		byte _SecuritySupported = (byte) ((_MACcapabilityFlags_BYTE
+				& 0x40) >> 6);/* Bit6 */
+		byte _AllocateAddress = (byte) ((_MACcapabilityFlags_BYTE
+				& 0x80) >> 7);/* Bit7 */
 		_maccapability.setAlternatePanCoordinator((_AlternatePanCoordinator == 1 ? true : false));
 		_maccapability.setDeviceIsFFD((_DeviceIsFFD == 1 ? true : false));
 		_maccapability.setMainsPowered((_MainsPowered == 1 ? true : false));
@@ -945,11 +956,16 @@ public class DataFreescale implements IDataLayer {
 		int _ServerMask_BYTES = DataManipulation.toIntFromShort(message.getArray()[15], message.getArray()[14]);
 		ServerMask _serverMask = new ServerMask();
 		byte _PrimaryTrustCenter = (byte) (_ServerMask_BYTES & 0x01);/* Bit0 */
-		byte _BackupTrustCenter = (byte) ((_ServerMask_BYTES & 0x02) >> 1);/* Bit1 */
-		byte _PrimaryBindingTableCache = (byte) ((_ServerMask_BYTES & 0x04) >> 2);/* Bit2 */
-		byte _BackupBindingTableCache = (byte) ((_ServerMask_BYTES & 0x08) >> 3);/* Bit3 */
-		byte _PrimaryDiscoveryCache = (byte) ((_ServerMask_BYTES & 0x10) >> 4);/* Bit4 */
-		byte _BackupDiscoveryCache = (byte) ((_ServerMask_BYTES & 0x20) >> 5);/* Bit5 */
+		byte _BackupTrustCenter = (byte) ((_ServerMask_BYTES
+				& 0x02) >> 1);/* Bit1 */
+		byte _PrimaryBindingTableCache = (byte) ((_ServerMask_BYTES
+				& 0x04) >> 2);/* Bit2 */
+		byte _BackupBindingTableCache = (byte) ((_ServerMask_BYTES
+				& 0x08) >> 3);/* Bit3 */
+		byte _PrimaryDiscoveryCache = (byte) ((_ServerMask_BYTES
+				& 0x10) >> 4);/* Bit4 */
+		byte _BackupDiscoveryCache = (byte) ((_ServerMask_BYTES
+				& 0x20) >> 5);/* Bit5 */
 		_serverMask.setPrimaryTrustCenter((_PrimaryTrustCenter == 1 ? true : false));
 		_serverMask.setBackupTrustCenter((_BackupTrustCenter == 1 ? true : false));
 		_serverMask.setPrimaryBindingTableCache((_PrimaryBindingTableCache == 1 ? true : false));
@@ -965,18 +981,22 @@ public class DataFreescale implements IDataLayer {
 		/* CapabilityField_BYTES */
 		byte _CapabilityField_BYTES = message.getArray()[18];
 		DescriptorCapability _DescriptorCapability = new DescriptorCapability();
-		byte _ExtendedActiveEndpointListAvailable = (byte) (_CapabilityField_BYTES & 0x01);/* Bit0 */
-		byte _ExtendedSimpleDescriptorListAvailable = (byte) ((_CapabilityField_BYTES & 0x02) >> 1);/* Bit1 */
+		byte _ExtendedActiveEndpointListAvailable = (byte) (_CapabilityField_BYTES
+				& 0x01);/* Bit0 */
+		byte _ExtendedSimpleDescriptorListAvailable = (byte) ((_CapabilityField_BYTES
+				& 0x02) >> 1);/* Bit1 */
 		_DescriptorCapability.setExtendedActiveEndpointListAvailable((_ExtendedActiveEndpointListAvailable == 1 ? true : false));
 		_DescriptorCapability.setExtendedSimpleDescriptorListAvailable((_ExtendedSimpleDescriptorListAvailable == 1 ? true : false));
 		_node.setDescriptorCapabilityField(_DescriptorCapability);
 		String _key = String.format("%04X", _NWKAddressOfInterest);
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.NODE_DESCRIPTOR) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(_key))) {
+				if ((pl.getType() == TypeMessage.NODE_DESCRIPTOR) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(_key))) {
 					LOG.debug("@Extracted ZDP-NodeDescriptor.Response: {} -- KEY: {} ", message.ToHexString(), _key);
 
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));/* Status */
+					pl.getStatus()
+							.setCode((short) (message.getArray()[3] & 0xFF));/* Status */
 					pl.set_objectOfResponse(_node);
 					try {
 						if (pl.getObjectLocker().size() == 0)
@@ -1115,7 +1135,8 @@ public class DataFreescale implements IDataLayer {
 		// Found APSME_GET-DATA.Confirm. Remove the lock
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.APSME_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(_Key))) {
+				if ((pl.getType() == TypeMessage.APSME_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(_Key))) {
 					short _Length = (short) DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]);
 					byte[] _res = DataManipulation.subByteArray(message.getArray(), 10, _Length + 9);
 					if (_Length >= 2)
@@ -1144,7 +1165,8 @@ public class DataFreescale implements IDataLayer {
 		// Found MacGetPIBAttribute.Confirm. Remove the lock
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.MAC_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(_Key))) {
+				if ((pl.getType() == TypeMessage.MAC_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(_Key))) {
 					short _Length = (short) DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]);
 					byte[] _res = DataManipulation.subByteArray(message.getArray(), 10, _Length + 9);
 					if (_Length >= 2)
@@ -1173,7 +1195,8 @@ public class DataFreescale implements IDataLayer {
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
 				LOG.debug("NLME-GET.Confirm KEY: {} ---- {}", _Key, pl.get_Key());
-				if ((pl.getType() == TypeMessage.NMLE_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(_Key))) {
+				if ((pl.getType() == TypeMessage.NMLE_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(_Key))) {
 					short _Length = (short) DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]);
 					byte[] _res = DataManipulation.subByteArray(message.getArray(), 10, _Length + 9);
 					if (_Length >= 2)
@@ -1203,7 +1226,8 @@ public class DataFreescale implements IDataLayer {
 				if ((pl.getType() == TypeMessage.STOP_NETWORK) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
 					short status = (short) (message.getArray()[3] & 0xFF);
 					if (status == 0x00) {
-						getGal().get_gatewayEventManager().notifyGatewayStopResult(makeStatusObject("The stop command has been processed byt ZDO with success.", (short) 0x00));
+						getGal().get_gatewayEventManager().notifyGatewayStopResult(
+								makeStatusObject("The stop command has been processed byt ZDO with success.", (short) 0x00));
 						synchronized (getGal()) {
 							getGal().setGatewayStatus(GatewayStatus.GW_STOPPING);
 						}
@@ -1272,7 +1296,8 @@ public class DataFreescale implements IDataLayer {
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
 				/* DestAddress */
-				if ((pl.getType() == TypeMessage.ACTIVE_EP) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(Key))) {
+				if ((pl.getType() == TypeMessage.ACTIVE_EP) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(Key))) {
 
 					pl.set_objectOfResponse(_toRes);
 					pl.getStatus().setCode(Status);
@@ -1294,8 +1319,8 @@ public class DataFreescale implements IDataLayer {
 	private void zdpIeeeAddrResponse(ByteArrayObject message) {
 		LOG.debug("Extracted ZDP-IEEE_addr.response: {} ", message.ToHexString());
 
-		long longAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9], message.getArray()[8], message.getArray()[7],
-				message.getArray()[6], message.getArray()[5], message.getArray()[4]);
+		long longAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9],
+				message.getArray()[8], message.getArray()[7], message.getArray()[6], message.getArray()[5], message.getArray()[4]);
 		Integer shortAddress = DataManipulation.toIntFromShort(message.getArray()[13], message.getArray()[12]);
 
 		String Key = String.format("%04X", shortAddress);
@@ -1304,7 +1329,8 @@ public class DataFreescale implements IDataLayer {
 		BigInteger _bi = new BigInteger(1, Utils.longToByteArray(longAddress));
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.READ_IEEE_ADDRESS) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(Key))) {
+				if ((pl.getType() == TypeMessage.READ_IEEE_ADDRESS) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(Key))) {
 
 					pl.set_objectOfResponse(_bi);
 					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
@@ -1325,8 +1351,8 @@ public class DataFreescale implements IDataLayer {
 	 */
 	private void ztcReadExtAddrConfirm(ByteArrayObject message) {
 		LOG.debug("Extracted ZTC-ReadExtAddr.Confirm: {}", message.ToHexString());
-		long longAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9], message.getArray()[8], message.getArray()[7],
-				message.getArray()[6], message.getArray()[5], message.getArray()[4]);
+		long longAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9],
+				message.getArray()[8], message.getArray()[7], message.getArray()[6], message.getArray()[5], message.getArray()[4]);
 		// BigInteger _bi = BigInteger.valueOf(longAddress);
 		BigInteger _bi = new BigInteger(1, Utils.longToByteArray(longAddress));
 		synchronized (getListLocker()) {
@@ -1387,9 +1413,9 @@ public class DataFreescale implements IDataLayer {
 						int _index = 6;
 						for (int i = 0; i < length; i++) {
 							Binding _b = new Binding();
-							long src_longAddress = DataManipulation.toLong(message.getArray()[_index + 8], message.getArray()[_index + 7], message.getArray()[_index + 6],
-									message.getArray()[_index + 5], message.getArray()[_index + 4], message.getArray()[_index + 3], message.getArray()[_index + 2],
-									message.getArray()[_index + 1]);
+							long src_longAddress = DataManipulation.toLong(message.getArray()[_index + 8], message.getArray()[_index + 7],
+									message.getArray()[_index + 6], message.getArray()[_index + 5], message.getArray()[_index + 4],
+									message.getArray()[_index + 3], message.getArray()[_index + 2], message.getArray()[_index + 1]);
 							short _srcEP = (short) (message.getArray()[_index + 9] & 0xFF);
 
 							int _cluster = DataManipulation.toIntFromShort(message.getArray()[_index + 11], message.getArray()[_index + 10]);
@@ -1399,9 +1425,9 @@ public class DataFreescale implements IDataLayer {
 
 							if (_DestinationMode == 0x03) {
 
-								long dst_longAddress = DataManipulation.toLong(message.getArray()[_index + 20], message.getArray()[_index + 19], message.getArray()[_index + 18],
-										message.getArray()[_index + 17], message.getArray()[_index + 16], message.getArray()[_index + 15], message.getArray()[_index + 14],
-										message.getArray()[_index + 13]);
+								long dst_longAddress = DataManipulation.toLong(message.getArray()[_index + 20], message.getArray()[_index + 19],
+										message.getArray()[_index + 18], message.getArray()[_index + 17], message.getArray()[_index + 16],
+										message.getArray()[_index + 15], message.getArray()[_index + 14], message.getArray()[_index + 13]);
 
 								short _dstEP = (short) (message.getArray()[_index + 21] & 0xFF);
 								// _dev.setAddress(BigInteger.valueOf(dst_longAddress));
@@ -1562,7 +1588,8 @@ public class DataFreescale implements IDataLayer {
 				/* Address + EndPoint */
 				LOG.debug("ZDP-SimpleDescriptor.Response Sent Key: {} - Received Key: {}", pl.get_Key(), Key);
 
-				if ((pl.getType() == TypeMessage.GET_SIMPLE_DESCRIPTOR) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(Key))) {
+				if ((pl.getType() == TypeMessage.GET_SIMPLE_DESCRIPTOR) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(Key))) {
 
 					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
 					ServiceDescriptor _toRes = new ServiceDescriptor();
@@ -1574,14 +1601,16 @@ public class DataFreescale implements IDataLayer {
 						int _index = 14;
 						short _numInpCluster = (short) (message.getArray()[13] & 0xFF);
 						for (int i = 0; i < _numInpCluster; i++) {
-							_sp.getApplicationInputCluster().add(DataManipulation.toIntFromShort(message.getArray()[_index + 1], message.getArray()[_index]));
+							_sp.getApplicationInputCluster()
+									.add(DataManipulation.toIntFromShort(message.getArray()[_index + 1], message.getArray()[_index]));
 							_index = _index + 2;
 						}
 
 						short _numOutCluster = (short) (message.getArray()[_index++] & 0xFF);
 
 						for (int i = 0; i < _numOutCluster; i++) {
-							_sp.getApplicationOutputCluster().add(DataManipulation.toIntFromShort(message.getArray()[_index + 1], message.getArray()[_index]));
+							_sp.getApplicationOutputCluster()
+									.add(DataManipulation.toIntFromShort(message.getArray()[_index + 1], message.getArray()[_index]));
 							_index = _index + 2;
 						}
 
@@ -1742,8 +1771,8 @@ public class DataFreescale implements IDataLayer {
 		/* DestAddress + DestEndPoint + SourceEndPoint */
 		/* Marco Removed in order to increase the performance */
 
-		long destAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9], message.getArray()[8], message.getArray()[7],
-				message.getArray()[6], message.getArray()[5], message.getArray()[4]);
+		long destAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9],
+				message.getArray()[8], message.getArray()[7], message.getArray()[6], message.getArray()[5], message.getArray()[4]);
 		short destEndPoint = ((short) (message.getArray()[12] & 0xFF));
 		short sourceEndPoint = ((short) (message.getArray()[13] & 0xFF));
 		String Key = String.format("%016X", destAddress) + String.format("%02X", destEndPoint) + String.format("%02X", sourceEndPoint);
@@ -1997,11 +2026,11 @@ public class DataFreescale implements IDataLayer {
 		}
 
 		/**
-		 * FIXME: error interpreting SRC address according to mode. Check
-		 * APSDE-data indication format from specs: sourceAddressMode: 0x00 =
-		 * reserved 0x01 = reserved 0x02 = 16-bit short address for SrcAddress
-		 * and SrcEndpoint present 0x03 = 64-bit extended address for SrcAddress
-		 * and SrcEndpoint present 0x04 – 0xff = reserved
+		 * FIXME: error interpreting SRC address according to mode. Check APSDE-data
+		 * indication format from specs: sourceAddressMode: 0x00 = reserved 0x01 =
+		 * reserved 0x02 = 16-bit short address for SrcAddress and SrcEndpoint
+		 * present 0x03 = 64-bit extended address for SrcAddress and SrcEndpoint
+		 * present 0x04 – 0xff = reserved
 		 */
 
 		Address sourceAddress = new Address();
@@ -2069,7 +2098,8 @@ public class DataFreescale implements IDataLayer {
 			return;
 		}
 		messageEvent.setLinkQuality((short) (message.getArray()[lastAsdu + 4] & 0xFF));
-		messageEvent.setRxTime((long) DataManipulation.toIntFromShort(message.getArray()[(lastAsdu + 8)], message.getArray()[(lastAsdu + 5)]));
+		messageEvent
+				.setRxTime((long) DataManipulation.toIntFromShort(message.getArray()[(lastAsdu + 8)], message.getArray()[(lastAsdu + 5)]));
 
 		LOG.debug("Extracted APSDE-DATA.Indication: {}", message.ToHexString());
 		if ((getGal().getGatewayStatus() == GatewayStatus.GW_RUNNING) && getGal().get_GalNode() != null) {
@@ -2083,21 +2113,26 @@ public class DataFreescale implements IDataLayer {
 
 				if (node != null)
 					synchronized (node) {
-						messageEvent.getSourceAddress().setIeeeAddress(new BigInteger(1, Utils.longToByteArray(node.get_node().getAddress().getIeeeAddress().longValue())));
+						messageEvent.getSourceAddress().setIeeeAddress(
+								new BigInteger(1, Utils.longToByteArray(node.get_node().getAddress().getIeeeAddress().longValue())));
 						messageEvent.getSourceAddress().setNetworkAddress(new Integer(node.get_node().getAddress().getNetworkAddress()));
 					}
 				else
 					return;
 
 				if (messageEvent.getSourceAddress().getIeeeAddress() == null) {
-					LOG.error("Message discarded IEEE source address not found for Short address:" + String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress())
-							+ " -- ProfileID: " + String.format("%04X", messageEvent.getProfileID()) + " -- ClusterID: " + String.format("%04X", messageEvent.getClusterID()));
+					LOG.error("Message discarded IEEE source address not found for Short address:"
+							+ String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress()) + " -- ProfileID: "
+							+ String.format("%04X", messageEvent.getProfileID()) + " -- ClusterID: "
+							+ String.format("%04X", messageEvent.getClusterID()));
 					return;
 				}
 
 				if (messageEvent.getSourceAddress().getNetworkAddress() == null) {
-					LOG.error("Message discarded short source address not found for Ieee address:" + String.format("%16X", messageEvent.getSourceAddress().getIeeeAddress())
-							+ " -- ProfileID: " + String.format("%04X", messageEvent.getProfileID()) + " -- ClusterID: " + String.format("%04X", messageEvent.getClusterID()));
+					LOG.error("Message discarded short source address not found for Ieee address:"
+							+ String.format("%16X", messageEvent.getSourceAddress().getIeeeAddress()) + " -- ProfileID: "
+							+ String.format("%04X", messageEvent.getProfileID()) + " -- ClusterID: "
+							+ String.format("%04X", messageEvent.getClusterID()));
 					return;
 				}
 
@@ -2105,17 +2140,17 @@ public class DataFreescale implements IDataLayer {
 		} else
 			return;
 		if (messageEvent.getProfileID().equals(0)) {/*
-													 * // profileid == 0 ZDO
-													 * Command
-													 */
+																								 * // profileid == 0 ZDO Command
+																								 */
 			if (messageEvent.getClusterID() == 0x8031) {
 				Mgmt_LQI_rsp _res = new Mgmt_LQI_rsp(messageEvent.getData());
 				String __key = String.format("%04X%02X", messageEvent.getSourceAddress().getNetworkAddress(), _res._StartIndex);
-				LOG.debug("Received LQI_RSP from node: {} --Index: {}", String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress()),
-						String.format("%02X", _res._StartIndex));
+				LOG.debug("Received LQI_RSP from node: {} --Index: {}",
+						String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress()), String.format("%02X", _res._StartIndex));
 				synchronized (getListLocker()) {
 					for (ParserLocker pl : getListLocker()) {
-						if ((pl.getType() == TypeMessage.LQI_REQ) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID) && (__key.equalsIgnoreCase(pl.get_Key()))) {
+						if ((pl.getType() == TypeMessage.LQI_REQ) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+								&& (__key.equalsIgnoreCase(pl.get_Key()))) {
 
 							pl.getStatus().setCode((short) (messageEvent.getAPSStatus() & 0xFF));
 							pl.set_objectOfResponse(_res);
@@ -2161,14 +2196,14 @@ public class DataFreescale implements IDataLayer {
 				_header.addByte(data[1]);// Manufacturer Code(1/2)
 				_header.addByte(data[2]);// Manufacturer Code(2/2)
 				_header.addByte(data[3]);// Transaction sequence
-											// number
+				// number
 				_header.addByte(data[4]);// Command Identifier
 				for (int i = 5; i < data.length; i++)
 					_payload.addByte(data[i]);
 			} else {
 				_header.addByte(data[0]);// Frame control
 				_header.addByte(data[1]);// Transaction sequence
-											// number
+				// number
 				_header.addByte(data[2]);// Command Identifier
 				for (int i = 3; i < data.length; i++)
 					_payload.addByte(data[i]);
@@ -2204,7 +2239,8 @@ public class DataFreescale implements IDataLayer {
 						if (!Wrapnode.isSleepyOrEndDevice()) {
 							Wrapnode.reset_numberOfAttempt();
 							Wrapnode.setTimerFreshness(getGal().getPropertiesManager().getKeepAliveThreshold());
-							LOG.debug("Postponing  timer Freshness for Aps.Indication for node: {}", String.format("%04X", Wrapnode.get_node().getAddress().getNetworkAddress()));
+							LOG.debug("Postponing  timer Freshness for Aps.Indication for node: {}",
+									String.format("%04X", Wrapnode.get_node().getAddress().getNetworkAddress()));
 
 						}
 
@@ -2219,11 +2255,12 @@ public class DataFreescale implements IDataLayer {
 				// 0x8034 is a LeaveAnnouncement, 0x0013 is a
 				// DeviceAnnouncement, 0x8001 is a IEEE_Addr_Rsp
 
-				if ((getGal().getPropertiesManager().getAutoDiscoveryUnknownNodes() > 0)
-						&& (!(messageEvent.getProfileID() == 0x0000 && (messageEvent.getClusterID() == 0x0013 || messageEvent.getClusterID() == 0x8034
+				if ((getGal().getPropertiesManager().getAutoDiscoveryUnknownNodes() > 0) && (!(messageEvent.getProfileID() == 0x0000
+						&& (messageEvent.getClusterID() == 0x0013 || messageEvent.getClusterID() == 0x8034
 								|| messageEvent.getClusterID() == 0x8001 || messageEvent.getClusterID() == 0x8031)))) {
 
-					if (address.getNetworkAddress().intValue() != getGal().get_GalNode().get_node().getAddress().getNetworkAddress().intValue()) {
+					if (address.getNetworkAddress().intValue() != getGal().get_GalNode().get_node().getAddress().getNetworkAddress()
+							.intValue()) {
 
 						// Insert the node into
 						// cache,
@@ -2239,11 +2276,15 @@ public class DataFreescale implements IDataLayer {
 						o.set_node(_newNode);
 
 						if (LOG.isDebugEnabled()) {
-							String shortAdd = (o.get_node().getAddress().getNetworkAddress() != null) ? String.format("%04X", o.get_node().getAddress().getNetworkAddress())
+							String shortAdd = (o.get_node().getAddress().getNetworkAddress() != null)
+									? String.format("%04X", o.get_node().getAddress().getNetworkAddress())
 									: "NULL";
-							String IeeeAdd = (o.get_node().getAddress().getIeeeAddress() != null) ? String.format("%08X", o.get_node().getAddress().getIeeeAddress()) : "NULL";
+							String IeeeAdd = (o.get_node().getAddress().getIeeeAddress() != null)
+									? String.format("%08X", o.get_node().getAddress().getIeeeAddress())
+									: "NULL";
 
-							LOG.debug("Adding node from [AutoDiscovery Nodes] into the NetworkCache IeeeAddress: {} --- Short: {}", IeeeAdd, shortAdd);
+							LOG.debug("Adding node from [AutoDiscovery Nodes] into the NetworkCache IeeeAddress: {} --- Short: {}", IeeeAdd,
+									shortAdd);
 						}
 						getGal().getNetworkcache().add(o);
 
@@ -2253,7 +2294,8 @@ public class DataFreescale implements IDataLayer {
 								WrapperWSNNode _newWrapperNode = (WrapperWSNNode) this.getParameter();
 
 								if ((_newWrapperNode = getGal().getFromNetworkCache(_newWrapperNode)) != null) {
-									LOG.info("AutoDiscoveryUnknownNodes procedure of Node: {}", String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress()));
+									LOG.info("AutoDiscoveryUnknownNodes procedure of Node: {}",
+											String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress()));
 
 									/*
 									 * Reading the IEEEAddress of the new node
@@ -2261,17 +2303,20 @@ public class DataFreescale implements IDataLayer {
 									int counter = 0;
 									while ((_newWrapperNode.get_node().getAddress().getIeeeAddress() == null) && counter <= NUMBEROFRETRY) {
 										try {
-											LOG.debug("AUTODISCOVERY:Sending IeeeReq to: {}", String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
-											BigInteger _iee = readExtAddress(INTERNAL_TIMEOUT, _newWrapperNode.get_node().getAddress().getNetworkAddress());
+											LOG.debug("AUTODISCOVERY:Sending IeeeReq to: {}",
+													String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
+											BigInteger _iee = readExtAddress(INTERNAL_TIMEOUT,
+													_newWrapperNode.get_node().getAddress().getNetworkAddress());
 											synchronized (_newWrapperNode) {
 												_newWrapperNode.get_node().getAddress().setIeeeAddress(_iee);
 											}
 											LOG.debug("Readed Ieee of the new node: {} Ieee: {}",
-													String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()), _newWrapperNode.get_node().getAddress()
-															.getIeeeAddress().toString());
+													String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()),
+													_newWrapperNode.get_node().getAddress().getIeeeAddress().toString());
 
 										} catch (Exception e) {
-											LOG.error("Error reading Ieee of node: {}", String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
+											LOG.error("Error reading Ieee of node: {}",
+													String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
 											counter++;
 
 										}
@@ -2295,12 +2340,15 @@ public class DataFreescale implements IDataLayer {
 
 											synchronized (_newWrapperNode) {
 												_newWrapperNode.setNodeDescriptor(_desc);
-												_newWrapperNode.get_node().setCapabilityInformation(_newWrapperNode.getNodeDescriptor().getMACCapabilityFlag());
+												_newWrapperNode.get_node()
+														.setCapabilityInformation(_newWrapperNode.getNodeDescriptor().getMACCapabilityFlag());
 											}
-											LOG.debug("Readed NodeDescriptor of the new node:" + String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
+											LOG.debug("Readed NodeDescriptor of the new node:"
+													+ String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
 
 										} catch (Exception e) {
-											LOG.error("Error reading Node Descriptor of node:" + String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
+											LOG.error("Error reading Node Descriptor of node:"
+													+ String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
 											counter++;
 
 										}
@@ -2323,9 +2371,8 @@ public class DataFreescale implements IDataLayer {
 										}
 										if (getGal().getPropertiesManager().getForcePingTimeout() > 0) {
 											/*
-											 * Starting immediately a ForcePig
-											 * in order to retrieve the LQI
-											 * informations on the new node
+											 * Starting immediately a ForcePig in order to retrieve
+											 * the LQI informations on the new node
 											 */
 											_newWrapperNode.setTimerForcePing(1);
 										}
@@ -2343,15 +2390,16 @@ public class DataFreescale implements IDataLayer {
 											getGal().get_gatewayEventManager().nodeDiscovered(_st, _newWrapperNode.get_node());
 										} catch (Exception e) {
 											LOG.error("Error Calling NodeDescovered from AutodiscoveredNode Sleepy:"
-													+ String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()) + " Error:" + e.getMessage());
+													+ String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()) + " Error:"
+													+ e.getMessage());
 
 										}
 									}
 									/*
-									 * Saving the Panid in order to leave the
-									 * Philips light
+									 * Saving the Panid in order to leave the Philips light
 									 */
-									getGal().getManageMapPanId().setPanid(_newWrapperNode.get_node().getAddress().getIeeeAddress(), getGal().getNetworkPanID());
+									getGal().getManageMapPanId().setPanid(_newWrapperNode.get_node().getAddress().getIeeeAddress(),
+											getGal().getNetworkPanID());
 
 								}
 
@@ -2431,7 +2479,8 @@ public class DataFreescale implements IDataLayer {
 		} else {
 			if (status.getCode() != 0) {
 				LOG.info("Returned Status: {}", status.getCode());
-				throw new GatewayException("Error on APSME_SET.request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on APSME_SET.request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			}
 			return status;
 		}
@@ -2445,11 +2494,10 @@ public class DataFreescale implements IDataLayer {
 		_res.addByte((byte) 0x00);/* iIndex */
 		_res.addByte((byte) 0x00);/* iEntries */
 		_res.addByte((byte) 0x00);/* iEntrySize */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.APSMEGetRequest);/*
-																					 * StartSequence
-																					 * +
-																					 * Control
-																					 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.APSMEGetRequest);/*
+																						 * StartSequence + Control
+																						 */
 		LOG.debug("APSME_GET.Request: {}", _res.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -2476,7 +2524,8 @@ public class DataFreescale implements IDataLayer {
 		} else {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {} ", status.getCode());
-				throw new GatewayException("Error on APSME-GET.Request. Status code: " + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on APSME-GET.Request. Status code: " + status.getCode() + " Status Message: " + status.getMessage());
 			} else
 				return (String) lock.get_objectOfResponse();
 		}
@@ -2490,11 +2539,10 @@ public class DataFreescale implements IDataLayer {
 		_res.addByte((byte) 0x00);/* iIndex */
 		_res.addByte((byte) iEntry);/* iEntries */
 		_res.addByte((byte) 0x00);/* iEntrySize */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.NLMEGetRequest);/*
-																				 * StartSequence
-																				 * +
-																				 * Control
-																				 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.NLMEGetRequest);/*
+																						 * StartSequence + Control
+																						 */
 		LOG.debug("NLME-GET.Request: {}", _res.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -2521,7 +2569,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on  NLME-GET.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on  NLME-GET.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 
 			} else
 				return (String) lock.get_objectOfResponse();
@@ -2532,21 +2581,20 @@ public class DataFreescale implements IDataLayer {
 	public Status stopNetworkSync(long timeout) throws Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) 0x01);/*
-								 * Stop Mode AnnounceStop (Stops after
-								 * announcing it is leaving the network.)
-								 */
+															 * Stop Mode AnnounceStop (Stops after announcing
+															 * it is leaving the network.)
+															 */
 		_res.addByte((byte) 0x00);/*
-								 * Reset binding/group tables, node type, PAN ID
-								 * etc to ROM state.
-								 */
+															 * Reset binding/group tables, node type, PAN ID
+															 * etc to ROM state.
+															 */
 		_res.addByte((byte) 0x00);/* Restart after stopping. */
 		_res.addByte((byte) 0xFF);/* Writes NVM upon stop. */
 
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZTCStopNwkExRequest);/*
-																						 * StartSequence
-																						 * +
-																						 * Control
-																						 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZTCStopNwkExRequest);/*
+																								 * StartSequence + Control
+																								 */
 
 		LOG.debug("ZDP-StopNwkEx.Request: {}", _res.ToHexString());
 
@@ -2574,7 +2622,8 @@ public class DataFreescale implements IDataLayer {
 
 				LOG.info("Returned Status: ", status.getCode());
 
-				throw new GatewayException("Error on  ZDP-StopNwkEx.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on  ZDP-StopNwkEx.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			}
 			return status;
 		}
@@ -2610,8 +2659,8 @@ public class DataFreescale implements IDataLayer {
 			SendRs232Data(makeByteArrayFromApsMessage(message));
 			/*
 			 * if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			 * lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-			 * status = lock.getStatus();
+			 * lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS); status =
+			 * lock.getStatus();
 			 * 
 			 * if (getListLocker().contains(lock)) getListLocker().remove(lock);
 			 * 
@@ -2620,24 +2669,23 @@ public class DataFreescale implements IDataLayer {
 			 * LOG.error("Timeout expired in send aps message");
 			 * 
 			 * throw new GatewayException(
-			 * "Timeout expired in send aps message. No Confirm Received."); }
-			 * else { if (status.getCode() != 0) {
-			 * LOG.error("Send aps returned Status: " + status.getCode()); //
-			 * CHECK if node is a sleepy end device WrapperWSNNode Wrapnode =
-			 * new WrapperWSNNode(getGal(), String.format("%04X",
-			 * _DSTAdd.intValue())); WSNNode node = new WSNNode();
-			 * node.setAddress(message.getDestinationAddress());
+			 * "Timeout expired in send aps message. No Confirm Received."); } else {
+			 * if (status.getCode() != 0) { LOG.error("Send aps returned Status: " +
+			 * status.getCode()); // CHECK if node is a sleepy end device
+			 * WrapperWSNNode Wrapnode = new WrapperWSNNode(getGal(),
+			 * String.format("%04X", _DSTAdd.intValue())); WSNNode node = new
+			 * WSNNode(); node.setAddress(message.getDestinationAddress());
 			 * Wrapnode.set_node(node); Wrapnode =
-			 * getGal().getFromNetworkCache(Wrapnode); if (Wrapnode != null) {
-			 * if (Wrapnode.isSleepyOrEndDevice()) { if (status.getCode() ==
-			 * 0xA7) return status; else throw new GatewayException(
+			 * getGal().getFromNetworkCache(Wrapnode); if (Wrapnode != null) { if
+			 * (Wrapnode.isSleepyOrEndDevice()) { if (status.getCode() == 0xA7) return
+			 * status; else throw new GatewayException(
 			 * "Error on  APSDE-DATA.Request.Request. The destination node is Unreachable:"
 			 * + String.format("%02X", status.getCode()) + " Status Message: " +
-			 * status.getMessage()); } else { if (status.getCode() == 0xD1) { //
-			 * No route entry, check connections Wrapnode.setTimerForcePing(1);
-			 * return status; } else throw new
-			 * GatewayException("Error on  APSDE-DATA.Request.Request. Status code:"
-			 * + String.format("%02X", status.getCode()) + " Status Message: " +
+			 * status.getMessage()); } else { if (status.getCode() == 0xD1) { // No
+			 * route entry, check connections Wrapnode.setTimerForcePing(1); return
+			 * status; } else throw new
+			 * GatewayException("Error on  APSDE-DATA.Request.Request. Status code:" +
+			 * String.format("%02X", status.getCode()) + " Status Message: " +
 			 * status.getMessage()); }
 			 * 
 			 * } else { throw new GatewayException(
@@ -2660,24 +2708,27 @@ public class DataFreescale implements IDataLayer {
 		_res.addByte(desc.getEndPoint().byteValue());/* End Point */
 		_res.addBytesShort(Short.reverseBytes(desc.getApplicationProfileIdentifier().shortValue()), 2);
 		_res.addBytesShort(Short.reverseBytes(desc.getApplicationDeviceIdentifier().shortValue()), 2);
-		_res.addByte(desc.getApplicationDeviceVersion().byteValue());/* DeviceVersion */
-		_res.addByte((byte) desc.getApplicationInputCluster().size());/* ClusterInputSize */
+		_res.addByte(
+				desc.getApplicationDeviceVersion().byteValue());/* DeviceVersion */
+		_res.addByte(
+				(byte) desc.getApplicationInputCluster().size());/* ClusterInputSize */
 		if (desc.getApplicationInputCluster().size() > 0) {
 			for (Integer x : desc.getApplicationInputCluster())
 				_res.addBytesShort(Short.reverseBytes(x.shortValue()), 2);
 		}
-		_res.addByte((byte) desc.getApplicationOutputCluster().size());/* ClusterOutputSize */
+		_res.addByte((byte) desc.getApplicationOutputCluster()
+				.size());/* ClusterOutputSize */
 		if (desc.getApplicationOutputCluster().size() > 0) {
 			for (Integer x : desc.getApplicationOutputCluster())
 				_res.addBytesShort(Short.reverseBytes(x.shortValue()), 2);
 		}
 		_res.addByte((byte) 0x01);/* Maximum Window Size */
 
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.APSRegisterEndPointRequest);/*
-																							 * StartSequence
-																							 * +
-																							 * Control
-																							 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.APSRegisterEndPointRequest);/*
+																												 * StartSequence +
+																												 * Control
+																												 */
 		/* APS-RegisterEndPoint.Request */
 		LOG.debug("Configure EndPoint command: {}", _res.ToHexString());
 		short _endPoint = 0;
@@ -2704,7 +2755,8 @@ public class DataFreescale implements IDataLayer {
 		} else {
 			if (status.getCode() != 0) {
 				LOG.info("Returned Status: {}", status.getCode());
-				throw new GatewayException("Error on  APS-RegisterEndPoint.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on  APS-RegisterEndPoint.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else
 				_endPoint = desc.getEndPoint();
 		}
@@ -2849,11 +2901,10 @@ public class DataFreescale implements IDataLayer {
 		_res.addByte((byte) 0x02);/* APSME */
 		_res.addByte((byte) 0x02);/* ZDP */
 		_res.addByte((byte) 0x00);/* HealthCare */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZTCModeSelectRequest);/*
-																						 * StartSequence
-																						 * +
-																						 * Control
-																						 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZTCModeSelectRequest);/*
+																									 * StartSequence + Control
+																									 */
 		LOG.debug("Reset command:" + _res.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -2875,7 +2926,8 @@ public class DataFreescale implements IDataLayer {
 
 			throw new GatewayException("Timeout expired in SetModeReq");
 		} else if (status.getCode() != 0) {
-			throw new GatewayException("Error on APSME-RESET.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+			throw new GatewayException(
+					"Error on APSME-RESET.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 		}
 		return status;
 	}
@@ -2893,14 +2945,14 @@ public class DataFreescale implements IDataLayer {
 				throw new Exception("LogicalType not Valid!");
 			} else if (devType == LogicalType.COORDINATOR) {
 
-				_res.addByte(FreescaleConstants.DeviceType.Coordinator);/* Coordinator */
+				_res.addByte(
+						FreescaleConstants.DeviceType.Coordinator);/* Coordinator */
 				LOG.debug("DeviceType == COORDINATOR");
 
 			} else if (devType == LogicalType.END_DEVICE) {
 				_res.addByte(FreescaleConstants.DeviceType.EndDevice);/*
-																	 * End
-																	 * Device
-																	 */
+																															 * End Device
+																															 */
 				LOG.debug("DeviceType == ENDDEVICE");
 
 			} else if (devType == LogicalType.ROUTER) {
@@ -2909,16 +2961,16 @@ public class DataFreescale implements IDataLayer {
 
 			}
 			LOG.debug("StartupSet value read from PropertiesManager: {}", getGal().getPropertiesManager().getStartupSet());
-			LOG.debug("StartupControlMode value read from PropertiesManager: {}", getGal().getPropertiesManager().getSturtupAttributeInfo().getStartupControl().byteValue());
+			LOG.debug("StartupControlMode value read from PropertiesManager: {}",
+					getGal().getPropertiesManager().getSturtupAttributeInfo().getStartupControl().byteValue());
 
 			_res.addByte((byte) getGal().getPropertiesManager().getStartupSet());
 			_res.addByte(getGal().getPropertiesManager().getSturtupAttributeInfo().getStartupControl().byteValue());
 
-			_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZTCStartNwkExRequest);/*
-																							 * StartSequence
-																							 * +
-																							 * Control
-																							 */
+			_res = Set_SequenceStart_And_FSC(_res,
+					FreescaleConstants.ZTCStartNwkExRequest);/*
+																										 * StartSequence + Control
+																										 */
 			LOG.debug("Start Network command: {} ---Timeout: {}", _res.ToHexString(), timeout);
 
 			ParserLocker lock = new ParserLocker();
@@ -2944,7 +2996,8 @@ public class DataFreescale implements IDataLayer {
 
 					LOG.debug("Returned Status: {}", status);
 
-					throw new GatewayException("Error on ZDP-StartNwkEx.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+					throw new GatewayException(
+							"Error on ZDP-StartNwkEx.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 				}
 			}
 
@@ -2997,14 +3050,16 @@ public class DataFreescale implements IDataLayer {
 			res.addByte(b);
 
 		/* TrustCenterMasterKey */
-		byte[] TrustCenterMasterKey = (devType == LogicalType.COORDINATOR) ? sai.getTrustCenterMasterKey() : DataManipulation.toByteVect(BigInteger.ZERO, 16);
+		byte[] TrustCenterMasterKey = (devType == LogicalType.COORDINATOR) ? sai.getTrustCenterMasterKey()
+				: DataManipulation.toByteVect(BigInteger.ZERO, 16);
 		LOG.debug("TrustCenterMasterKey: {}", DataManipulation.convertBytesToString(TrustCenterMasterKey));
 
 		for (byte b : DataManipulation.reverseBytes(TrustCenterMasterKey))
 			res.addByte(b);
 
 		/* NetworKey */
-		byte[] NetworKey = (devType == LogicalType.COORDINATOR) ? sai.getNetworkKey() : DataManipulation.toByteVect(BigInteger.ZERO, 16);
+		byte[] NetworKey = (devType == LogicalType.COORDINATOR) ? sai.getNetworkKey()
+				: DataManipulation.toByteVect(BigInteger.ZERO, 16);
 		LOG.debug("NetworKey: {}", DataManipulation.convertBytesToString(NetworKey));
 
 		for (byte b : DataManipulation.reverseBytes(NetworKey))
@@ -3067,26 +3122,26 @@ public class DataFreescale implements IDataLayer {
 		} else {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
-				throw new GatewayException("Error on BlackBox.WriteSAS. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on BlackBox.WriteSAS. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			}
 			return status;
 		}
 	}
 
-	public Status permitJoinSync(long timeout, Address addrOfInterest, short duration, byte TCSignificance) throws IOException, Exception, GatewayException {
+	public Status permitJoinSync(long timeout, Address addrOfInterest, short duration, byte TCSignificance)
+			throws IOException, Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/*
-																									 * Short
-																									 * Network
-																									 * Address
-																									 */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/*
+						 * Short Network Address
+						 */
 		_res.addByte((byte) duration);/* Duration */
 		_res.addByte(TCSignificance);/* TCSignificant */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.NLMEPermitJoiningRequest);/*
-																							 * StartSequence
-																							 * +
-																							 * Control
-																							 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.NLMEPermitJoiningRequest);/*
+																											 * StartSequence + Control
+																											 */
 		LOG.debug("Permit Join command: {}", _res.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -3108,26 +3163,26 @@ public class DataFreescale implements IDataLayer {
 			throw new GatewayException("Timeout expired in Permit Join");
 		else {
 			if (status.getCode() != 0)
-				throw new GatewayException("Error on ZDP-Mgmt_Permit_Join.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-Mgmt_Permit_Join.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 
 		}
 		return status;
 	}
 
-	public Status permitJoinAllSync(long timeout, Address addrOfInterest, short duration, byte TCSignificance) throws IOException, Exception {
+	public Status permitJoinAllSync(long timeout, Address addrOfInterest, short duration, byte TCSignificance)
+			throws IOException, Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/*
-																									 * Short
-																									 * Network
-																									 * Address
-																									 */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/*
+						 * Short Network Address
+						 */
 		_res.addByte((byte) duration);/* Duration */
 		_res.addByte(TCSignificance);/* TCSignificant */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.NLMEPermitJoiningRequest);/*
-																							 * StartSequence
-																							 * +
-																							 * Control
-																							 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.NLMEPermitJoiningRequest);/*
+																											 * StartSequence + Control
+																											 */
 		LOG.debug("Permit Join command: {}", _res.ToHexString());
 
 		SendRs232Data(_res);
@@ -3166,7 +3221,8 @@ public class DataFreescale implements IDataLayer {
 		} else {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
-				throw new GatewayException("Error on ZTC-GetChannel.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZTC-GetChannel.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else
 				return ((Short) lock.get_objectOfResponse()).shortValue();
 		}
@@ -3203,7 +3259,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 
 				LOG.debug("Returned Status: {}", status.getCode());
-				throw new GatewayException("Error on ZTC-ReadExtAddr.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZTC-ReadExtAddr.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else
 				return ((BigInteger) lock.get_objectOfResponse());
 		}
@@ -3245,31 +3302,30 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on ZDP-IEEE_addr.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-IEEE_addr.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else
 				return ((BigInteger) lock.get_objectOfResponse());
 		}
 	}
 
-	public NodeDescriptor getNodeDescriptorSync(long timeout, Address addrOfInterest) throws IOException, Exception, GatewayException {
+	public NodeDescriptor getNodeDescriptorSync(long timeout, Address addrOfInterest)
+			throws IOException, Exception, GatewayException {
 
 		ByteArrayObject _res = new ByteArrayObject(false);
 
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/*
-																									 * Short
-																									 * Network
-																									 * Address
-																									 */
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/*
-																									 * Short
-																									 * Network
-																									 * Address
-																									 */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPNodeDescriptorRequest);/*
-																							 * StartSequence
-																							 * +
-																							 * Control
-																							 */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/*
+						 * Short Network Address
+						 */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/*
+						 * Short Network Address
+						 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZDPNodeDescriptorRequest);/*
+																											 * StartSequence + Control
+																											 */
 
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.NODE_DESCRIPTOR);
@@ -3298,7 +3354,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on ZDP-NodeDescriptor.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-NodeDescriptor.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 
 			} else
 				return (NodeDescriptor) lock.get_objectOfResponse();
@@ -3308,21 +3365,18 @@ public class DataFreescale implements IDataLayer {
 	public List<Short> startServiceDiscoverySync(long timeout, Address aoi) throws Exception {
 		LOG.debug("startServiceDiscoverySync Timeout: {}", timeout);
 		ByteArrayObject _res = new ByteArrayObject(false);
-		_res.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()), 2);/*
-																						 * Short
-																						 * Network
-																						 * Address
-																						 */
-		_res.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()), 2);/*
-																						 * Short
-																						 * Network
-																						 * Address
-																						 */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPActiveEpRequest);/*
-																					 * StartSequence
-																					 * +
-																					 * Control
-																					 */
+		_res.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()),
+				2);/*
+						 * Short Network Address
+						 */
+		_res.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()),
+				2);/*
+						 * Short Network Address
+						 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZDPActiveEpRequest);/*
+																								 * StartSequence + Control
+																								 */
 
 		LOG.debug("ZDP-Active_EP_req.Request: {}", _res.ToHexString());
 
@@ -3348,7 +3402,8 @@ public class DataFreescale implements IDataLayer {
 			throw new GatewayException("Timeout expired in ZDP-Active_EP_req.Request");
 		} else {
 			if (status.getCode() != 0) {
-				throw new GatewayException("Error on ZDP-Active_EP_req.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-Active_EP_req.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 
 			} else {
 				return (List<Short>) lock.get_objectOfResponse();
@@ -3360,11 +3415,10 @@ public class DataFreescale implements IDataLayer {
 	public Status leaveSync(long timeout, Address addrOfInterest, int mask) throws Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
 
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/*
-																									 * Short
-																									 * Network
-																									 * Address
-																									 */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/*
+						 * Short Network Address
+						 */
 		byte[] deviceAddress = DataManipulation.toByteVect(getGal().get_GalNode().get_node().getAddress().getNetworkAddress(), 8);
 		byte[] _reversed = DataManipulation.reverseBytes(deviceAddress);
 		for (byte b : _reversed)
@@ -3373,11 +3427,10 @@ public class DataFreescale implements IDataLayer {
 		options = (byte) (options & GatewayConstants.LEAVE_REJOIN);
 		options = (byte) (options & GatewayConstants.LEAVE_REMOVE_CHILDERN);
 		_res.addByte(options);
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPMgmtLeaveRequest);/*
-																						 * StartSequence
-																						 * +
-																						 * Control
-																						 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZDPMgmtLeaveRequest);/*
+																								 * StartSequence + Control
+																								 */
 		LOG.debug("Leave command: {}", _res.ToHexString());
 
 		SendRs232Data(_res);
@@ -3403,11 +3456,11 @@ public class DataFreescale implements IDataLayer {
 	public Status clearEndpointSync(long timeout, short endpoint) throws IOException, Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) endpoint);/* EndPoint */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.APSDeRegisterEndPointRequest);/*
-																								 * StartSequence
-																								 * +
-																								 * Control
-																								 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.APSDeRegisterEndPointRequest);/*
+																													 * StartSequence +
+																													 * Control
+																													 */
 
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.DEREGISTER_END_POINT);
@@ -3431,7 +3484,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.info("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on  APS-DeregisterEndPoint.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException("Error on  APS-DeregisterEndPoint.Request. Status code:" + status.getCode() + " Status Message: "
+						+ status.getMessage());
 			} else
 				return status;
 		}
@@ -3439,11 +3493,11 @@ public class DataFreescale implements IDataLayer {
 
 	public NodeServices getLocalServices(long timeout) throws IOException, Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.APSGetEndPointIdListRequest);/*
-																								 * StartSequence
-																								 * +
-																								 * Control
-																								 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.APSGetEndPointIdListRequest);/*
+																												 * StartSequence +
+																												 * Control
+																												 */
 
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.GET_END_POINT_LIST);
@@ -3469,7 +3523,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on APS-GetEndPointIdList.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on APS-GetEndPointIdList.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else {
 				NodeServices _tores = (NodeServices) lock.get_objectOfResponse();
 
@@ -3481,22 +3536,24 @@ public class DataFreescale implements IDataLayer {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.energy_home.jemma.javagetGal().layers.data.interfaces.IDataLayer#
+	 * @see org.energy_home.jemma.javagetGal().layers.data.interfaces.IDataLayer#
 	 * getServiceDescriptor(long, it.telecomitalia.zgd.jaxb.Address, short)
 	 */
 
-	public ServiceDescriptor getServiceDescriptor(long timeout, Address addrOfInterest, short endpoint) throws IOException, Exception, GatewayException {
+	public ServiceDescriptor getServiceDescriptor(long timeout, Address addrOfInterest, short endpoint)
+			throws IOException, Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
 
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/* ShortNetworkAddress */
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/* ShortNetworkAddress */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/* ShortNetworkAddress */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/* ShortNetworkAddress */
 		_res.addByte((byte) endpoint);/* EndPoint */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPSimpleDescriptorRequest);/*
-																							 * StartSequence
-																							 * +
-																							 * Control
-																							 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZDPSimpleDescriptorRequest);/*
+																												 * StartSequence +
+																												 * Control
+																												 */
 		String Key = String.format("%04X", addrOfInterest.getNetworkAddress()) + String.format("%02X", endpoint);
 		LOG.debug("ZDP-SimpleDescriptor.Request command: {}", _res.ToHexString());
 
@@ -3524,7 +3581,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: " + status.getCode());
 
-				throw new GatewayException("Error on ZDP-SimpleDescriptor.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-SimpleDescriptor.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else {
 				ServiceDescriptor _tores = (ServiceDescriptor) lock.get_objectOfResponse();
 				return _tores;
@@ -3544,26 +3602,26 @@ public class DataFreescale implements IDataLayer {
 
 	public void cpuReset() throws Exception {
 		ByteArrayObject _res = new ByteArrayObject(false);
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZTCCPUResetRequest);/*
-																					 * StartSequence
-																					 * +
-																					 * Control
-																					 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZTCCPUResetRequest);/*
+																								 * StartSequence + Control
+																								 */
 		LOG.debug("CPUResetCommnad command: {}", _res.ToHexString());
 
 		SendRs232Data(_res);
 
 	}
 
-	public BindingList getNodeBindings(long timeout, Address addrOfInterest, short index) throws IOException, Exception, GatewayException {
+	public BindingList getNodeBindings(long timeout, Address addrOfInterest, short index)
+			throws IOException, Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
-		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);/* ShortNetworkAddress */
+		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
+				2);/* ShortNetworkAddress */
 		_res.addByte((byte) index);/* startIndex */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPMgmtBindRequest);/*
-																					 * StartSequence
-																					 * +
-																					 * Control
-																					 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZDPMgmtBindRequest);/*
+																								 * StartSequence + Control
+																								 */
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.GET_BINDINGS);
 		Status status = new Status();
@@ -3587,7 +3645,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on ZDP-Mgmt_Bind.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-Mgmt_Bind.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else {
 				BindingList _tores = (BindingList) lock.get_objectOfResponse();
 				return _tores;
@@ -3610,25 +3669,26 @@ public class DataFreescale implements IDataLayer {
 		_res.addByte((byte) binding.getSourceEndpoint());/* Source EndPoint */
 
 		Integer _clusterID = binding.getClusterID();
-		_res.addBytesShort(Short.reverseBytes(_clusterID.shortValue()), 2);/* ClusterID */
+		_res.addBytesShort(Short.reverseBytes(_clusterID.shortValue()),
+				2);/* ClusterID */
 
 		if (binding.getDeviceDestination().size() > 0 && binding.getGroupDestination().size() > 0)
 			throw new GatewayException("The Address mode can only be one between Group or Device!");
 		else if (binding.getDeviceDestination().size() == 1) {
-			_res.addByte((byte) 0x03);/*
-									 * Destination AddressMode IeeeAddress +
-									 * EndPoint
-									 */
+			_res.addByte(
+					(byte) 0x03);/*
+												 * Destination AddressMode IeeeAddress + EndPoint
+												 */
 
 			byte[] _DestinationieeeAddress = DataManipulation.toByteVect(binding.getDeviceDestination().get(0).getAddress(), 8);
 			_reversed = DataManipulation.reverseBytes(_DestinationieeeAddress);
 			for (byte b : _reversed)
 				/* Destination IEEEAddress */
 				_res.addByte(b);
-			_res.addByte((byte) binding.getDeviceDestination().get(0).getEndpoint());/*
-																					 * Destination
-																					 * EndPoint
-																					 */
+			_res.addByte((byte) binding.getDeviceDestination().get(0)
+					.getEndpoint());/*
+													 * Destination EndPoint
+													 */
 
 		} else if (binding.getGroupDestination().size() == 1) {
 			_res.addByte((byte) 0x01);/* Destination AddressMode Group */
@@ -3644,11 +3704,10 @@ public class DataFreescale implements IDataLayer {
 
 		}
 
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPBindRequest);/*
-																				 * StartSequence
-																				 * +
-																				 * Control
-																				 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZDPBindRequest);/*
+																						 * StartSequence + Control
+																						 */
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.ADD_BINDING);
 		Status status = new Status();
@@ -3671,7 +3730,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on ZDP-BIND.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-BIND.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else {
 				return lock.getStatus();
 
@@ -3695,25 +3755,26 @@ public class DataFreescale implements IDataLayer {
 		_res.addByte((byte) binding.getSourceEndpoint());/* Source EndPoint */
 
 		Integer _clusterID = binding.getClusterID();
-		_res.addBytesShort(Short.reverseBytes(_clusterID.shortValue()), 2);/* ClusterID */
+		_res.addBytesShort(Short.reverseBytes(_clusterID.shortValue()),
+				2);/* ClusterID */
 
 		if (binding.getDeviceDestination().size() > 0 && binding.getGroupDestination().size() > 0)
 			throw new GatewayException("The Address mode can only be one between Group or Device!");
 		else if (binding.getDeviceDestination().size() == 1) {
-			_res.addByte((byte) 0x03);/*
-									 * Destination AddressMode IeeeAddress +
-									 * EndPoint
-									 */
+			_res.addByte(
+					(byte) 0x03);/*
+												 * Destination AddressMode IeeeAddress + EndPoint
+												 */
 
 			byte[] _DestinationieeeAddress = DataManipulation.toByteVect(binding.getDeviceDestination().get(0).getAddress(), 8);
 			_reversed = DataManipulation.reverseBytes(_DestinationieeeAddress);
 			for (byte b : _reversed)
 				/* Destination IEEEAddress */
 				_res.addByte(b);
-			_res.addByte((byte) binding.getDeviceDestination().get(0).getEndpoint());/*
-																					 * Destination
-																					 * EndPoint
-																					 */
+			_res.addByte((byte) binding.getDeviceDestination().get(0)
+					.getEndpoint());/*
+													 * Destination EndPoint
+													 */
 
 		} else if (binding.getGroupDestination().size() == 1) {
 			_res.addByte((byte) 0x01);/* Destination AddressMode Group */
@@ -3729,11 +3790,10 @@ public class DataFreescale implements IDataLayer {
 
 		}
 
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.ZDPUnbindRequest);/*
-																					 * StartSequence
-																					 * +
-																					 * Control
-																					 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.ZDPUnbindRequest);/*
+																							 * StartSequence + Control
+																							 */
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.REMOVE_BINDING);
 		Status status = new Status();
@@ -3757,7 +3817,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on ZDP-UNBIND.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-UNBIND.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			} else {
 				return lock.getStatus();
 
@@ -3765,7 +3826,8 @@ public class DataFreescale implements IDataLayer {
 		}
 	}
 
-	public Status frequencyAgilitySync(long timeout, short scanChannel, short scanDuration) throws IOException, Exception, GatewayException {
+	public Status frequencyAgilitySync(long timeout, short scanChannel, short scanDuration)
+			throws IOException, Exception, GatewayException {
 		ByteArrayObject _bodyCommand = new ByteArrayObject(false);
 		_bodyCommand.addByte((byte) 0xFD);
 		_bodyCommand.addByte((byte) 0xFF);
@@ -3775,11 +3837,10 @@ public class DataFreescale implements IDataLayer {
 		_bodyCommand.addByte((byte) scanDuration);
 		_bodyCommand.addByte((byte) 0x00);// Add parameter nwkupdate
 		// _bodyCommand.addByte((byte) 0x01);// Add parameter nwkupdate
-		_bodyCommand = Set_SequenceStart_And_FSC(_bodyCommand, FreescaleConstants.NLMENWKUpdateReq);/*
-																									 * StartSequence
-																									 * +
-																									 * Control
-																									 */
+		_bodyCommand = Set_SequenceStart_And_FSC(_bodyCommand,
+				FreescaleConstants.NLMENWKUpdateReq);/*
+																							 * StartSequence + Control
+																							 */
 
 		SendRs232Data(_bodyCommand);
 		Status _st = new Status();
@@ -3838,7 +3899,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on APS-ClearDeviceKeyPairSet.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException("Error on APS-ClearDeviceKeyPairSet.Request. Status code:" + status.getCode()
+						+ " Status Message: " + status.getMessage());
 			} else {
 				return status;
 			}
@@ -3881,7 +3943,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on ZTC-ClearNeighborTableEntry.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException("Error on ZTC-ClearNeighborTableEntry.Request. Status code:" + status.getCode()
+						+ " Status Message: " + status.getMessage());
 			} else {
 				return status;
 			}
@@ -3923,13 +3986,15 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on NMLE_SET.request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on NMLE_SET.request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			}
 			return status;
 		}
 	}
 
-	public Mgmt_LQI_rsp Mgmt_Lqi_Request(long timeout, Address addrOfInterest, short startIndex) throws IOException, Exception, GatewayException {
+	public Mgmt_LQI_rsp Mgmt_Lqi_Request(long timeout, Address addrOfInterest, short startIndex)
+			throws IOException, Exception, GatewayException {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);
 		_res.addByte((byte) startIndex);
@@ -3962,7 +4027,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on ZDP-Mgmt_Lqi.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on ZDP-Mgmt_Lqi.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
 			}
 			return (Mgmt_LQI_rsp) lock.get_objectOfResponse();
 		}
@@ -4003,7 +4069,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.debug("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on  INTERPAN-DATA.Request. Status code:" + String.format("%02X", status.getCode()) + " Status Message: " + status.getMessage());
+				throw new GatewayException("Error on  INTERPAN-DATA.Request. Status code:" + String.format("%02X", status.getCode())
+						+ " Status Message: " + status.getMessage());
 
 			}
 			return status;
@@ -4028,11 +4095,10 @@ public class DataFreescale implements IDataLayer {
 		ByteArrayObject _res = new ByteArrayObject(false);
 		_res.addByte((byte) _AttID);/* iId */
 		_res.addByte((byte) 0x00);/* iIndex */
-		_res = Set_SequenceStart_And_FSC(_res, FreescaleConstants.MacGetPIBAttributeRequest);/*
-																							 * StartSequence
-																							 * +
-																							 * Control
-																							 */
+		_res = Set_SequenceStart_And_FSC(_res,
+				FreescaleConstants.MacGetPIBAttributeRequest);/*
+																											 * StartSequence + Control
+																											 */
 		LOG.debug("MacGetPIBAttribute.Request:", _res.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -4060,7 +4126,8 @@ public class DataFreescale implements IDataLayer {
 			if (status.getCode() != 0) {
 				LOG.info("Returned Status: {}", status.getCode());
 
-				throw new GatewayException("Error on MacGetPIBAttribute.Request. Status code: " + status.getCode() + " Status Message: " + status.getMessage());
+				throw new GatewayException(
+						"Error on MacGetPIBAttribute.Request. Status code: " + status.getCode() + " Status Message: " + status.getMessage());
 			} else
 				return (String) lock.get_objectOfResponse();
 		}

@@ -52,9 +52,11 @@ import org.slf4j.LoggerFactory;
  * When an event happens, the Gal controller sends it to the relevant notifier
  * method, one of those present in this class.
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
 
@@ -81,11 +83,12 @@ public class GatewayEventManager implements IGatewayEventManager {
 	 * Creates a new instance with a Gal Controller reference.
 	 * 
 	 * @param _gal
-	 *            a Gal controller reference.
+	 *          a Gal controller reference.
 	 */
 	public GatewayEventManager(GalController _gal) {
 		gal = _gal;
-		LOG.debug("Creating Executor for GatewayEventManager with: {} threads", getGal().getPropertiesManager().getNumberOfThreadForAnyPool());
+		LOG.debug("Creating Executor for GatewayEventManager with: {} threads",
+				getGal().getPropertiesManager().getNumberOfThreadForAnyPool());
 
 		executor = Executors.newFixedThreadPool(getGal().getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
 
@@ -372,7 +375,8 @@ public class GatewayEventManager implements IGatewayEventManager {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void notifyNodeDescriptorExtended(final int _requestIdentifier, final Status status, final NodeDescriptor node, final Address address) {
+	public void notifyNodeDescriptorExtended(final int _requestIdentifier, final Status status, final NodeDescriptor node,
+			final Address address) {
 		executor.execute(new Runnable() {
 			public void run() {
 				for (GatewayDeviceEventEntry<?> gl : getGal().getListGatewayEventListener()) {
@@ -393,7 +397,8 @@ public class GatewayEventManager implements IGatewayEventManager {
 								caddress = SerializationUtils.clone(address);
 							}
 
-							((GatewayEventListenerExtended) gl.getGatewayEventListener()).nodeDescriptorRetrievedExtended(cstatus, cnode, caddress);
+							((GatewayEventListenerExtended) gl.getGatewayEventListener()).nodeDescriptorRetrievedExtended(cstatus, cnode,
+									caddress);
 						}
 				}
 			}

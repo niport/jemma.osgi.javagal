@@ -37,13 +37,12 @@ import org.slf4j.LoggerFactory;
  * parameters at startup.
  * 
  * 
- * @author "Ing. Marco Nieddu <a href="mailto:marco.nieddu@consoft.it
- *         ">marco.nieddu@consoft.it</a> or <a href="marco.niedducv@gmail.com
- *         ">marco.niedducv@gmail.com</a> from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
+ * @author "Ing. Marco Nieddu
+ *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
+ *         or <a href="marco.niedducv@gmail.com ">marco.niedducv@gmail.com</a>
+ *         from Consoft Sistemi S.P.A.<http://www.consoft.it>, financed by EIT
+ *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
-// FIXME Note by Riccardo: I'm deprecating this class: we should switch to
-// ManagedService/ConfigAdmin service instead of this: it's more standard
-@Deprecated
 public class PropertiesManager {
 
 	private static final Logger LOG = LoggerFactory.getLogger(PropertiesManager.class);
@@ -61,7 +60,7 @@ public class PropertiesManager {
 	 * formally correct .properties file.
 	 * 
 	 * @param _url
-	 *            the URL pointing to a .properties file.
+	 *          the URL pointing to a .properties file.
 	 */
 	public PropertiesManager(URL _url) {
 		LOG.debug("PropertiesManager - Costructor - Loading configuration file...");
@@ -153,7 +152,7 @@ public class PropertiesManager {
 	 * Sets DebugEnabled property's value.
 	 * 
 	 * @param _debug
-	 *            the value to set
+	 *          the value to set
 	 */
 	public void setDebugEnabled(Boolean _debug) {
 		props.setProperty("debugEnabled", _debug.toString());
@@ -164,7 +163,7 @@ public class PropertiesManager {
 	 * Sets DebugEnabled property's value.
 	 * 
 	 * @param _debug
-	 *            the value to set
+	 *          the value to set
 	 */
 	public void setserialDataDebugEnabled(Boolean _debug) {
 		props.setProperty("serialDataDebugEnabled", _debug.toString());
@@ -311,16 +310,18 @@ public class PropertiesManager {
 		sai.setStartupAttributeSetIndex((short) 0x00); // 1 byte
 
 		sai.setTrustCenterAddress(new BigInteger("00000000000000000000000000000000", 16)); // 16bytes
-		sai.setTrustCenterMasterKey(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 }); // 16
-																									// bytes
-		sai.setNetworkKey(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 }); // 16
-																									// bytes
+		sai.setTrustCenterMasterKey(
+				new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+						(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 }); // 16
+		// bytes
+		sai.setNetworkKey(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 }); // 16
+		// bytes
 		sai.setUseInsecureJoin(true); // 1 byte
-		sai.setPreconfiguredLinkKey(new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
-				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 }); // 16
-																									// bytes
+		sai.setPreconfiguredLinkKey(
+				new byte[] { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
+						(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00 }); // 16
+		// bytes
 		sai.setNetworkKeySeqNum((short) 0x00); // 1 byte
 		sai.setNetworkKeyType(KeyType.HIGH_SECURITY); // 1 byte
 		sai.setNetworkManagerAddress(0x0000); // 2 bytes
@@ -419,7 +420,7 @@ public class PropertiesManager {
 	 * object.
 	 * 
 	 * @param sai
-	 *            the StartupAttributeInfo object from which take values to set.
+	 *          the StartupAttributeInfo object from which take values to set.
 	 */
 	public void SetStartupAttributeInfo(StartupAttributeInfo sai) {
 
@@ -480,7 +481,7 @@ public class PropertiesManager {
 	 * Sets StartupControlMode property.
 	 * 
 	 * @param startupControlMode
-	 *            the StartupControlMode value to set.
+	 *          the StartupControlMode value to set.
 	 */
 	public void setStartupControlMode(Short startupControlMode) {
 		props.setProperty("StartupControlMode", String.format("%02X", startupControlMode));
@@ -502,7 +503,7 @@ public class PropertiesManager {
 	 * Sets StartupSet property.
 	 * 
 	 * @param startupSet
-	 *            the StartupSet value to set.
+	 *          the StartupSet value to set.
 	 */
 	public void setStartupSet(Short startupSet) {
 		props.setProperty("StartupSet", String.format("%02X", startupSet));
@@ -557,7 +558,7 @@ public class PropertiesManager {
 	 * Sets AutoStart property.
 	 * 
 	 * @param _auto
-	 *            the AutoStart value to set.
+	 *          the AutoStart value to set.
 	 */
 	public void setAutoStart(Boolean _auto) {
 		props.setProperty("autostart", _auto.toString());
@@ -611,9 +612,9 @@ public class PropertiesManager {
 	 * Reads the key from Properties file as a {@code byte[]} of card size.
 	 * 
 	 * @param key
-	 *            the key to read from Properties file.
+	 *          the key to read from Properties file.
 	 * @param card
-	 *            the number of bytes to convert.
+	 *          the number of bytes to convert.
 	 * @return the resulting array.
 	 */
 	private byte[] readByteArray(String key, int card) {
@@ -629,9 +630,9 @@ public class PropertiesManager {
 	 * Reads the key from Properties file as a {@code short[]} of card size.
 	 * 
 	 * @param key
-	 *            the key to read from Properties file.
+	 *          the key to read from Properties file.
 	 * @param card
-	 *            the number of bytes to convert.
+	 *          the number of bytes to convert.
 	 * @return the resulting array.
 	 */
 	private short[] readShortArray(String key, int card) {
@@ -658,7 +659,7 @@ public class PropertiesManager {
 	 * Reads the key from Properties file as a {@code int[]} of card size.
 	 * 
 	 * @param key
-	 *            the key to read from Properties file.
+	 *          the key to read from Properties file.
 	 * @return the resulting array.
 	 */
 	private int[] readIntArray(String key) {
@@ -683,7 +684,7 @@ public class PropertiesManager {
 	 * Reads the key from Properties file as a {@code short}.
 	 * 
 	 * @param key
-	 *            the key to read from Properties file.
+	 *          the key to read from Properties file.
 	 * @return the resulting array.
 	 */
 	private short readShort(String key) {
@@ -694,7 +695,7 @@ public class PropertiesManager {
 	 * Reads the key from Properties file as an hexadecimal {@code short}.
 	 * 
 	 * @param key
-	 *            the key to read from Properties file.
+	 *          the key to read from Properties file.
 	 * @return the resulting number.
 	 */
 	private short readShortHex(String key) {
@@ -709,7 +710,7 @@ public class PropertiesManager {
 	 * Reads the key from Properties file as an hexadecimal {@code int}.
 	 * 
 	 * @param key
-	 *            the key to read from Properties file.
+	 *          the key to read from Properties file.
 	 * @return the resulting number.
 	 */
 	private int readIntHex(String key) {
