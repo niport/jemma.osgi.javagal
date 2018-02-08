@@ -96,29 +96,44 @@ import org.slf4j.LoggerFactory;
  */
 
 public class GalController {
+
+	private static final Logger LOG = LoggerFactory.getLogger(GalController.class);
+
 	private ExecutorService executor = null;
+
 	private GatewayStatus _gatewayStatus = GatewayStatus.GW_READY_TO_START;
+
 	private Long CallbackIdentifier = (long) 1;
+
 	private List<WrapperWSNNode> NetworkCache = Collections.synchronizedList(new LinkedList<WrapperWSNNode>());
+
 	private List<CallbackEntry> listCallback = Collections.synchronizedList(new LinkedList<CallbackEntry>());
+
 	private List<GatewayDeviceEventEntry> listGatewayEventListener = Collections
 			.synchronizedList(new LinkedList<GatewayDeviceEventEntry>());
-	// FIXME mass-rename logger to LOG when ready
-	private static final Logger LOG = LoggerFactory.getLogger(GalController.class);
+
 	private ApsMessageManager apsManager = null;
+
 	private SimpleDescriptor lastEndPoint = null;
+
 	private StartupAttributeInfo lastSai = null;
+
 	private MessageManager messageManager = null;
 
 	private ZdoManager zdoManager = null;
-	private GatewayEventManager _gatewayEventManager = null;
+	private GatewayEventManager gatewayEventManager = null;
 	private Boolean _Gal_in_Dyscovery_state = false;
 
-	private ParserLocker _lockerStartDevice;
+	private ParserLocker lockerStartDevice;
+
 	private IDataLayer DataLayer = null;
+
 	private Discovery_Freshness_ForcePing _discoveryManager = null;
-	PropertiesManager PropertiesManager = null;
+
+	PropertiesManager configuration = null;
+
 	private ManageMapPanId manageMapPanId;
+
 	private String networkPanID = null;
 
 	private static boolean first = true;
@@ -137,7 +152,7 @@ public class GalController {
 
 	/**
 	 * A method that schedules a network recovery on GAL every day at 00:05
-	 **/
+	 */
 	private void scheduleResetTimerTask() {
 		TimerTask timerTask = new TimerTask() {
 
@@ -178,7 +193,7 @@ public class GalController {
 			first = false;
 		}
 
-		if (PropertiesManager.getzgdDongleType().equalsIgnoreCase("freescale")) {
+		if (configuration.getzgdDongleType().equalsIgnoreCase("freescale")) {
 			DataLayer = new DataFreescale(this);
 			DataLayer.initialize();
 			try {
@@ -197,7 +212,7 @@ public class GalController {
 		 */
 
 		if (DataLayer.getIKeyInstance().isConnected()) {
-			if (PropertiesManager.getAutoStart() == 1) {
+			if (configuration.getAutoStart() == 1) {
 				try {
 					executeAutoStart();
 				} catch (Exception e) {
@@ -206,8 +221,8 @@ public class GalController {
 				}
 			} else {
 				short _EndPoint = 0;
-				_EndPoint = DataLayer.configureEndPointSync(PropertiesManager.getCommandTimeoutMS(),
-						PropertiesManager.getSimpleDescriptorReadFromFile());
+				_EndPoint = DataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
+						configuration.getSimpleDescriptorReadFromFile());
 				if (_EndPoint == 0)
 					throw new Exception("Error on configure endpoint");
 
@@ -239,7 +254,7 @@ public class GalController {
 					}
 
 					/* End of reset section */
-					if (PropertiesManager.getzgdDongleType().equalsIgnoreCase("freescale")) {
+					if (configuration.getzgdDongleType().equalsIgnoreCase("freescale")) {
 						LOG.error("Destroying the RS232Filter instance");
 						RS232Filter.destroy();
 						LOG.error("Re-creating DataLayer Object for FreeScale chip");
@@ -261,23 +276,21 @@ public class GalController {
 					if (DataLayer.getIKeyInstance().isConnected()) {
 						short _EndPoint = 0;
 						if (lastEndPoint == null) {
-							_EndPoint = configureEndpoint(PropertiesManager.getCommandTimeoutMS(),
-									PropertiesManager.getSimpleDescriptorReadFromFile());
+							_EndPoint = configureEndpoint(configuration.getCommandTimeoutMS(), configuration.getSimpleDescriptorReadFromFile());
 							if (_EndPoint == 0)
 								throw new Exception("Error on configure endpoint");
 						} else {
-							_EndPoint = configureEndpoint(PropertiesManager.getCommandTimeoutMS(), lastEndPoint);
+							_EndPoint = configureEndpoint(configuration.getCommandTimeoutMS(), lastEndPoint);
 							if (_EndPoint == 0)
 								throw new Exception("Error on configure endpoint");
 
 						}
 						Status st = null;
 						if (lastSai != null) {
-							st = startGatewayDevice(PropertiesManager.getCommandTimeoutMS(), -1, lastSai, false);
+							st = startGatewayDevice(configuration.getCommandTimeoutMS(), -1, lastSai, false);
 
 						} else {
-							st = startGatewayDevice(PropertiesManager.getCommandTimeoutMS(), -1, PropertiesManager.getSturtupAttributeInfo(),
-									false);
+							st = startGatewayDevice(configuration.getCommandTimeoutMS(), -1, configuration.getSturtupAttributeInfo(), false);
 						}
 						if (st.getCode() != GatewayConstants.SUCCESS)
 							throw new Exception("Error on starting gal" + st.getMessage());
@@ -305,29 +318,30 @@ public class GalController {
 	 * Creates a new instance with a {@code PropertiesManager} as the desired
 	 * configuration.
 	 * 
-	 * @param _properties
+	 * @param configuration
 	 *          the PropertiesManager containing the desired configuration for the
 	 *          Gal controller.
+	 * 
 	 * @throws Exception
 	 *           if an error occurs.
 	 */
-	public GalController(PropertiesManager _properties) throws Exception {
+	public GalController(PropertiesManager configuration) throws Exception {
 
-		PropertiesManager = _properties;
+		this.configuration = configuration;
 
-		zdoManager = new ZdoManager(this);
+		this.zdoManager = new ZdoManager(this);
 
-		apsManager = new ApsMessageManager(this);
+		this.apsManager = new ApsMessageManager(this);
 
-		messageManager = new MessageManager(this);
+		this.messageManager = new MessageManager(this);
 
-		_gatewayEventManager = new GatewayEventManager(this);
+		this.gatewayEventManager = new GatewayEventManager(this);
 
-		manageMapPanId = new ManageMapPanId(this);
+		this.manageMapPanId = new ManageMapPanId(this);
 
-		_lockerStartDevice = new ParserLocker();
+		this.lockerStartDevice = new ParserLocker();
 
-		_discoveryManager = new Discovery_Freshness_ForcePing(this);
+		this._discoveryManager = new Discovery_Freshness_ForcePing(this);
 
 		executor = Executors.newFixedThreadPool(getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
 			public Thread newThread(Runnable r) {
@@ -342,13 +356,21 @@ public class GalController {
 		initializeGAL();
 	}
 
+	public void activate() {
+
+	}
+
+	public void deactivate() {
+
+	}
+
 	/**
 	 * Gets the PropertiesManager instance.
 	 * 
 	 * @return the PropertiesManager instance.
 	 */
 	public PropertiesManager getPropertiesManager() {
-		return PropertiesManager;
+		return configuration;
 	}
 
 	/**
@@ -463,7 +485,7 @@ public class GalController {
 	 * @return the gateway event manager.
 	 */
 	public GatewayEventManager get_gatewayEventManager() {
-		return _gatewayEventManager;
+		return gatewayEventManager;
 	}
 
 	private WrapperWSNNode GalNode = null;
@@ -559,12 +581,12 @@ public class GalController {
 	 */
 	public void executeAutoStart() throws Exception {
 		LOG.info("Executing AutoStart procedure...");
-		short _EndPoint = DataLayer.configureEndPointSync(PropertiesManager.getCommandTimeoutMS(),
-				PropertiesManager.getSimpleDescriptorReadFromFile());
+		short _EndPoint = DataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
+				configuration.getSimpleDescriptorReadFromFile());
 		if (_EndPoint > 0x00) {
 			LOG.info("Configure EndPoint completed...");
-			Status _statusStartGatewayDevice = DataLayer.startGatewayDeviceSync(PropertiesManager.getCommandTimeoutMS(),
-					PropertiesManager.getSturtupAttributeInfo());
+			Status _statusStartGatewayDevice = DataLayer.startGatewayDeviceSync(configuration.getCommandTimeoutMS(),
+					configuration.getSturtupAttributeInfo());
 			if (_statusStartGatewayDevice.getCode() == 0x00) {
 				LOG.info("StartGateway Device completed...");
 				return;
@@ -877,9 +899,9 @@ public class GalController {
 							Status _res = DataLayer.startGatewayDeviceSync(timeout, sai);
 							if (_res.getCode() == GatewayConstants.SUCCESS) {
 								LOG.debug("WriteSas completed!");
-								_lockerStartDevice.setId(0);
-								_lockerStartDevice.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-								if (_lockerStartDevice.getId() > 0) {
+								lockerStartDevice.setId(0);
+								lockerStartDevice.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
+								if (lockerStartDevice.getId() > 0) {
 									lastSai = sai;
 									LOG.info("Gateway Started now!");
 
@@ -938,9 +960,9 @@ public class GalController {
 				_status = DataLayer.startGatewayDeviceSync(timeout, sai);
 
 				if (_status.getCode() == GatewayConstants.SUCCESS) {
-					_lockerStartDevice.setId(0);
-					_lockerStartDevice.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-					if (_lockerStartDevice.getId() > 0) {
+					lockerStartDevice.setId(0);
+					lockerStartDevice.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
+					if (lockerStartDevice.getId() > 0) {
 						lastSai = sai;
 						LOG.info("***Gateway Started now!****");
 					} else {
@@ -987,7 +1009,7 @@ public class GalController {
 	 */
 	public Status startGatewayDevice(long timeout, int _requestIdentifier, boolean async)
 			throws IOException, Exception, GatewayException {
-		StartupAttributeInfo sai = PropertiesManager.getSturtupAttributeInfo();
+		StartupAttributeInfo sai = configuration.getSturtupAttributeInfo();
 		return startGatewayDevice(timeout, _requestIdentifier, sai, async);
 
 	}
@@ -1016,16 +1038,16 @@ public class GalController {
 	public Status resetDongle(final long timeout, final int _requestIdentifier, final short mode, final boolean async)
 			throws IOException, Exception, GatewayException {
 		if (mode == GatewayConstants.RESET_COMMISSIONING_ASSOCIATION) {
-			PropertiesManager.setStartupSet((short) 0x18);
-			PropertiesManager.getSturtupAttributeInfo().setStartupControl((short) 0x00);
+			configuration.setStartupSet((short) 0x18);
+			configuration.getSturtupAttributeInfo().setStartupControl((short) 0x00);
 
 		} else if (mode == GatewayConstants.RESET_USE_NVMEMORY) {
-			PropertiesManager.setStartupSet((short) 0x00);
-			PropertiesManager.getSturtupAttributeInfo().setStartupControl((short) 0x04);
+			configuration.setStartupSet((short) 0x00);
+			configuration.getSturtupAttributeInfo().setStartupControl((short) 0x04);
 
 		} else if (mode == GatewayConstants.RESET_COMMISSIONING_SILENTSTART) {
-			PropertiesManager.setStartupSet((short) 0x18);
-			PropertiesManager.getSturtupAttributeInfo().setStartupControl((short) 0x04);
+			configuration.setStartupSet((short) 0x18);
+			configuration.getSturtupAttributeInfo().setStartupControl((short) 0x04);
 		}
 		if (async) {
 			executor.execute(new Runnable() {
@@ -1135,19 +1157,19 @@ public class GalController {
 	}
 
 	public String APSME_GETSync(short attrId) throws Exception, GatewayException {
-		return DataLayer.APSME_GETSync(PropertiesManager.getCommandTimeoutMS(), attrId);
+		return DataLayer.APSME_GETSync(configuration.getCommandTimeoutMS(), attrId);
 	}
 
 	public String MacGetPIBAttributeSync(short attrId) throws Exception, GatewayException {
-		return DataLayer.MacGetPIBAttributeSync(PropertiesManager.getCommandTimeoutMS(), attrId);
+		return DataLayer.MacGetPIBAttributeSync(configuration.getCommandTimeoutMS(), attrId);
 	}
 
 	public void APSME_SETSync(short attrId, String value) throws Exception, GatewayException {
-		DataLayer.APSME_SETSync(PropertiesManager.getCommandTimeoutMS(), attrId, value);
+		DataLayer.APSME_SETSync(configuration.getCommandTimeoutMS(), attrId, value);
 	}
 
 	public String NMLE_GetSync(short ilb, short iEntry) throws IOException, Exception, GatewayException {
-		String _value = DataLayer.NMLE_GetSync(PropertiesManager.getCommandTimeoutMS(), ilb, iEntry);
+		String _value = DataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), ilb, iEntry);
 		/* Refresh value of the PanId */
 		if (ilb == 80)
 			setNetworkPanID(_value);
@@ -1157,7 +1179,7 @@ public class GalController {
 	}
 
 	public void NMLE_SetSync(short attrId, String value) throws Exception, GatewayException {
-		DataLayer.NMLE_SETSync(PropertiesManager.getCommandTimeoutMS(), attrId, value);
+		DataLayer.NMLE_SETSync(configuration.getCommandTimeoutMS(), attrId, value);
 	}
 
 	/**
@@ -2023,7 +2045,7 @@ public class GalController {
 					String _networkPanID = null;
 					while (_networkPanID == null) {
 						try {
-							_networkPanID = DataLayer.NMLE_GetSync(PropertiesManager.getCommandTimeoutMS(), (short) 0x80, (short) 0x00);
+							_networkPanID = DataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), (short) 0x80, (short) 0x00);
 						} catch (Exception e) {
 
 							LOG.error("Error retrieving the PanID of the Network!");
@@ -2036,7 +2058,7 @@ public class GalController {
 					String _NetworkAdd = null;
 					while (_NetworkAdd == null) {
 						try {
-							_NetworkAdd = DataLayer.NMLE_GetSync(PropertiesManager.getCommandTimeoutMS(), (short) 0x96, (short) 0x00);
+							_NetworkAdd = DataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), (short) 0x96, (short) 0x00);
 						} catch (Exception e) {
 
 							LOG.error("Error retrieving the Gal Network Address!");
@@ -2047,7 +2069,7 @@ public class GalController {
 					BigInteger _IeeeAdd = null;
 					while (_IeeeAdd == null) {
 						try {
-							_IeeeAdd = DataLayer.readExtAddressGal(PropertiesManager.getCommandTimeoutMS());
+							_IeeeAdd = DataLayer.readExtAddressGal(configuration.getCommandTimeoutMS());
 						} catch (Exception e) {
 
 							LOG.error("Error retrieving the Gal IEEE Address!");
@@ -2068,7 +2090,7 @@ public class GalController {
 					NodeDescriptor _NodeDescriptor = null;
 					while (_NodeDescriptor == null) {
 						try {
-							_NodeDescriptor = DataLayer.getNodeDescriptorSync(PropertiesManager.getCommandTimeoutMS(), _add);
+							_NodeDescriptor = DataLayer.getNodeDescriptorSync(configuration.getCommandTimeoutMS(), _add);
 							if (_NodeDescriptor != null) {
 								if (galNode.getCapabilityInformation() == null)
 									galNode.setCapabilityInformation(new MACCapability());
@@ -2124,7 +2146,7 @@ public class GalController {
 					Status _permitjoin = null;
 					while (_permitjoin == null || ((_permitjoin != null) && (_permitjoin.getCode() != GatewayConstants.SUCCESS))) {
 						try {
-							_permitjoin = DataLayer.permitJoinSync(PropertiesManager.getCommandTimeoutMS(), _add, (short) 0x00, (byte) 0x01);
+							_permitjoin = DataLayer.permitJoinSync(configuration.getCommandTimeoutMS(), _add, (short) 0x00, (byte) 0x01);
 							if (_permitjoin.getCode() != GatewayConstants.SUCCESS) {
 								Status _st = new Status();
 								_st.setCode((short) GatewayConstants.GENERAL_ERROR);
@@ -2144,11 +2166,11 @@ public class GalController {
 					if (!galNodeWrapper.isSleepyOrEndDevice()) {
 						/* If the Node is NOT a sleepyEndDevice */
 
-						if (PropertiesManager.getKeepAliveThreshold() > 0) {
+						if (configuration.getKeepAliveThreshold() > 0) {
 							/* Execute the Freshness */
-							galNodeWrapper.setTimerFreshness(PropertiesManager.getKeepAliveThreshold());
+							galNodeWrapper.setTimerFreshness(configuration.getKeepAliveThreshold());
 						}
-						if (PropertiesManager.getForcePingTimeout() > 0) {
+						if (configuration.getForcePingTimeout() > 0) {
 							/* Execute the ForcePing */
 							galNodeWrapper.setTimerForcePing(1);
 						}
@@ -2160,12 +2182,11 @@ public class GalController {
 
 					/* Saving the Panid in order to leave the Philips light */
 					getManageMapPanId().setPanid(galNodeWrapper.get_node().getAddress().getIeeeAddress(), getNetworkPanID());
-					/**/
 
-					_lockerStartDevice.setId(1);
+					lockerStartDevice.setId(1);
 					try {
-						if (_lockerStartDevice.getObjectLocker().size() == 0)
-							_lockerStartDevice.getObjectLocker().put((byte) 0);
+						if (lockerStartDevice.getObjectLocker().size() == 0)
+							lockerStartDevice.getObjectLocker().put((byte) 0);
 					} catch (InterruptedException e) {
 
 					}
