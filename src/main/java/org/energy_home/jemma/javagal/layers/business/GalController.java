@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.energy_home.jemma.javagal.layers.PropertiesManager;
 import org.energy_home.jemma.javagal.layers.business.implementations.ApsMessageManager;
-import org.energy_home.jemma.javagal.layers.business.implementations.Discovery_Freshness_ForcePing;
+import org.energy_home.jemma.javagal.layers.business.implementations.DiscoveryFreshnessForcePing;
 import org.energy_home.jemma.javagal.layers.business.implementations.GatewayEventManager;
 import org.energy_home.jemma.javagal.layers.business.implementations.MessageManager;
 import org.energy_home.jemma.javagal.layers.business.implementations.SerializationUtils;
@@ -82,6 +82,8 @@ import org.osgi.framework.FrameworkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jssc.SerialPortException;
+
 /**
  * JavaGal Controller. Only one instance of this object can exists at a time.
  * All clients can access this instance via their dedicated proxies (see
@@ -128,7 +130,7 @@ public class GalController {
 
 	private IDataLayer DataLayer = null;
 
-	private Discovery_Freshness_ForcePing _discoveryManager = null;
+	private DiscoveryFreshnessForcePing discoveryManager = null;
 
 	PropertiesManager configuration = null;
 
@@ -138,41 +140,67 @@ public class GalController {
 
 	private static boolean first = true;
 
-	public String getNetworkPanID() {
-		return networkPanID;
+	/**
+	 * Creates a new instance with a {@code PropertiesManager} as the desired
+	 * configuration.
+	 * 
+	 * @param configuration
+	 *          the PropertiesManager containing the desired configuration for the
+	 *          Gal controller.
+	 * 
+	 * @throws Exception
+	 *           if an error occurs.
+	 */
+	public GalController(PropertiesManager configuration) throws Exception {
+
+		this.configuration = configuration;
+
+		this.zdoManager = new ZdoManager(this);
+
+		this.apsManager = new ApsMessageManager(this);
+
+		this.messageManager = new MessageManager(this);
+
+		this.gatewayEventManager = new GatewayEventManager(this);
+
+		this.manageMapPanId = new ManageMapPanId(this);
+
+		this.lockerStartDevice = new ParserLocker();
+
+		this.discoveryManager = new DiscoveryFreshnessForcePing(this);
+
+		executor = Executors.newFixedThreadPool(getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
+			public Thread newThread(Runnable r) {
+				return new Thread(r, "THPool-GalController");
+			}
+		});
+
+		if (executor instanceof ThreadPoolExecutor) {
+			((ThreadPoolExecutor) executor).setKeepAliveTime(getPropertiesManager().getKeepAliveThread(), TimeUnit.MINUTES);
+			((ThreadPoolExecutor) executor).allowCoreThreadTimeOut(true);
+		}
+		initializeGAL();
 	}
 
-	public void setNetworkPanID(String panID) {
-		networkPanID = panID;
-	}
+	public void activate() {
 
-	public ManageMapPanId getManageMapPanId() {
-		return manageMapPanId;
 	}
 
 	/**
-	 * A method that schedules a network recovery on GAL every day at 00:05
+	 * Stops the GalController
+	 * 
+	 * FIXME: have to stop the executor!
 	 */
-	private void scheduleResetTimerTask() {
-		TimerTask timerTask = new TimerTask() {
+	public void deactivate() {
 
-			public void run() {
-				try {
-					recoveryGAL();
-				} catch (Exception e) {
-					LOG.error("Error invoking recoveryGAL", e);
-				}
-			}
-		};
-		Timer timer = new Timer();
-
-		// start at 00:05 every day, from tomorrow
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR_OF_DAY, 00);
-		cal.set(Calendar.MINUTE, 05);
-		cal.add(Calendar.DAY_OF_YEAR, 1);
-
-		timer.scheduleAtFixedRate(timerTask, cal.getTime(), 24 * 60 * 60 * 1000);
+		this.getDataLayer().destroy();
+		try {
+			this.getDataLayer().getIKeyInstance().disconnect();
+		} catch (IOException e) {
+			LOG.error("Exception", e);
+		} catch (SerialPortException e) {
+			LOG.error("Exception", e);
+		}
 	}
 
 	/**
@@ -231,6 +259,43 @@ public class GalController {
 
 		LOG.info("***Gateway is ready now... Current GAL Status: {} ***", getGatewayStatus().toString());
 
+	}
+
+	public String getNetworkPanID() {
+		return networkPanID;
+	}
+
+	public void setNetworkPanID(String panID) {
+		networkPanID = panID;
+	}
+
+	public ManageMapPanId getManageMapPanId() {
+		return manageMapPanId;
+	}
+
+	/**
+	 * A method that schedules a network recovery on GAL every day at 00:05
+	 */
+	private void scheduleResetTimerTask() {
+		TimerTask timerTask = new TimerTask() {
+
+			public void run() {
+				try {
+					recoveryGAL();
+				} catch (Exception e) {
+					LOG.error("Error invoking recoveryGAL", e);
+				}
+			}
+		};
+		Timer timer = new Timer();
+
+		// start at 00:05 every day, from tomorrow
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 00);
+		cal.set(Calendar.MINUTE, 05);
+		cal.add(Calendar.DAY_OF_YEAR, 1);
+
+		timer.scheduleAtFixedRate(timerTask, cal.getTime(), 24 * 60 * 60 * 1000);
 	}
 
 	/**
@@ -315,56 +380,6 @@ public class GalController {
 	}
 
 	/**
-	 * Creates a new instance with a {@code PropertiesManager} as the desired
-	 * configuration.
-	 * 
-	 * @param configuration
-	 *          the PropertiesManager containing the desired configuration for the
-	 *          Gal controller.
-	 * 
-	 * @throws Exception
-	 *           if an error occurs.
-	 */
-	public GalController(PropertiesManager configuration) throws Exception {
-
-		this.configuration = configuration;
-
-		this.zdoManager = new ZdoManager(this);
-
-		this.apsManager = new ApsMessageManager(this);
-
-		this.messageManager = new MessageManager(this);
-
-		this.gatewayEventManager = new GatewayEventManager(this);
-
-		this.manageMapPanId = new ManageMapPanId(this);
-
-		this.lockerStartDevice = new ParserLocker();
-
-		this._discoveryManager = new Discovery_Freshness_ForcePing(this);
-
-		executor = Executors.newFixedThreadPool(getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
-			public Thread newThread(Runnable r) {
-				return new Thread(r, "THPool-GalController");
-			}
-		});
-
-		if (executor instanceof ThreadPoolExecutor) {
-			((ThreadPoolExecutor) executor).setKeepAliveTime(getPropertiesManager().getKeepAliveThread(), TimeUnit.MINUTES);
-			((ThreadPoolExecutor) executor).allowCoreThreadTimeOut(true);
-		}
-		initializeGAL();
-	}
-
-	public void activate() {
-
-	}
-
-	public void deactivate() {
-
-	}
-
-	/**
 	 * Gets the PropertiesManager instance.
 	 * 
 	 * @return the PropertiesManager instance.
@@ -407,9 +422,9 @@ public class GalController {
 	 * 
 	 * @return the discovery manager.
 	 */
-	public Discovery_Freshness_ForcePing getDiscoveryManager() {
-		synchronized (_discoveryManager) {
-			return _discoveryManager;
+	public DiscoveryFreshnessForcePing getDiscoveryManager() {
+		synchronized (discoveryManager) {
+			return discoveryManager;
 		}
 	}
 
@@ -2215,7 +2230,7 @@ public class GalController {
 			/* Stop Discovery */
 			LOG.info("Stopping Discovery and Freshness procedures...");
 
-			_discoveryManager = null;
+			discoveryManager = null;
 			/* Remove all nodes from the cache */
 			getNetworkcache().clear();
 			_gatewayStatus = gatewayStatus;

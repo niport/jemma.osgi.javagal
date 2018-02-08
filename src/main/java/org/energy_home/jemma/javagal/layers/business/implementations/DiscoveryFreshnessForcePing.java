@@ -19,7 +19,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.energy_home.jemma.javagal.layers.business.GalController;
 import org.energy_home.jemma.javagal.layers.business.Utils;
 import org.energy_home.jemma.javagal.layers.object.GatewayStatus;
@@ -50,7 +49,7 @@ import org.slf4j.LoggerFactory;
  *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  * 
  */
-public class Discovery_Freshness_ForcePing {
+public class DiscoveryFreshnessForcePing {
 	private GalController gal = null;
 	private final int NUMBEROFRETRY = 5;
 
@@ -66,7 +65,7 @@ public class Discovery_Freshness_ForcePing {
 	int TimeFreshnessNewNodeSeconds;
 	int TimeDiscoveryNewNodeSeconds;
 
-	public Discovery_Freshness_ForcePing(GalController _gal) {
+	public DiscoveryFreshnessForcePing(GalController _gal) {
 		gal = _gal;
 		TimeForcePingErrorSeconds = getGal().getPropertiesManager().getTimeForcePingErrorSeconds();
 		TimeFreshnessErrorSeconds = getGal().getPropertiesManager().getTimeFreshnessErrorSeconds();
@@ -77,7 +76,7 @@ public class Discovery_Freshness_ForcePing {
 	}
 
 	// FIXME mass-rename to LOG when ready
-	private static final Logger LOG = LoggerFactory.getLogger(Discovery_Freshness_ForcePing.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DiscoveryFreshnessForcePing.class);
 
 	/**
 	 * Send the Lqi_Request for the selected address. Then manages the
