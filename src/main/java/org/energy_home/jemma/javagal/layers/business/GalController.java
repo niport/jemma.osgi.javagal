@@ -15,14 +15,10 @@
  */
 package org.energy_home.jemma.javagal.layers.business;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,12 +30,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.energy_home.jemma.javagal.layers.PropertiesManager;
 import org.energy_home.jemma.javagal.layers.business.implementations.ApsMessageManager;
 import org.energy_home.jemma.javagal.layers.business.implementations.Discovery_Freshness_ForcePing;
 import org.energy_home.jemma.javagal.layers.business.implementations.GatewayEventManager;
 import org.energy_home.jemma.javagal.layers.business.implementations.MessageManager;
+import org.energy_home.jemma.javagal.layers.business.implementations.SerializationUtils;
 import org.energy_home.jemma.javagal.layers.business.implementations.ZdoManager;
 import org.energy_home.jemma.javagal.layers.data.implementations.IDataLayerImplementation.DataFreescale;
 import org.energy_home.jemma.javagal.layers.data.implementations.IDataLayerImplementation.RS232Filter;
@@ -316,18 +312,25 @@ public class GalController {
 	 *           if an error occurs.
 	 */
 	public GalController(PropertiesManager _properties) throws Exception {
+
 		PropertiesManager = _properties;
+
 		zdoManager = new ZdoManager(this);
+
 		apsManager = new ApsMessageManager(this);
+
 		messageManager = new MessageManager(this);
+
 		_gatewayEventManager = new GatewayEventManager(this);
+
 		manageMapPanId = new ManageMapPanId(this);
+
 		_lockerStartDevice = new ParserLocker();
+
 		_discoveryManager = new Discovery_Freshness_ForcePing(this);
+
 		executor = Executors.newFixedThreadPool(getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
-
 			public Thread newThread(Runnable r) {
-
 				return new Thread(r, "THPool-GalController");
 			}
 		});
@@ -346,7 +349,6 @@ public class GalController {
 	 */
 	public PropertiesManager getPropertiesManager() {
 		return PropertiesManager;
-
 	}
 
 	/**
@@ -363,7 +365,6 @@ public class GalController {
 		synchronized (listGatewayEventListener) {
 			return listGatewayEventListener;
 		}
-
 	}
 
 	/**
@@ -409,7 +410,6 @@ public class GalController {
 	 */
 	public MessageManager getMessageManager() {
 		synchronized (messageManager) {
-
 			return messageManager;
 		}
 	}
@@ -434,7 +434,6 @@ public class GalController {
 		synchronized (DataLayer) {
 			return DataLayer;
 		}
-
 	}
 
 	/**
@@ -488,15 +487,15 @@ public class GalController {
 	 */
 	public short configureEndpoint(long timeout, SimpleDescriptor desc) throws IOException, Exception, GatewayException {
 
-		if ((desc.getApplicationInputCluster().size()
-				+ desc.getApplicationOutputCluster().size()) > 30/*
-																													 * 60 Bytes
-																													 */) {
+		/*
+		 * 60 Bytes
+		 */
+		if ((desc.getApplicationInputCluster().size() + desc.getApplicationOutputCluster().size()) > 30) {
 			throw new Exception("Simple Descriptor Out Of Memory");
 		} else {
 			short result = DataLayer.configureEndPointSync(timeout, desc);
 			lastEndPoint = desc;
-			return SerializationUtils.clone(result);
+			return result;
 		}
 	}
 
@@ -518,7 +517,6 @@ public class GalController {
 			result.setAddress(GalNode.get_node().getAddress());
 			synchronized (getNetworkcache()) {
 				for (WrapperWSNNode o : getNetworkcache()) {
-
 					if (o.get_node() != null && o.get_node().getAddress() != null
 							&& o.get_node().getAddress().getNetworkAddress().equals(get_GalNode().get_node().getAddress().getNetworkAddress())) {
 						o.set_nodeServices(result);
@@ -571,7 +569,6 @@ public class GalController {
 				LOG.info("StartGateway Device completed...");
 				return;
 			}
-
 		}
 	}
 
@@ -670,7 +667,6 @@ public class GalController {
 
 		} else
 			throw new Exception("Address not found!");
-
 	}
 
 	/**
@@ -733,7 +729,7 @@ public class GalController {
 	 *          the request identifier.
 	 * @param addrOfInterest
 	 *          the address of interest.
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be synchronously or not.
 	 * @return the resulting {@code NodeDescriptor}
 	 * @throws IOException
@@ -744,13 +740,13 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public NodeDescriptor getNodeDescriptor(final long timeout, final int _requestIdentifier, final Address addrOfInterest,
-			final boolean Async) throws IOException, Exception, GatewayException {
+			final boolean async) throws IOException, Exception, GatewayException {
 		if (addrOfInterest.getNetworkAddress() == null && addrOfInterest.getIeeeAddress() != null)
 			addrOfInterest.setNetworkAddress(getShortAddress_FromIeeeAddress(addrOfInterest.getIeeeAddress()));
 		if (addrOfInterest.getIeeeAddress() == null && addrOfInterest.getNetworkAddress() != null)
 			addrOfInterest.setIeeeAddress(getIeeeAddress_FromShortAddress(addrOfInterest.getNetworkAddress()));
 
-		if (Async) {
+		if (async) {
 
 			executor.execute(new MyRunnable(this) {
 
@@ -855,7 +851,7 @@ public class GalController {
 	 *          the request identifier
 	 * @param sai
 	 *          the {@code StartupAttributeInfo}
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -868,9 +864,9 @@ public class GalController {
 	 */
 
 	public Status startGatewayDevice(final long timeout, final int _requestIdentifier, final StartupAttributeInfo sai,
-			final boolean Async) throws IOException, Exception, GatewayException {
+			final boolean async) throws IOException, Exception, GatewayException {
 		// The network can start only from those two gateway status...
-		if (Async) {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 
@@ -978,7 +974,7 @@ public class GalController {
 	 *          the desired timeout.
 	 * @param _requestIdentifier
 	 *          the request identifier.
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -989,10 +985,10 @@ public class GalController {
 	 * @throws GatewayException
 	 *           if a ZGD error occurs.
 	 */
-	public Status startGatewayDevice(long timeout, int _requestIdentifier, boolean Async)
+	public Status startGatewayDevice(long timeout, int _requestIdentifier, boolean async)
 			throws IOException, Exception, GatewayException {
 		StartupAttributeInfo sai = PropertiesManager.getSturtupAttributeInfo();
-		return startGatewayDevice(timeout, _requestIdentifier, sai, Async);
+		return startGatewayDevice(timeout, _requestIdentifier, sai, async);
 
 	}
 
@@ -1006,7 +1002,7 @@ public class GalController {
 	 *          the request identifier
 	 * @param mode
 	 *          the desired mode
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -1017,7 +1013,7 @@ public class GalController {
 	 * @throws GatewayException
 	 *           if a ZGD error occurs.
 	 */
-	public Status resetDongle(final long timeout, final int _requestIdentifier, final short mode, final boolean Async)
+	public Status resetDongle(final long timeout, final int _requestIdentifier, final short mode, final boolean async)
 			throws IOException, Exception, GatewayException {
 		if (mode == GatewayConstants.RESET_COMMISSIONING_ASSOCIATION) {
 			PropertiesManager.setStartupSet((short) 0x18);
@@ -1031,7 +1027,7 @@ public class GalController {
 			PropertiesManager.setStartupSet((short) 0x18);
 			PropertiesManager.getSturtupAttributeInfo().setStartupControl((short) 0x04);
 		}
-		if (Async) {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 					try {
@@ -1071,7 +1067,7 @@ public class GalController {
 	 *          the desired timeout value.
 	 * @param _requestIdentifier
 	 *          the request identifier.
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -1082,8 +1078,8 @@ public class GalController {
 	 * @throws GatewayException
 	 *           if a ZGD error occurs.
 	 */
-	public Status stopNetwork(final long timeout, final int _requestIdentifier, boolean Async) throws Exception, GatewayException {
-		if (Async) {
+	public Status stopNetwork(final long timeout, final int _requestIdentifier, boolean async) throws Exception, GatewayException {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 
@@ -1273,7 +1269,7 @@ public class GalController {
 	 *          the request identifier.
 	 * @param aoi
 	 *          the address of interest.
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the discovered node services.
@@ -1284,14 +1280,14 @@ public class GalController {
 	 * @throws GatewayException
 	 *           if a ZGD error occurs.
 	 */
-	public NodeServices startServiceDiscovery(final long timeout, final int _requestIdentifier, final Address aoi, boolean Async)
+	public NodeServices startServiceDiscovery(final long timeout, final int _requestIdentifier, final Address aoi, boolean async)
 			throws IOException, Exception, GatewayException {
 		if (aoi.getNetworkAddress() == null && aoi.getIeeeAddress() != null)
 			aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
 		if (aoi.getIeeeAddress() == null && aoi.getNetworkAddress() != null)
 			aoi.setIeeeAddress(getIeeeAddress_FromShortAddress(aoi.getNetworkAddress()));
 
-		if (Async) {
+		if (async) {
 			executor.execute(new MyRunnable(this) {
 				public void run() {
 					NodeServices _newNodeService = new NodeServices();
@@ -1527,7 +1523,7 @@ public class GalController {
 	 *          the address of interest.
 	 * @param mask
 	 *          the mask.
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -1539,13 +1535,13 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public Status leave(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final int mask,
-			final boolean Async) throws IOException, Exception, GatewayException {
+			final boolean async) throws IOException, Exception, GatewayException {
 		if (addrOfInterest.getNetworkAddress() == null && addrOfInterest.getIeeeAddress() != null)
 			addrOfInterest.setNetworkAddress(getShortAddress_FromIeeeAddress(addrOfInterest.getIeeeAddress()));
 		if (addrOfInterest.getIeeeAddress() == null && addrOfInterest.getNetworkAddress() != null)
 			addrOfInterest.setIeeeAddress(getIeeeAddress_FromShortAddress(addrOfInterest.getNetworkAddress()));
 
-		if (Async) {
+		if (async) {
 			executor.execute(new MyRunnable(this) {
 				public void run() {
 					Status _s = null;
@@ -1724,7 +1720,7 @@ public class GalController {
 	 *          the address of interest.
 	 * @param duration
 	 *          the duration.
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -1736,8 +1732,8 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public Status permitJoin(final long timeout, final int _requestIdentifier, final Address addrOfInterest, final short duration,
-			final boolean Async) throws IOException, GatewayException, Exception {
-		if (Async) {
+			final boolean async) throws IOException, GatewayException, Exception {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 
@@ -1817,7 +1813,7 @@ public class GalController {
 	 *          the request identifier.
 	 * @param duration
 	 *          the duration.
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -1826,11 +1822,11 @@ public class GalController {
 	 * @throws Exception
 	 *           if a general error occurs.
 	 */
-	public Status permitJoinAll(final long timeout, final int _requestIdentifier, final short duration, final boolean Async)
+	public Status permitJoinAll(final long timeout, final int _requestIdentifier, final short duration, final boolean async)
 			throws IOException, Exception {
 		final Address _add = new Address();
 		_add.setNetworkAddress(0xFFFC);
-		if (Async) {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 					Status _s;
@@ -2284,7 +2280,7 @@ public class GalController {
 	 *          the address of interest.
 	 * @param endpoint
 	 *          the endpoint
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the simple descriptor.
@@ -2296,13 +2292,13 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public ServiceDescriptor getServiceDescriptor(final long timeout, final int _requestIdentifier, final Address addrOfInterest,
-			final short endpoint, boolean Async) throws IOException, Exception, GatewayException {
+			final short endpoint, boolean async) throws IOException, Exception, GatewayException {
 		if (addrOfInterest.getNetworkAddress() == null && addrOfInterest.getIeeeAddress() != null)
 			addrOfInterest.setNetworkAddress(getShortAddress_FromIeeeAddress(addrOfInterest.getIeeeAddress()));
 		if (addrOfInterest.getIeeeAddress() == null && addrOfInterest.getNetworkAddress() != null)
 			addrOfInterest.setIeeeAddress(getIeeeAddress_FromShortAddress(addrOfInterest.getNetworkAddress()));
 
-		if (Async) {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 					ServiceDescriptor _toRes = new ServiceDescriptor();
@@ -2361,7 +2357,7 @@ public class GalController {
 	 *          the address of interest
 	 * @param index
 	 *          the index from where to start
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the binding list
@@ -2373,13 +2369,13 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public BindingList getNodeBindingsSync(final long timeout, final int _requestIdentifier, final Address aoi, final short index,
-			boolean Async) throws IOException, Exception, GatewayException {
+			boolean async) throws IOException, Exception, GatewayException {
 		if (aoi.getNetworkAddress() == null && aoi.getIeeeAddress() != null)
 			aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
 		if (aoi.getIeeeAddress() == null && aoi.getNetworkAddress() != null)
 			aoi.setIeeeAddress(getIeeeAddress_FromShortAddress(aoi.getNetworkAddress()));
 
-		if (Async) {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 					BindingList _toRes = new BindingList();
@@ -2429,7 +2425,7 @@ public class GalController {
 	 * @param _requestIdentifier
 	 * @param binding
 	 *          the binding
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -2441,13 +2437,13 @@ public class GalController {
 	 * @throws GatewayException
 	 *           if a ZGD error occurs.
 	 */
-	public Status addBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean Async)
+	public Status addBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean async)
 			throws IOException, Exception, GatewayException {
 		final Address aoi = new Address();
 		aoi.setIeeeAddress(binding.getSourceIEEEAddress());
 		aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
 
-		if (Async) {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
@@ -2495,7 +2491,7 @@ public class GalController {
 	 *          the request identifier
 	 * @param binding
 	 *          the binding
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -2507,12 +2503,12 @@ public class GalController {
 	 * @throws GatewayException
 	 *           if a ZGD error occurs.
 	 */
-	public Status removeBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean Async)
+	public Status removeBindingSync(final long timeout, final int _requestIdentifier, final Binding binding, final boolean async)
 			throws IOException, Exception, GatewayException {
 		final Address aoi = new Address();
 		aoi.setIeeeAddress(binding.getSourceIEEEAddress());
 		aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
-		if (Async) {
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
@@ -2559,7 +2555,7 @@ public class GalController {
 	 *          the channel to scan
 	 * @param scanDuration
 	 *          the desired duration of the scan
-	 * @param Async
+	 * @param async
 	 *          whether the operation will be asynchronous ({@code true}) or not
 	 *          ({@code false}).
 	 * @return the resulting status from ZGD.
@@ -2571,8 +2567,9 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public Status frequencyAgilitySync(final long timeout, final int _requestIdentifier, final short scanChannel,
-			final short scanDuration, final boolean Async) throws IOException, Exception, GatewayException {
-		if (Async) {
+			final short scanDuration, final boolean async) throws IOException, Exception, GatewayException {
+
+		if (async) {
 			executor.execute(new Runnable() {
 				public void run() {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
