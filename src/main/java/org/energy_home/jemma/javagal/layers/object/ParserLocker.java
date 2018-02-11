@@ -15,10 +15,10 @@
  */
 package org.energy_home.jemma.javagal.layers.object;
 
-import org.energy_home.jemma.zgd.jaxb.Status;
-
 import java.util.Date;
 import java.util.concurrent.ArrayBlockingQueue;
+
+import org.energy_home.jemma.zgd.jaxb.Status;
 
 /**
  * Helper class to manage synchronization's locks.

@@ -15,11 +15,6 @@
  */
 package org.energy_home.jemma.javagal.layers.data.implementations;
 
-import jssc.SerialPort;
-import jssc.SerialPortEvent;
-import jssc.SerialPortEventListener;
-import jssc.SerialPortException;
-
 import org.energy_home.jemma.javagal.layers.data.interfaces.IConnector;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IDataLayer;
 import org.energy_home.jemma.javagal.layers.object.ByteArrayObject;
@@ -27,6 +22,11 @@ import org.energy_home.jemma.zgd.GatewayConstants;
 import org.energy_home.jemma.zgd.jaxb.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import jssc.SerialPort;
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortException;
 
 /**
  * Jssc implementation of the {@link IConnector}.

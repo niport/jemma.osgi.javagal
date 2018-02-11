@@ -15,18 +15,13 @@
  */
 package org.energy_home.jemma.javagal.layers.data.implementations;
 
-import gnu.io.*;
-
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
-import org.energy_home.jemma.javagal.layers.data.implementations.IDataLayerImplementation.DataFreescale;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IConnector;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IDataLayer;
 import org.energy_home.jemma.javagal.layers.object.ByteArrayObject;
@@ -34,6 +29,14 @@ import org.energy_home.jemma.zgd.GatewayConstants;
 import org.energy_home.jemma.zgd.jaxb.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gnu.io.CommPortIdentifier;
+import gnu.io.NoSuchPortException;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+import gnu.io.UnsupportedCommOperationException;
 
 /**
  * RxTx implementation of the {@link IConnector}.

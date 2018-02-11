@@ -15,6 +15,12 @@
  */
 package org.energy_home.jemma.javagal.layers.data.interfaces;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.util.List;
+
+import org.energy_home.jemma.javagal.layers.PropertiesManager;
+import org.energy_home.jemma.javagal.layers.object.Mgmt_LQI_rsp;
 import org.energy_home.jemma.zgd.GatewayException;
 import org.energy_home.jemma.zgd.jaxb.APSMessage;
 import org.energy_home.jemma.zgd.jaxb.Address;
@@ -27,14 +33,6 @@ import org.energy_home.jemma.zgd.jaxb.ServiceDescriptor;
 import org.energy_home.jemma.zgd.jaxb.SimpleDescriptor;
 import org.energy_home.jemma.zgd.jaxb.StartupAttributeInfo;
 import org.energy_home.jemma.zgd.jaxb.Status;
-
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.List;
-
-import org.energy_home.jemma.javagal.layers.PropertiesManager;
-import org.energy_home.jemma.javagal.layers.business.GalController;
-import org.energy_home.jemma.javagal.layers.object.Mgmt_LQI_rsp;
 
 /**
  * Data layer interface to be implemented by every vendor (Freescale, Ember and

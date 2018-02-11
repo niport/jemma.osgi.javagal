@@ -16,10 +16,7 @@
 package org.energy_home.jemma.javagal.layers.object;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
 
 /**
  * Object carrying a {@code byte[]} of fixed length. The aims of this class is

@@ -17,9 +17,9 @@ package org.energy_home.jemma.javagal.layers.data.interfaces;
 
 import java.io.IOException;
 
-import jssc.SerialPortException;
-
 import org.energy_home.jemma.javagal.layers.object.ByteArrayObject;
+
+import jssc.SerialPortException;
 
 /**
  * Interface for all serial implementation of the FlexGrid key (jssc and RxTx).

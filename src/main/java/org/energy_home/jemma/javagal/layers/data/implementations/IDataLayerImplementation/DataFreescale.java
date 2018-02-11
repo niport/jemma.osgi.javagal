@@ -34,7 +34,6 @@ import org.energy_home.jemma.javagal.layers.business.Utils;
 import org.energy_home.jemma.javagal.layers.data.implementations.SerialPortConnectorJssc;
 import org.energy_home.jemma.javagal.layers.data.implementations.SerialPortConnectorRxTx;
 import org.energy_home.jemma.javagal.layers.data.implementations.Utils.DataManipulation;
-import org.energy_home.jemma.javagal.layers.data.implementations.Utils.Hex;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IConnector;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IDataLayer;
 import org.energy_home.jemma.javagal.layers.object.ByteArrayObject;
