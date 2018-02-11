@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" enabled="true" factory="javagal.factory" immediate="false" name="GatewayInterfaceComponentFactory">
-   <implementation class="org.energy_home.jemma.javagal.layers.presentation.GalExtenderImpl"/>
+   <implementation class="org.energy_home.jemma.javagal.layers.presentation.GatewayInterfaceProxy"/>
    <property name="factory" type="String" value="javagal.factory"/>
    <reference bind="bindGalController" cardinality="0..1" interface="org.energy_home.jemma.javagal.layers.business.GalController" name="GalController" policy="dynamic" unbind="unbindGalController"/>
    <service>

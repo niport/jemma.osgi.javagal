@@ -48,6 +48,7 @@ import org.energy_home.jemma.javagal.layers.object.MyRunnable;
 import org.energy_home.jemma.javagal.layers.object.NeighborTableLis_Record;
 import org.energy_home.jemma.javagal.layers.object.ParserLocker;
 import org.energy_home.jemma.javagal.layers.object.WrapperWSNNode;
+import org.energy_home.jemma.javagal.layers.presentation.GatewayInterfaceProxy;
 import org.energy_home.jemma.zgd.APSMessageListener;
 import org.energy_home.jemma.zgd.GatewayConstants;
 import org.energy_home.jemma.zgd.GatewayEventListener;
@@ -87,7 +88,7 @@ import jssc.SerialPortException;
 /**
  * JavaGal Controller. Only one instance of this object can exists at a time.
  * All clients can access this instance via their dedicated proxies (see
- * {@link org.energy_home.jemma.zgd.GalExtenderProxy}).
+ * {@link GatewayInterfaceProxy}).
  * 
  * @author "Ing. Marco Nieddu
  *         <a href="mailto:marco.nieddu@consoft.it ">marco.nieddu@consoft.it</a>
@@ -297,7 +298,12 @@ public class GalController {
 	}
 
 	/**
-	 * recovery of the GAL,
+	 * recovery of the GAL.
+	 * 
+	 * <p>
+	 * TODO: this method must not be called by the REST JSON and XML API, but the
+	 * Gal itself must detect this situation per issue a recovery or a specific
+	 * restart() method have to be added to interface GatewayInterface.
 	 */
 	public void recovery() throws Exception {
 		LOG.debug("Current number of threads: {}", Thread.getAllStackTraces().size());
