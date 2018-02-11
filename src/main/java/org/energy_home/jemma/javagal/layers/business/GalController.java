@@ -151,7 +151,7 @@ public class GalController {
 	 * @throws Exception
 	 *           if an error occurs.
 	 */
-	public GalController(PropertiesManager configuration) throws Exception {
+	public GalController(PropertiesManager configuration) {
 
 		this.configuration = configuration;
 
@@ -179,11 +179,10 @@ public class GalController {
 			((ThreadPoolExecutor) executor).setKeepAliveTime(getPropertiesManager().getKeepAliveThread(), TimeUnit.MINUTES);
 			((ThreadPoolExecutor) executor).allowCoreThreadTimeOut(true);
 		}
-		initializeGAL();
 	}
 
-	public void activate() {
-
+	public void activate() throws Exception {
+		init();
 	}
 
 	/**
@@ -207,7 +206,7 @@ public class GalController {
 	 * Initialize the DataLayer class, with the relative RS-232 conection Used,
 	 * also for the Rest Api
 	 */
-	private void initializeGAL() throws Exception {
+	private void init() throws Exception {
 
 		LOG.debug("Gal Version: " + getVersion().getManufacturerVersion());
 
@@ -225,7 +224,6 @@ public class GalController {
 			DataLayer = new DataFreescale(this);
 			DataLayer.initialize();
 			try {
-
 				DataLayer.getIKeyInstance().initialize();
 			} catch (Exception e) {
 				DataLayer.getIKeyInstance().disconnect();
@@ -281,7 +279,7 @@ public class GalController {
 
 			public void run() {
 				try {
-					recoveryGAL();
+					recovery();
 				} catch (Exception e) {
 					LOG.error("Error invoking recoveryGAL", e);
 				}
@@ -301,11 +299,13 @@ public class GalController {
 	/**
 	 * recovery of the GAL,
 	 */
-	public void recoveryGAL() throws Exception {
+	public void recovery() throws Exception {
 		LOG.debug("Current number of threads: {}", Thread.getAllStackTraces().size());
 		MyRunnable thr = new MyRunnable(this) {
 
 			public void run() {
+
+				long defaultTimeout = configuration.getCommandTimeoutMS();
 
 				try {
 					LOG.error("********GAL node is not responding or recovery procedure was invoked...Starting recovery procedue. Wait...");
@@ -321,6 +321,7 @@ public class GalController {
 					/* End of reset section */
 					if (configuration.getzgdDongleType().equalsIgnoreCase("freescale")) {
 						LOG.error("Destroying the RS232Filter instance");
+
 						RS232Filter.destroy();
 						LOG.error("Re-creating DataLayer Object for FreeScale chip");
 						DataLayer = new DataFreescale((GalController) this.getParameter());
@@ -336,43 +337,42 @@ public class GalController {
 					} else {
 						LOG.error("No Platform found for ZigBee dongle");
 						throw new Exception("No platform found for ZigBee dongle");
-
 					}
+
 					if (DataLayer.getIKeyInstance().isConnected()) {
-						short _EndPoint = 0;
+						short endpoint = 0;
 						if (lastEndPoint == null) {
-							_EndPoint = configureEndpoint(configuration.getCommandTimeoutMS(), configuration.getSimpleDescriptorReadFromFile());
-							if (_EndPoint == 0)
+							endpoint = configureEndpoint(defaultTimeout, configuration.getSimpleDescriptorReadFromFile());
+							if (endpoint == 0)
 								throw new Exception("Error on configure endpoint");
 						} else {
-							_EndPoint = configureEndpoint(configuration.getCommandTimeoutMS(), lastEndPoint);
-							if (_EndPoint == 0)
+							endpoint = configureEndpoint(defaultTimeout, lastEndPoint);
+							if (endpoint == 0)
 								throw new Exception("Error on configure endpoint");
-
 						}
-						Status st = null;
+						Status status = null;
 						if (lastSai != null) {
-							st = startGatewayDevice(configuration.getCommandTimeoutMS(), -1, lastSai, false);
+							status = startGatewayDevice(defaultTimeout, -1, lastSai, false);
 
 						} else {
-							st = startGatewayDevice(configuration.getCommandTimeoutMS(), -1, configuration.getSturtupAttributeInfo(), false);
+							status = startGatewayDevice(defaultTimeout, -1, configuration.getSturtupAttributeInfo(), false);
 						}
-						if (st.getCode() != GatewayConstants.SUCCESS)
-							throw new Exception("Error on starting gal" + st.getMessage());
-						else {
 
+						if (status.getCode() != GatewayConstants.SUCCESS) {
+							throw new Exception("Error on starting gal" + status.getMessage());
+						} else {
 							LOG.info("***Gateway is ready now... Current GAL Status: " + getGatewayStatus().toString() + "***");
 						}
 					} else {
 						LOG.error("DataLayer instance was not connected, Endpoints not configured");
 					}
+
 					LOG.error("********RECOVERY DONE!");
 
 					return;
 				} catch (Exception e1) {
 					LOG.error("Error resetting GAL");
 				}
-
 			}
 		};
 		LOG.error("Starting recoveryGAL thread");
@@ -1072,7 +1072,7 @@ public class GalController {
 						Status _s = new Status();
 						_s.setCode((short) GatewayConstants.SUCCESS);
 						_s.setMessage("Reset Done");
-						initializeGAL();
+						init();
 						get_gatewayEventManager().notifyResetResult(_s);
 
 					} catch (Exception e) {
@@ -1090,7 +1090,7 @@ public class GalController {
 			Status _s = new Status();
 			_s.setCode((short) GatewayConstants.SUCCESS);
 			_s.setMessage("Reset Done");
-			initializeGAL();
+			init();
 			get_gatewayEventManager().notifyResetResult(_s);
 			return SerializationUtils.clone(_s);
 		}
@@ -2773,6 +2773,7 @@ public class GalController {
 					x.abortTimers();
 				}
 			}
+
 			LOG.error("Stopped all timers");
 
 			List<WrapperWSNNode> wsnWrappers = getNetworkcache();
@@ -2781,34 +2782,32 @@ public class GalController {
 			// remove all nodes from the cache and notify network manager
 			while (wsnWrappersIterator.hasNext()) {
 				WrapperWSNNode nodeWrapper = wsnWrappersIterator.next();
+
+				Address address = nodeWrapper.get_node().getAddress();
+
 				// Clear device keypair
 				try {
-					Status _st1 = getDataLayer().ClearDeviceKeyPairSet(getPropertiesManager().getCommandTimeoutMS(),
-							nodeWrapper.get_node().getAddress());
+					Status _st1 = getDataLayer().ClearDeviceKeyPairSet(getPropertiesManager().getCommandTimeoutMS(), address);
 				} catch (Exception e) {
-					LOG.error("Error ong Clearing device Keyset for device {} - Exception: {}",
-							Utils.getAddressString(nodeWrapper.get_node().getAddress()), e);
+					LOG.error("Error ong Clearing device Keyset for device {} - Exception: {}", Utils.getAddressString(address), e);
 				}
 
 				// Clear neighbor table entries
 				try {
-					Status _st0 = getDataLayer().ClearNeighborTableEntry(getPropertiesManager().getCommandTimeoutMS(),
-							nodeWrapper.get_node().getAddress());
+					Status _st0 = getDataLayer().ClearNeighborTableEntry(getPropertiesManager().getCommandTimeoutMS(), address);
 				} catch (Exception e1) {
 					LOG.error("Error on ClearNeighborTableEntry for node: {} - Exception: {}",
 							Utils.getAddressString(nodeWrapper.get_node().getAddress()), e1);
 				}
 
-				// notify the networkmanager of node removal
+				/* notify the networkmanager of node removal */
 				Status s = new Status();
 				s.setCode((short) GatewayConstants.SUCCESS);
 				try {
 					this.get_gatewayEventManager().nodeRemoved(s, nodeWrapper.get_node());
 				} catch (Exception e) {
-					LOG.error("Error notifying node {} removal, Exception: {}", Utils.getAddressString(nodeWrapper.get_node().getAddress()),
-							e);
+					LOG.error("Error notifying node {} removal, Exception: {}", Utils.getAddressString(address), e);
 				}
-
 			}
 
 			getNetworkcache().clear();
