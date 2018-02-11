@@ -473,7 +473,7 @@ public class DiscoveryFreshnessForcePing {
 						.equals(getGal().get_GalNode().get_node().getAddress().getNetworkAddress())) {
 					LOG.error("Calling recoveryGal");
 					try {
-						getGal().recoveryGAL();
+						getGal().recovery();
 					} catch (Exception e1) {
 						LOG.error("Error on recoveryGal");
 					}

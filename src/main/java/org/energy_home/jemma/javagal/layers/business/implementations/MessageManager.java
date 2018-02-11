@@ -21,12 +21,8 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.apache.commons.lang3.SerializationUtils;
 import org.energy_home.jemma.javagal.layers.business.GalController;
 import org.energy_home.jemma.javagal.layers.object.CallbackEntry;
-import org.energy_home.jemma.javagal.layers.presentation.Activator;
 import org.energy_home.jemma.zgd.MessageListener;
 import org.energy_home.jemma.zgd.jaxb.APSMessageEvent;
 import org.energy_home.jemma.zgd.jaxb.Address;
@@ -36,6 +32,8 @@ import org.energy_home.jemma.zgd.jaxb.Filter.AddressSpecification;
 import org.energy_home.jemma.zgd.jaxb.Filter.MessageSpecification;
 import org.energy_home.jemma.zgd.jaxb.InterPANMessageEvent;
 import org.energy_home.jemma.zgd.jaxb.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manages received APS messages. When an APS indication is received it is

@@ -21,7 +21,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.SerializationUtils;
 import org.energy_home.jemma.javagal.layers.business.GalController;
 import org.energy_home.jemma.javagal.layers.object.CallbackEntry;
 import org.energy_home.jemma.zgd.APSMessageListener;
@@ -49,7 +48,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ApsMessageManager {
 	ExecutorService executor = null;
-	// FIXME mass-rename to LOG when available
+
 	private static final Logger LOG = LoggerFactory.getLogger(ApsMessageManager.class);
 
 	/**
