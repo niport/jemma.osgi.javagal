@@ -25,7 +25,6 @@ import java.math.BigInteger;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import org.energy_home.jemma.javagal.layers.business.implementations.Discovery_Freshness_ForcePing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
