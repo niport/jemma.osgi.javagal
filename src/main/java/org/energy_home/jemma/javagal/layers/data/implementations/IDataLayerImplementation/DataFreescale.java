@@ -1118,7 +1118,6 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
@@ -1986,6 +1985,7 @@ public class DataFreescale implements IDataLayer {
 	 * @param message
 	 */
 	private void apsdeDataIndication(ByteArrayObject message) {
+
 		LOG.debug("GAL-Received a apsdeDataIndication:" + message.ToHexString());
 		WrapperWSNNode node = null;
 		final APSMessageEvent messageEvent = new APSMessageEvent();
@@ -2082,9 +2082,11 @@ public class DataFreescale implements IDataLayer {
 		case 0x00:
 			messageEvent.setSecurityStatus(SecurityStatus.UNSECURED);
 			break;
+
 		case 0x01:
 			messageEvent.setSecurityStatus(SecurityStatus.SECURED_NWK_KEY);
 			break;
+
 		case 0x02:
 			messageEvent.setSecurityStatus(SecurityStatus.SECURED_LINK_KEY);
 			break;
@@ -2107,17 +2109,18 @@ public class DataFreescale implements IDataLayer {
 				LOG.info("BROADCAST MESSAGE");
 			} else {
 
-				if ((node = updateNodeIfExist(messageEvent, messageEvent.getSourceAddress())) == null)
-					return;
+				node = updateNodeIfExist(messageEvent, messageEvent.getSourceAddress());
 
-				if (node != null)
-					synchronized (node) {
-						messageEvent.getSourceAddress().setIeeeAddress(
-								new BigInteger(1, Utils.longToByteArray(node.get_node().getAddress().getIeeeAddress().longValue())));
-						messageEvent.getSourceAddress().setNetworkAddress(new Integer(node.get_node().getAddress().getNetworkAddress()));
-					}
-				else
+				if (node == null) {
 					return;
+				}
+
+				synchronized (node) {
+					Address address = node.get_node().getAddress();
+					messageEvent.getSourceAddress()
+							.setIeeeAddress(new BigInteger(1, Utils.longToByteArray(address.getIeeeAddress().longValue())));
+					messageEvent.getSourceAddress().setNetworkAddress(new Integer(address.getNetworkAddress()));
+				}
 
 				if (messageEvent.getSourceAddress().getIeeeAddress() == null) {
 					LOG.error("Message discarded IEEE source address not found for Short address:"
@@ -2138,9 +2141,10 @@ public class DataFreescale implements IDataLayer {
 			}
 		} else
 			return;
-		if (messageEvent.getProfileID().equals(0)) {/*
-																								 * // profileid == 0 ZDO Command
-																								 */
+		if (messageEvent.getProfileID().equals(0)) {
+			/*
+			 * profileid == 0 ZDO Command
+			 */
 			if (messageEvent.getClusterID() == 0x8031) {
 				Mgmt_LQI_rsp _res = new Mgmt_LQI_rsp(messageEvent.getData());
 				String __key = String.format("%04X%02X", messageEvent.getSourceAddress().getNetworkAddress(), _res._StartIndex);
@@ -2290,7 +2294,7 @@ public class DataFreescale implements IDataLayer {
 						Runnable thr = new MyRunnable(o) {
 							@Override
 							public void run() {
-								WrapperWSNNode _newWrapperNode = (WrapperWSNNode) this.getParameter();
+								WrapperWSNNode _newWrapperNode = (WrapperWSNNode) this.getParameter()[0];
 
 								if ((_newWrapperNode = getGal().getFromNetworkCache(_newWrapperNode)) != null) {
 									LOG.info("AutoDiscoveryUnknownNodes procedure of Node: {}",
