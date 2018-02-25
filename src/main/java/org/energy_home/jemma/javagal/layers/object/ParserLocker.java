@@ -93,6 +93,11 @@ public class ParserLocker {
 		objectLocker = new ArrayBlockingQueue<Byte>(1);
 	}
 
+	public ParserLocker(TypeMessage type) {
+		super();
+		this.type = type;
+	}
+
 	/**
 	 * Gets the message's type.
 	 * 

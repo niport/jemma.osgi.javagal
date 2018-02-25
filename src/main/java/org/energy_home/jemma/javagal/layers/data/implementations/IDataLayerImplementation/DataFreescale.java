@@ -3474,41 +3474,21 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	public NodeServices getLocalServices(long timeout) throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.APSGetEndPointIdListRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.APSGetEndPointIdListRequest);
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.GET_END_POINT_LIST);
-		Status status = new Status();
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
+		ParserLocker lock = new ParserLocker(TypeMessage.GET_END_POINT_LIST);
 		getListLocker().add(lock);
 
-		LOG.debug("APS-GetEndPointIdList.Request command: {}", frame.toString());
+		LOG.debug(frame.toString());
+
 		SendRs232Data(frame);
 
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID) {
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		}
-
-		status = lock.getStatus();
-
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-			LOG.error("Timeout expired in GetEndPointIdList");
-			throw new GatewayException("Timeout expired in GetEndPointIdList");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-				throw new GatewayException(
-						"Error on APS-GetEndPointIdList.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-
-			} else {
-				NodeServices _tores = (NodeServices) lock.get_objectOfResponse();
-				return _tores;
-			}
-		}
+		return (NodeServices) waitResponse(lock, opcode, timeout);
 	}
 
 	/*
@@ -4040,6 +4020,7 @@ public class DataFreescale implements IDataLayer {
 
 		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
 			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
+
 		status = lock.getStatus();
 
 		if (getListLocker().contains(lock))
@@ -4111,6 +4092,32 @@ public class DataFreescale implements IDataLayer {
 						"Error on MacGetPIBAttribute.Request. Status code: " + status.getCode() + " Status Message: " + status.getMessage());
 			} else
 				return (String) lock.get_objectOfResponse();
+		}
+	}
+
+	private Object waitResponse(ParserLocker lock, short opcode, long timeout) throws GatewayException, InterruptedException {
+
+		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID) {
+			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
+		}
+
+		Status status = lock.getStatus();
+
+		if (getListLocker().contains(lock)) {
+			getListLocker().remove(lock);
+		}
+
+		if (status.getCode() == ParserLocker.INVALID_ID) {
+			LOG.error("Timeout expired while waiting for " + lock.getType());
+			throw new GatewayException("Timeout expired while waiting for " + lock.getType());
+		} else {
+			if (status.getCode() != 0) {
+				LOG.debug("Returned Status: {}", status.getCode());
+				throw new GatewayException("Error returned from " + Utils.opcodeToString(opcode) + ": status code:" + status.getCode()
+						+ " Status Message: " + status.getMessage());
+			} else {
+				return lock.get_objectOfResponse();
+			}
 		}
 	}
 }
