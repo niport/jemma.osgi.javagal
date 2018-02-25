@@ -101,20 +101,24 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		}
 	}
 
+	@Override
 	public short getChannelSync(long timeout) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.getChannelSync(timeout);
 	}
 
+	@Override
 	public void setGatewayEventListener(GatewayEventListener listener) {
 		gal.setGatewayEventListener(listener, this.getProxyIdentifier());
 	}
 
+	@Override
 	public Version getVersion() throws IOException, Exception, GatewayException {
 		return GalController.getVersion();
 	}
 
+	@Override
 	public String getInfoBaseAttribute(short attrId) throws Exception, Exception, GatewayException {
 		String res = null;
 		switch (attrId) {
@@ -144,11 +148,13 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		return res;
 	}
 
+	@Override
 	@Deprecated
 	public long createCallback(Callback callback, APSMessageListener listener) throws IOException, Exception, GatewayException {
 		return gal.createCallback(this.getProxyIdentifier(), callback, listener);
 	}
 
+	@Override
 	@Deprecated
 	public long createAPSCallback(short endpoint, APSMessageListener listener) throws IOException, Exception, GatewayException {
 		LOG.debug("Create ApsCallBack(short endpoint, APSMessageListener listener)...");
@@ -166,6 +172,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		return gal.createCallback(this.getProxyIdentifier(), _newCallBack, listener);
 	}
 
+	@Override
 	@Deprecated
 	public long createAPSCallback(APSMessageListener listener) throws IOException, Exception, GatewayException {
 		LOG.debug("Create ApsCallBack(APSMessageListener listener)...");
@@ -180,27 +187,33 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		return gal.createCallback(this.getProxyIdentifier(), _newCallBack, listener);
 	}
 
+	@Override
 	public List<Long> listCallbacks() throws IOException, Exception, GatewayException {
 		return gal.listCallbacks(this.getProxyIdentifier()).getCallbackIdentifier();
 	}
 
+	@Override
 	public CallbackIdentifierList getlistCallbacks() throws IOException, Exception, GatewayException {
 		return gal.listCallbacks(this.getProxyIdentifier());
 	}
 
+	@Override
 	public void deleteCallback(long callId) throws IOException, Exception, GatewayException {
 		gal.deleteCallback(callId);
 	}
 
+	@Override
 	public Aliases listAddresses() throws IOException, Exception, GatewayException {
 		return gal.listAddress();
 	}
 
+	@Override
 	public void configureStartupAttributeSet(StartupAttributeInfo sai) throws IOException, Exception, GatewayException {
 		gal.getPropertiesManager().SetStartupAttributeInfo(sai);
 
 	}
 
+	@Override
 	public StartupAttributeInfo readStartupAttributeSet(short index) throws IOException, Exception, GatewayException {
 		if (index == 0)
 			return gal.getPropertiesManager().getSturtupAttributeInfo();
@@ -208,18 +221,21 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 			throw new Exception("The index is not correct. Only index 0 is a possible request!");
 	}
 
+	@Override
 	public Status stopNetworkSync(long timeout) throws Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.stopNetwork(timeout, this.getProxyIdentifier(), false);
 	}
 
+	@Override
 	public void stopNetwork(long timeout) throws Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.stopNetwork(timeout, this.getProxyIdentifier(), true);
 	}
 
+	@Override
 	public void startGatewayDevice(long timeout) throws IOException, Exception, GatewayException {
 		if (timeout == 0) {
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -228,12 +244,14 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void startGatewayDevice(long timeout, StartupAttributeInfo sai) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.startGatewayDevice(timeout, this.getProxyIdentifier(), sai, true);
 	}
 
+	@Override
 	public Status startGatewayDeviceSync(long timeout, StartupAttributeInfo sai) throws IOException, Exception, GatewayException {
 		if (timeout == 0) {
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -244,15 +262,18 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 			return gal.startGatewayDevice(timeout, this.getProxyIdentifier(), sai, false);
 	}
 
+	@Override
 	public WSNNodeList readNodeCache() throws IOException, Exception, GatewayException {
 		return gal.readNodeCache();
 	}
 
+	@Override
 	public void startNodeDiscovery(long timeout, int discoveryMask) throws IOException, Exception, GatewayException {
 		gal.startNodeDiscovery(timeout, this.getProxyIdentifier(), discoveryMask);
 
 	}
 
+	@Override
 	public void subscribeNodeRemoval(long timeout, int freshnessMask) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -263,14 +284,17 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public NodeServices getLocalServices() throws IOException, Exception, GatewayException {
 		return gal.getLocalServices();
 	}
 
+	@Override
 	public NodeServicesList readServicesCache() throws IOException, Exception, GatewayException {
 		return gal.readServicesCache();
 	}
 
+	@Override
 	public void getServiceDescriptor(long timeout, Address aoi, short endpoint) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -279,6 +303,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public ServiceDescriptor getServiceDescriptorSync(long timeout, Address aoi, short endpoint)
 			throws IOException, Exception, GatewayException {
 		if (timeout == 0)
@@ -288,6 +313,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public short configureEndpoint(long timeout, SimpleDescriptor desc) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -295,11 +321,13 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void clearEndpoint(short endpoint) throws IOException, Exception, GatewayException {
 		gal.clearEndpoint(endpoint);
 
 	}
 
+	@Override
 	public void leaveAll() throws IOException, Exception, GatewayException {
 		long timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		int mask = 0;
@@ -310,6 +338,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public Status leaveAllSync() throws IOException, Exception, GatewayException {
 		long timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		int mask = 0;
@@ -319,6 +348,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void leave(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		int mask = 0;
 		if (timeout == 0)
@@ -327,6 +357,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void leave(long timeout, Address aoi, int mask) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -334,6 +365,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public Status leaveSync(long timeout, Address aoi, int mask) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -341,6 +373,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void addBinding(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -348,6 +381,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public Status addBindingSync(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -355,6 +389,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void removeBinding(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -362,24 +397,28 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public Status removeBindingSync(long timeout, Binding binding) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.removeBindingSync(timeout, this.getProxyIdentifier(), binding, false);
 	}
 
+	@Override
 	public BindingList getNodeBindingsSync(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.getNodeBindingsSync(timeout, this.getProxyIdentifier(), aoi, (short) 0, false);
 	}
 
+	@Override
 	public void getNodeBindings(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.getNodeBindingsSync(timeout, this.getProxyIdentifier(), aoi, (short) 0, true);
 	}
 
+	@Override
 	public void getNodeBindings(long timeout, Address aoi, short index) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -387,6 +426,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public BindingList getNodeBindingsSync(long timeout, Address aoi, short index) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -394,34 +434,40 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void permitJoinAll(long timeout, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.permitJoinAll(timeout, this.getProxyIdentifier(), duration, true);
 	}
 
+	@Override
 	public Status permitJoinAllSync(long timeout, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.permitJoinAll(timeout, this.getProxyIdentifier(), duration, false);
 	}
 
+	@Override
 	public void permitJoin(long timeout, Address addrOfInterest, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.permitJoin(timeout, this.getProxyIdentifier(), addrOfInterest, duration, true);
 	}
 
+	@Override
 	public Status permitJoinSync(long timeout, Address aoi, short duration) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.permitJoin(timeout, this.getProxyIdentifier(), aoi, duration, false);
 	}
 
+	@Override
 	public void sendAPSMessage(APSMessage message) throws IOException, Exception, GatewayException {
 		gal.sendAPSMessage(gal.getPropertiesManager().getCommandTimeoutMS(), this.getProxyIdentifier(), message);
 	}
 
+	@Override
 	public void sendInterPANMessage(long timeout, InterPANMessage message) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -429,18 +475,21 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		gal.sendInterPANMessage(timeout, this.getProxyIdentifier(), message);
 	}
 
+	@Override
 	public void sendAPSMessage(long timeout, APSMessage message) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.sendAPSMessage(timeout, this.getProxyIdentifier(), message);
 	}
 
+	@Override
 	public void resetDongle(long timeout, short mode) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		gal.resetDongle(timeout, this.getProxyIdentifier(), mode, true);
 	}
 
+	@Override
 	public Status resetDongleSync(long timeout, short mode) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -451,12 +500,14 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		return proxyIdentifier;
 	}
 
+	@Override
 	public NodeDescriptor getNodeDescriptorSync(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.getNodeDescriptor(timeout, this.getProxyIdentifier(), aoi, false);
 	}
 
+	@Override
 	public void getNodeDescriptor(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -464,6 +515,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void setInfoBaseAttribute(short attrId, String value) throws IOException, Exception, GatewayException {
 
 		switch (attrId) {
@@ -482,12 +534,14 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public NodeServices startServiceDiscoverySync(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
 		return gal.startServiceDiscovery(timeout, this.getProxyIdentifier(), aoi, false);
 	}
 
+	@Override
 	public void startServiceDiscovery(long timeout, Address aoi) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -495,6 +549,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void frequencyAgility(long timeout, short scanChannel, short scanDuration)
 			throws IOException, Exception, GatewayException {
 		if (timeout == 0)
@@ -502,6 +557,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		gal.frequencyAgilitySync(timeout, this.getProxyIdentifier(), scanChannel, scanDuration, true);
 	}
 
+	@Override
 	public Status frequencyAgilitySync(long timeout, short scanChannel, short scanDuration)
 			throws IOException, Exception, GatewayException {
 		if (timeout == 0)
@@ -509,15 +565,18 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		return gal.frequencyAgilitySync(timeout, this.getProxyIdentifier(), scanChannel, scanDuration, false);
 	}
 
+	@Override
 	public LQIInformation getLQIInformation(Address aoi) throws IOException, Exception, GatewayException {
 
 		return gal.getLQIInformation(aoi);
 	}
 
+	@Override
 	public LQIInformation getLQIInformation() throws IOException, Exception, GatewayException {
 		return gal.getAllLQIInformations();
 	}
 
+	@Override
 	public void sendZCLCommand(long timeout, ZCLCommand command) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -536,6 +595,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 
 	}
 
+	@Override
 	public void sendZDPCommand(long timeout, ZDPCommand command) throws IOException, Exception, GatewayException {
 		if (timeout == 0)
 			timeout = gal.getPropertiesManager().getCommandTimeoutMS();
@@ -571,6 +631,7 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 		}
 	}
 
+	@Override
 	public long createCallback(Callback callback, MessageListener listener) throws IOException, Exception, GatewayException {
 		return gal.createCallback(this.getProxyIdentifier(), callback, listener);
 	}

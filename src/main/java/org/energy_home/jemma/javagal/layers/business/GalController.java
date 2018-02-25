@@ -129,7 +129,7 @@ public class GalController {
 
 	private ParserLocker lockerStartDevice;
 
-	private IDataLayer DataLayer = null;
+	private IDataLayer dataLayer = null;
 
 	private DiscoveryFreshnessForcePing discoveryManager = null;
 
@@ -171,6 +171,7 @@ public class GalController {
 		this.discoveryManager = new DiscoveryFreshnessForcePing(this);
 
 		executor = Executors.newFixedThreadPool(getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
+			@Override
 			public Thread newThread(Runnable r) {
 				return new Thread(r, "THPool-GalController");
 			}
@@ -222,12 +223,12 @@ public class GalController {
 		}
 
 		if (configuration.getzgdDongleType().equalsIgnoreCase("freescale")) {
-			DataLayer = new DataFreescale(this);
-			DataLayer.initialize();
+			dataLayer = new DataFreescale(this);
+			dataLayer.initialize();
 			try {
-				DataLayer.getIKeyInstance().initialize();
+				dataLayer.getIKeyInstance().initialize();
 			} catch (Exception e) {
-				DataLayer.getIKeyInstance().disconnect();
+				dataLayer.getIKeyInstance().disconnect();
 				throw e;
 			}
 		} else {
@@ -238,7 +239,7 @@ public class GalController {
 		 * Check if is auto-start mode is set to true into the configuration file
 		 */
 
-		if (DataLayer.getIKeyInstance().isConnected()) {
+		if (dataLayer.getIKeyInstance().isConnected()) {
 			if (configuration.getAutoStart() == 1) {
 				try {
 					executeAutoStart();
@@ -248,7 +249,7 @@ public class GalController {
 				}
 			} else {
 				short _EndPoint = 0;
-				_EndPoint = DataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
+				_EndPoint = dataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
 						configuration.getSimpleDescriptorReadFromFile());
 				if (_EndPoint == 0)
 					throw new Exception("Error on configure endpoint");
@@ -278,6 +279,7 @@ public class GalController {
 	private void scheduleResetTimerTask() {
 		TimerTask timerTask = new TimerTask() {
 
+			@Override
 			public void run() {
 				try {
 					recovery();
@@ -309,6 +311,7 @@ public class GalController {
 		LOG.debug("Current number of threads: {}", Thread.getAllStackTraces().size());
 		MyRunnable thr = new MyRunnable(this) {
 
+			@Override
 			public void run() {
 
 				long defaultTimeout = configuration.getCommandTimeoutMS();
@@ -330,14 +333,14 @@ public class GalController {
 
 						RS232Filter.destroy();
 						LOG.error("Re-creating DataLayer Object for FreeScale chip");
-						DataLayer = new DataFreescale((GalController) this.getParameter());
+						dataLayer = new DataFreescale((GalController) this.getParameter());
 						LOG.error("Initializing data Layer");
-						DataLayer.initialize();
+						dataLayer.initialize();
 						try {
-							DataLayer.getIKeyInstance().initialize();
+							dataLayer.getIKeyInstance().initialize();
 						} catch (Exception e) {
 							LOG.error("Exception Initializing DataLayer: {}", e);
-							DataLayer.getIKeyInstance().disconnect();
+							dataLayer.getIKeyInstance().disconnect();
 							throw e;
 						}
 					} else {
@@ -345,7 +348,7 @@ public class GalController {
 						throw new Exception("No platform found for ZigBee dongle");
 					}
 
-					if (DataLayer.getIKeyInstance().isConnected()) {
+					if (dataLayer.getIKeyInstance().isConnected()) {
 						short endpoint = 0;
 						if (lastEndPoint == null) {
 							endpoint = configureEndpoint(defaultTimeout, configuration.getSimpleDescriptorReadFromFile());
@@ -474,8 +477,8 @@ public class GalController {
 	 * @return the actual data layer implementation.
 	 */
 	public IDataLayer getDataLayer() {
-		synchronized (DataLayer) {
-			return DataLayer;
+		synchronized (dataLayer) {
+			return dataLayer;
 		}
 	}
 
@@ -536,7 +539,7 @@ public class GalController {
 		if ((desc.getApplicationInputCluster().size() + desc.getApplicationOutputCluster().size()) > 30) {
 			throw new Exception("Simple Descriptor Out Of Memory");
 		} else {
-			short result = DataLayer.configureEndPointSync(timeout, desc);
+			short result = dataLayer.configureEndPointSync(timeout, desc);
 			lastEndPoint = desc;
 			return result;
 		}
@@ -555,7 +558,7 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public NodeServices getLocalServices() throws IOException, Exception, GatewayException {
-		NodeServices result = DataLayer.getLocalServices(getPropertiesManager().getCommandTimeoutMS());
+		NodeServices result = dataLayer.getLocalServices(getPropertiesManager().getCommandTimeoutMS());
 		if (GalNode != null && GalNode.get_node().getAddress() != null) {
 			result.setAddress(GalNode.get_node().getAddress());
 			synchronized (getNetworkcache()) {
@@ -602,11 +605,11 @@ public class GalController {
 	 */
 	public void executeAutoStart() throws Exception {
 		LOG.info("Executing AutoStart procedure...");
-		short _EndPoint = DataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
+		short _EndPoint = dataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
 				configuration.getSimpleDescriptorReadFromFile());
 		if (_EndPoint > 0x00) {
 			LOG.info("Configure EndPoint completed...");
-			Status _statusStartGatewayDevice = DataLayer.startGatewayDeviceSync(configuration.getCommandTimeoutMS(),
+			Status _statusStartGatewayDevice = dataLayer.startGatewayDeviceSync(configuration.getCommandTimeoutMS(),
 					configuration.getSturtupAttributeInfo());
 			if (_statusStartGatewayDevice.getCode() == 0x00) {
 				LOG.info("StartGateway Device completed...");
@@ -793,11 +796,12 @@ public class GalController {
 
 			executor.execute(new MyRunnable(this) {
 
+				@Override
 				public void run() {
 					NodeDescriptor nodeDescriptor = new NodeDescriptor();
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 						try {
-							nodeDescriptor = DataLayer.getNodeDescriptorSync(timeout, addrOfInterest);
+							nodeDescriptor = dataLayer.getNodeDescriptorSync(timeout, addrOfInterest);
 							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
 									String.format("%04X", addrOfInterest.getNetworkAddress()));
 							WSNNode node = new WSNNode();
@@ -849,7 +853,7 @@ public class GalController {
 
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
-				NodeDescriptor nodeDescriptor = DataLayer.getNodeDescriptorSync(timeout, addrOfInterest);
+				NodeDescriptor nodeDescriptor = dataLayer.getNodeDescriptorSync(timeout, addrOfInterest);
 				WrapperWSNNode x = new WrapperWSNNode(this, String.format("%04X", addrOfInterest.getNetworkAddress()));
 				WSNNode node = new WSNNode();
 				node.setAddress(addrOfInterest);
@@ -878,7 +882,7 @@ public class GalController {
 	 */
 	public short getChannelSync(long timeout) throws IOException, Exception, GatewayException {
 		if (getGatewayStatus() == GatewayStatus.GW_RUNNING)
-			return DataLayer.getChannelSync(timeout);
+			return dataLayer.getChannelSync(timeout);
 		else
 			throw new GatewayException("Gal is not in running state!");
 
@@ -911,13 +915,14 @@ public class GalController {
 		// The network can start only from those two gateway status...
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 
 					if (getGatewayStatus() == GatewayStatus.GW_READY_TO_START || getGatewayStatus() == GatewayStatus.GW_STOPPED) {
 
 						setGatewayStatus(GatewayStatus.GW_STARTING);
 						try {
-							Status _res = DataLayer.startGatewayDeviceSync(timeout, sai);
+							Status _res = dataLayer.startGatewayDeviceSync(timeout, sai);
 							if (_res.getCode() == GatewayConstants.SUCCESS) {
 								LOG.debug("WriteSas completed!");
 								lockerStartDevice.setId(0);
@@ -978,7 +983,7 @@ public class GalController {
 			if (getGatewayStatus() == GatewayStatus.GW_READY_TO_START || getGatewayStatus() == GatewayStatus.GW_STOPPED) {
 				setGatewayStatus(GatewayStatus.GW_STARTING);
 
-				_status = DataLayer.startGatewayDeviceSync(timeout, sai);
+				_status = dataLayer.startGatewayDeviceSync(timeout, sai);
 
 				if (_status.getCode() == GatewayConstants.SUCCESS) {
 					lockerStartDevice.setId(0);
@@ -1072,6 +1077,7 @@ public class GalController {
 		}
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 					try {
 
@@ -1124,6 +1130,7 @@ public class GalController {
 	public Status stopNetwork(final long timeout, final int _requestIdentifier, boolean async) throws Exception, GatewayException {
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
@@ -1131,7 +1138,7 @@ public class GalController {
 
 						Status _res = null;
 						try {
-							_res = DataLayer.stopNetworkSync(timeout);
+							_res = dataLayer.stopNetworkSync(timeout);
 							get_gatewayEventManager().notifyGatewayStopResult(_res);
 						} catch (GatewayException e) {
 							Status _s = new Status();
@@ -1165,7 +1172,7 @@ public class GalController {
 			Status _status;
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 				setGatewayStatus(GatewayStatus.GW_STOPPING);
-				_status = DataLayer.stopNetworkSync(timeout);
+				_status = dataLayer.stopNetworkSync(timeout);
 				get_gatewayEventManager().notifyGatewayStopResult(_status);
 			} else {
 				// ...from all others, throw an exception
@@ -1178,19 +1185,19 @@ public class GalController {
 	}
 
 	public String APSME_GETSync(short attrId) throws Exception, GatewayException {
-		return DataLayer.APSME_GETSync(configuration.getCommandTimeoutMS(), attrId);
+		return dataLayer.APSME_GETSync(configuration.getCommandTimeoutMS(), attrId);
 	}
 
 	public String MacGetPIBAttributeSync(short attrId) throws Exception, GatewayException {
-		return DataLayer.MacGetPIBAttributeSync(configuration.getCommandTimeoutMS(), attrId);
+		return dataLayer.MacGetPIBAttributeSync(configuration.getCommandTimeoutMS(), attrId);
 	}
 
 	public void APSME_SETSync(short attrId, String value) throws Exception, GatewayException {
-		DataLayer.APSME_SETSync(configuration.getCommandTimeoutMS(), attrId, value);
+		dataLayer.APSME_SETSync(configuration.getCommandTimeoutMS(), attrId, value);
 	}
 
 	public String NMLE_GetSync(short ilb, short iEntry) throws IOException, Exception, GatewayException {
-		String _value = DataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), ilb, iEntry);
+		String _value = dataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), ilb, iEntry);
 		/* Refresh value of the PanId */
 		if (ilb == 80)
 			setNetworkPanID(_value);
@@ -1200,7 +1207,7 @@ public class GalController {
 	}
 
 	public void NMLE_SetSync(short attrId, String value) throws Exception, GatewayException {
-		DataLayer.NMLE_SETSync(configuration.getCommandTimeoutMS(), attrId, value);
+		dataLayer.NMLE_SETSync(configuration.getCommandTimeoutMS(), attrId, value);
 	}
 
 	/**
@@ -1332,13 +1339,14 @@ public class GalController {
 
 		if (async) {
 			executor.execute(new MyRunnable(this) {
+				@Override
 				public void run() {
 					NodeServices _newNodeService = new NodeServices();
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 
 						List<Short> _s = null;
 						try {
-							_s = DataLayer.startServiceDiscoverySync(timeout, aoi);
+							_s = dataLayer.startServiceDiscoverySync(timeout, aoi);
 							Status _ok = new Status();
 							_ok.setCode((short) 0x00);
 							_newNodeService.setAddress(aoi);
@@ -1392,7 +1400,7 @@ public class GalController {
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 
-				List<Short> _result = DataLayer.startServiceDiscoverySync(timeout, aoi);
+				List<Short> _result = dataLayer.startServiceDiscoverySync(timeout, aoi);
 
 				NodeServices _newNodeService = new NodeServices();
 				_newNodeService.setAddress(aoi);
@@ -1526,7 +1534,7 @@ public class GalController {
 			 * getIeeeAddress_FromShortAddress
 			 * (message.getDestinationAddress().getNetworkAddress()));
 			 */
-			DataLayer.sendApsSync(timeout, message);
+			dataLayer.sendApsSync(timeout, message);
 		} else
 			throw new GatewayException("Gal is not in running state!");
 	}
@@ -1550,7 +1558,7 @@ public class GalController {
 	public void sendInterPANMessage(long timeout, long _requestIdentifier, InterPANMessage message)
 			throws IOException, Exception, GatewayException {
 		if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
-			DataLayer.sendInterPANMessaSync(timeout, message);
+			dataLayer.sendInterPANMessaSync(timeout, message);
 		} else
 			throw new GatewayException("Gal is not in running state!");
 	}
@@ -1586,6 +1594,7 @@ public class GalController {
 
 		if (async) {
 			executor.execute(new MyRunnable(this) {
+				@Override
 				public void run() {
 					Status _s = null;
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
@@ -1595,7 +1604,7 @@ public class GalController {
 							try {
 
 								leavePhilips(timeout, _requestIdentifier, addrOfInterest);
-								_s = DataLayer.leaveSync(timeout, addrOfInterest, mask);
+								_s = dataLayer.leaveSync(timeout, addrOfInterest, mask);
 								if (_s.getCode() == GatewayConstants.SUCCESS) {
 									/* get the node from cache */
 									WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
@@ -1662,7 +1671,7 @@ public class GalController {
 
 				if (!addrOfInterest.getNetworkAddress().equals(GalNode.get_node().getAddress().getNetworkAddress())) {
 					leavePhilips(timeout, _requestIdentifier, addrOfInterest);
-					Status _s = DataLayer.leaveSync(timeout, addrOfInterest, mask);
+					Status _s = dataLayer.leaveSync(timeout, addrOfInterest, mask);
 					if (_s.getCode() == GatewayConstants.SUCCESS) {
 						/* get the node from cache */
 						WrapperWSNNode x = new WrapperWSNNode(this, String.format("%04X", addrOfInterest.getNetworkAddress()));
@@ -1778,13 +1787,14 @@ public class GalController {
 			final boolean async) throws IOException, GatewayException, Exception {
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 
 					Status _s = new Status();
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 
 						try {
-							_s = DataLayer.permitJoinSync(timeout, addrOfInterest, duration, (byte) 0x00);
+							_s = dataLayer.permitJoinSync(timeout, addrOfInterest, duration, (byte) 0x00);
 							get_gatewayEventManager().notifypermitJoinResult(_s);
 						} catch (IOException e) {
 							Status _s1 = new Status();
@@ -1818,7 +1828,7 @@ public class GalController {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 
 				try {
-					_s = DataLayer.permitJoinSync(timeout, addrOfInterest, duration, (byte) 0x00);
+					_s = dataLayer.permitJoinSync(timeout, addrOfInterest, duration, (byte) 0x00);
 					get_gatewayEventManager().notifypermitJoinResult(_s);
 					return SerializationUtils.clone(_s);
 				} catch (IOException e) {
@@ -1871,12 +1881,13 @@ public class GalController {
 		_add.setNetworkAddress(0xFFFC);
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 					Status _s;
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 
 						try {
-							_s = DataLayer.permitJoinAllSync(timeout, _add, duration, (byte) 0x00);
+							_s = dataLayer.permitJoinAllSync(timeout, _add, duration, (byte) 0x00);
 							get_gatewayEventManager().notifypermitJoinResult(_s);
 						} catch (IOException e) {
 							Status _s1 = new Status();
@@ -1903,7 +1914,7 @@ public class GalController {
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 
-				Status _s = DataLayer.permitJoinAllSync(timeout, _add, duration, (byte) 0x00);
+				Status _s = dataLayer.permitJoinAllSync(timeout, _add, duration, (byte) 0x00);
 				get_gatewayEventManager().notifypermitJoinResult(_s);
 				return SerializationUtils.clone(_s);
 			} else
@@ -2066,7 +2077,7 @@ public class GalController {
 					String _networkPanID = null;
 					while (_networkPanID == null) {
 						try {
-							_networkPanID = DataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), (short) 0x80, (short) 0x00);
+							_networkPanID = dataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), (short) 0x80, (short) 0x00);
 						} catch (Exception e) {
 
 							LOG.error("Error retrieving the PanID of the Network!");
@@ -2079,7 +2090,7 @@ public class GalController {
 					String _NetworkAdd = null;
 					while (_NetworkAdd == null) {
 						try {
-							_NetworkAdd = DataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), (short) 0x96, (short) 0x00);
+							_NetworkAdd = dataLayer.NMLE_GetSync(configuration.getCommandTimeoutMS(), (short) 0x96, (short) 0x00);
 						} catch (Exception e) {
 
 							LOG.error("Error retrieving the Gal Network Address!");
@@ -2090,7 +2101,7 @@ public class GalController {
 					BigInteger _IeeeAdd = null;
 					while (_IeeeAdd == null) {
 						try {
-							_IeeeAdd = DataLayer.readExtAddressGal(configuration.getCommandTimeoutMS());
+							_IeeeAdd = dataLayer.readExtAddressGal(configuration.getCommandTimeoutMS());
 						} catch (Exception e) {
 
 							LOG.error("Error retrieving the Gal IEEE Address!");
@@ -2111,7 +2122,7 @@ public class GalController {
 					NodeDescriptor _NodeDescriptor = null;
 					while (_NodeDescriptor == null) {
 						try {
-							_NodeDescriptor = DataLayer.getNodeDescriptorSync(configuration.getCommandTimeoutMS(), _add);
+							_NodeDescriptor = dataLayer.getNodeDescriptorSync(configuration.getCommandTimeoutMS(), _add);
 							if (_NodeDescriptor != null) {
 								if (galNode.getCapabilityInformation() == null)
 									galNode.setCapabilityInformation(new MACCapability());
@@ -2167,7 +2178,7 @@ public class GalController {
 					Status _permitjoin = null;
 					while (_permitjoin == null || ((_permitjoin != null) && (_permitjoin.getCode() != GatewayConstants.SUCCESS))) {
 						try {
-							_permitjoin = DataLayer.permitJoinSync(configuration.getCommandTimeoutMS(), _add, (short) 0x00, (byte) 0x01);
+							_permitjoin = dataLayer.permitJoinSync(configuration.getCommandTimeoutMS(), _add, (short) 0x00, (byte) 0x01);
 							if (_permitjoin.getCode() != GatewayConstants.SUCCESS) {
 								Status _st = new Status();
 								_st.setCode((short) GatewayConstants.GENERAL_ERROR);
@@ -2286,7 +2297,7 @@ public class GalController {
 	 *           if a ZGD error occurs.
 	 */
 	public Status clearEndpoint(short endpoint) throws IOException, Exception, GatewayException {
-		Status _s = DataLayer.clearEndpointSync(getPropertiesManager().getCommandTimeoutMS(), endpoint);
+		Status _s = dataLayer.clearEndpointSync(getPropertiesManager().getCommandTimeoutMS(), endpoint);
 		return SerializationUtils.clone(_s);
 	}
 
@@ -2342,13 +2353,14 @@ public class GalController {
 
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 					ServiceDescriptor _toRes = new ServiceDescriptor();
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 						try {
 							Status _s = new Status();
 							_s.setCode((short) GatewayConstants.SUCCESS);
-							_toRes = DataLayer.getServiceDescriptor(timeout, addrOfInterest, endpoint);
+							_toRes = dataLayer.getServiceDescriptor(timeout, addrOfInterest, endpoint);
 							_toRes.setAddress(addrOfInterest);
 							get_gatewayEventManager().notifyserviceDescriptorRetrieved(_requestIdentifier, _s, _toRes);
 
@@ -2378,7 +2390,7 @@ public class GalController {
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 				ServiceDescriptor _toRes;
-				_toRes = DataLayer.getServiceDescriptor(timeout, addrOfInterest, endpoint);
+				_toRes = dataLayer.getServiceDescriptor(timeout, addrOfInterest, endpoint);
 				_toRes.setAddress(addrOfInterest);
 				return SerializationUtils.clone(_toRes);
 			} else
@@ -2419,6 +2431,7 @@ public class GalController {
 
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 					BindingList _toRes = new BindingList();
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
@@ -2426,7 +2439,7 @@ public class GalController {
 							Status _s = new Status();
 							_s.setCode((short) GatewayConstants.SUCCESS);
 
-							_toRes = DataLayer.getNodeBindings(timeout, aoi, index);
+							_toRes = dataLayer.getNodeBindings(timeout, aoi, index);
 							get_gatewayEventManager().notifynodeBindingsRetrieved(_requestIdentifier, _s, _toRes);
 						} catch (GatewayException e) {
 							Status _s = new Status();
@@ -2451,7 +2464,7 @@ public class GalController {
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 				BindingList _toRes;
-				_toRes = DataLayer.getNodeBindings(timeout, aoi, index);
+				_toRes = dataLayer.getNodeBindings(timeout, aoi, index);
 				return SerializationUtils.clone(_toRes);
 			} else
 				throw new GatewayException("Gal is not in running state!");
@@ -2487,11 +2500,12 @@ public class GalController {
 
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 
 						try {
-							Status _s = DataLayer.addBinding(timeout, binding, aoi);
+							Status _s = dataLayer.addBinding(timeout, binding, aoi);
 							get_gatewayEventManager().notifybindingResult(_requestIdentifier, _s);
 						} catch (GatewayException e) {
 							Status _s = new Status();
@@ -2517,7 +2531,7 @@ public class GalController {
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING)
 
-				return SerializationUtils.clone(DataLayer.addBinding(timeout, binding, aoi));
+				return SerializationUtils.clone(dataLayer.addBinding(timeout, binding, aoi));
 			else
 				throw new GatewayException("Gal is not in running state!");
 		}
@@ -2552,10 +2566,11 @@ public class GalController {
 		aoi.setNetworkAddress(getShortAddress_FromIeeeAddress(aoi.getIeeeAddress()));
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 						try {
-							Status _s = DataLayer.removeBinding(timeout, binding, aoi);
+							Status _s = dataLayer.removeBinding(timeout, binding, aoi);
 							get_gatewayEventManager().notifyUnbindingResult(_requestIdentifier, _s);
 						} catch (GatewayException e) {
 							Status _s = new Status();
@@ -2580,7 +2595,7 @@ public class GalController {
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING)
 
-				return SerializationUtils.clone(DataLayer.removeBinding(timeout, binding, aoi));
+				return SerializationUtils.clone(dataLayer.removeBinding(timeout, binding, aoi));
 			else
 				throw new GatewayException("Gal is not in running state!");
 		}
@@ -2613,10 +2628,11 @@ public class GalController {
 
 		if (async) {
 			executor.execute(new Runnable() {
+				@Override
 				public void run() {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 						try {
-							Status _st = DataLayer.frequencyAgilitySync(timeout, scanChannel, scanDuration);
+							Status _st = dataLayer.frequencyAgilitySync(timeout, scanChannel, scanDuration);
 							get_gatewayEventManager().notifyFrequencyAgility(_st);
 						} catch (GatewayException e) {
 							Status _st = new Status();
@@ -2641,7 +2657,7 @@ public class GalController {
 			return null;
 		} else {
 			if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
-				Status _st = DataLayer.frequencyAgilitySync(timeout, scanChannel, scanDuration);
+				Status _st = dataLayer.frequencyAgilitySync(timeout, scanChannel, scanDuration);
 				return SerializationUtils.clone(_st);
 			} else
 				throw new GatewayException("Gal is not in running state!");
@@ -2770,7 +2786,7 @@ public class GalController {
 	}
 
 	private void resetGateway() throws Exception {
-		if (DataLayer != null) {
+		if (dataLayer != null) {
 			LOG.error("Starting reset...");
 			/* Stop all timers */
 			synchronized (getNetworkcache()) {
@@ -2827,14 +2843,14 @@ public class GalController {
 
 			LOG.error("Now Gateway have been set as ready to start and the GalNode have been set to null");
 
-			if (DataLayer.getIKeyInstance().isConnected()) {
+			if (dataLayer.getIKeyInstance().isConnected()) {
 				LOG.error("DataLayer instance was connected, disconnecting");
-				DataLayer.getIKeyInstance().disconnect();
+				dataLayer.getIKeyInstance().disconnect();
 			}
 			LOG.error("Destroying the RS232Filter instance");
 			RS232Filter.destroy();
 			LOG.error("Destroying DataLayer");
-			DataLayer.destroy();
+			dataLayer.destroy();
 			LOG.debug("Reset done!");
 		}
 	}
