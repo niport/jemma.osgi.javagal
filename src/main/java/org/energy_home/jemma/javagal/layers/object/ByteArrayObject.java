@@ -199,6 +199,16 @@ public class ByteArrayObject {
 		}
 	}
 
+	public String toHexString() {
+		StringBuffer _res = new StringBuffer();
+		byte[] _vect = getArray();
+		for (int i = 0; i < getCount(true); i++) {
+			_res.append(toHexChar((_vect[i] >>> 4) & 0x0F));
+			_res.append(toHexChar(_vect[i] & 0x0F));
+		}
+		return _res.toString();
+	}
+
 	/**
 	 * Gives the entire byte array converted as a String. Every element is
 	 * converted to its hexadecimal digit representation.

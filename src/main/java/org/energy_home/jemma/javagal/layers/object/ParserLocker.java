@@ -94,8 +94,13 @@ public class ParserLocker {
 	}
 
 	public ParserLocker(TypeMessage type) {
-		super();
+		this();
 		this.type = type;
+	}
+
+	public ParserLocker(TypeMessage type, String key) {
+		this(type);
+		this._Key = key;
 	}
 
 	/**
