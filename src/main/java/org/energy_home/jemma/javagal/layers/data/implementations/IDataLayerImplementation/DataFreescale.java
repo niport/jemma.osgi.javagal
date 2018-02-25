@@ -2432,7 +2432,6 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	/**
-	 * 
 	 * Add StartSequence + Control to passed BufferArrayObject
 	 * 
 	 * @param frame
