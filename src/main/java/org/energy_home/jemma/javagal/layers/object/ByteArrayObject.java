@@ -206,7 +206,8 @@ public class ByteArrayObject {
 	 * @return the hexadecimal string representation of the entire carried byte
 	 *         array.
 	 */
-	public String ToHexString() {
+	@Override
+	public String toString() {
 		StringBuffer _res = new StringBuffer();
 		byte[] _vect = getArray();
 		for (int i = 0; i < getCount(true); i++) {
