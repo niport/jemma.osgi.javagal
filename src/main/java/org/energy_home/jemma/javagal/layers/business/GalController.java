@@ -235,6 +235,7 @@ public class GalController {
 			LOG.error("No Platform found for ZigBee dongle");
 			throw new Exception("No platform found for ZigBee dongle");
 		}
+
 		/*
 		 * Check if is auto-start mode is set to true into the configuration file
 		 */
@@ -248,17 +249,19 @@ public class GalController {
 					LOG.error("Error on autostart!", e);
 				}
 			} else {
-				short _EndPoint = 0;
-				_EndPoint = dataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
-						configuration.getSimpleDescriptorReadFromFile());
-				if (_EndPoint == 0)
-					throw new Exception("Error on configure endpoint");
 
+				short endpointId = dataLayer.configureEndPointSync(configuration.getCommandTimeoutMS(),
+						configuration.getSimpleDescriptorReadFromFile());
+
+				if (endpointId == 0) {
+					throw new Exception("Error on configure endpoint");
+				}
 			}
+
+			this.discoveryManager.activate();
 		}
 
 		LOG.info("***Gateway is ready now... Current GAL Status: {} ***", getGatewayStatus().toString());
-
 	}
 
 	public String getNetworkPanID() {
@@ -333,7 +336,9 @@ public class GalController {
 
 						RS232Filter.destroy();
 						LOG.error("Re-creating DataLayer Object for FreeScale chip");
-						dataLayer = new DataFreescale((GalController) this.getParameter());
+
+						dataLayer = new DataFreescale((GalController) this.getParameter()[0]);
+
 						LOG.error("Initializing data Layer");
 						dataLayer.initialize();
 						try {
@@ -477,7 +482,7 @@ public class GalController {
 	 * @return the actual data layer implementation.
 	 */
 	public IDataLayer getDataLayer() {
-		synchronized (dataLayer) {
+		synchronized (this) {
 			return dataLayer;
 		}
 	}
@@ -802,7 +807,7 @@ public class GalController {
 					if (getGatewayStatus() == GatewayStatus.GW_RUNNING) {
 						try {
 							nodeDescriptor = dataLayer.getNodeDescriptorSync(timeout, addrOfInterest);
-							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
+							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter()[0],
 									String.format("%04X", addrOfInterest.getNetworkAddress()));
 							WSNNode node = new WSNNode();
 							node.setAddress(addrOfInterest);
@@ -1357,7 +1362,7 @@ public class GalController {
 								_newNodeService.getActiveEndpoints().add(_n);
 							}
 
-							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
+							WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter()[0],
 									String.format("%04X", aoi.getNetworkAddress()));
 							WSNNode node = new WSNNode();
 							node.setAddress(aoi);
@@ -1607,7 +1612,7 @@ public class GalController {
 								_s = dataLayer.leaveSync(timeout, addrOfInterest, mask);
 								if (_s.getCode() == GatewayConstants.SUCCESS) {
 									/* get the node from cache */
-									WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter(),
+									WrapperWSNNode x = new WrapperWSNNode((GalController) this.getParameter()[0],
 											String.format("%04X", addrOfInterest.getNetworkAddress()));
 									WSNNode node = new WSNNode();
 									node.setAddress(addrOfInterest);
@@ -2115,7 +2120,7 @@ public class GalController {
 					_add.setIeeeAddress(_IeeeAdd);
 					galNode.setAddress(_add);
 
-					WrapperWSNNode galNodeWrapper = new WrapperWSNNode(((GalController) this.getParameter()),
+					WrapperWSNNode galNodeWrapper = new WrapperWSNNode(((GalController) this.getParameter()[0]),
 							String.format("%04X", _add.getNetworkAddress()));
 
 					/* Read the NodeDescriptor of the GAL */
@@ -2811,7 +2816,7 @@ public class GalController {
 				try {
 					Status _st1 = getDataLayer().ClearDeviceKeyPairSet(getPropertiesManager().getCommandTimeoutMS(), address);
 				} catch (Exception e) {
-					LOG.error("Error ong Clearing device Keyset for device {} - Exception: {}", Utils.getAddressString(address), e);
+					LOG.error("Error ong Clearing device Keyset for device {} - Exception: {}", Utils.toString(address), e);
 				}
 
 				// Clear neighbor table entries
@@ -2819,7 +2824,7 @@ public class GalController {
 					Status _st0 = getDataLayer().ClearNeighborTableEntry(getPropertiesManager().getCommandTimeoutMS(), address);
 				} catch (Exception e1) {
 					LOG.error("Error on ClearNeighborTableEntry for node: {} - Exception: {}",
-							Utils.getAddressString(nodeWrapper.get_node().getAddress()), e1);
+							Utils.toString(nodeWrapper.get_node().getAddress()), e1);
 				}
 
 				/* notify the networkmanager of node removal */
@@ -2828,7 +2833,7 @@ public class GalController {
 				try {
 					this.get_gatewayEventManager().nodeRemoved(s, nodeWrapper.get_node());
 				} catch (Exception e) {
-					LOG.error("Error notifying node {} removal, Exception: {}", Utils.getAddressString(address), e);
+					LOG.error("Error notifying node {} removal, Exception: {}", Utils.toString(address), e);
 				}
 			}
 

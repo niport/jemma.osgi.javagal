@@ -173,7 +173,6 @@ public class GatewayInterfaceProxy implements GatewayInterface {
 	}
 
 	@Override
-	@Deprecated
 	public long createAPSCallback(APSMessageListener listener) throws IOException, Exception, GatewayException {
 		LOG.debug("Create ApsCallBack(APSMessageListener listener)...");
 

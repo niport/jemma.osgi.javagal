@@ -27,17 +27,16 @@ package org.energy_home.jemma.javagal.layers.object;
  */
 public class MyRunnable implements Runnable {
 
-	Object parameter = null;
+	Object[] parameters = null;
 
-	public MyRunnable(Object _parameter) {
-		parameter = _parameter;
+	public MyRunnable(Object... params) {
+		parameters = params;
 	}
 
 	public void run() {
 	}
 
-	public Object getParameter() {
-		return parameter;
+	public Object[] getParameter() {
+		return parameters;
 	}
-
 }

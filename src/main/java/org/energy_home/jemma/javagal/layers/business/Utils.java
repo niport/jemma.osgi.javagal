@@ -207,9 +207,9 @@ public class Utils {
 		return copy;
 	}
 
-	public static String getAddressString(Address address) {
+	public static String toString(Address address) {
 		String networkAddress = address.getNetworkAddress() == null ? "NULL" : String.format("%04X", address.getNetworkAddress());
-		String ieeeAddress = address.getIeeeAddress() == null ? "NULL" : String.format("%16X", address.getIeeeAddress());
+		String ieeeAddress = address.getIeeeAddress() == null ? "NULL" : String.format("%016X", address.getIeeeAddress());
 		return "{ NWK: " + networkAddress + " , IEEE: " + ieeeAddress + " }";
 	}
 
