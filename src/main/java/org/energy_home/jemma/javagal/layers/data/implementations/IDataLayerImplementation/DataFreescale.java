@@ -108,8 +108,21 @@ public class DataFreescale implements IDataLayer {
 
 	private final List<ParserLocker> listLocker;
 
+	public void destroy() {
+		synchronized (destroy) {
+			destroy = true;
+		}
+		clearBuffer();
+	}
+
 	private List<ParserLocker> getListLocker() {
 		return listLocker;
+	}
+
+	private void addParserLocker(ParserLocker lock) {
+		synchronized (this) {
+			this.listLocker.add(lock);
+		}
 	}
 
 	/**
@@ -909,6 +922,7 @@ public class DataFreescale implements IDataLayer {
 		_DescriptorCapability.setExtendedSimpleDescriptorListAvailable((_ExtendedSimpleDescriptorListAvailable == 1 ? true : false));
 		_node.setDescriptorCapabilityField(_DescriptorCapability);
 		String _key = String.format("%04X", _NWKAddressOfInterest);
+
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
 				if ((pl.getType() == TypeMessage.NODE_DESCRIPTOR) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
@@ -2391,7 +2405,7 @@ public class DataFreescale implements IDataLayer {
 		LOG.debug(frame.toString());
 
 		ParserLocker lock = new ParserLocker(TypeMessage.APSME_SET);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -2415,7 +2429,7 @@ public class DataFreescale implements IDataLayer {
 		LOG.debug(frame.toString());
 
 		ParserLocker lock = new ParserLocker(TypeMessage.APSME_GET, String.format("%02X", _AttID));
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -2424,94 +2438,61 @@ public class DataFreescale implements IDataLayer {
 
 	// Get network information base Attributes.
 	public String NMLE_GetSync(long timeout, short _AttID, short iEntry) throws Exception {
+
+		short opcode = FreescaleConstants.NLMEGetRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
+
 		frame.addByte((byte) _AttID);/* iId */
 		frame.addByte((byte) 0x00);/* iIndex */
 		frame.addByte((byte) iEntry);/* iEntries */
 		frame.addByte((byte) 0x00);/* iEntrySize */
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEGetRequest);
-		LOG.debug("NLME-GET.Request: {}", frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.NMLE_GET);
-		lock.set_Key(String.format("%02X", _AttID));
-		Status status = new Status();
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
-		getListLocker().add(lock);
+		LOG.debug(frame.toString());
+
+		ParserLocker lock = new ParserLocker(TypeMessage.NMLE_GET, String.format("%02X", _AttID));
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in NLME-GET.Request");
-
-			throw new GatewayException("Timeout expired in NLME-GET.Request");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-
-				throw new GatewayException(
-						"Error on  NLME-GET.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-
-			} else
-				return (String) lock.get_objectOfResponse();
-		}
-
+		return (String) waitResponse(lock, opcode, timeout);
 	}
 
 	public Status stopNetworkSync(long timeout) throws Exception, GatewayException {
-		ByteArrayObject frame = new ByteArrayObject(false);
-		frame.addByte((byte) 0x01);/*
-																 * Stop Mode AnnounceStop (Stops after
-																 * announcing it is leaving the network.)
-																 */
-		frame.addByte((byte) 0x00);/*
-																 * Reset binding/group tables, node type, PAN ID
-																 * etc to ROM state.
-																 */
-		frame.addByte((byte) 0x00);/* Restart after stopping. */
-		frame.addByte((byte) 0xFF);/* Writes NVM upon stop. */
 
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZTCStopNwkExRequest);
+		short opcode = FreescaleConstants.ZTCStopNwkExRequest;
+		ByteArrayObject frame = new ByteArrayObject(false);
+
+		/*
+		 * Stop Mode AnnounceStop (Stops after announcing it is leaving the
+		 * network.)
+		 */
+		frame.addByte((byte) 0x01);
+
+		/*
+		 * Reset binding/group tables, node type, PAN ID etc to ROM state.
+		 */
+		frame.addByte((byte) 0x00);
+
+		/* Restart after stopping. */
+		frame.addByte((byte) 0x00);
+
+		/* Writes NVM upon stop. */
+		frame.addByte((byte) 0xFF);
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		LOG.debug("ZDP-StopNwkEx.Request: {}", frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.STOP_NETWORK);
-		Status status = new Status();
-
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.STOP_NETWORK);
+		addParserLocker(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ZDP-StopNwkEx.Request");
-
-			throw new GatewayException("Timeout expired in ZDP-StopNwkEx.Request");
-		} else {
-			if (status.getCode() != 0) {
-
-				LOG.info("Returned Status: ", status.getCode());
-
-				throw new GatewayException(
-						"Error on  ZDP-StopNwkEx.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			}
-			return status;
-		}
-
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	// Send a message to Freescale.
@@ -2531,7 +2512,6 @@ public class DataFreescale implements IDataLayer {
 		else if (((message.getDestinationAddressMode() == GatewayConstants.ADDRESS_MODE_ALIAS)))
 			throw new Exception("The DestinationAddressMode == ADDRESS_MODE_ALIAS is not implemented!!");
 		if (_DSTAdd != null) {
-
 			LOG.debug("Data_FreeScale.send_aps - Destination Address: " + _DSTAdd.toString(16));
 
 			// String _key = String.format("%016X", _DSTAdd.longValue()) +
@@ -2539,79 +2519,60 @@ public class DataFreescale implements IDataLayer {
 			// String.format("%02X", message.getSourceEndpoint());
 			// lock.set_Key(_key);
 			Status status = new Status();
-			// getListLocker().add(lock);
+			// addParserLocker(lock);
 			SendRs232Data(makeByteArrayFromApsMessage(message));
 
 			status.setCode((short) GatewayConstants.SUCCESS);
 			return status;
-
 		} else {
 			throw new GatewayException("Error on APSDE-DATA.Request.Request. Destination address is null");
-
 		}
 	}
 
 	public short configureEndPointSync(long timeout, SimpleDescriptor desc) throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.APSRegisterEndPointRequest;
 
 		ByteArrayObject frame = new ByteArrayObject(false);
 
 		frame.addByte(desc.getEndPoint().byteValue());/* End Point */
 		frame.addBytesShort(Short.reverseBytes(desc.getApplicationProfileIdentifier().shortValue()), 2);
 		frame.addBytesShort(Short.reverseBytes(desc.getApplicationDeviceIdentifier().shortValue()), 2);
-		frame.addByte(
-				desc.getApplicationDeviceVersion().byteValue());/* DeviceVersion */
-		frame.addByte(
-				(byte) desc.getApplicationInputCluster().size());/* ClusterInputSize */
+
+		/* DeviceVersion */
+		frame.addByte(desc.getApplicationDeviceVersion().byteValue());
+
+		/* ClusterInputSize */
+		frame.addByte((byte) desc.getApplicationInputCluster().size());
 		if (desc.getApplicationInputCluster().size() > 0) {
 			for (Integer x : desc.getApplicationInputCluster())
 				frame.addBytesShort(Short.reverseBytes(x.shortValue()), 2);
 		}
 
-		frame.addByte((byte) desc.getApplicationOutputCluster()
-				.size());/* ClusterOutputSize */
+		/* ClusterOutputSize */
+		frame.addByte((byte) desc.getApplicationOutputCluster().size());
+
 		if (desc.getApplicationOutputCluster().size() > 0) {
 			for (Integer x : desc.getApplicationOutputCluster())
 				frame.addBytesShort(Short.reverseBytes(x.shortValue()), 2);
 		}
-		frame.addByte((byte) 0x01);/* Maximum Window Size */
 
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.APSRegisterEndPointRequest);/*
-																												 * StartSequence +
-																												 * Control
-																												 */
+		/* Maximum Window Size */
+		frame.addByte((byte) 0x01);
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
 		/* APS-RegisterEndPoint.Request */
-		LOG.debug("Configure EndPoint command: {}", frame.toString());
-		short _endPoint = 0;
+		LOG.debug(frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.CONFIGURE_END_POINT);
-		Status status = new Status();
-
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.CONFIGURE_END_POINT);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
+		waitStatus(lock, opcode, timeout);
 
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in Configure End Point");
-
-			throw new GatewayException("Timeout expired in Configure End Point");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.info("Returned Status: {}", status.getCode());
-				throw new GatewayException(
-						"Error on  APS-RegisterEndPoint.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			} else
-				_endPoint = desc.getEndPoint();
-		}
-		return _endPoint;
+		return desc.getEndPoint();
 	}
 
 	public ByteArrayObject makeByteArrayFromApsMessage(APSMessage apsMessage) throws Exception {
@@ -2627,15 +2588,18 @@ public class DataFreescale implements IDataLayer {
 		case GatewayConstants.ADDRESS_MODE_SHORT:
 			byte[] networkAddress = DataManipulation.toByteVect(address.getNetworkAddress(), 8);
 			_reversed = DataManipulation.reverseBytes(networkAddress);
+
 			for (byte b : _reversed)
 				frame.addByte(b);
 			break;
+
 		case GatewayConstants.EXTENDED_ADDRESS_MODE:
 			byte[] ieeeAddress = DataManipulation.toByteVect(address.getIeeeAddress(), 8);
 			_reversed = DataManipulation.reverseBytes(ieeeAddress);
 			for (byte b : _reversed)
 				frame.addByte(b);
 			break;
+
 		case GatewayConstants.ADDRESS_MODE_ALIAS:
 			throw new UnsupportedOperationException("Address Mode Alias");
 		default:
@@ -2644,11 +2608,8 @@ public class DataFreescale implements IDataLayer {
 		}
 
 		frame.addByte((byte) apsMessage.getDestinationEndpoint());
-
 		frame.addBytesShort(Short.reverseBytes(apsMessage.getProfileID().shortValue()), 2);
-
 		frame.addBytesShort(Short.reverseBytes((short) apsMessage.getClusterID()), 2);
-
 		frame.addByte((byte) apsMessage.getSourceEndpoint());
 
 		if (data.length > 0x64) {
@@ -2680,64 +2641,8 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((byte) apsMessage.getRadius());
 
 		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.APSDEDataRequest);
+
 		LOG.debug("Write APS on: {} Message: {}", System.currentTimeMillis(), frame.toString());
-
-		return frame;
-	}
-
-	public ByteArrayObject makeByteArrayFromInterPANMessage(InterPANMessage message) throws Exception {
-		ByteArrayObject frame = new ByteArrayObject(false);
-		byte sam = (byte) message.getSrcAddressMode();
-		frame.addByte(sam);
-
-		byte dam = (byte) message.getDstAddressMode();
-		frame.addByte(dam);
-
-		frame.addBytesShort(Short.reverseBytes((short) message.getDestPANID()), 2);
-
-		Address dstaddress = message.getDestinationAddress();
-		byte[] _reversed = null;
-
-		switch (dam) {
-
-		case GatewayConstants.ADDRESS_MODE_SHORT:
-			byte[] networkAddress = DataManipulation.toByteVect(dstaddress.getNetworkAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(networkAddress);
-			for (byte b : _reversed)
-				frame.addByte(b);
-			break;
-
-		case GatewayConstants.EXTENDED_ADDRESS_MODE:
-			byte[] ieeeAddress = DataManipulation.toByteVect(dstaddress.getIeeeAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(ieeeAddress);
-			for (byte b : _reversed)
-				frame.addByte(b);
-			break;
-
-		case GatewayConstants.ADDRESS_MODE_ALIAS:
-			// TODO Control those address modes!
-			throw new UnsupportedOperationException("Address Mode Alias");
-
-		default:
-			throw new Exception("Address Mode undefined!");
-		}
-
-		frame.addBytesShort(Short.reverseBytes(message.getProfileID().shortValue()), 2);
-
-		frame.addBytesShort(Short.reverseBytes((short) message.getClusterID()), 2);
-
-		if (message.getASDULength() > 0x64) {
-			throw new Exception("ASDU length must 0x64 or less in length");
-		} else {
-			frame.addByte((byte) message.getASDULength());
-
-		}
-
-		for (Byte b : message.getASDU())
-			frame.addByte(b);
-
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.InterPANDataRequest);
-		LOG.debug("Write InterPanMessage on: {} Message: {}", System.currentTimeMillis(), frame.toString());
 
 		return frame;
 	}
@@ -2765,7 +2670,7 @@ public class DataFreescale implements IDataLayer {
 		LOG.debug(frame.toString());
 
 		ParserLocker lock = new ParserLocker(TypeMessage.MODE_SELECT);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -2773,6 +2678,9 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	public Status startGatewayDeviceSync(long timeout, StartupAttributeInfo sai) throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.ZTCStartNwkExRequest;
+
 		Status _statWriteSas = WriteSasSync(timeout, sai);
 		if (_statWriteSas.getCode() == 0) {
 
@@ -2807,43 +2715,24 @@ public class DataFreescale implements IDataLayer {
 			frame.addByte((byte) getGal().getPropertiesManager().getStartupSet());
 			frame.addByte(getGal().getPropertiesManager().getSturtupAttributeInfo().getStartupControl().byteValue());
 
-			frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZTCStartNwkExRequest);
+			frame = Set_SequenceStart_And_FSC(frame, opcode);
+
 			LOG.debug("Start Network command: {} ---Timeout: {}", frame.toString(), timeout);
 
-			ParserLocker lock = new ParserLocker();
-			lock.setType(TypeMessage.START_NETWORK);
-			Status status = new Status();
+			ParserLocker lock = new ParserLocker(TypeMessage.START_NETWORK);
+			addParserLocker(lock);
 
-			getListLocker().add(lock);
 			SendRs232Data(frame);
-			if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-				lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-			status = lock.getStatus();
 
-			if (getListLocker().contains(lock))
-				getListLocker().remove(lock);
-
-			if (status.getCode() == ParserLocker.INVALID_ID) {
-
-				LOG.error("Timeout expired in startGatewayDevice");
-
-				throw new GatewayException("Timeout expired in ZDP-StartNwkEx.Request");
-			} else {
-				if (status.getCode() != 0) {
-
-					LOG.debug("Returned Status: {}", status);
-
-					throw new GatewayException(
-							"Error on ZDP-StartNwkEx.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-				}
-			}
-
-			return status;
+			return waitStatus(lock, opcode, timeout);
 		} else
 			return _statWriteSas;
 	}
 
 	private Status WriteSasSync(long timeout, StartupAttributeInfo sai) throws InterruptedException, Exception {
+
+		short opcode = FreescaleConstants.BlackBoxWriteSAS;
+
 		if (sai.getChannelMask() == null)
 			sai = getGal().getPropertiesManager().getSturtupAttributeInfo();
 
@@ -2913,62 +2802,32 @@ public class DataFreescale implements IDataLayer {
 
 		frame.addByte(sai.getNetworkKeySeqNum().byteValue());
 		frame.addByte((byte) 0x01);
-
 		frame.addBytesShort(Short.reverseBytes(sai.getNetworkManagerAddress().shortValue()), 2);
 		frame.addByte(sai.getScanAttempts().byteValue());
-
 		frame.addBytesShort(sai.getTimeBetweenScans().shortValue(), 2);
-
 		frame.addBytesShort(Short.reverseBytes(sai.getRejoinInterval().shortValue()), 2);
-
 		frame.addBytesShort(Short.reverseBytes(sai.getMaxRejoinInterval().shortValue()), 2);
-
 		frame.addBytesShort(Short.reverseBytes(sai.getIndirectPollRate().shortValue()), 2);
-
 		frame.addByte(sai.getParentRetryThreshold().byteValue());
-
 		frame.addByte((sai.isConcentratorFlag()) ? ((byte) 0x01) : ((byte) 0x00));
-
 		frame.addByte(sai.getConcentratorRadius().byteValue());
-
 		frame.addByte(sai.getConcentratorDiscoveryTime().byteValue());
-
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.BlackBoxWriteSAS);
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		LOG.debug("WriteSas Command: {} --Timeout: {}", frame.toString(), timeout);
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.WRITE_SAS);
-		Status status = new Status();
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.WRITE_SAS);
+		addParserLocker(lock);
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID) {
 
-			LOG.debug("Waiting WriteSas confirm...");
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-			LOG.debug("Ended waiting WriteSas confirm!");
-
-		}
-		status = lock.getStatus();
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-			LOG.error("Timeout expired in write sas");
-			throw new GatewayException("Timeout expired in write sas");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-				throw new GatewayException(
-						"Error on BlackBox.WriteSAS. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			}
-			return status;
-		}
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public Status permitJoinSync(long timeout, Address addrOfInterest, short duration, byte TCSignificance)
 			throws IOException, Exception, GatewayException {
 
+		short opcode = FreescaleConstants.NLMEPermitJoiningRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 
 		frame.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
@@ -2977,50 +2836,36 @@ public class DataFreescale implements IDataLayer {
 						 */
 		frame.addByte((byte) duration);/* Duration */
 		frame.addByte(TCSignificance);/* TCSignificant */
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEPermitJoiningRequest);
-		LOG.debug("Permit Join command: {}", frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.PERMIT_JOIN);
-		Status status = new Status();
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
-		getListLocker().add(lock);
+		LOG.debug(frame.toString());
+
+		ParserLocker lock = new ParserLocker(TypeMessage.PERMIT_JOIN);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
 
-		status = lock.getStatus();
-
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID)
-			throw new GatewayException("Timeout expired in Permit Join");
-		else {
-			if (status.getCode() != 0)
-				throw new GatewayException(
-						"Error on ZDP-Mgmt_Permit_Join.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-
-		}
-		return status;
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public Status permitJoinAllSync(long timeout, Address addrOfInterest, short duration, byte TCSignificance)
 			throws IOException, Exception {
 
+		short opcode = FreescaleConstants.NLMEPermitJoiningRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 
-		frame.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
-				2);/*
-						 * Short Network Address
-						 */
-		frame.addByte((byte) duration);/* Duration */
-		frame.addByte(TCSignificance);/* TCSignificant */
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEPermitJoiningRequest);
+		frame.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);
+		frame.addByte((byte) duration); /* Duration */
+		frame.addByte(TCSignificance); /* TCSignificant */
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
 		LOG.debug("Permit Join command: {}", frame.toString());
 
 		SendRs232Data(frame);
+
 		Status status = new Status();
 		status.setCode((short) GatewayConstants.SUCCESS);
 
@@ -3028,79 +2873,39 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	public short getChannelSync(long timeout) throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.ZTCGetChannelRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZTCGetChannelRequest);// StartSequence
-		// +
-		// Control
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
 		LOG.debug("ZTC-GetChannel.Request: {}", frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.CHANNEL_REQUEST);
-		Status status = new Status();
-
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.CHANNEL_REQUEST);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ZTC-GetChannel.Request");
-
-			throw new GatewayException("Timeout expired in ZTC-GetChannel.Request");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-				throw new GatewayException(
-						"Error on ZTC-GetChannel.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			} else
-				return ((Short) lock.get_objectOfResponse()).shortValue();
-		}
+		return (Short) waitResponse(lock, opcode, timeout);
 	}
 
 	public BigInteger readExtAddressGal(long timeout) throws GatewayException, Exception {
 
+		short opcode = FreescaleConstants.ZTCReadExtAddrRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZTCReadExtAddrRequest);// StartSequence
-		// +
-		// Control
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		LOG.debug("ZTC-ReadExtAddr.Request: {}", frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.READ_EXT_ADDRESS);
-		Status status = new Status();
-
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.READ_EXT_ADDRESS);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ZTC-ReadExtAddr.Request");
-
-			throw new GatewayException("Timeout expired in ZTC-ReadExtAddr.Request");
-		} else {
-			if (status.getCode() != 0) {
-
-				LOG.debug("Returned Status: {}", status.getCode());
-				throw new GatewayException(
-						"Error on ZTC-ReadExtAddr.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			} else
-				return ((BigInteger) lock.get_objectOfResponse());
-		}
+		return (BigInteger) waitResponse(lock, opcode, timeout);
 	}
 
 	public BigInteger readExtAddress(long timeout, Integer shortAddress) throws GatewayException, Exception {
@@ -3111,9 +2916,8 @@ public class DataFreescale implements IDataLayer {
 
 		frame.addBytesShort(Short.reverseBytes(shortAddress.shortValue()), 2);
 		frame.addBytesShort(Short.reverseBytes(shortAddress.shortValue()), 2);
-
-		frame.addByte((byte) 0x01);/* Request Type */
-		frame.addByte((byte) 0x00);/* StartIndex */
+		frame.addByte((byte) 0x01); /* Request Type */
+		frame.addByte((byte) 0x00); /* StartIndex */
 
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
@@ -3122,7 +2926,7 @@ public class DataFreescale implements IDataLayer {
 		String key = String.format("%04X", shortAddress);
 
 		ParserLocker lock = new ParserLocker(TypeMessage.READ_IEEE_ADDRESS, key);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -3143,7 +2947,7 @@ public class DataFreescale implements IDataLayer {
 		String key = String.format("%04X", addrOfInterest.getNetworkAddress());
 
 		ParserLocker lock = new ParserLocker(TypeMessage.NODE_DESCRIPTOR, key);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -3165,7 +2969,7 @@ public class DataFreescale implements IDataLayer {
 		LOG.debug(frame.toString());
 
 		ParserLocker lock = new ParserLocker(TypeMessage.ACTIVE_EP, String.format("%04X", aoi.getNetworkAddress()));
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -3220,7 +3024,7 @@ public class DataFreescale implements IDataLayer {
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		ParserLocker lock = new ParserLocker(TypeMessage.DEREGISTER_END_POINT);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -3236,7 +3040,7 @@ public class DataFreescale implements IDataLayer {
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		ParserLocker lock = new ParserLocker(TypeMessage.GET_END_POINT_LIST);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		LOG.debug(frame.toString());
 
@@ -3263,7 +3067,7 @@ public class DataFreescale implements IDataLayer {
 		LOG.debug("ZDP-SimpleDescriptor.Request command: {}", frame.toString());
 
 		ParserLocker lock = new ParserLocker(TypeMessage.GET_SIMPLE_DESCRIPTOR, key);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -3288,44 +3092,28 @@ public class DataFreescale implements IDataLayer {
 
 	public BindingList getNodeBindings(long timeout, Address addrOfInterest, short index)
 			throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.ZDPMgmtBindRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 
 		frame.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);
 		frame.addByte((byte) index);
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZDPMgmtBindRequest);
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.GET_BINDINGS);
-		Status status = new Status();
 
-		getListLocker().add(lock);
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
+		ParserLocker lock = new ParserLocker(TypeMessage.GET_BINDINGS);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ZDP-Mgmt_Bind.Request");
-
-			throw new GatewayException("Timeout expired in ZDP-Mgmt_Bind.Request");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-
-				throw new GatewayException(
-						"Error on ZDP-Mgmt_Bind.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			} else {
-				BindingList _tores = (BindingList) lock.get_objectOfResponse();
-				return _tores;
-			}
-		}
+		return (BindingList) waitResponse(lock, opcode, timeout);
 	}
 
 	public Status addBinding(long timeout, Binding binding, Address aoi) throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.ZDPBindRequest;
+
 		byte[] _reversed;
 
 		ByteArrayObject frame = new ByteArrayObject(false);
@@ -3364,6 +3152,7 @@ public class DataFreescale implements IDataLayer {
 			 */
 			frame.addByte((byte) binding.getDeviceDestination().get(0).getEndpoint());
 		} else if (binding.getGroupDestination().size() == 1) {
+
 			frame.addByte((byte) 0x01);/* Destination AddressMode Group */
 
 			byte[] _DestinationGroupAddress = DataManipulation.toByteVect(binding.getGroupDestination().get(0).longValue(), 8);
@@ -3374,43 +3163,22 @@ public class DataFreescale implements IDataLayer {
 
 		} else {
 			throw new GatewayException("The Address mode can only be one Group or one Device!");
-
 		}
 
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZDPBindRequest);
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.ADD_BINDING);
-		Status status = new Status();
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.ADD_BINDING);
+		addParserLocker(lock);
+
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ZDP-BIND.Response");
-
-			throw new GatewayException("Timeout expired in ZDP-BIND.Request");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-
-				throw new GatewayException(
-						"Error on ZDP-BIND.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			} else {
-				return lock.getStatus();
-
-			}
-		}
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public Status removeBinding(long timeout, Binding binding, Address aoi) throws IOException, Exception, GatewayException {
 		byte[] _reversed;
+
+		short opcode = FreescaleConstants.ZDPUnbindRequest;
 
 		ByteArrayObject frame = new ByteArrayObject(false);
 
@@ -3460,57 +3228,43 @@ public class DataFreescale implements IDataLayer {
 
 		}
 
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZDPUnbindRequest);
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.REMOVE_BINDING);
-		Status status = new Status();
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.REMOVE_BINDING);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ZDP-UNBIND.Response");
-
-			throw new GatewayException("Timeout expired in ZDP-UNBIND.Request");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-
-				throw new GatewayException(
-						"Error on ZDP-UNBIND.Request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			} else {
-				return lock.getStatus();
-
-			}
-		}
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public Status frequencyAgilitySync(long timeout, short scanChannel, short scanDuration)
 			throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.NLMENWKUpdateReq;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 		frame.addByte((byte) 0xFD);
 		frame.addByte((byte) 0xFF);
 		byte[] _channel = Utils.buildChannelMask(scanChannel);
-		for (byte x : DataManipulation.reverseBytes(_channel))
+		for (byte x : DataManipulation.reverseBytes(_channel)) {
 			frame.addByte(x);
+		}
+
 		frame.addByte((byte) scanDuration);
-		frame.addByte((byte) 0x00);// Add parameter nwkupdate
+
+		/* Add parameter nwkupdate */
+		frame.addByte((byte) 0x00);
+
 		// _bodyCommand.addByte((byte) 0x01);// Add parameter nwkupdate
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMENWKUpdateReq);
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		SendRs232Data(frame);
-		Status _st = new Status();
-		_st.setCode((short) GatewayConstants.SUCCESS);
 
-		return _st;
+		Status status = new Status();
+		status.setCode((short) GatewayConstants.SUCCESS);
+
+		return status;
 	}
 
 	public IConnector getIKeyInstance() {
@@ -3532,47 +3286,33 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	public Status ClearDeviceKeyPairSet(long timeout, Address addrOfInterest) throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.NLMEClearDeviceKeyPairSet;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
+
 		byte[] ieeeAddress = DataManipulation.toByteVect(addrOfInterest.getIeeeAddress(), 8);
 		byte[] _reversed = DataManipulation.reverseBytes(ieeeAddress);
-		for (byte b : _reversed)
+		for (byte b : _reversed) {
 			frame.addByte(b);
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEClearDeviceKeyPairSet);
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.CLEAR_DEVICE_KEY_PAIR_SET);
-		Status status = new Status();
+		}
 
-		getListLocker().add(lock);
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
+		ParserLocker lock = new ParserLocker(TypeMessage.CLEAR_DEVICE_KEY_PAIR_SET);
+		addParserLocker(lock);
 
 		LOG.debug("APS-ClearDeviceKeyPairSet.Request command: {}", frame.toString());
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ClearDeviceKeyPairSet");
-
-			throw new GatewayException("Timeout expired in ClearDeviceKeyPairSet");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-
-				throw new GatewayException("Error on APS-ClearDeviceKeyPairSet.Request. Status code:" + status.getCode()
-						+ " Status Message: " + status.getMessage());
-			} else {
-				return status;
-			}
-		}
-
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public Status ClearNeighborTableEntry(long timeout, Address addrOfInterest) throws IOException, Exception, GatewayException {
+
+		short opcode = FreescaleConstants.NLMEClearNeighborTableEntry;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 		frame.addByte((byte) 0xFF);
 		frame.addByte((byte) 0xFF);
@@ -3581,80 +3321,41 @@ public class DataFreescale implements IDataLayer {
 		byte[] _reversed = DataManipulation.reverseBytes(ieeeAddress);
 		for (byte b : _reversed)
 			frame.addByte(b);
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEClearNeighborTableEntry);
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.CLEAR_NEIGHBOR_TABLE_ENTRY);
-		Status status = new Status();
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.CLEAR_NEIGHBOR_TABLE_ENTRY);
+		addParserLocker(lock);
 
 		LOG.debug("ZTC-ClearNeighborTableEntry.Request command: {}", frame.toString());
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in ZTC-ClearNeighborTableEntry.Request");
-
-			throw new GatewayException("Timeout expired in ZTC-ClearNeighborTableEntry.Request");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-
-				throw new GatewayException("Error on ZTC-ClearNeighborTableEntry.Request. Status code:" + status.getCode()
-						+ " Status Message: " + status.getMessage());
-			} else {
-				return status;
-			}
-		}
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public Status NMLE_SETSync(long timeout, short _AttID, String _value) throws Exception {
+
+		short opcode = FreescaleConstants.NLMESetRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 		frame.addByte((byte) _AttID);/* _AttId */
 		frame.addByte((byte) 0x00);
 		frame.addByte((byte) 0x00);
 		frame.addByte((byte) 0x00);
-		for (byte x : DataManipulation.hexStringToByteArray(_value))
+		for (byte x : DataManipulation.hexStringToByteArray(_value)) {
 			frame.addByte(x);
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMESetRequest);
+		}
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
 		LOG.debug("NMLE_SET command: {}", frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.NMLE_SET);
-		Status status = new Status();
-
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.NMLE_SET);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
 
-		status = lock.getStatus();
-
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in NMLE SET");
-
-			throw new GatewayException("Timeout expired in NMLE SET");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
-
-				throw new GatewayException(
-						"Error on NMLE_SET.request. Status code:" + status.getCode() + " Status Message: " + status.getMessage());
-			}
-			return status;
-		}
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public Mgmt_LQI_rsp Mgmt_Lqi_Request(long timeout, Address addrOfInterest, short startIndex)
@@ -3682,7 +3383,7 @@ public class DataFreescale implements IDataLayer {
 		String key = String.format("%04X%02X", addrOfInterest.getNetworkAddress(), startIndex);
 
 		ParserLocker lock = new ParserLocker(TypeMessage.LQI_REQ, key);
-		getListLocker().add(lock);
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
 
@@ -3690,64 +3391,71 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	public Status sendInterPANMessaSync(long timeout, InterPANMessage message) throws Exception {
+
 		LOG.debug("Data_FreeScale.send_InterPAN");
 
-		BigInteger dstAddress = null;
+		short opcode = FreescaleConstants.InterPANDataRequest;
 
-		switch ((int) message.getDstAddressMode()) {
+		ByteArrayObject frame = new ByteArrayObject(false);
+		byte sam = (byte) message.getSrcAddressMode();
+		frame.addByte(sam);
 
-		case GatewayConstants.EXTENDED_ADDRESS_MODE:
-			dstAddress = message.getDestinationAddress().getIeeeAddress();
-			break;
+		byte dam = (byte) message.getDstAddressMode();
+		frame.addByte(dam);
+
+		frame.addBytesShort(Short.reverseBytes((short) message.getDestPANID()), 2);
+
+		Address dstaddress = message.getDestinationAddress();
+		byte[] _reversed = null;
+
+		switch (dam) {
 
 		case GatewayConstants.ADDRESS_MODE_SHORT:
-			dstAddress = BigInteger.valueOf(message.getDestinationAddress().getNetworkAddress());
+			byte[] networkAddress = DataManipulation.toByteVect(dstaddress.getNetworkAddress(), 8);
+			_reversed = DataManipulation.reverseBytes(networkAddress);
+			for (byte b : _reversed)
+				frame.addByte(b);
+			break;
+
+		case GatewayConstants.EXTENDED_ADDRESS_MODE:
+			byte[] ieeeAddress = DataManipulation.toByteVect(dstaddress.getIeeeAddress(), 8);
+			_reversed = DataManipulation.reverseBytes(ieeeAddress);
+			for (byte b : _reversed)
+				frame.addByte(b);
 			break;
 
 		case GatewayConstants.ADDRESS_MODE_ALIAS:
-			throw new Exception("Not implemented: ADDRESS_MODE_ALIAS");
+			// TODO Control those address modes!
+			throw new UnsupportedOperationException("Address Mode Alias");
 
 		default:
-			throw new Exception("Unknown destination address mode");
+			throw new Exception("Address Mode undefined!");
 		}
 
-		Status status = new Status();
+		frame.addBytesShort(Short.reverseBytes(message.getProfileID().shortValue()), 2);
+		frame.addBytesShort(Short.reverseBytes((short) message.getClusterID()), 2);
 
-		ParserLocker lock = new ParserLocker();
-		lock.setType(TypeMessage.INTERPAN);
-
-		getListLocker().add(lock);
-
-		SendRs232Data(makeByteArrayFromInterPANMessage(message));
-
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-
-		status = lock.getStatus();
-
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-			LOG.error("Timeout expired in send InterPANMessage");
-			throw new GatewayException("Timeout expired in send InterPANMessage. No Confirm Received.");
+		if (message.getASDULength() > 0x64) {
+			throw new Exception("ASDU length must 0x64 or less in length");
 		} else {
-			if (status.getCode() != 0) {
-				LOG.debug("Returned Status: {}", status.getCode());
+			frame.addByte((byte) message.getASDULength());
 
-				throw new GatewayException("Error on  INTERPAN-DATA.Request. Status code:" + String.format("%02X", status.getCode())
-						+ " Status Message: " + status.getMessage());
-
-			}
-			return status;
 		}
-	}
 
-	public void destroy() {
-		synchronized (destroy) {
-			destroy = true;
+		for (Byte b : message.getASDU()) {
+			frame.addByte(b);
 		}
-		clearBuffer();
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
+		LOG.debug("Write InterPanMessage on: {} Message: {}", System.currentTimeMillis(), frame.toString());
+
+		ParserLocker lock = new ParserLocker(TypeMessage.INTERPAN);
+		addParserLocker(lock);
+
+		SendRs232Data(frame);
+
+		return waitStatus(lock, opcode, timeout);
 	}
 
 	public boolean getDestroy() {
@@ -3758,45 +3466,43 @@ public class DataFreescale implements IDataLayer {
 
 	public String MacGetPIBAttributeSync(long timeout, short _AttID) throws Exception {
 
+		short opcode = FreescaleConstants.MacGetPIBAttributeRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 
-		frame.addByte((byte) _AttID);/* iId */
-		frame.addByte((byte) 0x00);/* iIndex */
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.MacGetPIBAttributeRequest);
+		frame.addByte((byte) _AttID); /* iId */
+		frame.addByte((byte) 0x00); /* iIndex */
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
 		LOG.debug(frame.toString());
 
-		ParserLocker lock = new ParserLocker();
-
-		lock.setType(TypeMessage.MAC_GET);
-		lock.set_Key(String.format("%02X", _AttID));
-		Status status = new Status();
-
-		getListLocker().add(lock);
+		ParserLocker lock = new ParserLocker(TypeMessage.MAC_GET, String.format("%02X", _AttID));
+		addParserLocker(lock);
 
 		SendRs232Data(frame);
-		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
-			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
-		status = lock.getStatus();
 
-		if (getListLocker().contains(lock))
-			getListLocker().remove(lock);
-
-		if (status.getCode() == ParserLocker.INVALID_ID) {
-
-			LOG.error("Timeout expired in MacGetPIBAttribute.Request");
-
-			throw new GatewayException("Timeout expired in MacGetPIBAttribute.Request");
-		} else {
-			if (status.getCode() != 0) {
-				LOG.info("Returned Status: {}", status.getCode());
-
-				throw new GatewayException(
-						"Error on MacGetPIBAttribute.Request. Status code: " + status.getCode() + " Status Message: " + status.getMessage());
-			} else
-				return (String) lock.get_objectOfResponse();
-		}
+		return (String) waitResponse(lock, opcode, timeout);
 	}
 
+	/**
+	 * Wait till the passed ParserLocker object is satisfied.
+	 * 
+	 * @param lock
+	 *          A ParserLocker instance. It has to be constructed by specifiying
+	 *          the information to wait for from the response.
+	 * @param opcode
+	 *          The opcode of the issued command. This is useful for logging
+	 *          purposes.
+	 * @param timeout
+	 *          The timeout.
+	 * @return The returned object.
+	 * 
+	 * @throws GatewayException
+	 *           In case of errors
+	 * 
+	 * @throws InterruptedException
+	 */
 	private Object waitResponse(ParserLocker lock, short opcode, long timeout) throws GatewayException, InterruptedException {
 
 		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID) {
