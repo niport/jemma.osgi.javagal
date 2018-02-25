@@ -163,7 +163,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 		if (isConnected()) {
 			if (ou != null) {
 				try {
-					LOG.debug(">>> Sending: " + buff.ToHexString());
+					LOG.debug(">>> Sending: " + buff.toHexString());
 					synchronized (ou) {
 						ou.write(buff.getArray(), 0, buff.getCount(true));
 						ou.flush();
@@ -177,7 +177,7 @@ public class SerialPortConnectorRxTx implements IConnector {
 
 				} catch (Exception e) {
 
-					LOG.error("Error writing Rs232:" + buff.ToHexString() + " -- Error:" + e.getMessage());
+					LOG.error("Error writing Rs232:" + buff.toHexString() + " -- Error:" + e.getMessage());
 					throw e;
 
 				}

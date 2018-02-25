@@ -76,9 +76,9 @@ public class RS232Filter implements Runnable {
 		try {
 			// Put a command in the tail ...
 			queue.put(command);
-			LOG.debug("Got a command: " + command.ToHexString());
+			LOG.debug("Got a command: " + command.toHexString());
 		} catch (InterruptedException e) {
-			System.out.println("Error queueing command: " + command.ToHexString());
+			System.out.println("Error queueing command: " + command.toHexString());
 			e.printStackTrace();
 		}
 	}
@@ -95,11 +95,11 @@ public class RS232Filter implements Runnable {
 					if (running) {
 						if (dongleRs232.isConnected()) {
 							// Write down the command on the serial port ...
-							LOG.debug("Sending command: " + command.ToHexString());
+							LOG.debug("Sending command: " + command.toHexString());
 							dongleRs232.write(command);
 						} else {
 							// Write down the command on the serial port ...
-							LOG.warn("Dongle disconnected, outgoing command: " + command.ToHexString());
+							LOG.warn("Dongle disconnected, outgoing command: " + command.toHexString());
 
 							// Re-insert the command in the head of the queue ..
 							queue.addFirst(command);

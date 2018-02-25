@@ -128,11 +128,11 @@ public class SerialPortConnectorJssc implements IConnector {
 		if (isConnected()) {
 
 			try {
-				LOG.debug(">>> Sending: {}", buff.ToHexString());
+				LOG.debug(">>> Sending: {}", buff.toHexString());
 				serialPort.writeBytes(buff.getArrayRealSize());
 			} catch (Exception e) {
 
-				LOG.debug("Error writing Rs232: {} -- Error: {}", buff.ToHexString(), e);
+				LOG.debug("Error writing Rs232: {} -- Error: {}", buff.toHexString(), e);
 				throw e;
 
 			}
