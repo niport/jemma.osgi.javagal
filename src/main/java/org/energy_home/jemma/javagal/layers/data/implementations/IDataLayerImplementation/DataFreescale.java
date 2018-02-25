@@ -281,276 +281,212 @@ public class DataFreescale implements IDataLayer {
 			LOG.debug("Processing message: " + frame.toString());
 		}
 
-		short _command = (short) DataManipulation.toIntFromShort(frame.getArray()[0], frame.getArray()[1]);
+		short opcode = (short) DataManipulation.toIntFromShort(frame.getArray()[0], frame.getArray()[1]);
 
-		/* APSDE-DATA.Indication */
-		if (_command == FreescaleConstants.APSDEDataIndication) {
+		switch (opcode) {
+
+		case FreescaleConstants.APSDEDataIndication:
+			/* APSDE-DATA.Indication */
 			apsdeDataIndication(frame);
-		}
+			break;
 
-		/* INTERPAN-DATA.Indication */
-		else if (_command == FreescaleConstants.InterPANDataIndication) {
+		case FreescaleConstants.InterPANDataIndication:
+			/* INTERPAN-DATA.Indication */
 			interpanDataIndication(frame);
-		}
+			break;
+
 		/* APSDE-DATA.Confirm */
-		else if (_command == FreescaleConstants.APSDEDataConfirm) {
+		case FreescaleConstants.APSDEDataConfirm:
 			apsdeDataConfirm(frame);
-		}
+			break;
 
 		/* INTERPAN-Data.Confirm */
-		else if (_command == FreescaleConstants.InterPANDataConfirm) {
+		case FreescaleConstants.InterPANDataConfirm:
 			interpanDataConfirm(frame);
-		}
+			break;
 
 		/* ZTC-Error.event */
-		else if (_command == FreescaleConstants.ZTCErrorevent) {
+		case FreescaleConstants.ZTCErrorevent:
 			ztcErrorEvent(frame);
-		}
+			break;
 
 		/* ZDP-Mgmt_Nwk_Update.Notify */
 
-		else if (_command == FreescaleConstants.ZDPMgmt_Nwk_UpdateNotify) {
+		case FreescaleConstants.ZDPMgmt_Nwk_UpdateNotify:
 			zdpMgmtNwkUpdateNotify(frame);
-		}
+			break;
 
 		/* ZDP-SimpleDescriptor.Response */
-		else if (_command == FreescaleConstants.ZDPSimpleDescriptorResponse) {
+		case FreescaleConstants.ZDPSimpleDescriptorResponse:
 			zdpSimpleDescriptorResponse(frame);
-
-		}
+			break;
 
 		/* APS-GetEndPointIdList.Confirm */
-		else if (_command == FreescaleConstants.APSGetEndPointIdListConfirm) {
+		case FreescaleConstants.APSGetEndPointIdListConfirm:
 			apsGetEndPointListConfirm(frame);
-		}
+			break;
 
 		/* ZDP-BIND.Response */
-		else if (_command == FreescaleConstants.ZDPMgmtBindResponse) {
+		case FreescaleConstants.ZDPMgmtBindResponse:
 			zdpBindResponse(frame);
-		}
+			break;
 
 		/* ZDP-UNBIND.Response */
-		else if (_command == FreescaleConstants.ZDPUnbindResponse) {
+		case FreescaleConstants.ZDPUnbindResponse:
 			zdpUnbindResponse(frame);
-		}
+			break;
 
 		/* ZDP-Mgmt_Bind.Response */
-		else if (_command == FreescaleConstants.ZDPMgmt_BindResponse) {
+		case FreescaleConstants.ZDPMgmt_BindResponse:
 			zdpMgmtBindResponse(frame);
-		}
+			break;
 
 		/* APS-DeregisterEndPoint.Confirm */
-		else if (_command == FreescaleConstants.APSDeRegisterEndPointConfirm) {
+		case FreescaleConstants.APSDeRegisterEndPointConfirm:
 			apsDeregisterEndPointConfirm(frame);
-
-		}
+			break;
 
 		/* APS-ZDP-Mgmt_Lqi.Response */
-		else if (_command == FreescaleConstants.ZDPMgmtLqiResponse) {
+		case FreescaleConstants.ZDPMgmtLqiResponse: {
 			short status = ((short) (frame.getArray()[3] & 0xFF));
 			if (status == GatewayConstants.SUCCESS) {
 				LOG.debug("Extracted ZDP-Mgmt_Lqi.Response with status[ {} ] ...waiting the related Indication ZDO:{} ", status,
 						frame.toString());
 			} else {
 				LOG.error("Extracted ZDP-Mgmt_Lqi.Response with wrong status[" + status + "] " + frame.toString());
-
 			}
+			break;
 		}
 
 		/* ZTC-ReadExtAddr.Confirm */
-		else if (_command == FreescaleConstants.ZTCReadExtAddrConfirm) {
+		case FreescaleConstants.ZTCReadExtAddrConfirm:
 			ztcReadExtAddrConfirm(frame);
-
-		}
+			break;
 
 		/* ZDP-IEEE_addr.response */
-		else if (_command == FreescaleConstants.ZDPIeeeAddrResponse) {
+		case FreescaleConstants.ZDPIeeeAddrResponse:
 			zdpIeeeAddrResponse(frame);
+			break;
 
-		}
-		/* ZDP-Mgmt_Leave.Response */
-		else if (_command == FreescaleConstants.ZDPMgmtLeaveResponse) {
-			LOG.debug("Extracted ZDP-Mgmt_Leave.Response: " + frame.toString());
-
-		}
 		/* ZDP-Active_EP_rsp.response */
-		else if (_command == FreescaleConstants.ZDPActiveEpResponse) {
+		case FreescaleConstants.ZDPActiveEpResponse:
 			zdpActiveEndPointResponse(frame);
-
-		}
+			break;
 
 		/* ZDP-StopNwkEx.Confirm */
-		else if (_command == FreescaleConstants.ZTCStopNwkExConfirm) {
+		case FreescaleConstants.ZTCStopNwkExConfirm:
 			zdpStopNwkExConfirm(frame);
-
-		}
+			break;
 		/* NLME-GET.Confirm */
-		else if (_command == FreescaleConstants.NLMEGetConfirm) {
+		case FreescaleConstants.NLMEGetConfirm:
 			nlmeGetConfirm(frame);
+			break;
 
-		}
 		/* APSME_GET.Confirm */
-		else if (_command == FreescaleConstants.APSMEGetConfirm) {
+		case FreescaleConstants.APSMEGetConfirm:
 			apsmeGetConfirm(frame);
-
-		}
+			break;
 
 		/* MacGetPIBAttribute.Confirm */
-		else if (_command == FreescaleConstants.MacGetPIBAttributeConfirm) {
+		case FreescaleConstants.MacGetPIBAttributeConfirm:
 			MacGetConfirm(frame);
-		}
+			break;
 
 		// ZDP-StartNwkEx.Confirm
-		else if (_command == FreescaleConstants.ZTCStartNwkExConfirm) {
+		case FreescaleConstants.ZTCStartNwkExConfirm:
 			zdpStartNwkExConfirm(frame);
-		}
+			break;
 
 		/* APS-RegisterEndPoint.Confirm */
-		else if (_command == FreescaleConstants.APSRegisterEndPointConfirm) {
+		case FreescaleConstants.APSRegisterEndPointConfirm:
 			apsRegisterEndPointConfirm(frame);
-		}
+			break;
+
 		/* ZTC-ModeSelect.Confirm */
-		else if (_command == FreescaleConstants.ZTCModeSelectConfirm) {
+		case FreescaleConstants.ZTCModeSelectConfirm:
 			ztcModeSelectConfirm(frame);
-		}
-		/* MacGetPIBAttribute.Confirm */
-		else if (_command == FreescaleConstants.MacGetPIBAttributeConfirm) {
-			LOG.debug("Extracted MacGetPIBAttribute.Confirm: " + frame.toString());
-		}
-		/* MacBeaconNotify.Indication */
-		else if (_command == FreescaleConstants.MacBeaconNotifyIndication) {
-			LOG.debug("Extracted MacBeaconNotify.Indication: " + frame.toString());
-		}
-		/* MacBeaconStart.Indication */
-		else if (_command == FreescaleConstants.MacPollNotifyIndication) {
-			LOG.debug("Extracted MacBeaconStart.Indication: " + frame.toString());
-		}
-		/* NLME-NETWORK-FORMATION.Confirmn */
-		else if (_command == FreescaleConstants.NLMENETWORKFORMATIONConfirm) {
-			LOG.debug("Extracted NLME-NETWORK-FORMATION.Confirm: " + frame.toString());
-		}
-		/* NLME-START-ROUTER.Request */
-		else if (_command == FreescaleConstants.NLMESTARTROUTERRequest) {
-			LOG.debug("Extracted NLME-NETWORK-FORMATION.Confirm: " + frame.toString());
-		}
-		/* MacStart.Request */
-		else if (_command == FreescaleConstants.MacStartRequest) {
-			LOG.debug("Extracted MacStart.Request: {} ", frame.toString());
-		}
-		/* MacStart.Confirm */
-		else if (_command == FreescaleConstants.MacStartConfirm) {
-			LOG.debug("Extracted MacStart.Confirm: {}", frame.toString());
-		}
-		/* NLME-START-ROUTER.Confirm */
-		else if (_command == FreescaleConstants.NLMESTARTROUTERConfirm) {
-			LOG.info("Extracted NLME-START-ROUTER.Confirm: {}", frame.toString());
-		}
-		/* NWK-ProcessSecureFrame.Report */
-		else if (_command == FreescaleConstants.NWKProcessSecureFrameReport) {
-			LOG.debug("Extracted NWK-ProcessSecureFrame.Report: {}", frame.toString());
-		}
-		/* ZDP-Nwk-ProcessSecureFrame.Confirm */
-		else if (_command == FreescaleConstants.ZDPNwkProcessSecureFrameConfirm) {
-			LOG.debug("Extracted ZDP-Nwk-ProcessSecureFrame.Confirm: {}", frame.toString());
-		}
+			break;
 
 		/* BlackBox.WriteSAS.Confirm */
-		else if (_command == FreescaleConstants.BlackBoxWriteSASConfirm) {
+		case FreescaleConstants.BlackBoxWriteSASConfirm:
 			blackBoxWriteSASConfirm(frame);
-		}
+			break;
+
 		/* ZTC-GetChannel.Confirm */
-		else if (_command == FreescaleConstants.ZTCGetChannelConfirm) {
+		case FreescaleConstants.ZTCGetChannelConfirm:
 			ztcGetChannelConfirm(frame);
-		}
+			break;
 
 		/* ZDP-NodeDescriptor.Response */
-		else if (_command == FreescaleConstants.ZDPNodeDescriptorResponse) {
+		case FreescaleConstants.ZDPNodeDescriptorResponse:
 			zdpNodeDescriptorResponse(frame);
-		}
+			break;
+
 		/* NMLE-SET.Confirm */
-		else if (_command == FreescaleConstants.NMLESETConfirm) {
+		case FreescaleConstants.NMLESETConfirm:
 			nmleSetConfirm(frame);
-		}
+			break;
+
 		/* APSME-SET.Confirm */
-		else if (_command == FreescaleConstants.APSMESetConfirm) {
+		case FreescaleConstants.APSMESetConfirm:
 			apsmeSetConfirm(frame);
-		}
+			break;
 
 		/* ZDP-Mgmt_Permit_Join.response */
-		else if (_command == FreescaleConstants.ZDPMgmt_Permit_JoinResponse) {
+		case FreescaleConstants.ZDPMgmt_Permit_JoinResponse:
 			zdpMgmtPermitJoinResponse(frame);
-		}
+			break;
 
 		/* APS-ClearDeviceKeyPairSet.Confirm */
-		else if (_command == FreescaleConstants.APSClearDeviceKeyPairSetConfirm) {
+		case FreescaleConstants.APSClearDeviceKeyPairSetConfirm:
 			apsClearDeviceKeyPairSetConfirm(frame);
-
-		}
+			break;
 
 		/* ZTC-ClearNeighborTableEntry.Confirm */
-		else if (_command == FreescaleConstants.ZTCClearNeighborTableEntryConfirm) {
+		case FreescaleConstants.ZTCClearNeighborTableEntryConfirm:
 			ztcClearNeighborTableEntryConfirm(frame);
-
-		}
+			break;
 
 		/* NLME-JOIN.Confirm */
-		else if (_command == FreescaleConstants.NLMEJOINConfirm) {
+		case FreescaleConstants.NLMEJOINConfirm:
 			nlmeJoinConfirm(frame);
-		}
+			break;
 
 		/* ZDO-NetworkState.Event */
-		else if (_command == FreescaleConstants.ZDONetworkStateEvent) {
+		case FreescaleConstants.ZDONetworkStateEvent:
 			zdoNetworkStateEvent(frame);
-		}
-		/* MacSetPIBAttribute.Confirm */
-		else if (_command == FreescaleConstants.MacSetPIBAttributeConfirm) {
-			LOG.debug("Extracted MacSetPIBAttribute.Confirm: {}", frame.toString());
-		}
-		/* NLME-ENERGY-SCAN.Request */
-		else if (_command == FreescaleConstants.NLMEENERGYSCANRequest) {
-			LOG.debug("Extracted NLME-ENERGY-SCAN.Request: {}", frame.toString());
-		}
-		/* MacScan.Request */
-		else if (_command == FreescaleConstants.MacScanRequest) {
-			LOG.debug("Extracted MacScan.Request: {}", frame.toString());
-		}
-		/* MacScan.Confirm */
-		else if (_command == FreescaleConstants.MacScanConfirm) {
-			LOG.debug("Extracted MacScan.Confirm: {}", frame.toString());
-		}
-		/* NLME-ENERGY-SCAN.confirm */
-		else if (_command == FreescaleConstants.NLMEENERGYSCANconfirm) {
-			LOG.debug("Extracted NLME-ENERGY-SCAN.confirm: {}", frame.toString());
-		}
-		/* NLME-NETWORK-DISCOVERY.Request */
-		else if (_command == FreescaleConstants.NLMENETWORKDISCOVERYRequest) {
-			LOG.debug("Extracted NLME-NETWORK-DISCOVERY.Request: {}", frame.toString());
-		}
-		/* MacScan.Request */
-		else if (_command == FreescaleConstants.MacScanRequest) {
-			LOG.debug("Extracted MacScan.Request: {}", frame.toString());
-		}
-		/* NLME-NETWORK-DISCOVERY.Confirm */
-		else if (_command == FreescaleConstants.NLMENetworkDiscoveryConfirm) {
-			LOG.debug("Extracted NLME-NETWORK-DISCOVERY.Confirm: {}", frame.toString());
-		}
-		/* NLME-NETWORK-FORMATION.Request */
-		else if (_command == FreescaleConstants.NLMENETWORKFORMATIONRequest) {
-			LOG.debug("Extracted NLME-NETWORK-FORMATION.Request: " + frame.toString());
-		}
-		/* NLME-SET.Request */
-		else if (_command == FreescaleConstants.NLMESetRequest) {
-			LOG.debug("Extracted NLME-SET.Request: " + frame.toString());
-		}
-		/* NLME-NWK-STATUS.Indication */
-		else if (_command == FreescaleConstants.NLMENwkStatusIndication) {
-			LOG.debug("NLME-NWK-STATUS.Indication: " + frame.toString());
-		}
-		/* NLME-ROUTE-DISCOVERY.confirm */
-		else if (_command == FreescaleConstants.NLMENWKSTATUSIndication) {
-			LOG.debug("NLME-ROUTE-DISCOVERY.confirm: " + frame.toString());
-		}
+			break;
 
+		case FreescaleConstants.ZDPMgmtLeaveResponse:
+		case FreescaleConstants.ZDPNwkProcessSecureFrameConfirm:
+			LOG.debug(frame.toString());
+			break;
+
+		case FreescaleConstants.NLMENETWORKFORMATIONConfirm:
+		case FreescaleConstants.NLMESTARTROUTERRequest:
+		case FreescaleConstants.NLMESTARTROUTERConfirm:
+		case FreescaleConstants.NWKProcessSecureFrameReport:
+		case FreescaleConstants.NLMEENERGYSCANRequest:
+		case FreescaleConstants.NLMEENERGYSCANconfirm:
+		case FreescaleConstants.NLMENETWORKDISCOVERYRequest:
+		case FreescaleConstants.NLMENetworkDiscoveryConfirm:
+		case FreescaleConstants.NLMENETWORKFORMATIONRequest:
+		case FreescaleConstants.NLMESetRequest:
+		case FreescaleConstants.NLMENWKSTATUSIndication:
+		case FreescaleConstants.NLMENwkStatusIndication:
+			LOG.debug(frame.toString());
+			break;
+
+		case FreescaleConstants.MacStartRequest:
+		case FreescaleConstants.MacStartConfirm:
+		case FreescaleConstants.MacBeaconNotifyIndication:
+		case FreescaleConstants.MacPollNotifyIndication:
+		case FreescaleConstants.MacSetPIBAttributeConfirm:
+		case FreescaleConstants.MacScanRequest:
+		case FreescaleConstants.MacScanConfirm:
+			LOG.debug(frame.toString());
+			break;
+		}
 	}
 
 	/**
@@ -561,77 +497,67 @@ public class DataFreescale implements IDataLayer {
 		short _status = (short) (message.getArray()[3] & 0xFF);
 		switch (_status) {
 		case 0x00:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceInitialized (Device Initialized)");
-
 			break;
+
 		case 0x01:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinNetworkDiscoveryState (Device in Network Discovery State)");
-
 			break;
+
 		case 0x02:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceJoinNetworkstate (Device Join Network state)");
-
 			break;
+
 		case 0x03:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinCoordinatorstartingstate (Device in Coordinator starting state)");
-
 			getGal().setGatewayStatus(GatewayStatus.GW_STARTING);
 			break;
+
 		case 0x04:
 			getGal().setGatewayStatus(GatewayStatus.GW_RUNNING);
-
 			LOG.debug("ZDO-NetworkState.Event: DeviceinRouterRunningstate (Device in Router Running state)");
-
 			break;
+
 		case 0x05:
 			getGal().setGatewayStatus(GatewayStatus.GW_RUNNING);
 			LOG.debug("ZDO-NetworkState.Event: DeviceinEndDeviceRunningstate (Device in End Device Running state)");
-
 			break;
+
 		case 0x09:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinleavenetworkstate (Device in leave network state)");
-
 			getGal().setGatewayStatus(GatewayStatus.GW_STOPPING);
 			break;
+
 		case 0x0A:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinauthenticationstate (Device in authentication state)");
-
 			break;
-		case 0x0B:
 
+		case 0x0B:
 			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinstoppedstate (Device in stopped state)");
 			getGal().setGatewayStatus(GatewayStatus.GW_STOPPED);
-
 			break;
-		case 0x0C:
 
+		case 0x0C:
 			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinOrphanjoinstate (Device in Orphan join state)");
 			break;
-		case 0x10:
 
+		case 0x10:
 			getGal().setGatewayStatus(GatewayStatus.GW_RUNNING);
 			LOG.debug("ZDO-NetworkState.Event: DeviceinCoordinatorRunningstate (Device is Coordinator Running state)");
 			break;
-		case 0x11:
 
+		case 0x11:
 			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinKeytransferstate (Device in Key transfer state)");
 			break;
+
 		case 0x12:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinauthenticationstate (Device in authentication state)");
-
 			break;
+
 		case 0x13:
-
 			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceOfftheNetwork (Device Off the Network)");
-
 			break;
+
 		default:
 			throw new Exception("ZDO-NetworkState.Event: Invalid Status - " + _status);
 		}
