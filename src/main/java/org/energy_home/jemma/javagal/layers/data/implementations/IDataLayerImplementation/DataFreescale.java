@@ -83,14 +83,14 @@ import org.slf4j.LoggerFactory;
  *         ICT Labs activity SecSES - Secure Energy Systems (activity id 13030)"
  */
 public class DataFreescale implements IDataLayer {
-	Boolean destroy = new Boolean(false);
-	ExecutorService executor = null;
-	private GalController gal = null;
-	private final int NUMBEROFRETRY = 5;
 
-	private GalController getGal() {
-		return gal;
-	}
+	Boolean destroy = new Boolean(false);
+
+	ExecutorService executor = null;
+
+	private GalController gal = null;
+
+	private final int NUMBEROFRETRY = 5;
 
 	private IConnector dongleRs232 = null;
 
@@ -120,12 +120,16 @@ public class DataFreescale implements IDataLayer {
 	 * @throws Exception
 	 *           if an error occurs.
 	 */
-	public DataFreescale(GalController _gal) throws Exception {
-		gal = _gal;
+	public DataFreescale(GalController galController) throws Exception {
+
+		this.gal = galController;
+
 		listLocker = Collections.synchronizedList(new LinkedList<ParserLocker>());
+
 		dataFromSerialComm = new ArrayBlockingQueue<ByteArrayObject>(SIZE_ARRAY);
-		// we don't know in advance which comm library is installed into the
-		// system.
+		/*
+		 * We don't know in advance which comm library is installed into the system.
+		 */
 		boolean foundSerialLib = false;
 		try {
 			dongleRs232 = new SerialPortConnectorJssc(getGal().getPropertiesManager().getzgdDongleUri(),
@@ -155,12 +159,11 @@ public class DataFreescale implements IDataLayer {
 
 		INTERNAL_TIMEOUT = getGal().getPropertiesManager().getCommandTimeoutMS();
 		executor = Executors.newFixedThreadPool(getGal().getPropertiesManager().getNumberOfThreadForAnyPool(), new ThreadFactory() {
-
 			public Thread newThread(Runnable r) {
-
 				return new Thread(r, "THPool-processMessages");
 			}
 		});
+
 		if (executor instanceof ThreadPoolExecutor) {
 			((ThreadPoolExecutor) executor).setKeepAliveTime(getGal().getPropertiesManager().getKeepAliveThread(), TimeUnit.MINUTES);
 			((ThreadPoolExecutor) executor).allowCoreThreadTimeOut(true);
@@ -169,7 +172,6 @@ public class DataFreescale implements IDataLayer {
 
 	public void initialize() {
 		Thread thrAnalizer = new Thread() {
-
 			public void run() {
 				while (!getDestroy()) {
 					try {
@@ -185,13 +187,17 @@ public class DataFreescale implements IDataLayer {
 				LOG.debug("TH-MessagesAnalizer Stopped!");
 			}
 		};
+
 		thrAnalizer.setName("TH-MessagesAnalizer");
 		thrAnalizer.setPriority(Thread.MAX_PRIORITY);
 		thrAnalizer.start();
-
 	}
 
 	private byte[] rawnotprocessed = new byte[0];
+
+	private GalController getGal() {
+		return gal;
+	}
 
 	private void processAllRaw(ByteArrayObject rawdataObject) {
 
@@ -299,7 +305,6 @@ public class DataFreescale implements IDataLayer {
 
 		/* ZTC-Error.event */
 		else if (_command == FreescaleConstants.ZTCErrorevent) {
-
 			ztcErrorEvent(message);
 		}
 
@@ -1219,7 +1224,9 @@ public class DataFreescale implements IDataLayer {
 	 */
 	private void zdpStopNwkExConfirm(ByteArrayObject message) {
 		LOG.debug("Extracted ZDP-StopNwkEx.Confirm: {}", message.ToHexString());
+
 		synchronized (getListLocker()) {
+
 			for (ParserLocker pl : getListLocker()) {
 				if ((pl.getType() == TypeMessage.STOP_NETWORK) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
 					short status = (short) (message.getArray()[3] & 0xFF);
@@ -1238,7 +1245,6 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
@@ -1271,23 +1277,19 @@ public class DataFreescale implements IDataLayer {
 
 			}
 
-			LOG.debug("ZDP-Active_EP_rsp.response status:00 - Success");
-
+			LOG.debug("ZDP-Active_EP_rsp.response status: 00 - Success");
 			break;
+
 		case 0x80:
-
-			LOG.debug("ZDP-Active_EP_rsp.response status:80 - Inv_RequestType");
-
+			LOG.debug("ZDP-Active_EP_rsp.response status: 80 - Inv_RequestType");
 			break;
+
 		case 0x89:
-
-			LOG.debug("ZDP-Active_EP_rsp.response status:89 - No_Descriptor");
-
+			LOG.debug("ZDP-Active_EP_rsp.response status: 89 - No_Descriptor");
 			break;
+
 		case 0x81:
-
-			LOG.debug("ZDP-Active_EP_rsp.response status:81 - Device_Not_found");
-
+			LOG.debug("ZDP-Active_EP_rsp.response status: 81 - Device_Not_found");
 			break;
 		}
 		// Found ZDP-Active_EP_rsp.response. Remove the lock
@@ -1305,7 +1307,6 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
@@ -1365,7 +1366,6 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
@@ -1454,9 +1454,7 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
-
 			}
 		}
 	}
@@ -1532,7 +1530,6 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
@@ -1624,7 +1621,6 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
@@ -1673,9 +1669,7 @@ public class DataFreescale implements IDataLayer {
 						} catch (InterruptedException e) {
 
 						}
-
 					}
-
 				}
 			}
 		}
@@ -1690,50 +1684,64 @@ public class DataFreescale implements IDataLayer {
 		if (len > 0) {
 			short status = (short) (message.getArray()[3] & 0xFF);
 			switch (status) {
+
 			case 0x00:
 				MessageStatus = "0x00: gSuccess_c (Should not be seen in this event.)";
 				break;
+
 			case 0xF4:
 				MessageStatus = "0xF4: gZtcOutOfMessages_c (ZTC tried to allocate a message, but the allocation failed.)";
 				break;
+
 			case 0xF5:
 				MessageStatus = "0xF5: gZtcEndPointTableIsFull_c (Self explanatory.)";
 				break;
+
 			case 0xF6:
 				MessageStatus = "0xF6: gZtcEndPointNotFound_c (Self explanatory.)";
 				break;
+
 			case 0xF7:
 				MessageStatus = "0xF7: gZtcUnknownOpcodeGroup_c (ZTC does not recognize the opcode group, and there is no application hook.)";
 				break;
+
 			case 0xF8:
 				MessageStatus = "0xF8: gZtcOpcodeGroupIsDisabled_c (ZTC support for an opcode group is turned off by a compile option.)";
 				break;
+
 			case 0xF9:
 				MessageStatus = "0xF9: gZtcDebugPrintFailed_c (An attempt to print a debug message ran out of buffer space.)";
 				break;
+
 			case 0xFA:
 				MessageStatus = "0xFA: gZtcReadOnly_c (Attempt to set read-only data.)";
 				break;
+
 			case 0xFB:
 				MessageStatus = "0xFB: gZtcUnknownIBIdentifier_c (Self explanatory.)";
 				break;
+
 			case 0xFC:
 				MessageStatus = "0xFC: gZtcRequestIsDisabled_c (ZTC support for an opcode is turned off by a compile option.)";
 				break;
+
 			case 0xFD:
 				MessageStatus = "0xFD: gZtcUnknownOpcode_c (Self expanatory.)";
 				break;
+
 			case 0xFE:
 				MessageStatus = "0xFE: gZtcTooBig_c (A data item to be set or retrieved is too big for the buffer available to hold it.)";
 				break;
+
 			case 0xFF:
 				MessageStatus = "0xFF: gZtcError_c (Non-specific, catchall error code.)";
 				break;
+
 			default:
 				break;
 			}
-
 		}
+
 		String logMessage = "Extracted ZTC-ERROR.Event Status: " + MessageStatus;
 		LOG.error(logMessage + " from " + message.ToHexString());
 	}
@@ -1864,17 +1872,6 @@ public class DataFreescale implements IDataLayer {
 		// no parenthe
 		LOG.debug("Extracted APSDE-DATA.Confirm: {}", message.ToHexString());
 		LOG.debug("Status: {} --- Key: {}", pl.getStatus().getMessage(), Key);
-
-		// try {
-		// if (pl.getObjectLocker().size() == 0)
-		// pl.getObjectLocker().put((byte) 0);
-		// } catch (InterruptedException e) {
-
-		// }
-
-		// }
-		// }
-		// }
 	}
 
 	/**
@@ -2036,36 +2033,36 @@ public class DataFreescale implements IDataLayer {
 		messageEvent.setSourceAddressMode((long) (message.getArray()[7] & 0xFF));
 
 		switch (messageEvent.getSourceAddressMode().shortValue()) {
+
 		case 0x00:
 			// Reserved (No source address supplied)
 			LOG.debug("Message Discarded: found reserved 0x00 as Destination Address Mode ");
 			return;
+
 		case 0x01:
-			// Value16bitgroupfordstAddr (DstEndpoint not
-			// present)
-			// No Source end point (so FF broadcast),
-			// present
-			// short
-			// address on 2 bytes
+			/*
+			 * Value16bitgroupfordstAddr (DstEndpoint not present) No Source end point
+			 * (so FF broadcast), present short address on 2 bytes
+			 */
 
 			sourceAddress.setNetworkAddress(DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]));
+
 			messageEvent.setSourceAddress(sourceAddress);
 			messageEvent.setSourceEndpoint((short) 0xFF);
-
 			break;
+
 		case 0x02:
-			// Value16bitAddrandDstEndpoint (16 bit address
-			// supplied)
+			/*
+			 * Value16bitAddrandDstEndpoint (16 bit address supplied)
+			 */
 
 			sourceAddress.setNetworkAddress(DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]));
 			messageEvent.setSourceAddress(sourceAddress);
 			messageEvent.setSourceEndpoint((short) (message.getArray()[10] & 0xFF));
-
 			break;
+
 		default:
-
 			LOG.error("Message Discarded: not valid Source Address Mode");
-
 			return;
 		}
 
@@ -2073,11 +2070,15 @@ public class DataFreescale implements IDataLayer {
 		messageEvent.setClusterID(DataManipulation.toIntFromShort(message.getArray()[14], message.getArray()[13]));
 
 		int lastAsdu = 16 + message.getArray()[15] - 1;
+
 		messageEvent.setData(DataManipulation.subByteArray(message.getArray(), 16, lastAsdu));
 		messageEvent.setAPSStatus((message.getArray()[lastAsdu + 1] & 0xFF));
+
 		boolean wasBroadcast = ((message.getArray()[lastAsdu + 2] & 0xFF) == 0x01) ? true : false;
-		// ASK Jump WasBroadcast
-		// Security Status
+
+		/*
+		 * ASK Jump WasBroadcast Security Status
+		 */
 		switch ((short) (message.getArray()[lastAsdu + 3] & 0xFF)) {
 		case 0x00:
 			messageEvent.setSecurityStatus(SecurityStatus.UNSECURED);
@@ -2098,7 +2099,9 @@ public class DataFreescale implements IDataLayer {
 			// message
 			return;
 		}
+
 		messageEvent.setLinkQuality((short) (message.getArray()[lastAsdu + 4] & 0xFF));
+
 		messageEvent
 				.setRxTime((long) DataManipulation.toIntFromShort(message.getArray()[(lastAsdu + 8)], message.getArray()[(lastAsdu + 5)]));
 
@@ -2163,7 +2166,6 @@ public class DataFreescale implements IDataLayer {
 							} catch (InterruptedException e) {
 
 							}
-
 						}
 					}
 				}
@@ -2174,15 +2176,17 @@ public class DataFreescale implements IDataLayer {
 			}
 		} else {
 			// profileid > 0
-			ZCLMessage _zm = new ZCLMessage();
-			_zm.setAPSStatus(messageEvent.getAPSStatus());
-			_zm.setClusterID(messageEvent.getClusterID());
-			_zm.setDestinationEndpoint(messageEvent.getDestinationEndpoint());
-			_zm.setProfileID(messageEvent.getProfileID());
-			_zm.setRxTime(messageEvent.getRxTime());
-			_zm.setSourceAddress(messageEvent.getSourceAddress());
-			_zm.setSourceAddressMode(messageEvent.getSourceAddressMode());
-			_zm.setSourceEndpoint(messageEvent.getSourceEndpoint());
+
+			ZCLMessage zclMessage = new ZCLMessage();
+
+			zclMessage.setAPSStatus(messageEvent.getAPSStatus());
+			zclMessage.setClusterID(messageEvent.getClusterID());
+			zclMessage.setDestinationEndpoint(messageEvent.getDestinationEndpoint());
+			zclMessage.setProfileID(messageEvent.getProfileID());
+			zclMessage.setRxTime(messageEvent.getRxTime());
+			zclMessage.setSourceAddress(messageEvent.getSourceAddress());
+			zclMessage.setSourceAddressMode(messageEvent.getSourceAddressMode());
+			zclMessage.setSourceEndpoint(messageEvent.getSourceEndpoint());
 
 			byte[] data = messageEvent.getData();
 
@@ -2191,8 +2195,10 @@ public class DataFreescale implements IDataLayer {
 			// Manufacturer code 0/16bits
 			// Transaction sequence number 8bit
 			// Command identifier 8 bit
+
 			ByteArrayObject _header = new ByteArrayObject(true);
 			ByteArrayObject _payload = new ByteArrayObject(true);
+
 			if ((data[0] & 0x04) == 0x04)/* Check manufacturer code */
 			{
 				_header.addByte(data[0]);// Frame control
@@ -2212,11 +2218,11 @@ public class DataFreescale implements IDataLayer {
 					_payload.addByte(data[i]);
 			}
 
-			_zm.setZCLHeader(_header.getArrayRealSize());
-			_zm.setZCLPayload(_payload.getArrayRealSize());
-			if (getGal().getGatewayStatus() == GatewayStatus.GW_RUNNING) {
-				getGal().get_gatewayEventManager().notifyZCLEvent(_zm);
+			zclMessage.setZCLHeader(_header.getArrayRealSize());
+			zclMessage.setZCLPayload(_payload.getArrayRealSize());
 
+			if (getGal().getGatewayStatus() == GatewayStatus.GW_RUNNING) {
+				getGal().get_gatewayEventManager().notifyZCLEvent(zclMessage);
 				getGal().getApsManager().APSMessageIndication(messageEvent);
 				getGal().getMessageManager().APSMessageIndication(messageEvent);
 			}
@@ -2244,33 +2250,29 @@ public class DataFreescale implements IDataLayer {
 							Wrapnode.setTimerFreshness(getGal().getPropertiesManager().getKeepAliveThreshold());
 							LOG.debug("Postponing  timer Freshness for Aps.Indication for node: {}",
 									String.format("%04X", Wrapnode.get_node().getAddress().getNetworkAddress()));
-
 						}
-
 					}
-
 				}
 			}
-
 		} else {
+
+			PropertiesManager configuration = getGal().getPropertiesManager();
 
 			if (address.getNetworkAddress() != 0xFFFF) {
 				// 0x8034 is a LeaveAnnouncement, 0x0013 is a
 				// DeviceAnnouncement, 0x8001 is a IEEE_Addr_Rsp
 
-				if ((getGal().getPropertiesManager().getAutoDiscoveryUnknownNodes() > 0) && (!(messageEvent.getProfileID() == 0x0000
+				if ((configuration.getAutoDiscoveryUnknownNodes() > 0) && (!(messageEvent.getProfileID() == 0x0000
 						&& (messageEvent.getClusterID() == 0x0013 || messageEvent.getClusterID() == 0x8034
 								|| messageEvent.getClusterID() == 0x8001 || messageEvent.getClusterID() == 0x8031)))) {
 
 					if (address.getNetworkAddress().intValue() != getGal().get_GalNode().get_node().getAddress().getNetworkAddress()
 							.intValue()) {
 
-						// Insert the node into
-						// cache,
-						// but with the
-						// discovery_completed flag
-						// a
-						// false
+						/*
+						 * Insert the node into cache, but with the discovery_completed flag
+						 * a false
+						 */
 
 						WrapperWSNNode o = new WrapperWSNNode(getGal(), String.format("%04X", address.getNetworkAddress()));
 						WSNNode _newNode = new WSNNode();
@@ -2279,9 +2281,13 @@ public class DataFreescale implements IDataLayer {
 						o.set_node(_newNode);
 
 						if (LOG.isDebugEnabled()) {
+
+							// FIXME Use Utils.toString(Address) to print the address.
+
 							String shortAdd = (o.get_node().getAddress().getNetworkAddress() != null)
 									? String.format("%04X", o.get_node().getAddress().getNetworkAddress())
 									: "NULL";
+
 							String IeeeAdd = (o.get_node().getAddress().getIeeeAddress() != null)
 									? String.format("%08X", o.get_node().getAddress().getIeeeAddress())
 									: "NULL";
@@ -2325,11 +2331,8 @@ public class DataFreescale implements IDataLayer {
 										}
 									}
 									if (counter > NUMBEROFRETRY) {
-
 										getGal().getNetworkcache().remove(_newWrapperNode);
-
 										return;
-
 									}
 
 									counter = 0;
@@ -2360,19 +2363,22 @@ public class DataFreescale implements IDataLayer {
 									if (counter > NUMBEROFRETRY) {
 										getGal().getNetworkcache().remove(_newWrapperNode);
 										return;
-
 									}
+
 									synchronized (_newWrapperNode) {
 										_newWrapperNode.reset_numberOfAttempt();
 									}
+
 									if (!_newWrapperNode.isSleepyOrEndDevice()) {
 										synchronized (_newWrapperNode) {
 											_newWrapperNode.set_discoveryCompleted(false);
 										}
-										if (getGal().getPropertiesManager().getKeepAliveThreshold() > 0) {
-											_newWrapperNode.setTimerFreshness(getGal().getPropertiesManager().getKeepAliveThreshold());
+
+										if (configuration.getKeepAliveThreshold() > 0) {
+											_newWrapperNode.setTimerFreshness(configuration.getKeepAliveThreshold());
 										}
-										if (getGal().getPropertiesManager().getForcePingTimeout() > 0) {
+
+										if (configuration.getForcePingTimeout() > 0) {
 											/*
 											 * Starting immediately a ForcePig in order to retrieve
 											 * the LQI informations on the new node
@@ -2398,12 +2404,12 @@ public class DataFreescale implements IDataLayer {
 
 										}
 									}
+
 									/*
-									 * Saving the Panid in order to leave the Philips light
+									 * Saving the PANID in order to leave the Philips light
 									 */
 									getGal().getManageMapPanId().setPanid(_newWrapperNode.get_node().getAddress().getIeeeAddress(),
 											getGal().getNetworkPanID());
-
 								}
 
 							}
@@ -2416,7 +2422,6 @@ public class DataFreescale implements IDataLayer {
 					}
 				}
 			}
-
 		}
 
 		return Wrapnode;
@@ -2468,6 +2473,7 @@ public class DataFreescale implements IDataLayer {
 		getListLocker().add(lock);
 
 		SendRs232Data(_res);
+
 		if (lock.getStatus().getCode() == ParserLocker.INVALID_ID)
 			lock.getObjectLocker().poll(timeout, TimeUnit.MILLISECONDS);
 		status = lock.getStatus();
@@ -2719,6 +2725,7 @@ public class DataFreescale implements IDataLayer {
 			for (Integer x : desc.getApplicationInputCluster())
 				_res.addBytesShort(Short.reverseBytes(x.shortValue()), 2);
 		}
+
 		_res.addByte((byte) desc.getApplicationOutputCluster()
 				.size());/* ClusterOutputSize */
 		if (desc.getApplicationOutputCluster().size() > 0) {
@@ -4134,19 +4141,5 @@ public class DataFreescale implements IDataLayer {
 			} else
 				return (String) lock.get_objectOfResponse();
 		}
-
-	}
-
-}
-
-class ChecksumControl {
-	short lastCalculated = 0x00;
-
-	public void getCumulativeXor(short i) {
-		lastCalculated ^= i;
-	}
-
-	public short getLastCalulated() {
-		return lastCalculated;
 	}
 }
