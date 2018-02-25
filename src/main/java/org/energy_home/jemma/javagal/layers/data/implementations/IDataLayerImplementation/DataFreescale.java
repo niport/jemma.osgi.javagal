@@ -2431,19 +2431,33 @@ public class DataFreescale implements IDataLayer {
 		RS232Filter.getInstance().write(toAdd);
 	}
 
-	public ByteArrayObject Set_SequenceStart_And_FSC(ByteArrayObject x, short commandCode) {
-		byte size = (byte) x.getCount(false);
+	/**
+	 * 
+	 * Add StartSequence + Control to passed BufferArrayObject
+	 * 
+	 * @param frame
+	 * @param commandCode
+	 * @return
+	 */
+
+	public ByteArrayObject Set_SequenceStart_And_FSC(ByteArrayObject frame, short commandCode) {
+
+		byte size = (byte) frame.getCount(false);
 		byte opgroup = (byte) ((commandCode >> 8) & 0xFF);
 		byte opcode = (byte) (commandCode & 0xFF);
-		x.addOPGroup(opgroup);
-		x.addOPCode(opcode);
-		x.addLength(size);
+		frame.addOPGroup(opgroup);
+		frame.addOPCode(opcode);
+		frame.addLength(size);
+
 		byte FSC = 0;
-		for (Byte b : x.getArray())
+
+		for (Byte b : frame.getArray()) {
 			FSC ^= b.byteValue();
-		x.addStartSequance((byte) 0x02);
-		x.addByte(FSC);
-		return x;
+		}
+
+		frame.addStartSequance((byte) 0x02);
+		frame.addByte(FSC);
+		return frame;
 	}
 
 	// Set an APS information base (AIB) attribute.
@@ -2495,10 +2509,7 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((byte) 0x00);/* iIndex */
 		frame.addByte((byte) 0x00);/* iEntries */
 		frame.addByte((byte) 0x00);/* iEntrySize */
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.APSMEGetRequest);/*
-																						 * StartSequence + Control
-																						 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.APSMEGetRequest);
 		LOG.debug("APSME_GET.Request: {}", frame.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -2540,10 +2551,7 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((byte) 0x00);/* iIndex */
 		frame.addByte((byte) iEntry);/* iEntries */
 		frame.addByte((byte) 0x00);/* iEntrySize */
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.NLMEGetRequest);/*
-																						 * StartSequence + Control
-																						 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEGetRequest);
 		LOG.debug("NLME-GET.Request: {}", frame.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -2592,10 +2600,7 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((byte) 0x00);/* Restart after stopping. */
 		frame.addByte((byte) 0xFF);/* Writes NVM upon stop. */
 
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.ZTCStopNwkExRequest);/*
-																								 * StartSequence + Control
-																								 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZTCStopNwkExRequest);
 
 		LOG.debug("ZDP-StopNwkEx.Request: {}", frame.ToHexString());
 
@@ -2906,10 +2911,7 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((byte) 0x02);/* APSME */
 		frame.addByte((byte) 0x02);/* ZDP */
 		frame.addByte((byte) 0x00);/* HealthCare */
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.ZTCModeSelectRequest);/*
-																									 * StartSequence + Control
-																									 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZTCModeSelectRequest);
 		LOG.debug("Reset command:" + frame.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -2972,10 +2974,7 @@ public class DataFreescale implements IDataLayer {
 			frame.addByte((byte) getGal().getPropertiesManager().getStartupSet());
 			frame.addByte(getGal().getPropertiesManager().getSturtupAttributeInfo().getStartupControl().byteValue());
 
-			frame = Set_SequenceStart_And_FSC(frame,
-					FreescaleConstants.ZTCStartNwkExRequest);/*
-																										 * StartSequence + Control
-																										 */
+			frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZTCStartNwkExRequest);
 			LOG.debug("Start Network command: {} ---Timeout: {}", frame.ToHexString(), timeout);
 
 			ParserLocker lock = new ParserLocker();
@@ -3145,10 +3144,7 @@ public class DataFreescale implements IDataLayer {
 						 */
 		frame.addByte((byte) duration);/* Duration */
 		frame.addByte(TCSignificance);/* TCSignificant */
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.NLMEPermitJoiningRequest);/*
-																											 * StartSequence + Control
-																											 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEPermitJoiningRequest);
 		LOG.debug("Permit Join command: {}", frame.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
@@ -3188,10 +3184,7 @@ public class DataFreescale implements IDataLayer {
 						 */
 		frame.addByte((byte) duration);/* Duration */
 		frame.addByte(TCSignificance);/* TCSignificant */
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.NLMEPermitJoiningRequest);/*
-																											 * StartSequence + Control
-																											 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMEPermitJoiningRequest);
 		LOG.debug("Permit Join command: {}", frame.ToHexString());
 
 		SendRs232Data(frame);
@@ -3335,10 +3328,7 @@ public class DataFreescale implements IDataLayer {
 				2);/*
 						 * Short Network Address
 						 */
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.ZDPNodeDescriptorRequest);/*
-																											 * StartSequence + Control
-																											 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZDPNodeDescriptorRequest);
 
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.NODE_DESCRIPTOR);
@@ -3775,10 +3765,7 @@ public class DataFreescale implements IDataLayer {
 
 		}
 
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.ZDPUnbindRequest);/*
-																							 * StartSequence + Control
-																							 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZDPUnbindRequest);
 		ParserLocker lock = new ParserLocker();
 		lock.setType(TypeMessage.REMOVE_BINDING);
 		Status status = new Status();
@@ -3822,10 +3809,7 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((byte) scanDuration);
 		frame.addByte((byte) 0x00);// Add parameter nwkupdate
 		// _bodyCommand.addByte((byte) 0x01);// Add parameter nwkupdate
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.NLMENWKUpdateReq);/*
-																							 * StartSequence + Control
-																							 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.NLMENWKUpdateReq);
 
 		SendRs232Data(frame);
 		Status _st = new Status();
@@ -4079,12 +4063,10 @@ public class DataFreescale implements IDataLayer {
 	public String MacGetPIBAttributeSync(long timeout, short _AttID) throws Exception {
 
 		ByteArrayObject frame = new ByteArrayObject(false);
+
 		frame.addByte((byte) _AttID);/* iId */
 		frame.addByte((byte) 0x00);/* iIndex */
-		frame = Set_SequenceStart_And_FSC(frame,
-				FreescaleConstants.MacGetPIBAttributeRequest);/*
-																											 * StartSequence + Control
-																											 */
+		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.MacGetPIBAttributeRequest);
 		LOG.debug("MacGetPIBAttribute.Request:", frame.ToHexString());
 
 		ParserLocker lock = new ParserLocker();
