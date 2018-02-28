@@ -81,6 +81,9 @@ public class SerializationUtils {
 	}
 
 	public static Address clone(Address address) {
+		Address addressCopy = new Address();
+		addressCopy.setIeeeAddress(address.getIeeeAddress());
+		addressCopy.setNetworkAddress(address.getNetworkAddress());
 		return address;
 	}
 

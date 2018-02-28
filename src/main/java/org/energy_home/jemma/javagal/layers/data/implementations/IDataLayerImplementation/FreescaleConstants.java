@@ -166,6 +166,7 @@ public class FreescaleConstants {
 
 	static final short ZDPNwkProcessSecureFrameConfirm = (short) 0xA070;
 
+	/* FIXME: duplicate! */
 	static final short NLMENWKSTATUSIndication = (short) 0x9750;
 
 	static final short NLMEGetRequest = (short) 0xA322;

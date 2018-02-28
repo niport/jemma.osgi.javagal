@@ -31,9 +31,11 @@ import java.util.concurrent.TimeUnit;
 import org.energy_home.jemma.javagal.layers.PropertiesManager;
 import org.energy_home.jemma.javagal.layers.business.GalController;
 import org.energy_home.jemma.javagal.layers.business.Utils;
+import org.energy_home.jemma.javagal.layers.business.implementations.SerializationUtils;
 import org.energy_home.jemma.javagal.layers.data.implementations.SerialPortConnectorJssc;
 import org.energy_home.jemma.javagal.layers.data.implementations.SerialPortConnectorRxTx;
 import org.energy_home.jemma.javagal.layers.data.implementations.Utils.DataManipulation;
+import org.energy_home.jemma.javagal.layers.data.implementations.Utils.LogUtils;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IConnector;
 import org.energy_home.jemma.javagal.layers.data.interfaces.IDataLayer;
 import org.energy_home.jemma.javagal.layers.object.ByteArrayObject;
@@ -295,6 +297,7 @@ public class DataFreescale implements IDataLayer {
 		}
 
 		short opcode = (short) DataManipulation.toIntFromShort(frame.getArray()[0], frame.getArray()[1]);
+		short status = (short) (frame.getArray()[3] & 0xFF);
 
 		switch (opcode) {
 
@@ -336,7 +339,19 @@ public class DataFreescale implements IDataLayer {
 
 		/* APS-GetEndPointIdList.Confirm */
 		case FreescaleConstants.APSGetEndPointIdListConfirm:
-			apsGetEndPointListConfirm(frame);
+			NodeServices result = null;
+
+			if (status == GatewayConstants.SUCCESS) {
+				result = new NodeServices();
+				short length = frame.getArray()[4];
+				for (int i = 0; i < length; i++) {
+					ActiveEndpoints _ep = new ActiveEndpoints();
+					_ep.setEndPoint((short) (frame.getArray()[5 + i] & 0xFF));
+					result.getActiveEndpoints().add(_ep);
+				}
+			}
+
+			fireLocker(TypeMessage.GET_END_POINT_LIST, result, status);
 			break;
 
 		/* ZDP-BIND.Response */
@@ -346,7 +361,7 @@ public class DataFreescale implements IDataLayer {
 
 		/* ZDP-UNBIND.Response */
 		case FreescaleConstants.ZDPUnbindResponse:
-			zdpUnbindResponse(frame);
+			fireLocker(TypeMessage.REMOVE_BINDING, null, status);
 			break;
 
 		/* ZDP-Mgmt_Bind.Response */
@@ -356,12 +371,11 @@ public class DataFreescale implements IDataLayer {
 
 		/* APS-DeregisterEndPoint.Confirm */
 		case FreescaleConstants.APSDeRegisterEndPointConfirm:
-			apsDeregisterEndPointConfirm(frame);
+			fireLocker(TypeMessage.DEREGISTER_END_POINT, null, status);
 			break;
 
 		/* APS-ZDP-Mgmt_Lqi.Response */
 		case FreescaleConstants.ZDPMgmtLqiResponse: {
-			short status = ((short) (frame.getArray()[3] & 0xFF));
 			if (status == GatewayConstants.SUCCESS) {
 				LOG.debug("Extracted ZDP-Mgmt_Lqi.Response with status[ {} ] ...waiting the related Indication ZDO:{} ", status,
 						frame.toString());
@@ -390,15 +404,35 @@ public class DataFreescale implements IDataLayer {
 		case FreescaleConstants.ZTCStopNwkExConfirm:
 			zdpStopNwkExConfirm(frame);
 			break;
+
 		/* NLME-GET.Confirm */
 		case FreescaleConstants.NLMEGetConfirm:
-			nlmeGetConfirm(frame);
+			String key = String.format("%02X", (frame.getArray()[4] & 0xFF));
+			short len = (short) DataManipulation.toIntFromShort(frame.getArray()[9], frame.getArray()[8]);
+			byte[] _res = DataManipulation.subByteArray(frame.getArray(), 10, len + 9);
+			if (len >= 2) {
+				_res = DataManipulation.reverseBytes(_res);
+			}
+			String stringResult = DataManipulation.convertBytesToString(_res);
+
+			fireLocker(TypeMessage.NMLE_GET, key, stringResult, status);
 			break;
 
 		/* APSME_GET.Confirm */
-		case FreescaleConstants.APSMEGetConfirm:
-			apsmeGetConfirm(frame);
+		case FreescaleConstants.APSMEGetConfirm: {
+			key = String.format("%02X", (short) (frame.getArray()[4]) & 0xFF);
+			len = (short) DataManipulation.toIntFromShort(frame.getArray()[9], frame.getArray()[8]);
+			byte[] resultBytes = DataManipulation.subByteArray(frame.getArray(), 10, len + 9);
+
+			if (len >= 2) {
+				resultBytes = DataManipulation.reverseBytes(resultBytes);
+			}
+
+			DataManipulation.convertBytesToString(resultBytes);
+
+			fireLocker(TypeMessage.APSME_GET, key, resultBytes, status);
 			break;
+		}
 
 		/* MacGetPIBAttribute.Confirm */
 		case FreescaleConstants.MacGetPIBAttributeConfirm:
@@ -407,28 +441,30 @@ public class DataFreescale implements IDataLayer {
 
 		// ZDP-StartNwkEx.Confirm
 		case FreescaleConstants.ZTCStartNwkExConfirm:
-			zdpStartNwkExConfirm(frame);
+			fireLocker(TypeMessage.START_NETWORK, null, status);
 			break;
 
 		/* APS-RegisterEndPoint.Confirm */
 		case FreescaleConstants.APSRegisterEndPointConfirm:
-			apsRegisterEndPointConfirm(frame);
+			fireLocker(TypeMessage.CONFIGURE_END_POINT, null, status);
 			break;
 
 		/* ZTC-ModeSelect.Confirm */
 		case FreescaleConstants.ZTCModeSelectConfirm:
-			ztcModeSelectConfirm(frame);
+			fireLocker(TypeMessage.MODE_SELECT, null, status);
 			break;
 
 		/* BlackBox.WriteSAS.Confirm */
 		case FreescaleConstants.BlackBoxWriteSASConfirm:
-			blackBoxWriteSASConfirm(frame);
+			fireLocker(TypeMessage.WRITE_SAS, null, status);
 			break;
 
 		/* ZTC-GetChannel.Confirm */
-		case FreescaleConstants.ZTCGetChannelConfirm:
-			ztcGetChannelConfirm(frame);
+		case FreescaleConstants.ZTCGetChannelConfirm: {
+			short shortResult = (short) frame.getArray()[4];
+			fireLocker(TypeMessage.CHANNEL_REQUEST, shortResult, status);
 			break;
+		}
 
 		/* ZDP-NodeDescriptor.Response */
 		case FreescaleConstants.ZDPNodeDescriptorResponse:
@@ -437,27 +473,28 @@ public class DataFreescale implements IDataLayer {
 
 		/* NMLE-SET.Confirm */
 		case FreescaleConstants.NMLESETConfirm:
-			nmleSetConfirm(frame);
+			fireLocker(TypeMessage.NMLE_SET, null, status);
 			break;
 
 		/* APSME-SET.Confirm */
 		case FreescaleConstants.APSMESetConfirm:
-			apsmeSetConfirm(frame);
+			fireLocker(TypeMessage.APSME_SET, null, status);
 			break;
 
 		/* ZDP-Mgmt_Permit_Join.response */
 		case FreescaleConstants.ZDPMgmt_Permit_JoinResponse:
-			zdpMgmtPermitJoinResponse(frame);
+			fireLocker(TypeMessage.PERMIT_JOIN, null, status);
 			break;
 
 		/* APS-ClearDeviceKeyPairSet.Confirm */
 		case FreescaleConstants.APSClearDeviceKeyPairSetConfirm:
-			apsClearDeviceKeyPairSetConfirm(frame);
+			fireLocker(TypeMessage.CLEAR_DEVICE_KEY_PAIR_SET, null, status);
+			;
 			break;
 
 		/* ZTC-ClearNeighborTableEntry.Confirm */
 		case FreescaleConstants.ZTCClearNeighborTableEntryConfirm:
-			ztcClearNeighborTableEntryConfirm(frame);
+			fireLocker(TypeMessage.CLEAR_NEIGHBOR_TABLE_ENTRY, null, status);
 			break;
 
 		/* NLME-JOIN.Confirm */
@@ -466,9 +503,29 @@ public class DataFreescale implements IDataLayer {
 			break;
 
 		/* ZDO-NetworkState.Event */
-		case FreescaleConstants.ZDONetworkStateEvent:
-			zdoNetworkStateEvent(frame);
+		case FreescaleConstants.ZDONetworkStateEvent: {
+			LOG.debug("Extracted ZDO-NetworkState.Event: " + LogUtils.decodeNetworkStatusEvent(status));
+			switch (status) {
+			case 0x03:
+				getGal().setGatewayStatus(GatewayStatus.GW_STARTING);
+				break;
+
+			case 0x04:
+			case 0x05:
+			case 0x10:
+				getGal().setGatewayStatus(GatewayStatus.GW_RUNNING);
+				break;
+
+			case 0x09:
+				getGal().setGatewayStatus(GatewayStatus.GW_STOPPING);
+				break;
+
+			case 0x0B:
+				getGal().setGatewayStatus(GatewayStatus.GW_STOPPED);
+				break;
+			}
 			break;
+		}
 
 		case FreescaleConstants.ZDPMgmtLeaveResponse:
 		case FreescaleConstants.ZDPNwkProcessSecureFrameConfirm:
@@ -499,80 +556,6 @@ public class DataFreescale implements IDataLayer {
 		case FreescaleConstants.MacScanConfirm:
 			LOG.debug(frame.toString());
 			break;
-		}
-	}
-
-	/**
-	 * @param message
-	 * @throws Exception
-	 */
-	private void zdoNetworkStateEvent(ByteArrayObject message) throws Exception {
-		short _status = (short) (message.getArray()[3] & 0xFF);
-		switch (_status) {
-		case 0x00:
-			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceInitialized (Device Initialized)");
-			break;
-
-		case 0x01:
-			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinNetworkDiscoveryState (Device in Network Discovery State)");
-			break;
-
-		case 0x02:
-			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceJoinNetworkstate (Device Join Network state)");
-			break;
-
-		case 0x03:
-			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinCoordinatorstartingstate (Device in Coordinator starting state)");
-			getGal().setGatewayStatus(GatewayStatus.GW_STARTING);
-			break;
-
-		case 0x04:
-			getGal().setGatewayStatus(GatewayStatus.GW_RUNNING);
-			LOG.debug("ZDO-NetworkState.Event: DeviceinRouterRunningstate (Device in Router Running state)");
-			break;
-
-		case 0x05:
-			getGal().setGatewayStatus(GatewayStatus.GW_RUNNING);
-			LOG.debug("ZDO-NetworkState.Event: DeviceinEndDeviceRunningstate (Device in End Device Running state)");
-			break;
-
-		case 0x09:
-			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinleavenetworkstate (Device in leave network state)");
-			getGal().setGatewayStatus(GatewayStatus.GW_STOPPING);
-			break;
-
-		case 0x0A:
-			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinauthenticationstate (Device in authentication state)");
-			break;
-
-		case 0x0B:
-			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinstoppedstate (Device in stopped state)");
-			getGal().setGatewayStatus(GatewayStatus.GW_STOPPED);
-			break;
-
-		case 0x0C:
-			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinOrphanjoinstate (Device in Orphan join state)");
-			break;
-
-		case 0x10:
-			getGal().setGatewayStatus(GatewayStatus.GW_RUNNING);
-			LOG.debug("ZDO-NetworkState.Event: DeviceinCoordinatorRunningstate (Device is Coordinator Running state)");
-			break;
-
-		case 0x11:
-			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceinKeytransferstate (Device in Key transfer state)");
-			break;
-
-		case 0x12:
-			LOG.debug("Extracted ZDO-NetworkState.Event: Deviceinauthenticationstate (Device in authentication state)");
-			break;
-
-		case 0x13:
-			LOG.debug("Extracted ZDO-NetworkState.Event: DeviceOfftheNetwork (Device Off the Network)");
-			break;
-
-		default:
-			throw new Exception("ZDO-NetworkState.Event: Invalid Status - " + _status);
 		}
 	}
 
@@ -644,167 +627,14 @@ public class DataFreescale implements IDataLayer {
 
 	/**
 	 * @param message
-	 */
-	private void ztcClearNeighborTableEntryConfirm(ByteArrayObject message) {
-		LOG.debug("ZTC-ClearNeighborTableEntry.Confirm: {}", message.toString());
-		short status = (short) (message.getArray()[3] & 0xFF);
-		String mess = "";
-		switch (status) {
-		case 0x00:
-
-			break;
-		}
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.CLEAR_NEIGHBOR_TABLE_ENTRY) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-					pl.getStatus().setCode(status);
-					pl.getStatus().setMessage(mess);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void apsClearDeviceKeyPairSetConfirm(ByteArrayObject message) {
-		LOG.debug("APS-ClearDeviceKeyPairSet.Confirm: {}", message.toString());
-
-		short status = ((short) (message.getArray()[3] & 0xFF));
-		String mess = "";
-		/*
-		 * switch (status) { case 0x00: break; }
-		 */
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.CLEAR_DEVICE_KEY_PAIR_SET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode(status);
-					pl.getStatus().setMessage(mess);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void zdpMgmtPermitJoinResponse(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-Mgmt_Permit_Join.response: {} ", message.toString());
-		short status = (short) (message.getArray()[3] & 0xFF);
-		String mess = "";
-
-		switch (status) {
-		case 0x00:
-
-			break;
-		case 0x80:
-			mess = "InvRequestType";
-			break;
-		case 0x84:
-			mess = "Not Supported";
-			break;
-		case 0x87:
-			mess = "Table Full";
-			break;
-		case 0x8D:
-			mess = "NOT AUTHORIZED";
-			break;
-		case 0xC5:
-			mess = "Already present in the network";
-			break;
-
-		}
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.PERMIT_JOIN) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode(status);
-					pl.getStatus().setMessage(mess);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void apsmeSetConfirm(ByteArrayObject message) {
-
-		LOG.debug("Extracted APSME-SET.Confirm: {}", message.toString());
-
-		short status = (short) (message.getArray()[3] & 0xFF);
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.APSME_SET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode(status);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * @param message
-	 */
-	private void nmleSetConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted NMLE-SET.Confirm: {}", message.toString());
-		short status = (short) (message.getArray()[3] & 0xFF);
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.NMLE_SET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-					pl.getStatus().setCode(status);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
 	 * @throws Exception
 	 */
 	private void zdpNodeDescriptorResponse(ByteArrayObject message) throws Exception {
+
 		int _NWKAddressOfInterest = DataManipulation.toIntFromShort(message.getArray()[5], message.getArray()[4]);
 		Address _addressOfInterst = new Address();
 		_addressOfInterst.setNetworkAddress(_NWKAddressOfInterest);
-		NodeDescriptor _node = new NodeDescriptor();
+		NodeDescriptor node = new NodeDescriptor();
 
 		/* First Byte */
 		byte _first = message.getArray()[6];
@@ -813,19 +643,19 @@ public class DataFreescale implements IDataLayer {
 		byte _UserDescriptorAvalilable = (byte) ((_first & 0x0A) >> 4);/* Bit4 */
 		switch (_Logical_byte) {
 		case FreescaleConstants.LogicalType.Coordinator:
-			_node.setLogicalType(LogicalType.COORDINATOR);
+			node.setLogicalType(LogicalType.COORDINATOR);
 			break;
 		case FreescaleConstants.LogicalType.Router:
-			_node.setLogicalType(LogicalType.ROUTER);
+			node.setLogicalType(LogicalType.ROUTER);
 			break;
 		case FreescaleConstants.LogicalType.EndDevice:
-			_node.setLogicalType(LogicalType.END_DEVICE);
+			node.setLogicalType(LogicalType.END_DEVICE);
 			break;
 		default:
 			throw new Exception("LogicalType is not valid value");
 		}
-		_node.setComplexDescriptorAvailable((_ComplexDescriptorAvalilable == 1 ? true : false));
-		_node.setUserDescriptorAvailable((_UserDescriptorAvalilable == 1 ? true : false));
+		node.setComplexDescriptorAvailable((_ComplexDescriptorAvalilable == 1 ? true : false));
+		node.setUserDescriptorAvailable((_UserDescriptorAvalilable == 1 ? true : false));
 
 		/* Second Byte */
 		byte _second = message.getArray()[7];
@@ -836,58 +666,66 @@ public class DataFreescale implements IDataLayer {
 													 */
 		switch (_FrequencyBand) {
 		case 0x01:
-			_node.setFrequencyBand("868MHz");
+			node.setFrequencyBand("868MHz");
 			break;
 		case 0x04:
-			_node.setFrequencyBand("900MHz");
+			node.setFrequencyBand("900MHz");
 			break;
 		case 0x08:
-			_node.setFrequencyBand("2400MHz");
+			node.setFrequencyBand("2400MHz");
 			break;
 		default:
-			_node.setFrequencyBand("Reserved");
+			node.setFrequencyBand("Reserved");
 			break;
 		}
 
 		/* MACcapabilityFlags_BYTE Byte */
 		byte _MACcapabilityFlags_BYTE = message.getArray()[8];
 		MACCapability _maccapability = new MACCapability();
-		byte _AlternatePanCoordinator = (byte) (_MACcapabilityFlags_BYTE
-				& 0x01);/* Bit0 */
-		byte _DeviceIsFFD = (byte) ((_MACcapabilityFlags_BYTE
-				& 0x02) >> 1);/* Bit1 */
-		byte _MainsPowered = (byte) ((_MACcapabilityFlags_BYTE
-				& 0x04) >> 2);/* Bit2 */
-		byte _ReceiverOnWhenIdle = (byte) ((_MACcapabilityFlags_BYTE
-				& 0x08) >> 3);/* Bit3 */
+
+		/* Bit0 */
+		byte _AlternatePanCoordinator = (byte) (_MACcapabilityFlags_BYTE & 0x01);
+
+		/* Bit1 */
+		byte _DeviceIsFFD = (byte) ((_MACcapabilityFlags_BYTE & 0x02) >> 1);
+
+		/* Bit2 */
+		byte _MainsPowered = (byte) ((_MACcapabilityFlags_BYTE & 0x04) >> 2);
+
+		/* Bit3 */
+		byte _ReceiverOnWhenIdle = (byte) ((_MACcapabilityFlags_BYTE & 0x08) >> 3);
 		// bit 4-5 reserved
-		byte _SecuritySupported = (byte) ((_MACcapabilityFlags_BYTE
-				& 0x40) >> 6);/* Bit6 */
-		byte _AllocateAddress = (byte) ((_MACcapabilityFlags_BYTE
-				& 0x80) >> 7);/* Bit7 */
+
+		/* Bit6 */
+		byte _SecuritySupported = (byte) ((_MACcapabilityFlags_BYTE & 0x40) >> 6);
+
+		/* Bit7 */
+		byte _AllocateAddress = (byte) ((_MACcapabilityFlags_BYTE & 0x80) >> 7);
+
 		_maccapability.setAlternatePanCoordinator((_AlternatePanCoordinator == 1 ? true : false));
 		_maccapability.setDeviceIsFFD((_DeviceIsFFD == 1 ? true : false));
 		_maccapability.setMainsPowered((_MainsPowered == 1 ? true : false));
 		_maccapability.setReceiverOnWhenIdle((_ReceiverOnWhenIdle == 1 ? true : false));
 		_maccapability.setSecuritySupported((_SecuritySupported == 1 ? true : false));
 		_maccapability.setAllocateAddress((_AllocateAddress == 1 ? true : false));
-		_node.setMACCapabilityFlag(_maccapability);
+
+		node.setMACCapabilityFlag(_maccapability);
 
 		/* ManufacturerCode_BYTES */
 		int _ManufacturerCode_BYTES = DataManipulation.toIntFromShort(message.getArray()[10], message.getArray()[9]);
-		_node.setManufacturerCode(_ManufacturerCode_BYTES);
+		node.setManufacturerCode(_ManufacturerCode_BYTES);
 
 		/* MaximumBufferSize_BYTE */
 		short _MaximumBufferSize_BYTE = message.getArray()[11];
-		_node.setMaximumBufferSize(_MaximumBufferSize_BYTE);
+		node.setMaximumBufferSize(_MaximumBufferSize_BYTE);
 
 		/* MaximumTransferSize_BYTES */
 		int _MaximumTransferSize_BYTES = DataManipulation.toIntFromShort(message.getArray()[13], message.getArray()[12]);
-		_node.setMaximumIncomingTransferSize(_MaximumTransferSize_BYTES);
+		node.setMaximumIncomingTransferSize(_MaximumTransferSize_BYTES);
 
 		/* ServerMask_BYTES */
 		int _ServerMask_BYTES = DataManipulation.toIntFromShort(message.getArray()[15], message.getArray()[14]);
-		ServerMask _serverMask = new ServerMask();
+		ServerMask serverMask = new ServerMask();
 		byte _PrimaryTrustCenter = (byte) (_ServerMask_BYTES & 0x01);/* Bit0 */
 		byte _BackupTrustCenter = (byte) ((_ServerMask_BYTES
 				& 0x02) >> 1);/* Bit1 */
@@ -899,17 +737,18 @@ public class DataFreescale implements IDataLayer {
 				& 0x10) >> 4);/* Bit4 */
 		byte _BackupDiscoveryCache = (byte) ((_ServerMask_BYTES
 				& 0x20) >> 5);/* Bit5 */
-		_serverMask.setPrimaryTrustCenter((_PrimaryTrustCenter == 1 ? true : false));
-		_serverMask.setBackupTrustCenter((_BackupTrustCenter == 1 ? true : false));
-		_serverMask.setPrimaryBindingTableCache((_PrimaryBindingTableCache == 1 ? true : false));
-		_serverMask.setBackupBindingTableCache((_BackupBindingTableCache == 1 ? true : false));
-		_serverMask.setPrimaryDiscoveryCache((_PrimaryDiscoveryCache == 1 ? true : false));
-		_serverMask.setBackupDiscoveryCache((_BackupDiscoveryCache == 1 ? true : false));
-		_node.setServerMask(_serverMask);
+
+		serverMask.setPrimaryTrustCenter((_PrimaryTrustCenter == 1 ? true : false));
+		serverMask.setBackupTrustCenter((_BackupTrustCenter == 1 ? true : false));
+		serverMask.setPrimaryBindingTableCache((_PrimaryBindingTableCache == 1 ? true : false));
+		serverMask.setBackupBindingTableCache((_BackupBindingTableCache == 1 ? true : false));
+		serverMask.setPrimaryDiscoveryCache((_PrimaryDiscoveryCache == 1 ? true : false));
+		serverMask.setBackupDiscoveryCache((_BackupDiscoveryCache == 1 ? true : false));
+		node.setServerMask(serverMask);
 
 		/* MaximumOutTransferSize_BYTES */
 		int _MaximumOutTransferSize_BYTES = DataManipulation.toIntFromShort(message.getArray()[17], message.getArray()[16]);
-		_node.setMaximumOutgoingTransferSize(_MaximumOutTransferSize_BYTES);
+		node.setMaximumOutgoingTransferSize(_MaximumOutTransferSize_BYTES);
 
 		/* CapabilityField_BYTES */
 		byte _CapabilityField_BYTES = message.getArray()[18];
@@ -920,177 +759,15 @@ public class DataFreescale implements IDataLayer {
 				& 0x02) >> 1);/* Bit1 */
 		_DescriptorCapability.setExtendedActiveEndpointListAvailable((_ExtendedActiveEndpointListAvailable == 1 ? true : false));
 		_DescriptorCapability.setExtendedSimpleDescriptorListAvailable((_ExtendedSimpleDescriptorListAvailable == 1 ? true : false));
-		_node.setDescriptorCapabilityField(_DescriptorCapability);
-		String _key = String.format("%04X", _NWKAddressOfInterest);
 
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.NODE_DESCRIPTOR) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
-						&& (pl.get_Key().equalsIgnoreCase(_key))) {
-					LOG.debug("@Extracted ZDP-NodeDescriptor.Response: {} -- KEY: {} ", message.toString(), _key);
+		node.setDescriptorCapabilityField(_DescriptorCapability);
 
-					pl.getStatus()
-							.setCode((short) (message.getArray()[3] & 0xFF));/* Status */
-					pl.set_objectOfResponse(_node);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void ztcGetChannelConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted ZTC-GetChannel.Confirm: {}", message.toString());
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.CHANNEL_REQUEST) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					pl.set_objectOfResponse((short) message.getArray()[4]);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void blackBoxWriteSASConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted BlackBox.WriteSAS.Confirm: {}", message.toString());
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.WRITE_SAS) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void ztcModeSelectConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted ZTC-ModeSelect.Confirm: {}", message.toString());
+		String key = String.format("%04X", _NWKAddressOfInterest);
 		short status = (short) (message.getArray()[3] & 0xFF);
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.MODE_SELECT) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
 
-					pl.getStatus().setCode(status);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
+		fireLocker(TypeMessage.NODE_DESCRIPTOR, key, node, status);
 	}
 
-	/**
-	 * @param message
-	 */
-	private void apsRegisterEndPointConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted APS-RegisterEndPoint.Confirm: {}", message.toString());
-		// Found APS-RegisterEndPoint.Confirm. Remove the lock
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.CONFIGURE_END_POINT) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void zdpStartNwkExConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-StartNwkEx.Confirm: {}", message.toString());
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.START_NETWORK) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-					short status = (short) (message.getArray()[3] & 0xFF);
-					if (status == 0x00) {
-						getGal().setGatewayStatus(GatewayStatus.GW_STARTED);
-					}
-
-					pl.getStatus().setCode(status);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void apsmeGetConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted APSME_GET.Confirm: {}", message.toString());
-		String key = String.format("%02X", (short) (message.getArray()[4]) & 0xFF);
-
-		// Found APSME_GET-DATA.Confirm. Remove the lock
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.APSME_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
-						&& (pl.get_Key().equalsIgnoreCase(key))) {
-					short _Length = (short) DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]);
-					byte[] _res = DataManipulation.subByteArray(message.getArray(), 10, _Length + 9);
-					if (_Length >= 2)
-						_res = DataManipulation.reverseBytes(_res);
-
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					pl.set_objectOfResponse(DataManipulation.convertBytesToString(_res));
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
 	private void MacGetConfirm(ByteArrayObject message) {
 		LOG.debug("Extracted MacGetPIBAttribute.Confirm: {}", message.toString());
 		String key = String.format("%02X", (short) (message.getArray()[4] & 0xFF));
@@ -1112,7 +789,6 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
@@ -1122,29 +798,16 @@ public class DataFreescale implements IDataLayer {
 	 * @param message
 	 */
 	private void nlmeGetConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted NLME-GET.Confirm: {}", message.toString());
 		String key = String.format("%02X", (message.getArray()[4] & 0xFF));
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				LOG.debug("NLME-GET.Confirm KEY: {} ---- {}", key, pl.get_Key());
-				if ((pl.getType() == TypeMessage.NMLE_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
-						&& (pl.get_Key().equalsIgnoreCase(key))) {
-					short _Length = (short) DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]);
-					byte[] _res = DataManipulation.subByteArray(message.getArray(), 10, _Length + 9);
-					if (_Length >= 2)
-						_res = DataManipulation.reverseBytes(_res);
-
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					pl.set_objectOfResponse(DataManipulation.convertBytesToString(_res));
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
+		short status = (short) (message.getArray()[3] & 0xFF);
+		short len = (short) DataManipulation.toIntFromShort(message.getArray()[9], message.getArray()[8]);
+		byte[] _res = DataManipulation.subByteArray(message.getArray(), 10, len + 9);
+		if (len >= 2) {
+			_res = DataManipulation.reverseBytes(_res);
 		}
+
+		String result = DataManipulation.convertBytesToString(_res);
+		fireLocker(TypeMessage.NMLE_GET, key, result, status);
 	}
 
 	/**
@@ -1153,11 +816,12 @@ public class DataFreescale implements IDataLayer {
 	private void zdpStopNwkExConfirm(ByteArrayObject message) {
 		LOG.debug("Extracted ZDP-StopNwkEx.Confirm: {}", message.toString());
 
-		synchronized (getListLocker()) {
+		short status = (short) (message.getArray()[3] & 0xFF);
 
+		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
 				if ((pl.getType() == TypeMessage.STOP_NETWORK) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-					short status = (short) (message.getArray()[3] & 0xFF);
+
 					if (status == 0x00) {
 						getGal().get_gatewayEventManager().notifyGatewayStopResult(
 								makeStatusObject("The stop command has been processed byt ZDO with success.", (short) 0x00));
@@ -1179,28 +843,35 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	/**
-	 * @param message
+	 * Parse the ZDPActiveEndPoinResponse frame.
+	 * 
+	 * @param frame
+	 *          The frame to parse
 	 */
-	private void zdpActiveEndPointResponse(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-Active_EP_rsp.response: {}", message.toString());
-		short Status = (short) (message.getArray()[3] & 0xFF);
+	private void zdpActiveEndPointResponse(ByteArrayObject frame) {
+
+		LOG.debug("Extracted ZDP-Active_EP_rsp.response: {}", frame.toString());
+
+		short status = (short) (frame.getArray()[3] & 0xFF);
 		Address _add = new Address();
-		_add.setNetworkAddress(DataManipulation.toIntFromShort(message.getArray()[5], message.getArray()[4]));
-		String Key = String.format("%04X", _add.getNetworkAddress());
-		List<Short> _toRes = null;
+
+		_add.setNetworkAddress(DataManipulation.toIntFromShort(frame.getArray()[5], frame.getArray()[4]));
+
+		String key = String.format("%04X", _add.getNetworkAddress());
+		List<Short> result = null;
 
 		NodeServices _node = new NodeServices();
 		_node.setAddress(_add);
 
-		switch (Status) {
+		switch (status) {
 		case 0x00:
-			_toRes = new ArrayList<Short>();
-			int _EPCount = message.getArray()[6];
+			result = new ArrayList<Short>();
+			int _EPCount = frame.getArray()[6];
 
 			for (int i = 0; i < _EPCount; i++) {
-				_toRes.add((short) (message.getArray()[7 + i] & 0xFF));
+				result.add((short) (frame.getArray()[7 + i] & 0xFF));
 				ActiveEndpoints _aep = new ActiveEndpoints();
-				_aep.setEndPoint((short) (message.getArray()[7 + i] & 0xFF));
+				_aep.setEndPoint((short) (frame.getArray()[7 + i] & 0xFF));
 				_node.getActiveEndpoints().add(_aep);
 
 			}
@@ -1220,24 +891,8 @@ public class DataFreescale implements IDataLayer {
 			LOG.debug("ZDP-Active_EP_rsp.response status: 81 - Device_Not_found");
 			break;
 		}
-		// Found ZDP-Active_EP_rsp.response. Remove the lock
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				/* DestAddress */
-				if ((pl.getType() == TypeMessage.ACTIVE_EP) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
-						&& (pl.get_Key().equalsIgnoreCase(Key))) {
 
-					pl.set_objectOfResponse(_toRes);
-					pl.getStatus().setCode(Status);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
-		}
+		fireLocker(TypeMessage.ACTIVE_EP, key, result, status);
 	}
 
 	/**
@@ -1248,256 +903,95 @@ public class DataFreescale implements IDataLayer {
 
 		long longAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9],
 				message.getArray()[8], message.getArray()[7], message.getArray()[6], message.getArray()[5], message.getArray()[4]);
+
 		Integer shortAddress = DataManipulation.toIntFromShort(message.getArray()[13], message.getArray()[12]);
 
-		String Key = String.format("%04X", shortAddress);
-
-		// BigInteger _bi = BigInteger.valueOf(longAddress);
 		BigInteger _bi = new BigInteger(1, Utils.longToByteArray(longAddress));
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.READ_IEEE_ADDRESS) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
-						&& (pl.get_Key().equalsIgnoreCase(Key))) {
+		short status = (short) (message.getArray()[3] & 0xFF);
 
-					pl.set_objectOfResponse(_bi);
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
+		String key = String.format("%04X", shortAddress);
 
-					}
-
-				}
-			}
-		}
+		fireLocker(TypeMessage.READ_IEEE_ADDRESS, key, _bi, status);
 	}
 
 	/**
-	 * @param message
+	 * @param frame
 	 */
-	private void ztcReadExtAddrConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted ZTC-ReadExtAddr.Confirm: {}", message.toString());
-		long longAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9],
-				message.getArray()[8], message.getArray()[7], message.getArray()[6], message.getArray()[5], message.getArray()[4]);
-		// BigInteger _bi = BigInteger.valueOf(longAddress);
+	private void ztcReadExtAddrConfirm(ByteArrayObject frame) {
+		LOG.debug(frame.toString());
+		long longAddress = DataManipulation.toLong(frame.getArray()[11], frame.getArray()[10], frame.getArray()[9], frame.getArray()[8],
+				frame.getArray()[7], frame.getArray()[6], frame.getArray()[5], frame.getArray()[4]);
+
 		BigInteger _bi = new BigInteger(1, Utils.longToByteArray(longAddress));
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.READ_EXT_ADDRESS) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
 
-					pl.set_objectOfResponse(_bi);
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
+		short status = (short) (frame.getArray()[3] & 0xFF);
 
-					}
-				}
-			}
-		}
+		fireLocker(TypeMessage.READ_EXT_ADDRESS, _bi, status);
 	}
 
-	/**
-	 * @param message
-	 */
-	private void apsDeregisterEndPointConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted APS-DeregisterEndPoint.Confirm: {} ", message.toString());
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.DEREGISTER_END_POINT) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
+	private void zdpMgmtBindResponse(ByteArrayObject frame) {
+		LOG.debug(frame.toString());
 
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
+		short status = (short) (frame.getArray()[3] & 0xFF);
 
-					}
+		BindingList result = new BindingList();
 
+		if (status == GatewayConstants.SUCCESS) {
+			short length = (short) (frame.getArray()[6] & 0xFF);
+			int index = 6;
+			for (int i = 0; i < length; i++) {
+				Binding binding = new Binding();
+
+				long src_longAddress = DataManipulation.toLong(frame.getArray()[index + 8], frame.getArray()[index + 7],
+						frame.getArray()[index + 6], frame.getArray()[index + 5], frame.getArray()[index + 4], frame.getArray()[index + 3],
+						frame.getArray()[index + 2], frame.getArray()[index + 1]);
+
+				short _srcEP = (short) (frame.getArray()[index + 9] & 0xFF);
+
+				int _cluster = DataManipulation.toIntFromShort(frame.getArray()[index + 11], frame.getArray()[index + 10]);
+
+				short dstMode = (short) (frame.getArray()[index + 12] & 0xFF);
+
+				Device device = new Device();
+
+				if (dstMode == 0x03) {
+					long dst_longAddress = DataManipulation.toLong(frame.getArray()[index + 20], frame.getArray()[index + 19],
+							frame.getArray()[index + 18], frame.getArray()[index + 17], frame.getArray()[index + 16],
+							frame.getArray()[index + 15], frame.getArray()[index + 14], frame.getArray()[index + 13]);
+
+					short _dstEP = (short) (frame.getArray()[index + 21] & 0xFF);
+
+					// _dev.setAddress(BigInteger.valueOf(dst_longAddress));
+					device.setAddress(new BigInteger(1, Utils.longToByteArray(dst_longAddress)));
+					device.setEndpoint(_dstEP);
+					index = index + 21;
+				} else if (dstMode == 0x01) {
+					int _groupId = DataManipulation.toIntFromShort(frame.getArray()[index + 14], frame.getArray()[index + 13]);
+					device.setAddress(BigInteger.valueOf(_groupId));
+					index = index + 10;
 				}
+
+				binding.setClusterID(_cluster);
+				binding.setSourceEndpoint(_srcEP);
+
+				binding.setSourceIEEEAddress(new BigInteger(1, Utils.longToByteArray(src_longAddress)));
+				binding.getDeviceDestination().add(device);
+
+				result.getBinding().add(binding);
 			}
 		}
+
+		fireLocker(TypeMessage.GET_BINDINGS, result, status);
 	}
 
-	/**
-	 * @param message
-	 */
-	private void zdpMgmtBindResponse(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-Mgmt_Bind.Response: {}", message.toString());
-
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.GET_BINDINGS) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					BindingList _res = new BindingList();
-
-					if (pl.getStatus().getCode() == GatewayConstants.SUCCESS) {
-						short length = (short) (message.getArray()[6] & 0xFF);
-						int _index = 6;
-						for (int i = 0; i < length; i++) {
-							Binding _b = new Binding();
-							long src_longAddress = DataManipulation.toLong(message.getArray()[_index + 8], message.getArray()[_index + 7],
-									message.getArray()[_index + 6], message.getArray()[_index + 5], message.getArray()[_index + 4],
-									message.getArray()[_index + 3], message.getArray()[_index + 2], message.getArray()[_index + 1]);
-							short _srcEP = (short) (message.getArray()[_index + 9] & 0xFF);
-
-							int _cluster = DataManipulation.toIntFromShort(message.getArray()[_index + 11], message.getArray()[_index + 10]);
-
-							short _DestinationMode = (short) (message.getArray()[_index + 12] & 0xFF);
-							Device _dev = new Device();
-
-							if (_DestinationMode == 0x03) {
-
-								long dst_longAddress = DataManipulation.toLong(message.getArray()[_index + 20], message.getArray()[_index + 19],
-										message.getArray()[_index + 18], message.getArray()[_index + 17], message.getArray()[_index + 16],
-										message.getArray()[_index + 15], message.getArray()[_index + 14], message.getArray()[_index + 13]);
-
-								short _dstEP = (short) (message.getArray()[_index + 21] & 0xFF);
-								// _dev.setAddress(BigInteger.valueOf(dst_longAddress));
-								_dev.setAddress(new BigInteger(1, Utils.longToByteArray(dst_longAddress)));
-								_dev.setEndpoint(_dstEP);
-								_index = _index + 21;
-							} else if (_DestinationMode == 0x01) {
-
-								int _groupId = DataManipulation.toIntFromShort(message.getArray()[_index + 14], message.getArray()[_index + 13]);
-								_dev.setAddress(BigInteger.valueOf(_groupId));
-								_index = _index + 10;
-							}
-							_b.setClusterID(_cluster);
-							_b.setSourceEndpoint(_srcEP);
-							// _b.setSourceIEEEAddress(BigInteger.valueOf(src_longAddress));
-							_b.setSourceIEEEAddress(new BigInteger(1, Utils.longToByteArray(src_longAddress)));
-							_b.getDeviceDestination().add(_dev);
-							_res.getBinding().add(_b);
-
-						}
-					}
-					pl.set_objectOfResponse(_res);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
-	private void zdpUnbindResponse(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-UNBIND.Response: {}", message.toString());
-
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.REMOVE_BINDING) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					switch (pl.getStatus().getCode()) {
-					case GatewayConstants.SUCCESS:
-
-						break;
-
-					case 0x84:
-						pl.getStatus().setMessage("NOT_SUPPORTED (NOT SUPPORTED)");
-						break;
-					case 0x88:
-						pl.getStatus().setMessage("No_Entry (No Entry)");
-						break;
-					case 0x8D:
-						pl.getStatus().setMessage("NOT_AUTHORIZED (NOT AUTHORIZED");
-						break;
-					}
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
 	private void zdpBindResponse(ByteArrayObject message) {
 		LOG.debug("Extracted ZDP-BIND.Response: {}", message.toString());
 
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.ADD_BINDING) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
+		short status = (short) (message.getArray()[3] & 0xFF);
 
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					switch (pl.getStatus().getCode()) {
-					case GatewayConstants.SUCCESS:
-
-						break;
-
-					case 0x84:
-						pl.getStatus().setMessage("NOT_SUPPORTED (NOT SUPPORTED)");
-						break;
-
-					case 0x8C:
-						pl.getStatus().setMessage("TABLE_FULL (TABLE FULL)");
-						break;
-					case 0x8D:
-						pl.getStatus().setMessage("NOT_AUTHORIZED (NOT AUTHORIZED)");
-						break;
-					}
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-				}
-			}
-		}
+		fireLocker(TypeMessage.ADD_BINDING, null, status);
 	}
 
-	/**
-	 * @param message
-	 */
-	private void apsGetEndPointListConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted APS-GetEndPointIdList.Confirm: {}", message.toString());
-		synchronized (getListLocker()) {
-			for (ParserLocker pl : getListLocker()) {
-				if ((pl.getType() == TypeMessage.GET_END_POINT_LIST) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
-
-					pl.getStatus().setCode((short) (message.getArray()[3] & 0xFF));
-					NodeServices _res = new NodeServices();
-					if (pl.getStatus().getCode() == GatewayConstants.SUCCESS) {
-						short length = message.getArray()[4];
-						for (int i = 0; i < length; i++) {
-							ActiveEndpoints _ep = new ActiveEndpoints();
-							_ep.setEndPoint((short) (message.getArray()[5 + i] & 0xFF));
-							_res.getActiveEndpoints().add(_ep);
-						}
-					}
-					pl.set_objectOfResponse(_res);
-					try {
-						if (pl.getObjectLocker().size() == 0)
-							pl.getObjectLocker().put((byte) 0);
-					} catch (InterruptedException e) {
-
-					}
-
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param message
-	 */
 	private void zdpSimpleDescriptorResponse(ByteArrayObject message) {
 		LOG.debug("Extracted ZDP-SimpleDescriptor.Response: {}", message.toString());
 		/* Address + EndPoint */
@@ -1691,15 +1185,11 @@ public class DataFreescale implements IDataLayer {
 					} catch (InterruptedException e) {
 
 					}
-
 				}
 			}
 		}
 	}
 
-	/**
-	 * @param message
-	 */
 	private void apsdeDataConfirm(ByteArrayObject message) {
 
 		/* DestAddress + DestEndPoint + SourceEndPoint */
@@ -1707,101 +1197,15 @@ public class DataFreescale implements IDataLayer {
 
 		long destAddress = DataManipulation.toLong(message.getArray()[11], message.getArray()[10], message.getArray()[9],
 				message.getArray()[8], message.getArray()[7], message.getArray()[6], message.getArray()[5], message.getArray()[4]);
+
 		short destEndPoint = ((short) (message.getArray()[12] & 0xFF));
 		short sourceEndPoint = ((short) (message.getArray()[13] & 0xFF));
+
 		String Key = String.format("%016X", destAddress) + String.format("%02X", destEndPoint) + String.format("%02X", sourceEndPoint);
 
-		ParserLocker pl = new ParserLocker();
+		short status = (short) (message.getArray()[14] & 0xFF);
 
-		// Found APSDE-DATA.Confirm. Remove the lock
-		// synchronized (getListLocker()) {
-		// for (ParserLocker pl : getListLocker()) {
-
-		// if ((pl.getType() == TypeMessage.APS) && (pl.getStatus().getCode() ==
-		// ParserLocker.INVALID_ID) && (pl.get_Key().equalsIgnoreCase(Key))) {
-
-		pl.getStatus().setCode((short) (message.getArray()[14] & 0xFF));
-		switch (pl.getStatus().getCode()) {
-		case 0x00:
-			pl.getStatus().setMessage("gSuccess (Success)");
-			break;
-		case 0x05:
-			pl.getStatus().setMessage("gPartialSuccess (Partial Success)");
-			break;
-		case 0x07:
-			pl.getStatus().setMessage("gSecurity_Fail (Security fail)");
-			break;
-		case 0x0A:
-			pl.getStatus().setMessage("gApsInvalidParameter_c (Security fail)");
-			break;
-		case 0x04:
-			pl.getStatus().setMessage("gZbNotOnNetwork_c (Transmitted the data frame)");
-			break;
-		case 0x01:
-			pl.getStatus().setMessage("gApsIllegalDevice_c (Transmitted the data frame)");
-			break;
-		case 0x02:
-			pl.getStatus().setMessage("gZbNoMem_c (Transmitted the data frame)");
-			break;
-		case 0xA0:
-			pl.getStatus().setMessage("gApsAsduTooLong_c (ASDU too long)");
-			break;
-		case 0xA3:
-			pl.getStatus().setMessage("gApsIllegalRequest_c (Invalid parameter)");
-			break;
-		case 0xA8:
-			pl.getStatus().setMessage("gNo_BoundDevice (No bound device)");
-			break;
-		case 0xA9:
-			pl.getStatus().setMessage("gNo_ShortAddress (No Short Address)");
-			break;
-		case 0xAE:
-			pl.getStatus().setMessage("gApsTableFull_c (Aps Table Full)");
-			break;
-		case 0xC3:
-			pl.getStatus().setMessage("INVALID_REQUEST (Not a valid request)");
-			break;
-		case 0xCC:
-			pl.getStatus().setMessage("MAX_FRM_COUNTER (Frame counter has reached maximum value for outgoing frame)");
-			break;
-		case 0xCD:
-			pl.getStatus().setMessage("NO_KEY (Key not available)");
-			break;
-		case 0xCE:
-			pl.getStatus().setMessage("BAD_CCM_OUTPUT (Security engine produced erraneous output)");
-			break;
-		case 0xF1:
-			pl.getStatus().setMessage("TRANSACTION_OVERFLOW (Transaction Overflow)");
-			break;
-		case 0xF0:
-			pl.getStatus().setMessage("TRANSACTION_EXPIRED (Transaction Expired)");
-			break;
-		case 0xE1:
-			pl.getStatus().setMessage(" CHANNEL_ACCESS_FAILURE (Key not available)");
-			break;
-		case 0xE6:
-			pl.getStatus().setMessage("INVALID_GTS (Not valid GTS)");
-			break;
-		case 0xF3:
-			pl.getStatus().setMessage("UNAVAILABLE_KEY (Key not found)");
-			break;
-		case 0xE5:
-			pl.getStatus().setMessage("FRAME_TOO_LONG (Frame too long)");
-			break;
-		case 0xE4:
-			pl.getStatus().setMessage("FAILED_SECURITY_CHECK (Failed security check)");
-			break;
-		case 0xE8:
-			pl.getStatus().setMessage("INVALID_PARAMETER (Not valid parameter)");
-			break;
-		case 0xE9:
-			pl.getStatus().setMessage("NO_ACK (Acknowledgement was not received)");
-			break;
-		}
-
-		// no parenthe
-		LOG.debug("Extracted APSDE-DATA.Confirm: {}", message.toString());
-		LOG.debug("Status: {} --- Key: {}", pl.getStatus().getMessage(), Key);
+		LOG.debug("APSDE-DATA.Confirm Status " + LogUtils.decodeApsdeDataConfirmStatus(status));
 	}
 
 	private void interpanDataIndication(ByteArrayObject frame) {
@@ -1831,8 +1235,10 @@ public class DataFreescale implements IDataLayer {
 			address.setIeeeAddress(_ieee);
 			messageEvent.setSrcAddress(address);
 			break;
+
 		case 0x02:
 			address.setNetworkAddress(DataManipulation.toIntFromShort(frame.getArray()[7], frame.getArray()[6]));
+
 			try {
 				_ieee = getGal().getIeeeAddress_FromShortAddress(address.getNetworkAddress());
 			} catch (Exception e) {
@@ -1842,12 +1248,10 @@ public class DataFreescale implements IDataLayer {
 
 			address.setIeeeAddress(_ieee);
 			messageEvent.setSrcAddress(address);
-
 			break;
+
 		default:
-
 			LOG.error("Message Discarded: not valid Source Address Mode");
-
 			return;
 		}
 
@@ -1907,7 +1311,7 @@ public class DataFreescale implements IDataLayer {
 
 	private void apsdeDataIndication(ByteArrayObject frame) {
 
-		LOG.debug("GAL-Received a apsdeDataIndication:" + frame.toString());
+		LOG.debug(frame.toString());
 
 		WrapperWSNNode node = null;
 		final APSMessageEvent messageEvent = new APSMessageEvent();
@@ -2025,14 +1429,15 @@ public class DataFreescale implements IDataLayer {
 		messageEvent
 				.setRxTime((long) DataManipulation.toIntFromShort(frame.getArray()[(lastAsdu + 8)], frame.getArray()[(lastAsdu + 5)]));
 
-		LOG.debug("Extracted APSDE-DATA.Indication: {}", frame.toString());
 		if ((getGal().getGatewayStatus() == GatewayStatus.GW_RUNNING) && getGal().get_GalNode() != null) {
 
 			if (wasBroadcast) {
 				LOG.info("BROADCAST MESSAGE");
 			} else {
 
-				node = updateNodeIfExist(messageEvent, messageEvent.getSourceAddress());
+				sourceAddress = messageEvent.getSourceAddress();
+
+				node = updateNodeIfExist(messageEvent, sourceAddress);
 
 				if (node == null) {
 					return;
@@ -2040,12 +1445,12 @@ public class DataFreescale implements IDataLayer {
 
 				synchronized (node) {
 					Address address = node.get_node().getAddress();
-					messageEvent.getSourceAddress()
-							.setIeeeAddress(new BigInteger(1, Utils.longToByteArray(address.getIeeeAddress().longValue())));
-					messageEvent.getSourceAddress().setNetworkAddress(new Integer(address.getNetworkAddress()));
+
+					/* lets copy the address and store it as sourceAddress */
+					sourceAddress = SerializationUtils.clone(address);
 				}
 
-				if (messageEvent.getSourceAddress().getIeeeAddress() == null) {
+				if (sourceAddress.getIeeeAddress() == null) {
 					LOG.error("Message discarded IEEE source address not found for Short address:"
 							+ String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress()) + " -- ProfileID: "
 							+ String.format("%04X", messageEvent.getProfileID()) + " -- ClusterID: "
@@ -2053,17 +1458,18 @@ public class DataFreescale implements IDataLayer {
 					return;
 				}
 
-				if (messageEvent.getSourceAddress().getNetworkAddress() == null) {
+				if (sourceAddress.getNetworkAddress() == null) {
 					LOG.error("Message discarded short source address not found for Ieee address:"
-							+ String.format("%16X", messageEvent.getSourceAddress().getIeeeAddress()) + " -- ProfileID: "
+							+ String.format("%16X", sourceAddress.getIeeeAddress()) + " -- ProfileID: "
 							+ String.format("%04X", messageEvent.getProfileID()) + " -- ClusterID: "
 							+ String.format("%04X", messageEvent.getClusterID()));
 					return;
 				}
-
 			}
-		} else
+		} else {
 			return;
+		}
+
 		if (messageEvent.getProfileID().equals(0)) {
 			/*
 			 * profileid == 0 ZDO Command
@@ -2073,6 +1479,7 @@ public class DataFreescale implements IDataLayer {
 				String __key = String.format("%04X%02X", messageEvent.getSourceAddress().getNetworkAddress(), _res._StartIndex);
 				LOG.debug("Received LQI_RSP from node: {} --Index: {}",
 						String.format("%04X", messageEvent.getSourceAddress().getNetworkAddress()), String.format("%02X", _res._StartIndex));
+
 				synchronized (getListLocker()) {
 					for (ParserLocker pl : getListLocker()) {
 						if ((pl.getType() == TypeMessage.LQI_REQ) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
@@ -2265,6 +1672,7 @@ public class DataFreescale implements IDataLayer {
 												_newWrapperNode.get_node()
 														.setCapabilityInformation(_newWrapperNode.getNodeDescriptor().getMACCapabilityFlag());
 											}
+
 											LOG.debug("Readed NodeDescriptor of the new node:"
 													+ String.format("%04X", _newWrapperNode.get_node().getAddress().getNetworkAddress()));
 
@@ -2585,21 +1993,17 @@ public class DataFreescale implements IDataLayer {
 		switch (dam) {
 		case GatewayConstants.ADDRESS_MODE_SHORT:
 			byte[] networkAddress = DataManipulation.toByteVect(address.getNetworkAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(networkAddress);
-
-			for (byte b : _reversed)
-				frame.addByte(b);
+			frame.addBytes(networkAddress);
 			break;
 
 		case GatewayConstants.EXTENDED_ADDRESS_MODE:
 			byte[] ieeeAddress = DataManipulation.toByteVect(address.getIeeeAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(ieeeAddress);
-			for (byte b : _reversed)
-				frame.addByte(b);
+			frame.addBytes(ieeeAddress);
 			break;
 
 		case GatewayConstants.ADDRESS_MODE_ALIAS:
 			throw new UnsupportedOperationException("Address Mode Alias");
+
 		default:
 			throw new Exception("Address Mode undefined!");
 
@@ -2726,7 +2130,13 @@ public class DataFreescale implements IDataLayer {
 
 			sendFrame(lock, frame);
 
-			return waitStatus(lock, opcode, timeout);
+			Status status = waitStatus(lock, opcode, timeout);
+
+			if (status.getCode() == 0x00) {
+				getGal().setGatewayStatus(GatewayStatus.GW_STARTED);
+			}
+
+			return status;
 		} else {
 			return statusWriteSAS;
 		}
@@ -2736,8 +2146,9 @@ public class DataFreescale implements IDataLayer {
 
 		short opcode = FreescaleConstants.BlackBoxWriteSAS;
 
-		if (sai.getChannelMask() == null)
+		if (sai.getChannelMask() == null) {
 			sai = getGal().getPropertiesManager().getSturtupAttributeInfo();
+		}
 
 		LogicalType devType = sai.getDeviceType();
 
@@ -2746,17 +2157,16 @@ public class DataFreescale implements IDataLayer {
 
 		/* Extended PanID */
 		byte[] ExtendedPaniId = DataManipulation.toByteVect(sai.getExtendedPANId(), 8);
-		LOG.debug("Extended PanID: {}", DataManipulation.convertBytesToString(ExtendedPaniId));
+		frame.addBytes(ExtendedPaniId);
 
-		for (byte b : DataManipulation.reverseBytes(ExtendedPaniId))
-			frame.addByte(b);
+		LOG.debug("Extended PanID: {}", DataManipulation.convertBytesToString(ExtendedPaniId));
 
 		/* Extended APS Use Extended PAN Id */
 		byte[] APSUseExtendedPANId = DataManipulation.toByteVect(BigInteger.ZERO, 8);
+		frame.addBytes(APSUseExtendedPANId);
+
 		LOG.info("APS Use Extended PAN Id: {}", DataManipulation.convertBytesToString(APSUseExtendedPANId));
 
-		for (byte b : DataManipulation.reverseBytes(APSUseExtendedPANId))
-			frame.addByte(b);
 		frame.addBytesShort(Short.reverseBytes(sai.getPANId().shortValue()), 2);
 		byte[] _channel = Utils.buildChannelMask(sai.getChannelMask().shortValue());
 
@@ -2775,26 +2185,21 @@ public class DataFreescale implements IDataLayer {
 		byte[] TrustCenterAddress = DataManipulation.toByteVect(sai.getTrustCenterAddress(), 8);
 		LOG.debug("TrustCenterAddress:" + DataManipulation.convertBytesToString(TrustCenterAddress));
 
-		for (byte b : DataManipulation.reverseBytes(TrustCenterAddress)) {
-			frame.addByte(b);
-		}
+		frame.addBytes(TrustCenterAddress);
 
 		/* TrustCenterMasterKey */
 		byte[] TrustCenterMasterKey = (devType == LogicalType.COORDINATOR) ? sai.getTrustCenterMasterKey()
 				: DataManipulation.toByteVect(BigInteger.ZERO, 16);
 		LOG.debug("TrustCenterMasterKey: {}", DataManipulation.convertBytesToString(TrustCenterMasterKey));
 
-		for (byte b : DataManipulation.reverseBytes(TrustCenterMasterKey))
-			frame.addByte(b);
+		frame.addBytes(TrustCenterMasterKey);
 
 		/* NetworKey */
 		byte[] NetworKey = (devType == LogicalType.COORDINATOR) ? sai.getNetworkKey()
 				: DataManipulation.toByteVect(BigInteger.ZERO, 16);
 		LOG.debug("NetworKey: {}", DataManipulation.convertBytesToString(NetworKey));
 
-		for (byte b : DataManipulation.reverseBytes(NetworKey))
-			frame.addByte(b);
-
+		frame.addBytes(NetworKey);
 		frame.addByte((sai.isUseInsecureJoin()) ? ((byte) 0x01) : ((byte) 0x00));
 
 		/* PreconfiguredLinkKey */
@@ -2816,6 +2221,7 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((sai.isConcentratorFlag()) ? ((byte) 0x01) : ((byte) 0x00));
 		frame.addByte(sai.getConcentratorRadius().byteValue());
 		frame.addByte(sai.getConcentratorDiscoveryTime().byteValue());
+
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		LOG.debug("WriteSas Command: {} --Timeout: {}", frame.toString(), timeout);
@@ -2834,12 +2240,9 @@ public class DataFreescale implements IDataLayer {
 
 		ByteArrayObject frame = new ByteArrayObject(false);
 
-		frame.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()),
-				2);/*
-						 * Short Network Address
-						 */
-		frame.addByte((byte) duration);/* Duration */
-		frame.addByte(TCSignificance);/* TCSignificant */
+		frame.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);
+		frame.addByte((byte) duration); /* Duration */
+		frame.addByte(TCSignificance); /* TCSignificant */
 
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
@@ -2953,43 +2356,47 @@ public class DataFreescale implements IDataLayer {
 		return (NodeDescriptor) waitResponse(lock, opcode, timeout);
 	}
 
-	public List<Short> startServiceDiscoverySync(long timeout, Address aoi) throws Exception {
+	public List<Short> startServiceDiscoverySync(long timeout, Address addrOfInterest) throws Exception {
 
 		short opcode = FreescaleConstants.ZDPActiveEpRequest;
+
+		short shortAddress = addrOfInterest.getNetworkAddress().shortValue();
 
 		LOG.debug("startServiceDiscoverySync Timeout: {}", timeout);
 
 		ByteArrayObject frame = new ByteArrayObject(false);
-		frame.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()), 2);
-		frame.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()), 2);
+		frame.addBytesShort(Short.reverseBytes(shortAddress), 2);
+		frame.addBytesShort(Short.reverseBytes(shortAddress), 2);
 
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		LOG.debug(frame.toString());
 
-		ParserLocker lock = new ParserLocker(TypeMessage.ACTIVE_EP, String.format("%04X", aoi.getNetworkAddress()));
+		ParserLocker lock = new ParserLocker(TypeMessage.ACTIVE_EP, String.format("%04X", addrOfInterest.getNetworkAddress()));
 
 		sendFrame(lock, frame);
 
-		return (List<Short>) waitStatus(lock, opcode, timeout);
+		return (List<Short>) waitResponse(lock, opcode, timeout);
 	}
 
 	public Status leaveSync(long timeout, Address addrOfInterest, int mask) throws Exception {
+
+		short opcode = FreescaleConstants.ZDPMgmtLeaveRequest;
+
 		ByteArrayObject frame = new ByteArrayObject(false);
 
 		frame.addBytesShort(Short.reverseBytes(addrOfInterest.getNetworkAddress().shortValue()), 2);
 		byte[] deviceAddress = DataManipulation.toByteVect(getGal().get_GalNode().get_node().getAddress().getNetworkAddress(), 8);
-		byte[] _reversed = DataManipulation.reverseBytes(deviceAddress);
 
-		for (byte b : _reversed) {
-			frame.addByte(b);
-		}
+		frame.addBytes(deviceAddress);
 
 		byte options = 0;
 		options = (byte) (options & GatewayConstants.LEAVE_REJOIN);
 		options = (byte) (options & GatewayConstants.LEAVE_REMOVE_CHILDERN);
 		frame.addByte(options);
-		frame = Set_SequenceStart_And_FSC(frame, FreescaleConstants.ZDPMgmtLeaveRequest);
+
+		frame = Set_SequenceStart_And_FSC(frame, opcode);
+
 		LOG.debug("Leave command: {}", frame.toString());
 
 		sendFrame(frame);
@@ -3108,18 +2515,12 @@ public class DataFreescale implements IDataLayer {
 
 		short opcode = FreescaleConstants.ZDPBindRequest;
 
-		byte[] _reversed;
-
 		ByteArrayObject frame = new ByteArrayObject(false);
 		frame.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()), 2);
 
 		byte[] ieeeAddress = DataManipulation.toByteVect(binding.getSourceIEEEAddress(), 8);
-		_reversed = DataManipulation.reverseBytes(ieeeAddress);
-		for (byte b : _reversed) {
-			/* Source IEEEAddress */
-			frame.addByte(b);
-		}
 
+		frame.addBytes(ieeeAddress);
 		frame.addByte((byte) binding.getSourceEndpoint());
 
 		Integer _clusterID = binding.getClusterID();
@@ -3127,19 +2528,16 @@ public class DataFreescale implements IDataLayer {
 		/* ClusterID */
 		frame.addBytesShort(Short.reverseBytes(_clusterID.shortValue()), 2);
 
-		if (binding.getDeviceDestination().size() > 0 && binding.getGroupDestination().size() > 0)
+		if (binding.getDeviceDestination().size() > 0 && binding.getGroupDestination().size() > 0) {
 			throw new GatewayException("The Address mode can only be one between Group or Device!");
-		else if (binding.getDeviceDestination().size() == 1) {
+		} else if (binding.getDeviceDestination().size() == 1) {
 			/*
 			 * Destination AddressMode IeeeAddress + EndPoint
 			 */
 			frame.addByte((byte) 0x03);
 
 			byte[] _DestinationieeeAddress = DataManipulation.toByteVect(binding.getDeviceDestination().get(0).getAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(_DestinationieeeAddress);
-			for (byte b : _reversed)
-				/* Destination IEEEAddress */
-				frame.addByte(b);
+			frame.addBytes(_DestinationieeeAddress);
 
 			/*
 			 * Destination EndPoint
@@ -3147,13 +2545,10 @@ public class DataFreescale implements IDataLayer {
 			frame.addByte((byte) binding.getDeviceDestination().get(0).getEndpoint());
 		} else if (binding.getGroupDestination().size() == 1) {
 
-			frame.addByte((byte) 0x01);/* Destination AddressMode Group */
+			frame.addByte((byte) 0x01); /* Destination AddressMode Group */
 
 			byte[] _DestinationGroupAddress = DataManipulation.toByteVect(binding.getGroupDestination().get(0).longValue(), 8);
-			_reversed = DataManipulation.reverseBytes(_DestinationGroupAddress);
-			for (byte b : _reversed)
-				/* Destination Group */
-				frame.addByte(b);
+			frame.addBytes(_DestinationGroupAddress);
 
 		} else {
 			throw new GatewayException("The Address mode can only be one Group or one Device!");
@@ -3165,7 +2560,25 @@ public class DataFreescale implements IDataLayer {
 
 		sendFrame(lock, frame);
 
-		return waitStatus(lock, opcode, timeout);
+		Status status = waitStatus(lock, opcode, timeout);
+
+		switch (status.getCode()) {
+		case GatewayConstants.SUCCESS:
+			break;
+
+		case 0x84:
+			status.setMessage("NOT_SUPPORTED (NOT SUPPORTED)");
+			break;
+
+		case 0x8C:
+			status.setMessage("TABLE_FULL (TABLE FULL)");
+			break;
+		case 0x8D:
+			status.setMessage("NOT_AUTHORIZED (NOT AUTHORIZED)");
+			break;
+		}
+
+		return status;
 	}
 
 	public Status removeBinding(long timeout, Binding binding, Address aoi) throws IOException, Exception, GatewayException {
@@ -3178,44 +2591,35 @@ public class DataFreescale implements IDataLayer {
 		frame.addBytesShort(Short.reverseBytes(aoi.getNetworkAddress().shortValue()), 2);
 
 		byte[] ieeeAddress = DataManipulation.toByteVect(binding.getSourceIEEEAddress(), 8);
-		_reversed = DataManipulation.reverseBytes(ieeeAddress);
-		for (byte b : _reversed)
-			/* Source IEEEAddress */
-			frame.addByte(b);
-
-		frame.addByte((byte) binding.getSourceEndpoint());/* Source EndPoint */
+		frame.addBytes(ieeeAddress);
+		frame.addByte((byte) binding.getSourceEndpoint()); /* Source EndPoint */
 
 		/* ClusterID */
 		Integer _clusterID = binding.getClusterID();
 		frame.addBytesShort(Short.reverseBytes(_clusterID.shortValue()), 2);
 
-		if (binding.getDeviceDestination().size() > 0 && binding.getGroupDestination().size() > 0)
+		if (binding.getDeviceDestination().size() > 0 && binding.getGroupDestination().size() > 0) {
 			throw new GatewayException("The Address mode can only be one between Group or Device!");
-		else if (binding.getDeviceDestination().size() == 1) {
-			frame.addByte(
-					(byte) 0x03);/*
-												 * Destination AddressMode IeeeAddress + EndPoint
-												 */
+		} else if (binding.getDeviceDestination().size() == 1) {
+			/*
+			 * Destination AddressMode IeeeAddress + EndPoint
+			 */
+			frame.addByte((byte) 0x03);
 
 			byte[] _DestinationieeeAddress = DataManipulation.toByteVect(binding.getDeviceDestination().get(0).getAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(_DestinationieeeAddress);
-			for (byte b : _reversed)
-				/* Destination IEEEAddress */
-				frame.addByte(b);
-			frame.addByte((byte) binding.getDeviceDestination().get(0)
-					.getEndpoint());/*
-													 * Destination EndPoint
-													 */
+			frame.addBytes(_DestinationieeeAddress);
+
+			/*
+			 * Destination EndPoint
+			 */
+			frame.addByte((byte) binding.getDeviceDestination().get(0).getEndpoint());
 
 		} else if (binding.getGroupDestination().size() == 1) {
 			frame.addByte((byte) 0x01);/* Destination AddressMode Group */
 
 			byte[] _DestinationGroupAddress = DataManipulation.toByteVect(binding.getGroupDestination().get(0).longValue(), 8);
-			_reversed = DataManipulation.reverseBytes(_DestinationGroupAddress);
-			for (byte b : _reversed)
-				/* Destination Group */
-				frame.addByte(b);
 
+			frame.addBytes(_DestinationGroupAddress);
 		} else {
 			throw new GatewayException("The Address mode can only be one Group or one Device!");
 
@@ -3284,10 +2688,7 @@ public class DataFreescale implements IDataLayer {
 		ByteArrayObject frame = new ByteArrayObject(false);
 
 		byte[] ieeeAddress = DataManipulation.toByteVect(addrOfInterest.getIeeeAddress(), 8);
-		byte[] _reversed = DataManipulation.reverseBytes(ieeeAddress);
-		for (byte b : _reversed) {
-			frame.addByte(b);
-		}
+		frame.addBytes(ieeeAddress);
 
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
@@ -3309,14 +2710,13 @@ public class DataFreescale implements IDataLayer {
 		frame.addByte((byte) 0xFF);
 
 		byte[] ieeeAddress = DataManipulation.toByteVect(addrOfInterest.getIeeeAddress(), 8);
-		byte[] _reversed = DataManipulation.reverseBytes(ieeeAddress);
-		for (byte b : _reversed)
-			frame.addByte(b);
+		frame.addBytes(ieeeAddress);
+
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
 
 		ParserLocker lock = new ParserLocker(TypeMessage.CLEAR_NEIGHBOR_TABLE_ENTRY);
 
-		LOG.debug("ZTC-ClearNeighborTableEntry.Request command: {}", frame.toString());
+		LOG.debug(frame.toString());
 
 		sendFrame(lock, frame);
 
@@ -3337,8 +2737,6 @@ public class DataFreescale implements IDataLayer {
 		}
 
 		frame = Set_SequenceStart_And_FSC(frame, opcode);
-
-		LOG.debug("NMLE_SET command: {}", frame.toString());
 
 		ParserLocker lock = new ParserLocker(TypeMessage.NMLE_SET);
 
@@ -3380,8 +2778,6 @@ public class DataFreescale implements IDataLayer {
 
 	public Status sendInterPANMessaSync(long timeout, InterPANMessage message) throws Exception {
 
-		LOG.debug("Data_FreeScale.send_InterPAN");
-
 		short opcode = FreescaleConstants.InterPANDataRequest;
 
 		ByteArrayObject frame = new ByteArrayObject(false);
@@ -3400,16 +2796,12 @@ public class DataFreescale implements IDataLayer {
 
 		case GatewayConstants.ADDRESS_MODE_SHORT:
 			byte[] networkAddress = DataManipulation.toByteVect(dstaddress.getNetworkAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(networkAddress);
-			for (byte b : _reversed)
-				frame.addByte(b);
+			frame.addBytes(networkAddress);
 			break;
 
 		case GatewayConstants.EXTENDED_ADDRESS_MODE:
 			byte[] ieeeAddress = DataManipulation.toByteVect(dstaddress.getIeeeAddress(), 8);
-			_reversed = DataManipulation.reverseBytes(ieeeAddress);
-			for (byte b : _reversed)
-				frame.addByte(b);
+			frame.addBytes(ieeeAddress);
 			break;
 
 		case GatewayConstants.ADDRESS_MODE_ALIAS:
@@ -3537,6 +2929,43 @@ public class DataFreescale implements IDataLayer {
 						+ " Status Message: " + status.getMessage());
 			} else {
 				return status;
+			}
+		}
+	}
+
+	private void fireLocker(TypeMessage type, Object result, short status) {
+		synchronized (getListLocker()) {
+			for (ParserLocker pl : getListLocker()) {
+				if ((pl.getType() == type) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)) {
+
+					pl.set_objectOfResponse(result);
+					pl.getStatus().setCode(status);
+					try {
+						if (pl.getObjectLocker().size() == 0)
+							pl.getObjectLocker().put((byte) 0);
+					} catch (InterruptedException e) {
+
+					}
+				}
+			}
+		}
+	}
+
+	private void fireLocker(TypeMessage type, String key, Object result, short status) {
+		synchronized (getListLocker()) {
+			for (ParserLocker pl : getListLocker()) {
+				if ((pl.getType() == type) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
+						&& (pl.get_Key().equalsIgnoreCase(key))) {
+
+					pl.set_objectOfResponse(result);
+					pl.getStatus().setCode(status);
+					try {
+						if (pl.getObjectLocker().size() == 0)
+							pl.getObjectLocker().put((byte) 0);
+					} catch (InterruptedException e) {
+
+					}
+				}
 			}
 		}
 	}

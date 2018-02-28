@@ -38,10 +38,12 @@ public class ParserLocker {
 	private ArrayBlockingQueue<Byte> objectLocker;
 
 	private long id;
+
 	private Status status;
+
 	private TypeMessage type;
 
-	private String _Key;
+	private String key;
 
 	private Object _objectOfResponse;
 
@@ -100,7 +102,7 @@ public class ParserLocker {
 
 	public ParserLocker(TypeMessage type, String key) {
 		this(type);
-		this._Key = key;
+		this.key = key;
 	}
 
 	/**
@@ -147,7 +149,7 @@ public class ParserLocker {
 	 * @return the key.
 	 */
 	public String get_Key() {
-		return _Key;
+		return key;
 	}
 
 	/**
@@ -157,7 +159,7 @@ public class ParserLocker {
 	 *          the key to set.
 	 */
 	public void set_Key(String _Key) {
-		this._Key = _Key;
+		this.key = _Key;
 	}
 
 	/**

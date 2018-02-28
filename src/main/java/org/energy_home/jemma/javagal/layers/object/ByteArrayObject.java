@@ -18,6 +18,8 @@ package org.energy_home.jemma.javagal.layers.object;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import org.energy_home.jemma.javagal.layers.data.implementations.Utils.DataManipulation;
+
 /**
  * Object carrying a {@code byte[]} of fixed length. The aims of this class is
  * to provide {@code byte[]} reuse. An instance of {@link ByteArrayObject}
@@ -90,6 +92,20 @@ public class ByteArrayObject {
 	}
 
 	/**
+	 * Adds the passed byte array in reverse order
+	 * 
+	 * TODO: optimize it!
+	 * 
+	 * @param bytes
+	 *          The byte array.
+	 */
+	public void addBytes(byte[] bytes) {
+		for (byte b : DataManipulation.reverseBytes(bytes)) {
+			this.addByte(b);
+		}
+	}
+
+	/**
 	 * Adds the start sequence's byte to this byte array in its right position
 	 * (the first byte in sequence).
 	 * 
@@ -147,6 +163,11 @@ public class ByteArrayObject {
 		ByteBuffer buf = ByteBuffer.allocate(length).putShort(valueToAdd);
 		for (byte x : buf.array())
 			array[count++] = x;
+	}
+
+	public void addUnsigned16(int value) {
+		array[count++] = (byte) (value & 0xFF);
+		array[count++] = (byte) ((value >>> 8) & 0xFF);
 	}
 
 	/**
