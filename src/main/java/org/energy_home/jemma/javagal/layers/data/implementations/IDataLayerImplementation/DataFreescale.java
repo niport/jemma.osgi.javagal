@@ -323,7 +323,13 @@ public class DataFreescale implements IDataLayer {
 
 		/* ZTC-Error.event */
 		case FreescaleConstants.ZTCErrorevent:
-			ztcErrorEvent(frame);
+			byte errorLen = (byte) frame.getByte(2);
+			if (errorLen > 0) {
+				status = (short) (frame.getByte(3) & 0xFF);
+
+				String logMessage = "Extracted ZTC-ERROR.Event Status: " + LogUtils.ztcErrorStatus(status);
+				LOG.error(logMessage + " from " + frame.toString());
+			}
 			break;
 
 		/* ZDP-Mgmt_Nwk_Update.Notify */
@@ -511,7 +517,10 @@ public class DataFreescale implements IDataLayer {
 
 		/* NLME-JOIN.Confirm */
 		case FreescaleConstants.NLMEJOINConfirm:
-			nlmeJoinConfirm(frame);
+			status = (short) (frame.getByte(8) & 0xFF);
+			LOG.debug("Extracted NLME-JOIN.Confirm: {}", LogUtils.nlmeJoinConfirmStatus(status));
+			LOG.debug("NLME-JOIN.Confirm: {}", frame.toString());
+			;
 			break;
 
 		/* ZDO-NetworkState.Event */
@@ -569,72 +578,6 @@ public class DataFreescale implements IDataLayer {
 			LOG.debug(frame.toString());
 			break;
 		}
-	}
-
-	/**
-	 * @param frame
-	 * @throws Exception
-	 */
-	private void nlmeJoinConfirm(ByteArrayObject frame) throws Exception {
-		short _status = (short) (frame.getByte(8) & 0xFF);
-		switch (_status) {
-		case 0x00:
-			LOG.debug("Extracted NLME-JOIN.Confirm: SUCCESS (Joined the network)");
-			break;
-
-		case 0xC2:
-			LOG.debug("Extracted NLME-JOIN.Confirm: INVALID_REQUEST (Not Valid Request)");
-			break;
-
-		case 0xC3:
-			LOG.debug("Extracted NLME-JOIN.Confirm: NOT_PERMITTED (Not allowed to join the network)");
-			break;
-
-		case 0xCA:
-			LOG.debug("Extracted NLME-JOIN.Confirm: NO_NETWORKS (Network not found)");
-			break;
-
-		case 0x01:
-			LOG.debug("Extracted NLME-JOIN.Confirm: PAN_AT_CAPACITY (PAN at capacity)");
-			break;
-
-		case 0x02:
-			LOG.debug("Extracted NLME-JOIN.Confirm: PAN_ACCESS_DENIED (PAN access denied)");
-			break;
-
-		case 0xE1:
-			LOG.debug("Extracted NLME-JOIN.Confirm: CHANNEL_ACCESS_FAILURE (Transmission failed due to activity on the channel)");
-			break;
-
-		case 0xE4:
-			LOG.debug("Extracted NLME-JOIN.Confirm: FAILED_SECURITY_CHECK (The received frame failed security check)");
-			break;
-
-		case 0xE8:
-			LOG.debug("Extracted NLME-JOIN.Confirm: INVALID_PARAMETER (A parameter in the primitive is out of the valid range)");
-			break;
-
-		case 0xE9:
-			LOG.debug("Extracted NLME-JOIN.Confirm: NO_ACK (Acknowledgement was not received)");
-			break;
-
-		case 0xEB:
-			LOG.debug("Extracted NLME-JOIN.Confirm: NO_DATA (No response data was available following a request)");
-			break;
-
-		case 0xF3:
-			LOG.debug("Extracted NLME-JOIN.Confirm: UNAVAILABLE_KEY (The appropriate key is not available in the ACL)");
-			break;
-
-		case 0xEA:
-			LOG.debug("Extracted NLME-JOIN.Confirm: NO_BEACON (No Networks)");
-			break;
-
-		default:
-			throw new Exception("Extracted NLME-JOIN.Confirm: Invalid Status - " + _status);
-		}
-
-		LOG.debug("NLME-JOIN.Confirm: {}", frame.toString());
 	}
 
 	/**
@@ -1064,80 +1007,6 @@ public class DataFreescale implements IDataLayer {
 		}
 	}
 
-	/**
-	 * @param frame
-	 */
-	private void ztcErrorEvent(ByteArrayObject frame) {
-		byte len = (byte) frame.getByte(2);
-		String MessageStatus = "";
-		if (len > 0) {
-			short status = (short) (frame.getByte(3) & 0xFF);
-			switch (status) {
-
-			case 0x00:
-				MessageStatus = "0x00: gSuccess_c (Should not be seen in this event.)";
-				break;
-
-			case 0xF4:
-				MessageStatus = "0xF4: gZtcOutOfMessages_c (ZTC tried to allocate a message, but the allocation failed.)";
-				break;
-
-			case 0xF5:
-				MessageStatus = "0xF5: gZtcEndPointTableIsFull_c (Self explanatory.)";
-				break;
-
-			case 0xF6:
-				MessageStatus = "0xF6: gZtcEndPointNotFound_c (Self explanatory.)";
-				break;
-
-			case 0xF7:
-				MessageStatus = "0xF7: gZtcUnknownOpcodeGroup_c (ZTC does not recognize the opcode group, and there is no application hook.)";
-				break;
-
-			case 0xF8:
-				MessageStatus = "0xF8: gZtcOpcodeGroupIsDisabled_c (ZTC support for an opcode group is turned off by a compile option.)";
-				break;
-
-			case 0xF9:
-				MessageStatus = "0xF9: gZtcDebugPrintFailed_c (An attempt to print a debug message ran out of buffer space.)";
-				break;
-
-			case 0xFA:
-				MessageStatus = "0xFA: gZtcReadOnly_c (Attempt to set read-only data.)";
-				break;
-
-			case 0xFB:
-				MessageStatus = "0xFB: gZtcUnknownIBIdentifier_c (Self explanatory.)";
-				break;
-
-			case 0xFC:
-				MessageStatus = "0xFC: gZtcRequestIsDisabled_c (ZTC support for an opcode is turned off by a compile option.)";
-				break;
-
-			case 0xFD:
-				MessageStatus = "0xFD: gZtcUnknownOpcode_c (Self expanatory.)";
-				break;
-
-			case 0xFE:
-				MessageStatus = "0xFE: gZtcTooBig_c (A data item to be set or retrieved is too big for the buffer available to hold it.)";
-				break;
-
-			case 0xFF:
-				MessageStatus = "0xFF: gZtcError_c (Non-specific, catchall error code.)";
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		String logMessage = "Extracted ZTC-ERROR.Event Status: " + MessageStatus;
-		LOG.error(logMessage + " from " + frame.toString());
-	}
-
-	/**
-	 * @param frame
-	 */
 	private void interpanDataConfirm(ByteArrayObject frame) {
 		LOG.debug("Extracted INTERPAN-Data.Confirm: {}", frame.toString());
 		synchronized (getListLocker()) {
@@ -1189,6 +1058,7 @@ public class DataFreescale implements IDataLayer {
 			// Error found, we don't proceed and discard the
 			// message
 			return;
+
 		case 0x01:
 			address.setNetworkAddress(DataManipulation.toIntFromShort(frame.getByte(7), frame.getByte(6)));
 			try {
@@ -1231,6 +1101,7 @@ public class DataFreescale implements IDataLayer {
 			// Error found, we don't proceed and discard the
 			// message
 			return;
+
 		case 0x01:
 			address.setNetworkAddress(DataManipulation.toIntFromShort(frame.getByte(18), frame.getByte(17)));
 			try {
@@ -1242,6 +1113,7 @@ public class DataFreescale implements IDataLayer {
 			address.setIeeeAddress(_ieee);
 			messageEvent.setDstAddress(address);
 			break;
+
 		case 0x02:
 			address.setNetworkAddress(DataManipulation.toIntFromShort(frame.getByte(18), frame.getByte(17)));
 			try {
@@ -1281,7 +1153,7 @@ public class DataFreescale implements IDataLayer {
 		WrapperWSNNode node = null;
 		final APSMessageEvent messageEvent = new APSMessageEvent();
 		messageEvent.setDestinationAddressMode((long) (frame.getByte(3) & 0xFF));
-		BigInteger _ieee = null;
+
 		Address destinationAddress = new Address();
 
 		switch (messageEvent.getDestinationAddressMode().shortValue()) {

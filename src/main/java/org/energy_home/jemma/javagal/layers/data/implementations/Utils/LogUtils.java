@@ -185,4 +185,98 @@ public class LogUtils {
 			return "Invalid Status - " + status;
 		}
 	}
+
+	public static String ztcErrorStatus(short status) {
+
+		switch (status) {
+
+		case 0x00:
+			return "0x00: gSuccess_c (Should not be seen in this event.";
+
+		case 0xF4:
+			return "0xF4: gZtcOutOfMessages_c (ZTC tried to allocate a message, but the allocation failed.";
+
+		case 0xF5:
+			return "0xF5: gZtcEndPointTableIsFull_c (Self explanatory.";
+
+		case 0xF6:
+			return "0xF6: gZtcEndPointNotFound_c (Self explanatory.";
+
+		case 0xF7:
+			return "0xF7: gZtcUnknownOpcodeGroup_c (ZTC does not recognize the opcode group, and there is no application hook.";
+
+		case 0xF8:
+			return "0xF8: gZtcOpcodeGroupIsDisabled_c (ZTC support for an opcode group is turned off by a compile option.";
+
+		case 0xF9:
+			return "0xF9: gZtcDebugPrintFailed_c (An attempt to print a debug message ran out of buffer space.";
+
+		case 0xFA:
+			return "0xFA: gZtcReadOnly_c (Attempt to set read-only data.";
+
+		case 0xFB:
+			return "0xFB: gZtcUnknownIBIdentifier_c (Self explanatory.";
+
+		case 0xFC:
+			return "0xFC: gZtcRequestIsDisabled_c (ZTC support for an opcode is turned off by a compile option.";
+
+		case 0xFD:
+			return "0xFD: gZtcUnknownOpcode_c (Self expanatory.";
+
+		case 0xFE:
+			return "0xFE: gZtcTooBig_c (A data item to be set or retrieved is too big for the buffer available to hold it.";
+
+		case 0xFF:
+			return "0xFF: gZtcError_c (Non-specific, catchall error code.";
+
+		default:
+			return status + ": unknown ZTC error status.";
+		}
+	}
+
+	public static String nlmeJoinConfirmStatus(short status) {
+		switch (status) {
+		case 0x00:
+			return "SUCCESS (Joined the network)";
+
+		case 0xC2:
+			return "INVALID_REQUEST (Not Valid Request)";
+
+		case 0xC3:
+			return "NOT_PERMITTED (Not allowed to join the network)";
+
+		case 0xCA:
+			return "NO_NETWORKS (Network not found)";
+
+		case 0x01:
+			return "PAN_AT_CAPACITY (PAN at capacity)";
+
+		case 0x02:
+			return "PAN_ACCESS_DENIED (PAN access denied)";
+
+		case 0xE1:
+			return "CHANNEL_ACCESS_FAILURE (Transmission failed due to activity on the channel)";
+
+		case 0xE4:
+			return "FAILED_SECURITY_CHECK (The received frame failed security check)";
+
+		case 0xE8:
+			return "INVALID_PARAMETER (A parameter in the primitive is out of the valid range)";
+
+		case 0xE9:
+			return "NO_ACK (Acknowledgement was not received)";
+
+		case 0xEB:
+			return "NO_DATA (No response data was available following a request)";
+
+		case 0xF3:
+			return "UNAVAILABLE_KEY (The appropriate key is not available in the ACL)";
+
+		case 0xEA:
+			return "NO_BEACON (No Networks)";
+
+		default:
+			return "Invalid Status - " + status;
+		}
+	}
 }
