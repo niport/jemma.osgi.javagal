@@ -355,7 +355,7 @@ public class DataFreescale implements IDataLayer {
 
 		/* ZDP-BIND.Response */
 		case FreescaleConstants.ZDPMgmtBindResponse:
-			zdpBindResponse(frame);
+			fireLocker(TypeMessage.ADD_BINDING, null, status);
 			break;
 
 		/* ZDP-UNBIND.Response */
@@ -638,20 +638,20 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	/**
-	 * @param message
+	 * @param frame
 	 * @throws Exception
 	 */
-	private void zdpNodeDescriptorResponse(ByteArrayObject message) throws Exception {
+	private void zdpNodeDescriptorResponse(ByteArrayObject frame) throws Exception {
 
-		short status = (short) (message.getByte(3) & 0xFF);
+		short status = (short) (frame.getByte(3) & 0xFF);
 
-		int _NWKAddressOfInterest = DataManipulation.toIntFromShort(message.getByte(5), message.getByte(4));
+		int _NWKAddressOfInterest = DataManipulation.toIntFromShort(frame.getByte(5), frame.getByte(4));
 		Address _addressOfInterst = new Address();
 		_addressOfInterst.setNetworkAddress(_NWKAddressOfInterest);
 		NodeDescriptor node = new NodeDescriptor();
 
 		/* First Byte */
-		byte _first = message.getByte(6);
+		byte _first = frame.getByte(6);
 		byte _Logical_byte = (byte) (_first & 0x07);/* Bits 0,1,2 */
 		byte _ComplexDescriptorAvalilable = (byte) ((_first & 0x08) >> 3);/* Bit3 */
 		byte _UserDescriptorAvalilable = (byte) ((_first & 0x0A) >> 4);/* Bit4 */
@@ -676,7 +676,7 @@ public class DataFreescale implements IDataLayer {
 		node.setUserDescriptorAvailable((_UserDescriptorAvalilable == 1 ? true : false));
 
 		/* Second Byte */
-		byte _second = message.getByte(7);
+		byte _second = frame.getByte(7);
 		/* Aps flags bits 0,1,2 */
 
 		/*
@@ -703,7 +703,7 @@ public class DataFreescale implements IDataLayer {
 		}
 
 		/* MACcapabilityFlags_BYTE Byte */
-		byte _MACcapabilityFlags_BYTE = message.getByte(8);
+		byte _MACcapabilityFlags_BYTE = frame.getByte(8);
 		MACCapability macCapabilities = new MACCapability();
 
 		/* Bit0 */
@@ -735,19 +735,19 @@ public class DataFreescale implements IDataLayer {
 		node.setMACCapabilityFlag(macCapabilities);
 
 		/* ManufacturerCode_BYTES */
-		int _ManufacturerCode_BYTES = DataManipulation.toIntFromShort(message.getByte(10), message.getByte(9));
+		int _ManufacturerCode_BYTES = DataManipulation.toIntFromShort(frame.getByte(10), frame.getByte(9));
 		node.setManufacturerCode(_ManufacturerCode_BYTES);
 
 		/* MaximumBufferSize_BYTE */
-		short _MaximumBufferSize_BYTE = message.getByte(11);
+		short _MaximumBufferSize_BYTE = frame.getByte(11);
 		node.setMaximumBufferSize(_MaximumBufferSize_BYTE);
 
 		/* MaximumTransferSize_BYTES */
-		int _MaximumTransferSize_BYTES = DataManipulation.toIntFromShort(message.getByte(13), message.getByte(12));
+		int _MaximumTransferSize_BYTES = DataManipulation.toIntFromShort(frame.getByte(13), frame.getByte(12));
 		node.setMaximumIncomingTransferSize(_MaximumTransferSize_BYTES);
 
 		/* ServerMask_BYTES */
-		int _ServerMask_BYTES = DataManipulation.toIntFromShort(message.getByte(15), message.getByte(14));
+		int _ServerMask_BYTES = DataManipulation.toIntFromShort(frame.getByte(15), frame.getByte(14));
 		ServerMask serverMask = new ServerMask();
 
 		/* Bit0 */
@@ -777,11 +777,11 @@ public class DataFreescale implements IDataLayer {
 		node.setServerMask(serverMask);
 
 		/* MaximumOutTransferSize_BYTES */
-		int _MaximumOutTransferSize_BYTES = DataManipulation.toIntFromShort(message.getByte(17), message.getByte(16));
+		int _MaximumOutTransferSize_BYTES = DataManipulation.toIntFromShort(frame.getByte(17), frame.getByte(16));
 		node.setMaximumOutgoingTransferSize(_MaximumOutTransferSize_BYTES);
 
 		/* CapabilityField_BYTES */
-		byte _CapabilityField_BYTES = message.getByte(18);
+		byte _CapabilityField_BYTES = frame.getByte(18);
 		DescriptorCapability _DescriptorCapability = new DescriptorCapability();
 
 		/* Bit0 */
@@ -800,20 +800,20 @@ public class DataFreescale implements IDataLayer {
 		fireLocker(TypeMessage.NODE_DESCRIPTOR, key, node, status);
 	}
 
-	private void MacGetConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted MacGetPIBAttribute.Confirm: {}", message.toString());
-		String key = String.format("%02X", (short) (message.getByte(4) & 0xFF));
+	private void MacGetConfirm(ByteArrayObject frame) {
+		LOG.debug("Extracted MacGetPIBAttribute.Confirm: {}", frame.toString());
+		String key = String.format("%02X", (short) (frame.getByte(4) & 0xFF));
 		// Found MacGetPIBAttribute.Confirm. Remove the lock
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
 				if ((pl.getType() == TypeMessage.MAC_GET) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
 						&& (pl.get_Key().equalsIgnoreCase(key))) {
-					short _Length = (short) DataManipulation.toIntFromShort(message.getByte(9), message.getByte(8));
-					byte[] _res = DataManipulation.subByteArray(message.getArray(), 10, _Length + 9);
+					short _Length = (short) DataManipulation.toIntFromShort(frame.getByte(9), frame.getByte(8));
+					byte[] _res = DataManipulation.subByteArray(frame.getArray(), 10, _Length + 9);
 					if (_Length >= 2)
 						_res = DataManipulation.reverseBytes(_res);
 
-					pl.getStatus().setCode((short) (message.getByte(3) & 0xFF));
+					pl.getStatus().setCode((short) (frame.getByte(3) & 0xFF));
 					pl.set_objectOfResponse(DataManipulation.convertBytesToString(_res));
 					try {
 						if (pl.getObjectLocker().size() == 0)
@@ -826,10 +826,10 @@ public class DataFreescale implements IDataLayer {
 		}
 	}
 
-	private void zdpStopNwkExConfirm(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-StopNwkEx.Confirm: {}", message.toString());
+	private void zdpStopNwkExConfirm(ByteArrayObject frame) {
+		LOG.debug("Extracted ZDP-StopNwkEx.Confirm: {}", frame.toString());
 
-		short status = (short) (message.getByte(3) & 0xFF);
+		short status = (short) (frame.getByte(3) & 0xFF);
 
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
@@ -959,20 +959,12 @@ public class DataFreescale implements IDataLayer {
 		fireLocker(TypeMessage.GET_BINDINGS, result, status);
 	}
 
-	private void zdpBindResponse(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-BIND.Response: {}", message.toString());
-
-		short status = (short) (message.getByte(3) & 0xFF);
-
-		fireLocker(TypeMessage.ADD_BINDING, null, status);
-	}
-
-	private void zdpSimpleDescriptorResponse(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-SimpleDescriptor.Response: {}", message.toString());
+	private void zdpSimpleDescriptorResponse(ByteArrayObject frame) {
+		LOG.debug("Extracted ZDP-SimpleDescriptor.Response: {}", frame.toString());
 		/* Address + EndPoint */
 		Address _add = new Address();
-		_add.setNetworkAddress(DataManipulation.toIntFromShort(message.getByte(5), message.getByte(4)));
-		short EndPoint = (short) (message.getByte(7) & 0xFF);
+		_add.setNetworkAddress(DataManipulation.toIntFromShort(frame.getByte(5), frame.getByte(4)));
+		short EndPoint = (short) (frame.getByte(7) & 0xFF);
 		String Key = String.format("%04X", _add.getNetworkAddress()) + String.format("%02X", EndPoint);
 		// Found ZDP-SimpleDescriptor.Response. Remove the lock
 		synchronized (getListLocker()) {
@@ -983,26 +975,26 @@ public class DataFreescale implements IDataLayer {
 				if ((pl.getType() == TypeMessage.GET_SIMPLE_DESCRIPTOR) && (pl.getStatus().getCode() == ParserLocker.INVALID_ID)
 						&& (pl.get_Key().equalsIgnoreCase(Key))) {
 
-					pl.getStatus().setCode((short) (message.getByte(3) & 0xFF));
+					pl.getStatus().setCode((short) (frame.getByte(3) & 0xFF));
 					ServiceDescriptor _toRes = new ServiceDescriptor();
 					if (pl.getStatus().getCode() == GatewayConstants.SUCCESS) {
 						SimpleDescriptor _sp = new SimpleDescriptor();
-						_sp.setApplicationProfileIdentifier(DataManipulation.toIntFromShort(message.getByte(9), message.getByte(8)));
-						_sp.setApplicationDeviceIdentifier(DataManipulation.toIntFromShort(message.getByte(11), message.getByte(10)));
-						_sp.setApplicationDeviceVersion((short) message.getByte(12));
+						_sp.setApplicationProfileIdentifier(DataManipulation.toIntFromShort(frame.getByte(9), frame.getByte(8)));
+						_sp.setApplicationDeviceIdentifier(DataManipulation.toIntFromShort(frame.getByte(11), frame.getByte(10)));
+						_sp.setApplicationDeviceVersion((short) frame.getByte(12));
 						int _index = 14;
-						short _numInpCluster = (short) (message.getByte(13) & 0xFF);
+						short _numInpCluster = (short) (frame.getByte(13) & 0xFF);
 						for (int i = 0; i < _numInpCluster; i++) {
 							_sp.getApplicationInputCluster()
-									.add(DataManipulation.toIntFromShort(message.getByte(_index + 1), message.getByte(_index)));
+									.add(DataManipulation.toIntFromShort(frame.getByte(_index + 1), frame.getByte(_index)));
 							_index = _index + 2;
 						}
 
-						short _numOutCluster = (short) (message.getByte(_index++) & 0xFF);
+						short _numOutCluster = (short) (frame.getByte(_index++) & 0xFF);
 
 						for (int i = 0; i < _numOutCluster; i++) {
 							_sp.getApplicationOutputCluster()
-									.add(DataManipulation.toIntFromShort(message.getByte(_index + 1), message.getByte(_index)));
+									.add(DataManipulation.toIntFromShort(frame.getByte(_index + 1), frame.getByte(_index)));
 							_index = _index + 2;
 						}
 
@@ -1024,10 +1016,10 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	/**
-	 * @param message
+	 * @param frame
 	 */
-	private void zdpMgmtNwkUpdateNotify(ByteArrayObject message) {
-		LOG.debug("Extracted ZDP-Mgmt_Nwk_Update.Notify: {}", message.toString());
+	private void zdpMgmtNwkUpdateNotify(ByteArrayObject frame) {
+		LOG.debug("Extracted ZDP-Mgmt_Nwk_Update.Notify: {}", frame.toString());
 
 		synchronized (getListLocker()) {
 			for (ParserLocker pl : getListLocker()) {
@@ -1035,30 +1027,30 @@ public class DataFreescale implements IDataLayer {
 
 					EnergyScanResult _result = new EnergyScanResult();
 
-					int _address = DataManipulation.toIntFromShort(message.getByte(4), message.getByte(3));
+					int _address = DataManipulation.toIntFromShort(frame.getByte(4), frame.getByte(3));
 
-					short _status = (short) (message.getByte(5) & 0xFF);
+					short _status = (short) (frame.getByte(5) & 0xFF);
 					if (_status == GatewayConstants.SUCCESS) {
 						byte[] _scannedChannel = new byte[4];
-						_scannedChannel[0] = message.getByte(9);
-						_scannedChannel[1] = message.getByte(8);
-						_scannedChannel[2] = message.getByte(7);
-						_scannedChannel[3] = message.getByte(6);
+						_scannedChannel[0] = frame.getByte(9);
+						_scannedChannel[1] = frame.getByte(8);
+						_scannedChannel[2] = frame.getByte(7);
+						_scannedChannel[3] = frame.getByte(6);
 
-						int _totalTrasmission = DataManipulation.toIntFromShort(message.getByte(11), message.getByte(10));
+						int _totalTrasmission = DataManipulation.toIntFromShort(frame.getByte(11), frame.getByte(10));
 
-						int _trasmissionFailure = DataManipulation.toIntFromShort(message.getByte(13), message.getByte(12));
+						int _trasmissionFailure = DataManipulation.toIntFromShort(frame.getByte(13), frame.getByte(12));
 
-						short _scannedChannelListCount = (short) (message.getByte(14) & 0xFF);
+						short _scannedChannelListCount = (short) (frame.getByte(14) & 0xFF);
 						for (int i = 0; i < _scannedChannelListCount; i++) {
 							ScannedChannel _sc = new ScannedChannel();
 							// _sc.setChannel(value)
-							_sc.setEnergy(message.getByte(15 + i));
+							_sc.setEnergy(frame.getByte(15 + i));
 
 							_result.getScannedChannel().add(_sc);
 						}
 
-						pl.getStatus().setCode((short) (message.getByte(7) & 0xFF));
+						pl.getStatus().setCode((short) (frame.getByte(7) & 0xFF));
 						pl.set_objectOfResponse(_result);
 						try {
 							if (pl.getObjectLocker().size() == 0)
@@ -1073,13 +1065,13 @@ public class DataFreescale implements IDataLayer {
 	}
 
 	/**
-	 * @param message
+	 * @param frame
 	 */
-	private void ztcErrorEvent(ByteArrayObject message) {
-		byte len = (byte) message.getByte(2);
+	private void ztcErrorEvent(ByteArrayObject frame) {
+		byte len = (byte) frame.getByte(2);
 		String MessageStatus = "";
 		if (len > 0) {
-			short status = (short) (message.getByte(3) & 0xFF);
+			short status = (short) (frame.getByte(3) & 0xFF);
 			switch (status) {
 
 			case 0x00:
@@ -1140,7 +1132,7 @@ public class DataFreescale implements IDataLayer {
 		}
 
 		String logMessage = "Extracted ZTC-ERROR.Event Status: " + MessageStatus;
-		LOG.error(logMessage + " from " + message.toString());
+		LOG.error(logMessage + " from " + frame.toString());
 	}
 
 	/**
