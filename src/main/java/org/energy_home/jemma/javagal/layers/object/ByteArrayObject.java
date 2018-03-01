@@ -15,7 +15,6 @@
  */
 package org.energy_home.jemma.javagal.layers.object;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 import org.energy_home.jemma.javagal.layers.data.implementations.Utils.DataManipulation;
@@ -87,21 +86,25 @@ public class ByteArrayObject {
 	 * @param byteToAdd
 	 *          the byte to add at the end.
 	 */
-	public void addByte(byte byteToAdd) {
-		array[count++] = byteToAdd;
+	public void addByte(int b) {
+		array[count++] = (byte) b;
+	}
+
+	public void addShort(short value) {
+		array[count++] = (byte) (value & 0xff);
+		array[count++] = (byte) ((value & 0xff00) >> 8);
 	}
 
 	/**
 	 * Adds the passed byte array in reverse order
 	 * 
-	 * TODO: optimize it!
-	 * 
 	 * @param bytes
 	 *          The byte array.
 	 */
 	public void addBytes(byte[] bytes) {
-		for (byte b : DataManipulation.reverseBytes(bytes)) {
-			this.addByte(b);
+		int i = bytes.length;
+		while (i > 0) {
+			this.addByte(bytes[--i]);
 		}
 	}
 
@@ -147,27 +150,6 @@ public class ByteArrayObject {
 	 */
 	public void addLength(byte byteToAdd) {
 		array[3] = byteToAdd;
-	}
-
-	/**
-	 * Adds a short converted as byte(s). Writes one or two bytes containing the
-	 * given short value, in Big Endian byte order (from most significant to least
-	 * significant). One or two bytes is indicated by the lenght argument.
-	 * 
-	 * @param valueToAdd
-	 *          the short to add as its byte(s) representation.
-	 * @param length
-	 *          the desired lenght.
-	 */
-	public void addBytesShort(short valueToAdd, int length) {
-		ByteBuffer buf = ByteBuffer.allocate(length).putShort(valueToAdd);
-		for (byte x : buf.array())
-			array[count++] = x;
-	}
-
-	public void addUnsigned16(int value) {
-		array[count++] = (byte) (value & 0xFF);
-		array[count++] = (byte) ((value >>> 8) & 0xFF);
 	}
 
 	/**
@@ -246,5 +228,53 @@ public class ByteArrayObject {
 			_res.append(toHexChar(_vect[i] & 0x0F));
 		}
 		return _res.toString();
+	}
+
+	/**
+	 * Read a long starting from offset offs
+	 * 
+	 * FIXME: very inefficient implementation!
+	 * 
+	 * @param offs
+	 * @return
+	 */
+
+	public long getLong(int offs) {
+		long longAddress = DataManipulation.toLong(this.getArray()[offs + 7], this.getArray()[offs + 6], this.getArray()[offs + 5],
+				this.getArray()[offs + 4], this.getArray()[offs + 3], this.getArray()[offs + 2], this.getArray()[offs + 1],
+				this.getArray()[offs]);
+		return longAddress;
+	}
+
+	public byte getByte(int offs) {
+		return this.getArray()[offs];
+	}
+
+	/**
+	 * Add StartSequence + Control to passed BufferArrayObject
+	 * 
+	 * @param frame
+	 * @param commandCode
+	 * @return
+	 */
+
+	public ByteArrayObject addSequenceStartAndFSC(short commandCode) {
+
+		byte size = (byte) this.getCount(false);
+		byte opgroup = (byte) ((commandCode >> 8) & 0xFF);
+		byte opcode = (byte) (commandCode & 0xFF);
+		this.addOPGroup(opgroup);
+		this.addOPCode(opcode);
+		this.addLength(size);
+
+		byte FSC = 0;
+
+		for (Byte b : this.getArray()) {
+			FSC ^= b.byteValue();
+		}
+
+		this.addStartSequance((byte) 0x02);
+		this.addByte(FSC);
+		return this;
 	}
 }
